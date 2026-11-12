@@ -23,4 +23,4 @@ Für jede Entscheidung mit `Status: freigegeben`: Ergebnis in das Zielartefakt �
 
 ## Grenzen
 - In `isms.md` außerhalb von §11 nur Freigegebenes – das Werkzeug lehnt alles andere ab.
-- Nie `freigegeben` setzen; Findings nie selbst bestätigen.
+- Nie `verifiziert` oder `freigegeben` setzen; Findings nie selbst verifizieren oder bestätigen (ENT-029).

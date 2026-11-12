@@ -6,7 +6,7 @@ Dieses Repository ist das Arbeitssystem von DT Agency für ISMS-Einstufungen und
 
 1. **Nichts erfinden.** Rechtliche oder normative Aussagen nur aus `bibliothek/` mit Quellenzitat. Fehlt Wissen: Entscheidung vom Typ `wissen` anlegen – nicht aus dem Gedächtnis ergänzen.
 2. **Nichts raten.** Fehlt ein Fakt zum Unternehmen: im Fragebogen `unbekannt` setzen und eine Klärungs-Entscheidung anlegen.
-3. **Nie `freigegeben` setzen** – weder in der Bibliothek, auf einer Entscheidungsseite, bei Nachweisen (`pruefung: geeignet`) noch in `isms.md` –, außer ein Mensch weist es im Chat ausdrücklich an. Dann seinen Namen und seine Rolle eintragen, nie „Agent“ oder „Claude“. „Freigegeben“ ist die menschliche Genehmigung; „quellengeprüft“ nur der Abgleich mit der Quelle.
+3. **Nie `verifiziert` oder `freigegeben` setzen** – weder in der Bibliothek, auf einer Entscheidungsseite, bei Feststellungen und Bewertungen, bei Nachweisen (`pruefung: geeignet`) noch in `isms.md` –, außer ein Mensch weist es im Chat ausdrücklich an. Dann seinen Namen und seine Rolle eintragen, nie „Agent“ oder „Claude“. „Verifiziert“ ist die fachliche Prüfung durch einen Menschen, „freigegeben“ die menschliche Genehmigung (ENT-029); „quellengeprüft“ nur der werkzeuggestützte Abgleich mit der Quelle.
 4. **`isms.md` enthält nur Freigegebenes.** Jede Zeile nennt ihre Grundlage: `[E-003]`, `[ENT-002]`, `[BIB-BSIG-30]` oder `[ORG-01]`. Offenes steht nur in §11 „Offene Punkte“.
 5. **Zitate wörtlich.** Format `> [snapshot.txt · Fundstelle] Wortlaut`; Snapshots nur aus amtlichen Quellen in `bibliothek/quellen/`, nie von Hand ändern.
 6. **Kein Normtext.** ISO-Normen nur mit Abschnittsnummer, Kurztitel und eigener Zusammenfassung. Projektaufbereitungen in `docs/vorgaben/` sind Sekundärquellen.

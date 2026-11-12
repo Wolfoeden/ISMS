@@ -10,7 +10,8 @@ export const ERFUELLUNG = ['open', 'met', 'partially_met', 'not_met'] as const;
 export const UMSETZUNG = ['unknown', 'absent', 'partial', 'present'] as const;
 export const WIRKSAMKEIT = ['not_verified', 'effective', 'ineffective'] as const;
 export const EVIDENZLAGE = ['none', 'claim_only', 'insufficient', 'sufficient', 'conflicting'] as const;
-export const FREIGABE = ['offen', 'vorgeschlagen', 'freigegeben', 'abgelegt'] as const;
+/** ENT-029 (Option 3): „verifiziert“ = fachlich geprüft, „freigegeben“ = genehmigt. */
+export const FREIGABE = ['offen', 'vorgeschlagen', 'verifiziert', 'freigegeben', 'abgelegt'] as const;
 export const BERICHTSSTATUS = [
   'not_applicable',
   'needs_review',
@@ -86,7 +87,7 @@ export interface Bewertung {
 export function berichtsstatus(b: Bewertung): Berichtsstatus {
   const tiefe = b.tiefe ?? 1;
   if (b.anwendbarkeit === 'not_applicable') return 'not_applicable';
-  if (b.evidenzlage === 'conflicting' || b.freigabe === 'vorgeschlagen') return 'needs_review';
+  if (b.evidenzlage === 'conflicting' || b.freigabe === 'vorgeschlagen' || b.freigabe === 'verifiziert') return 'needs_review';
   if (b.anwendbarkeit === 'undecided') return 'not_assessed';
   if (b.art === 'anforderung' ? (b.erfuellung ?? 'open') === 'open' : (b.umsetzung ?? 'unknown') === 'unknown') return 'not_assessed';
   if (b.erfuellung === 'not_met' || b.umsetzung === 'absent' || b.wirksamkeit === 'ineffective') return 'not_met';
@@ -143,8 +144,8 @@ export function pruefeBewertung(b: Bewertung): Regelverstoss[] {
     if (b.freigabe !== 'freigegeben' && b.freigabe !== 'abgelegt') v.push({ regel: 'R4', text: 'Nichtanwendbarkeit nicht freigegeben' });
   }
   // R5 – widersprüchliche Nachweise erzwingen menschliche Klärung
-  if (b.evidenzlage === 'conflicting' && (b.freigabe === 'freigegeben' || b.freigabe === 'abgelegt')) {
-    v.push({ regel: 'R5', text: 'widersprüchliche Nachweise können nicht freigegeben sein – erst klären' });
+  if (b.evidenzlage === 'conflicting' && (b.freigabe === 'verifiziert' || b.freigabe === 'freigegeben' || b.freigabe === 'abgelegt')) {
+    v.push({ regel: 'R5', text: 'widersprüchliche Nachweise können nicht verifiziert oder freigegeben sein – erst klären' });
   }
   return v;
 }

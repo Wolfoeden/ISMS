@@ -296,6 +296,24 @@ describe('Iterationszyklus an einem fiktiven Mandat', () => {
     const f = pruefung().join();
     expect(f).toMatch(/§10 „Gesamturteil“ fehlt/);
     expect(f).toMatch(/§10 „Freigabe DT Agency“ fehlt/);
+    expect(f).toMatch(/§10 „Verifizierung DT Agency“ fehlt/);
+    schreibe('isms.md', isms);
+  });
+
+  it('4g · Verifizierung und Freigabe von isms.md ab Profil 3 durch verschiedene Personen (ENT-029)', () => {
+    const isms = lies('isms.md');
+    const mit = (profil: string, verifiziert: string, frei: string) =>
+      isms
+        .replace('status: entwurf', 'status: freigegeben')
+        .replace('| Prüftiefenprofil | | |', `| Prüftiefenprofil | ${profil} | |`)
+        .replace('| Verifizierung DT Agency | | |', `| Verifizierung DT Agency | ${verifiziert} | |`)
+        .replace('| Freigabe DT Agency | | |', `| Freigabe DT Agency | ${frei} | |`);
+    schreibe('isms.md', mit('Profil 3', 'Erika Beispiel, Engagement Lead', 'Erika Beispiel, Independent Reviewer'));
+    expect(pruefung().join()).toMatch(/dieselbe Person/);
+    schreibe('isms.md', mit('Profil 3', 'Erika Beispiel, Engagement Lead', 'Max Muster, Independent Reviewer'));
+    expect(pruefung().join()).not.toMatch(/dieselbe Person/);
+    schreibe('isms.md', mit('Profil 2', 'Erika Beispiel, Engagement Lead', 'Erika Beispiel, Engagement Lead'));
+    expect(pruefung().join()).not.toMatch(/dieselbe Person/);
     schreibe('isms.md', isms);
   });
 

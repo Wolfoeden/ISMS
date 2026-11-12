@@ -8,7 +8,7 @@ Index nach `05_CLAUDE_HANDOFF.md` §8 Nr. 4. **Maßgeblich ist die Entscheidungs
 | ADR-002 – ADR-010 | siehe README des Plans | empfohlen (README) – **noch nicht freigegeben** | übernehmen; Konflikte unten | – |
 | ENT-021 | Scopes Organisation/Produkt | vorgeschlagen | Option 3: ein Mandat, mehrere `AssessmentObject`s (02 §3) | löst Pilotfall ADR-009 |
 | ENT-026 | Normbezüge, Lizenz, Formulierungen | vorgeschlagen | Vorlage `docs/vorschlaege/2026-11-12-ENT-026-029-…` | Gate für ISO-Inhalte |
-| ENT-029 | „verifiziert“ und „freigegeben“ | **freigegeben** (Paul, 2026-11-12) – Ablage offen | zwei Stufen – bestätigt durch 02 §7.1 (Spalten V und F) und §4.4 | zusätzliche Stufe in Status und Schema |
+| ENT-029 | „verifiziert“ und „freigegeben“ | **abgelegt** (freigegeben Paul, 2026-11-12) | zwei Stufen – bestätigt durch 02 §7.1 (Spalten V und F) und §4.4 | zusätzliche Stufe in Status und Schema |
 | ENT-030 | Begriffskonflikt „Assurance Profile“ | **abgelegt** (freigegeben Paul, 2026-11-12) | Proportionalitätsprofil 1–4 = „Prüftiefenprofil“; `assuranceProfile` aus `07` = „Aussagequalität“ (Review, Unabhängigkeit) | Umbenennung in einem der beiden Modelle |
 | ENT-031 | Statusvokabular der Beispiel-Cases und 02 | vorgeschlagen | Abbildungstabelle im Eintrag | Schema/Mapping |
 | ENT-032 | Technologie, BPMN-Engine, DMN vs. Regelcode | offen (README: nicht entschieden) | Regeln vorerst als versionierter Code; Engine erst nach L1 | keine voreilige Migration |
@@ -17,7 +17,7 @@ Index nach `05_CLAUDE_HANDOFF.md` §8 Nr. 4. **Maßgeblich ist die Entscheidungs
 | ENT-035 | Prüftiefe 3 Stufen (DEC-11) vs. Profil 1–4 | **abgelegt** (freigegeben Paul, 2026-11-12) | intern 4 Profile, nach außen Basis/Standard/Enhanced | Angebotssprache, D-07 |
 | ENT-036 | Mandats-/Case-Status nach 02 §4 | vorgeschlagen | übernehmen, Migration 0003 | Schema, Upload erst ab `active` |
 
-**Gate 0 (04 §5) vor dem ersten Plattform-Code:** ENT-029 ✔ (Ablage offen), ENT-030 ✔, ENT-035 ✔ (abgelegt); offen: ENT-032, ENT-036; für Berichtstexte zusätzlich ENT-026.
+**Gate 0 (04 §5) vor dem ersten Plattform-Code:** ENT-029 ✔, ENT-030 ✔, ENT-035 ✔ (abgelegt); offen: ENT-032, ENT-036; für Berichtstexte zusätzlich ENT-026.
 
 ## Fachliche Entscheidungen des Plans (06) → Repository
 

@@ -253,9 +253,19 @@ export function pruefeErgebnisse(m: Mandat, heute: string): Befund[] {
     }
     const t = leseTabellen(m.ismsMd);
     const ergebnis = t.find((x) => /^10\./.test(x.abschnitt));
-    for (const pflicht of ['Gesamturteil', 'Prüfumfang', 'Einschränkungen', 'Freigabe DT Agency']) {
+    for (const pflicht of ['Gesamturteil', 'Prüfumfang', 'Einschränkungen', 'Verifizierung DT Agency', 'Freigabe DT Agency']) {
       const zeile = ergebnis?.zeilen.find((z) => z.zellen[0]?.startsWith(pflicht));
       if (!zeile || !hatInhalt(zeile.zellen)) b.push({ schwere: 'fehler', datei, text: `Freigabe nicht möglich: §10 „${pflicht}“ fehlt` });
+    }
+    // ENT-029 (Option 3): Verifizierung (fachlich) und Freigabe (Genehmigung) – ab Profil 3
+    // bzw. bei unbekanntem Profil durch verschiedene Personen.
+    const person = (pflicht: string) => (ergebnis?.zeilen.find((z) => z.zellen[0]?.startsWith(pflicht))?.zellen[1] ?? '').split(',')[0]!.trim().toLowerCase();
+    const profilZelle = t.flatMap((x) => x.zeilen).find((z) => z.zellen[0]?.startsWith('Prüftiefenprofil'))?.zellen[1] ?? '';
+    const profil = Number(/Profil\s*([1-4])/.exec(profilZelle)?.[1] ?? 0);
+    const v = person('Verifizierung DT Agency');
+    const fr = person('Freigabe DT Agency');
+    if (v && fr && v === fr && !(profil === 1 || profil === 2)) {
+      b.push({ schwere: 'fehler', datei, text: 'Freigabe nicht möglich: Verifizierung und Freigabe durch dieselbe Person (ab Profil 3 getrennt, ENT-029)' });
     }
     for (const tab of t) {
       const i = spalte(tab, 'Berichtsstatus');

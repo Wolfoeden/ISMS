@@ -52,7 +52,7 @@
 | G-15 | Finding / Risk / Recommendation getrennt (Slice 7) | getrennte Tabellen und Abläufe | – | N | – | vorhanden (`db/tests/0002_smoke.sql`) |
 | G-16 | Lead/QA mit SoD, unveränderliche Berichtsfreigabe (Slice 8) | Regeln G3–G6, Quality Gate, Freigabe-DoD `isms.md` | Berichtsobjekt mit Version und Sperre | M | Berichtsentität + Freigabe-Workflow | Freigabe durch Ersteller abgewiesen |
 | G-17 | Nachweis der Umsetzung ohne Scheinvollständigkeit (Handoff §7) | Prüfwerkzeug, Tests | korrekter QA-Report des BPMN-Skripts | N | Bericht an tatsächliche Prüfungen koppeln | Bericht nennt nur geprüfte Punkte |
-| G-18 | Begriff „verifizieren“ vs. „freigeben“ (ADR-006/008, BPMN) | nur „freigegeben“ (ENT-027) | zweistufige Prüfung | M | [ENT-029] Option 3 | Verifizierer ≠ Freigebender bei Berichten ab Profil 3 |
+| G-18 | Begriff „verifizieren“ vs. „freigeben“ (ADR-006/008, BPMN) | nur „freigegeben“ (ENT-027) | – | – | ✔ erledigt ([ENT-029], Migration 0004) | Verifizierer ≠ Freigebender bei Berichten ab Profil 3 (Test 4g) |
 | G-19 | Regulatorik: Part-IS, CRA, AI Act, ISO 42001 als Kandidaten (`07`) | NIS2/BSIG, DSGVO, BDSG, UrhG, RDG quellengeprüft | Einträge für Part-IS, CRA, AI Act, ISO 42001 | M | nur bei Bedarf des Pilots ([ENT-017]) | – |
 | G-20 | P0-Tests aus Dokument 04 als Release-Gate | TC-13, TC-14, TC-18 im Domänenkern/Schema; TC-12, TC-16, TC-17, TC-22 teilweise | übrige TC | H | Stand je Test im MVP-Plan §5 | TC-01…TC-22 |
 | G-21 | Mandats- und Case-Status nach 02 §4.2/§4.3 | Mandat `planned/active/closed/cancelled` | `draft/offered/signed`, Case-Status, `closed_with_limitations` | H | Migration 0003 ([ENT-036]) | Upload vor `active` abgewiesen |

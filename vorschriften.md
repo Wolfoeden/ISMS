@@ -209,15 +209,27 @@ Werte aus den Eingangsdokumenten: `conforming` → `met`, `nonconforming` → `n
 
 Eine Person **KANN** mehrere Rollen halten (Einzelunternehmer). Funktionstrennung und Unabhängigkeit **MÜSSEN** bei Audits gesondert geprüft werden (Regeln G3, G6, T5, I1 in `docs/01` §6; Karenzzeit 24 Monate).
 
-**Ein Freigabebegriff (ENT-027, Option A):** „freigegeben“ heißt überall – Bibliothek, Entscheidungen, Feststellungen, Nachweise, `isms.md` –, dass ein namentlich benannter, berechtigter Mensch geprüft und genehmigt hat. „Freigegeben von“ nennt **Name und Rolle**, „Freigegeben am“ das Datum. Ein Agent gibt nie frei. „Verifizierung“ bezeichnet nur die Tätigkeit des Abgleichs mit einer Quelle oder einem Nachweis (Status `quellengeprueft`), nie die Genehmigung.
+**Zwei Stufen (ENT-029, Option 3; ergänzt ENT-027):** „verifiziert“ heißt, dass ein namentlich benannter, berechtigter Mensch den Inhalt fachlich gegen Quelle, Nachweise und Kriterien geprüft hat. „Freigegeben“ heißt, dass die zuständige Rolle ihn zur Verwendung oder Weitergabe genehmigt hat. „Freigegeben von“ bzw. „Verifiziert von“ nennen **Name und Rolle**, dazu das Datum. Ein Agent verifiziert nie und gibt nie frei. „Quellengeprüft“ bleibt der werkzeuggestützte Abgleich eines Zitats mit dem amtlichen Snapshot.
 
-**Feststellungen** durchlaufen dieselben Stufen wie jede Entscheidung; die Kundenreaktion ist ein eigenes Feld:
+| Objekt | verifiziert durch | freigegeben durch |
+|---|---|---|
+| Bibliothekseintrag | Abgleich mit Snapshot (`quellengeprueft`) bzw. bei Normen mit dem Normexemplar durch die freigebende Person | Methodikverantwortlicher – darf dieselbe Person sein |
+| Feststellung | Quality Gate: bei Schwere hoch/kritisch nur Engagement Lead, Independent Reviewer oder SME der Domäne; nie der Verfasser bei Vier-Augen-Pflicht | Engagement Lead zur Weitergabe an den Kunden |
+| Bewertung (Achse Freigabe, §A8) | Engagement Lead oder Berater nach Quality Gate | Engagement Lead; erst dann zählt sie für den Berichtsstatus |
+| Bericht, `isms.md` (§10 „Verifizierung DT Agency“, „Freigabe DT Agency“) | Engagement Lead (fachlich) | Independent Reviewer / QA – **ab Profil 3 oder bei unbekanntem Profil eine andere Person** |
+| Methodik- oder Mandatsentscheidung | – (eine Stufe genügt) | Entscheider |
+| Restrisiko | – | Risk Owner |
+
+Eine Bewertung mit Freigabe `verifiziert` ergibt den Berichtsstatus `needs_review` (in Klärung), bis sie freigegeben ist.
+
+**Feststellungen** durchlaufen die Stufen; die Kundenreaktion ist ein eigenes Feld:
 
 | Stufe | Code Plattform | Kundenreaktion nach Ablage |
 |---|---|---|
 | offen | `open` | – |
 | vorgeschlagen | `proposed` | – |
-| freigegeben (Quality Gate: bei Schwere hoch/kritisch nur Engagement Lead, Independent Reviewer oder SME der Domäne) | `approved` | – |
+| verifiziert (Quality Gate wie oben) | `verified` | – |
+| freigegeben (Engagement Lead, zur Weitergabe) | `approved` | – |
 | abgelegt (`isms.md` §8) | `filed` | `offen` → `besprochen` → `akzeptiert` · `bestritten` (bestritten → erneute Prüfung) |
 | verworfen | `rejected` | – |
 
@@ -311,8 +323,9 @@ Ergebnisse müssen fachlich eindeutig, in der Terminologie normnah und für Kund
 
 | Begriff | Code | Bedeutung | Nicht verwechseln mit |
 |---|---|---|---|
-| **freigegeben** | `freigegeben` | ein benannter, berechtigter Mensch hat geprüft und genehmigt (Name, Rolle, Datum) | quellengeprüft |
-| quellengeprüft | `quellengeprueft` | Wortlaut ist mit der amtlichen Quelle abgeglichen (Tätigkeit „Verifizierung“) – noch keine Freigabe | freigegeben |
+| **verifiziert** | `verifiziert` / `verified` | ein benannter, berechtigter Mensch hat fachlich gegen Quelle, Nachweise und Kriterien geprüft (Name, Rolle, Datum) – noch keine Genehmigung (§A9) | freigegeben |
+| **freigegeben** | `freigegeben` / `approved` | die zuständige Rolle hat zur Verwendung oder Weitergabe genehmigt (Name, Rolle, Datum) | verifiziert, quellengeprüft |
+| quellengeprüft | `quellengeprueft` | Wortlaut ist werkzeuggestützt mit der amtlichen Quelle abgeglichen – weder Verifizierung durch einen Fachverantwortlichen noch Freigabe | verifiziert, freigegeben |
 | abgelegt | `abgelegt` | Freigegebenes ist in das Zielartefakt übernommen | – |
 | Aussage | `claim` | Angabe einer befragten Person | Nachweis |
 | Nachweis | `evidence` | Dokument, Export, Test oder Beobachtung mit Herkunft, Stand und Prüfstufe | Aussage |
@@ -339,7 +352,7 @@ Ergebnisse müssen fachlich eindeutig, in der Terminologie normnah und für Kund
 | `insufficient_evidence` | Nachweis unzureichend | Nachweis unzureichend |
 | `not_assessed` | nicht bewertet | nicht bewertet |
 | `not_applicable` | nicht anwendbar | nicht anwendbar |
-| `needs_review` | in Klärung | in Klärung |
+| `needs_review` | in Klärung (auch: verifiziert, Freigabe ausstehend) | in Klärung |
 
 ### A17.2 Normbezüge (ENT-026)
 

@@ -17,6 +17,7 @@ describe('Berichtsstatus (ENT-018 C) – Beispiele der Entscheidungsvorlage', ()
     ['behauptete Erfüllung ohne Beleg', anforderung({ erfuellung: 'met', evidenzlage: 'claim_only' }), 'insufficient_evidence'],
     ['widersprüchliche Nachweise', control({ umsetzung: 'present', evidenzlage: 'conflicting', freigabe: 'vorgeschlagen' }), 'needs_review'],
     ['Vorschlag wartet auf Freigabe', control({ umsetzung: 'present', evidenzlage: 'sufficient', freigabe: 'vorgeschlagen' }), 'needs_review'],
+    ['verifiziert, aber noch nicht freigegeben (ENT-029)', control({ umsetzung: 'present', evidenzlage: 'sufficient', freigabe: 'verifiziert' }), 'needs_review'],
     ['noch nicht bewertet', control({ umsetzung: 'unknown' }), 'not_assessed'],
     ['Umsetzung behauptet, kein Nachweis', control({ umsetzung: 'present', evidenzlage: 'none' }), 'evidence_missing'],
     ['unwirksam', control({ umsetzung: 'present', wirksamkeit: 'ineffective', evidenzlage: 'sufficient' }), 'not_met'],

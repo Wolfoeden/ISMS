@@ -513,7 +513,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A6, §A8.4, §A12; Vorlagen notizen, entscheidungen.md, isms.md §7–§10; src/werkzeuge/ergebnis.ts; db/migrations/0002 (evidence, risk, measure)
 
 ## ENT-029 · Begriffswahl „freigegeben“ zur Umsetzung der Auflage aus ENT-027 bestätigen
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** ENT-027 Auflage (Paul, 2026-11-12): Wording muss zu Fachinhalten und Normen passen und klar sein
 - **Betrifft:** vorschriften.md §A9, §A17.1; alle Status- und Feldnamen (`freigegeben`, „Freigegeben von/am“, `/freigeben`)
@@ -528,7 +528,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 3: zwei Stufen „verifiziert“ (fachlich gegen Quelle/Nachweise geprüft) und „freigegeben“ (zur Verwendung/Weitergabe genehmigt) (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A9, §A17.1; CLAUDE.md Regel 3; src/bewertung/modell.ts (Freigabe-Achse, R5); src/engagement/findings.ts (verify/approve); src/werkzeuge/ergebnis.ts (isms.md §10, Trennung ab Profil 3); mandanten/_vorlage/isms.md; db/migrations/0004; Tests
 
 ## ENT-030 · Begriffskonflikt „Assurance Profile“
 - **Status:** abgelegt

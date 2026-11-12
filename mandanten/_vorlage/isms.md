@@ -119,6 +119,7 @@ Formulierungen nach `vorschriften.md` §A17.3 – keine Aussage über den geprü
 | Prüfumfang | | |
 | Prüfzeitraum und Methode | | |
 | Einschränkungen | | |
+| Verifizierung DT Agency | | |
 | Freigabe DT Agency | | |
 | Kenntnisnahme Kunde | | |
 

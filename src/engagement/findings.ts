@@ -1,8 +1,10 @@
 /**
- * Quality Gate für Feststellungen (Findings) – Fachkonzept §22, ENT-027 (Option A, freigegeben 2026-11-12).
+ * Quality Gate für Feststellungen (Findings) – Fachkonzept §22, ENT-027 (Option A) und
+ * ENT-029 (Option 3, freigegeben 2026-11-12): zwei Stufen „verifiziert“ und „freigegeben“.
  *
- * Dieselben Stufen wie die Entscheidungsseite:
- *   open (offen) → proposed (vorgeschlagen) → approved (freigegeben) → filed (abgelegt) | rejected (verworfen)
+ *   open (offen) → proposed (vorgeschlagen) → verified (verifiziert: fachlich gegen Nachweise
+ *   geprüft, Quality Gate) → approved (freigegeben: zur Weitergabe genehmigt, Engagement Lead)
+ *   → filed (abgelegt) | rejected (verworfen)
  * Getrennt davon die Kundenreaktion nach der Ablage:
  *   pending (offen) → discussed (besprochen) → accepted (akzeptiert) | disputed (bestritten)
  *
@@ -11,13 +13,14 @@
 import { canConfirmCritical, fourEyesRequired } from './governance.js';
 import { hasRole, memberOf, type Mandate, type SmeDomain, type WorkObjectRef } from './model.js';
 
-export type FindingStatus = 'open' | 'proposed' | 'approved' | 'filed' | 'rejected';
+export type FindingStatus = 'open' | 'proposed' | 'verified' | 'approved' | 'filed' | 'rejected';
 export type CustomerResponse = 'pending' | 'discussed' | 'accepted' | 'disputed';
 
 /** Bezeichnungen wie auf der Entscheidungsseite (vorschriften.md §A17). */
 export const FINDING_STATUS_DE: Record<FindingStatus, string> = {
   open: 'offen',
   proposed: 'vorgeschlagen',
+  verified: 'verifiziert',
   approved: 'freigegeben',
   filed: 'abgelegt',
   rejected: 'verworfen',
@@ -48,6 +51,7 @@ export type Actor = { kind: 'human'; personId: string } | { kind: 'ai'; system: 
 export type FindingAction =
   | 'submit'
   | 'return'
+  | 'verify'
   | 'approve'
   | 'file'
   | 'reject'
@@ -60,10 +64,11 @@ type Zustand = Pick<Finding, 'status' | 'customerResponse'>;
 
 const TRANSITIONS: Record<FindingAction, { from: (z: Zustand) => boolean; to: (z: Zustand) => Zustand }> = {
   submit: { from: (z) => z.status === 'open', to: (z) => ({ ...z, status: 'proposed' }) },
-  return: { from: (z) => z.status === 'proposed', to: (z) => ({ ...z, status: 'open' }) },
-  approve: { from: (z) => z.status === 'proposed', to: (z) => ({ ...z, status: 'approved' }) },
+  return: { from: (z) => z.status === 'proposed' || z.status === 'verified', to: (z) => ({ ...z, status: 'open' }) },
+  verify: { from: (z) => z.status === 'proposed', to: (z) => ({ ...z, status: 'verified' }) },
+  approve: { from: (z) => z.status === 'verified', to: (z) => ({ ...z, status: 'approved' }) },
   file: { from: (z) => z.status === 'approved', to: (z) => ({ ...z, status: 'filed' }) },
-  reject: { from: (z) => z.status === 'open' || z.status === 'proposed' || z.status === 'approved', to: (z) => ({ ...z, status: 'rejected' }) },
+  reject: { from: (z) => z.status === 'open' || z.status === 'proposed' || z.status === 'verified' || z.status === 'approved', to: (z) => ({ ...z, status: 'rejected' }) },
   discuss: { from: (z) => z.status === 'filed' && z.customerResponse === 'pending', to: (z) => ({ ...z, customerResponse: 'discussed' }) },
   accept: { from: (z) => z.status === 'filed' && z.customerResponse === 'discussed', to: (z) => ({ ...z, customerResponse: 'accepted' }) },
   dispute: { from: (z) => z.status === 'filed' && z.customerResponse === 'discussed', to: (z) => ({ ...z, customerResponse: 'disputed' }) },
@@ -104,23 +109,29 @@ export function transitionFinding(
       if (member.party !== 'agency') return { ok: false, error: 'Nur das Beratungsteam schlägt Feststellungen vor.' };
       break;
     case 'return':
-    case 'approve': {
+    case 'verify': {
       if (is('junior_consultant') && !is('engagement_lead', 'independent_reviewer')) {
-        return { ok: false, error: 'Junior Consultants bereiten Bewertungen vor, geben sie aber nicht frei.' };
+        return { ok: false, error: 'Junior Consultants bereiten Bewertungen vor, verifizieren sie aber nicht.' };
       }
-      if (action === 'approve') {
+      if (action === 'verify') {
         if (fourEyesRequired(mandate.depthProfile, ref) && p === finding.authorId) {
-          return { ok: false, error: 'Vier-Augen-Prinzip: Wer die Feststellung verfasst hat, gibt sie nicht frei.' };
+          return { ok: false, error: 'Vier-Augen-Prinzip: Wer die Feststellung verfasst hat, verifiziert sie nicht.' };
         }
         if (ref.critical && !canConfirmCritical(mandate, p, ref)) {
-          return { ok: false, error: 'Kritische Feststellungen geben nur Engagement Lead, Independent Reviewer oder der SME der Domäne frei.' };
+          return { ok: false, error: 'Kritische Feststellungen verifizieren nur Engagement Lead, Independent Reviewer oder der SME der Domäne.' };
         }
         if (!ref.critical && !is('engagement_lead', 'independent_reviewer', 'consultant', 'subject_matter_expert')) {
-          return { ok: false, error: 'Freigabe erfordert eine Beraterrolle.' };
+          return { ok: false, error: 'Verifizierung erfordert eine Beraterrolle.' };
         }
       }
       break;
     }
+    case 'approve':
+      if (!is('engagement_lead')) return { ok: false, error: 'Die Freigabe zur Weitergabe an den Kunden erteilt der Engagement Lead.' };
+      if (fourEyesRequired(mandate.depthProfile, ref) && p === finding.authorId) {
+        return { ok: false, error: 'Vier-Augen-Prinzip: Wer die Feststellung verfasst hat, gibt sie nicht frei.' };
+      }
+      break;
     case 'file':
     case 'discuss':
       if (!is('engagement_lead', 'consultant')) return { ok: false, error: `'${action}' durch Engagement Lead oder Consultant.` };

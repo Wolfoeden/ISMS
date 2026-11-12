@@ -108,7 +108,7 @@ describe('Multi-Role Support & Segregation not feasible (§18)', () => {
   });
 });
 
-describe('Quality Gate für Feststellungen (§22, ENT-027)', () => {
+describe('Quality Gate für Feststellungen (§22, ENT-027, ENT-029)', () => {
   const m = iso27001Mandate(3);
   const entwurf: Finding = { id: 'F-9', mandateId: 'M-1', status: 'open', customerResponse: 'pending', severity: 'high', authorId: 'anna', aiAssisted: true };
   const mensch = (personId: string) => ({ kind: 'human' as const, personId });
@@ -117,19 +117,28 @@ describe('Quality Gate für Feststellungen (§22, ENT-027)', () => {
     expect(transitionFinding(m, entwurf, 'submit', { kind: 'ai', system: 'assistant' }).ok).toBe(false);
   });
 
-  it('Junior schlägt vor, gibt aber nicht frei', () => {
+  it('Junior schlägt vor, verifiziert aber nicht', () => {
     expect(transitionFinding(m, entwurf, 'submit', mensch('anna'))).toEqual({ ok: true, state: { status: 'proposed', customerResponse: 'pending' } });
-    expect(transitionFinding(m, { ...entwurf, status: 'proposed' }, 'approve', mensch('anna')).ok).toBe(false);
+    expect(transitionFinding(m, { ...entwurf, status: 'proposed' }, 'verify', mensch('anna')).ok).toBe(false);
   });
 
-  it('kritische Feststellung: Consultant darf nicht freigeben, Engagement Lead schon', () => {
+  it('kritische Feststellung: Consultant verifiziert nicht, Engagement Lead schon', () => {
     const vorgeschlagen = { ...entwurf, status: 'proposed' as const };
-    expect(transitionFinding(m, vorgeschlagen, 'approve', mensch('lisa')).ok).toBe(false);
-    expect(transitionFinding(m, vorgeschlagen, 'approve', mensch('paul'))).toEqual({ ok: true, state: { status: 'approved', customerResponse: 'pending' } });
+    expect(transitionFinding(m, vorgeschlagen, 'verify', mensch('lisa')).ok).toBe(false);
+    expect(transitionFinding(m, vorgeschlagen, 'verify', mensch('paul'))).toEqual({ ok: true, state: { status: 'verified', customerResponse: 'pending' } });
   });
 
-  it('Vier-Augen: wer verfasst hat, gibt nicht frei', () => {
-    expect(transitionFinding(m, { ...entwurf, status: 'proposed', authorId: 'paul' }, 'approve', mensch('paul')).ok).toBe(false);
+  it('zwei Stufen: Freigabe erst nach Verifizierung und nur durch den Engagement Lead', () => {
+    expect(transitionFinding(m, { ...entwurf, status: 'proposed' }, 'approve', mensch('paul')).ok).toBe(false);
+    const verifiziert = { ...entwurf, status: 'verified' as const };
+    expect(transitionFinding(m, verifiziert, 'approve', mensch('lisa')).ok).toBe(false);
+    expect(transitionFinding(m, verifiziert, 'approve', mensch('thomas')).ok).toBe(false);
+    expect(transitionFinding(m, verifiziert, 'approve', mensch('paul'))).toEqual({ ok: true, state: { status: 'approved', customerResponse: 'pending' } });
+  });
+
+  it('Vier-Augen: wer verfasst hat, verifiziert und gibt nicht frei', () => {
+    expect(transitionFinding(m, { ...entwurf, status: 'proposed', authorId: 'paul' }, 'verify', mensch('paul')).ok).toBe(false);
+    expect(transitionFinding(m, { ...entwurf, status: 'verified', authorId: 'paul' }, 'approve', mensch('paul')).ok).toBe(false);
   });
 
   it('Kundenreaktion erst nach Ablage; bestritten → erneute Prüfung', () => {
