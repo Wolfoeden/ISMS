@@ -402,6 +402,12 @@ Platzhalter in eckigen Klammern. Diese Bausteine sind mit der Prüfung nach §A1
 **Nur Aussage, kein Nachweis**
 > Für [Kennung] liegt bislang nur eine Aussage vor ([Quelle, Datum]); ein Nachweis steht aus.
 
+**Leistungsabgrenzung im Angebot (Pflicht, TC-22)**
+> Dieses Angebot umfasst eine beratende Bewertung der Informationssicherheit im vereinbarten Umfang nach der beschriebenen Methodik. Es ist keine Zertifizierung und kein Audit einer akkreditierten Stelle; ein Zertifikat wird nicht ausgestellt.
+
+**Zertifikatswunsch des Kunden (Pflicht, wenn geäußert)**
+> Ein Zertifikat, etwa nach ISO/IEC 27001, kann nur eine dafür akkreditierte Zertifizierungsstelle in einem eigenen Verfahren erteilen. Unser Ergebnis kann der Vorbereitung darauf dienen, ersetzt es aber nicht.
+
 **Zertifikat des Kunden (nur als belegte Tatsache)**
 > Laut vorgelegtem Zertifikat [Nummer] der Stelle [Name] vom [Datum], gültig bis [Datum], ist der Geltungsbereich [Geltungsbereich] nach ISO/IEC 27001 zertifiziert.
 
