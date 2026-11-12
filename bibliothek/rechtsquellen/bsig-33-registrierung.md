@@ -2,6 +2,7 @@
 id: BIB-BSIG-33
 titel: NIS2 / BSIG – Registrierungspflicht
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

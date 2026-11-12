@@ -23,7 +23,7 @@ Dieser Plan beschreibt, **wie wir Unternehmen einstufen und wie wir daraus eine 
 | Artefakt | Zweck | Wer bearbeitet |
 |---|---|---|
 | `plan.md` | dieser Plan: Methode, Ablauf, Rollen | Mensch; Agents nur nach verifizierter Entscheidung |
-| `vorschriften.md` | welche Vorschriften welche ISMS-Parameter festlegen | Agent `vorschriften` schlägt vor, Mensch verifiziert |
+| `vorschriften.md` | Teil A: Projektvorschriften (Arbeitsweise, Status-, Evidenz- und Rollenmodell); Teil B: welche Regelwerke welche ISMS-Parameter festlegen | Änderungen nur über Entscheidungen; Agent `vorschriften` schlägt vor, Mensch verifiziert |
 | `bibliothek/` | verifiziertes Wissen mit Quellen-Snapshots | Agent `bibliothek` erfasst, Mensch verifiziert |
 | `entscheidungen.md` | Entscheidungsseite für Methodik und Bibliothek (`ENT-…`) | alle; verifizieren nur Menschen |
 | `mandanten/<kürzel>/fragebogen.md` | Fakten zum Unternehmen, ankreuzbar, je Antwort eine Quelle | Agent `erhebung` |
@@ -31,6 +31,7 @@ Dieser Plan beschreibt, **wie wir Unternehmen einstufen und wie wir daraus eine 
 | `mandanten/<kürzel>/isms.md` | **das ISMS-Artefakt** des Unternehmens – nur Verifiziertes | Agent `isms-pruefung` legt ab |
 | `mandanten/<kürzel>/verlauf.md` | Protokoll jeder Iteration | jeder Agent, jeder Mensch |
 | `mandanten/<kürzel>/notizen/` | Rohmaterial: Interviewprotokolle, Dokumente | Berater |
+| `docs/vorgaben/` | Eingangsdokumente (unverändert) und Prüfberichte | Mensch liefert, Agent prüft |
 | `src/`, `npm run isms` | Werkzeuge: Einstufung, NIS2-Vorprüfung, Status, Prüfung | Entwicklung |
 
 ## 3. Der Iterationszyklus
@@ -137,9 +138,10 @@ Wer konkret verifizieren darf, ist in [ENT-013] offen.
 1. Startkalibrierung an 5 bekannten Kunden ([ENT-001])
 2. Wissenslücken schließen: KRITIS ([ENT-015]), KMU Art. 3–5 ([ENT-016]), weitere Regelwerke nach Bedarf ([ENT-017])
 3. Vertiefte Assessment-Kataloge je Pflicht-Prüfbereich (§ 30 Abs. 2 Nr. 1–10), Tiefe je Profil
-4. Control-Katalog mit Anhang-A-Bezug, sobald Normzugang geklärt ist ([ENT-014])
-5. Third-Party Pre-Assessment ([ENT-008])
-6. Aufwandsschätzung aus Ist-Aufwänden
+4. ISO-Kataloge verifizieren ([ENT-014]) und Prüfimpulse je Control ausarbeiten ([ENT-024]); SoA nach [ENT-023]
+5. Pilotfall Einzelunternehmer mit Softwareprodukt: getrennte Scopes ([ENT-021]), Product Security Assessment ([ENT-020]), Evidenzregister, Risikomethode ([ENT-022]), Berichtsvorlage
+6. Third-Party Pre-Assessment ([ENT-008])
+7. Aufwandsschätzung aus Ist-Aufwänden
 
 ## 9. Vertraulichkeit
 

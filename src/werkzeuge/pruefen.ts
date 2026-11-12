@@ -17,7 +17,7 @@ import {
   zitatImText,
   type Entscheidung,
 } from './markdown.js';
-import { BIBLIOTHEK_STATUS, type Arbeitsbereich, type BibEintrag, type Mandat } from './repo.js';
+import { BIBLIOTHEK_STATUS, VERBINDLICHKEIT, type Arbeitsbereich, type BibEintrag, type Mandat } from './repo.js';
 
 export interface Befund {
   schwere: 'fehler' | 'warnung';
@@ -44,6 +44,9 @@ function pruefeBibliothek(ws: Arbeitsbereich, heute: string): Befund[] {
     ids.set(e.id, e.datei);
     if (!(BIBLIOTHEK_STATUS as readonly string[]).includes(e.status)) f(`status "${e.status}" ungültig (${BIBLIOTHEK_STATUS.join(', ')})`);
     for (const k of ['titel', 'art']) if (!gesetzt(fmString(e.fm, k))) f(`Pflichtfeld "${k}" fehlt`);
+    if (!(VERBINDLICHKEIT as readonly string[]).includes(fmString(e.fm, 'verbindlichkeit'))) {
+      f(`verbindlichkeit "${fmString(e.fm, 'verbindlichkeit')}" ungültig (${VERBINDLICHKEIT.join(', ')})`);
+    }
 
     let ungueltig = 0;
     for (const z of e.zitate) {
@@ -93,6 +96,9 @@ function pruefeEntscheidungen(liste: Entscheidung[], datei: string, ws: Arbeitsb
     }
     if (e.status === 'abgelegt' && !gesetzt(e.felder['abgelegt in'])) f('"Abgelegt in" fehlt');
     if (e.status === 'verifiziert') f('verifiziert, aber noch nicht abgelegt', 'warnung');
+    if (e.status === 'vorgeschlagen' && /^E-/.test(e.id) && !gesetzt(e.felder['eingaben'])) {
+      f('Vorschlag ohne „Eingaben“ (Notizen, Fragebogen-IDs) – vorschriften.md §A10 Nr. 9', 'warnung');
+    }
     for (const m of (e.felder['grundlagen'] ?? '').matchAll(/BIB-[A-Z0-9-]+/g)) {
       const eintrag = bib.get(m[0]);
       if (!eintrag) f(`Grundlage ${m[0]} existiert nicht in der Bibliothek`);
@@ -147,6 +153,13 @@ function pruefeMandat(ws: Arbeitsbereich, m: Mandat): Befund[] {
     // Offene Punkte dürfen auf Unverifiziertes verweisen – alles andere nicht.
     const kern = ohneAbschnitt(m.ismsMd, /^## .*Offene Punkte/i);
     b.push(...pruefeVerweise(kern, pfad('isms.md'), ws, m, true));
+    // ISO/IEC 27001 Abschnitte 4–10: not_applicable unzulässig (vorschriften.md §A8, §B4)
+    const iso = m.ismsMd.split(/^### 6a\./m)[1]?.split(/^#{2,3} /m)[0] ?? '';
+    iso.split('\n').forEach((z) => {
+      if (/^\|/.test(z) && /\bnot_applicable\b/.test(z)) {
+        b.push({ schwere: 'fehler', datei: pfad('isms.md'), text: `ISO/IEC 27001 Abschnitte 4–10 dürfen nicht „not_applicable“ sein: ${z.trim()}` });
+      }
+    });
   }
   return b;
 }

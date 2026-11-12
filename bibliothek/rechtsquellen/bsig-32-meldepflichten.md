@@ -2,6 +2,7 @@
 id: BIB-BSIG-32
 titel: NIS2 / BSIG – Meldepflichten bei erheblichen Sicherheitsvorfällen
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

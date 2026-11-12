@@ -2,6 +2,7 @@
 id: BIB-BSIG-38
 titel: NIS2 / BSIG – Pflichten der Geschäftsleitung
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

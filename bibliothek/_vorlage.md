@@ -2,6 +2,7 @@
 id: BIB-XXX
 titel: Kurzer, eindeutiger Titel
 art: rechtsquelle            # rechtsquelle | norm | leitfaden | methodik
+verbindlichkeit: anforderung  # anforderung | empfehlung | definition | erlaeuterung | interner_standard | vertraglich
 rechtsraum: DE               # DE | EU | international | intern
 status: entwurf              # entwurf | quellengeprueft | verifiziert | veraltet
 quellen:

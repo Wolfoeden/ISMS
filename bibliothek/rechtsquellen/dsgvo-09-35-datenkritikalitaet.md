@@ -2,6 +2,7 @@
 id: BIB-DSGVO-09
 titel: DSGVO – Besondere Kategorien personenbezogener Daten und Datenschutz-Folgenabschätzung
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: EU
 status: quellengeprueft
 quellen:

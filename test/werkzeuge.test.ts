@@ -199,6 +199,13 @@ describe('Iterationszyklus an einem fiktiven Mandat', () => {
     ]);
   });
 
+  it('4b · ISO/IEC 27001 Abschnitte 4–10 können nicht „not_applicable“ sein', () => {
+    const isms = lies('isms.md');
+    schreibe('isms.md', isms.replace('| Abschnitt | Status | Evidenz | Grundlage |\n|---|---|---|---|', '| Abschnitt | Status | Evidenz | Grundlage |\n|---|---|---|---|\n| 6.1.2 | not_applicable | – | |'));
+    expect(pruefung().join()).toMatch(/Abschnitte 4–10 dürfen nicht/);
+    schreibe('isms.md', isms);
+  });
+
   it('5 · manipuliertes Zitat in der Bibliothek wird erkannt', () => {
     const p = join(root, 'bibliothek/rechtsquellen/bsig-33-registrierung.md');
     writeFileSync(p, readFileSync(p, 'utf-8').replace('spätestens jedoch binnen zwei Wochen', 'spätestens jedoch binnen vier Wochen'));

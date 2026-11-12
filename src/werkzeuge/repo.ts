@@ -7,6 +7,8 @@ import { leseFragebogen, type Fragebogen } from '../fragebogen/fragebogen.js';
 import { leseEntscheidungen, leseFrontmatter, leseZitate, type Entscheidung, type Frontmatter, type Zitat } from './markdown.js';
 
 export const BIBLIOTHEK_STATUS = ['entwurf', 'quellengeprueft', 'verifiziert', 'veraltet'] as const;
+/** vorschriften.md §A1 Nr. 2 */
+export const VERBINDLICHKEIT = ['anforderung', 'empfehlung', 'definition', 'erlaeuterung', 'interner_standard', 'vertraglich'] as const;
 
 export interface BibEintrag {
   id: string;

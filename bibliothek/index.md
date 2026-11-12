@@ -14,7 +14,9 @@
 | BIB-DSB | Pflicht zur Benennung eines Datenschutzbeauftragten (Art. 37 DSGVO, § 38 BDSG) | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/dsb-pflicht.md](rechtsquellen/dsb-pflicht.md) |
 | BIB-DSGVO-09 | DSGVO – Besondere Kategorien personenbezogener Daten und Datenschutz-Folgenabschätzung | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/dsgvo-09-35-datenkritikalitaet.md](rechtsquellen/dsgvo-09-35-datenkritikalitaet.md) |
 | BIB-DSGVO-32 | DSGVO – Sicherheit der Verarbeitung und Meldung von Datenschutzverletzungen | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/dsgvo-32-33-sicherheit.md](rechtsquellen/dsgvo-32-33-sicherheit.md) |
-| BIB-ISO27001 | ISO/IEC 27001:2022 – Aufbau und Zertifizierungsrelevanz | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27001-2022.md](normen/iso-iec-27001-2022.md) |
+| BIB-ISO27000 | ISO/IEC 27000:2018 – Überblick und Begriffe der ISMS-Normenfamilie | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27000-2018.md](normen/iso-iec-27000-2018.md) |
+| BIB-ISO27001 | ISO/IEC 27001:2022 – Anforderungen an das ISMS (Abschnitte 4–10), Anhang A und SoA | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27001-2022.md](normen/iso-iec-27001-2022.md) |
+| BIB-ISO27002 | ISO/IEC 27002:2022 – Control-Katalog (93 Maßnahmen), Attribute, Nachweiskategorien | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27002-2022-controls.md](normen/iso-iec-27002-2022-controls.md) |
 | BIB-KMU | KMU-Definition (Empfehlung 2003/361/EG) – Schwellenwerte für NIS2/BSIG | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/kmu-definition.md](rechtsquellen/kmu-definition.md) |
 | BIB-MET-PROFIL | Methodik – Ableitung des Assurance Profile (Policy 2026-11.1) | methodik | entwurf | — | 2027-05-12 | [methodik/assurance-profile.md](methodik/assurance-profile.md) |
 

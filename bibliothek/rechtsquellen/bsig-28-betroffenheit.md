@@ -2,6 +2,7 @@
 id: BIB-BSIG-28
 titel: NIS2 / BSIG – Betroffenheit (besonders wichtige und wichtige Einrichtungen)
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

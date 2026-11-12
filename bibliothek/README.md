@@ -34,8 +34,9 @@ Ein Agent setzt **niemals** `verifiziert`. Das Prüfwerkzeug lehnt `verifiziert_
    ```
    Format: `> [<snapshot-datei> · <Fundstelle>] <Wortlaut>`. Auslassungen mit `…`. Das Werkzeug prüft, dass der Wortlaut im Snapshot steht.
 2. **Snapshots** in `quellen/` nur aus amtlichen Quellen (gesetze-im-internet.de, EUR-Lex, Amtsblätter). Kopfzeilen mit Quelle, Teil, URL, Fassung und Abrufdatum. Snapshots werden nicht von Hand verändert.
-3. **Normen sind urheberrechtlich geschützt.** Kein Normtext in der Bibliothek – nur Abschnittsnummern, Titel in eigener Kurzform und eigene Zusammenfassungen. Verifikation nur gegen ein lizenziertes Normexemplar.
+3. **Normen sind urheberrechtlich geschützt.** Kein Normtext in der Bibliothek – nur Abschnittsnummern, Kurztitel und eigene Zusammenfassungen. Verifikation nur gegen ein lizenziertes Normexemplar; Lizenzumfang siehe ENT-014. Projektaufbereitungen aus Normen sind Sekundärquellen und liegen unverändert in `docs/vorgaben/`.
 4. **Auslegung kennzeichnen.** Unter „Bedeutung für die ISMS-Parameter“ steht unsere Auslegung – sie ist erst mit dem Status `verifiziert` verbindlich.
 5. **Grenzen benennen.** Was der Eintrag nicht abdeckt, steht unter „Grenzen und offene Punkte“. Fehlt Wissen, wird auf der Entscheidungsseite eine Entscheidung vom Typ `wissen` angelegt.
 6. **Aktualität.** `naechste_pruefung` setzen (Standard: 6 Monate für Gesetze im Umbruch, 12 Monate sonst). Bei Gesetzesänderungen neuen Snapshot ziehen, Zitate prüfen, Status ggf. zurücksetzen.
-7. **IDs** sind stabil: `BIB-<KÜRZEL>`; ein Eintrag wird nie umbenannt, sondern bei Bedarf `veraltet` gesetzt und ersetzt.
+7. **Verbindlichkeit** angeben (`vorschriften.md` §A1): `anforderung` · `empfehlung` · `definition` · `erlaeuterung` · `interner_standard` · `vertraglich`. Eine Empfehlung wird nie zur Anforderung.
+8. **IDs** sind stabil: `BIB-<KÜRZEL>`; ein Eintrag wird nie umbenannt, sondern bei Bedarf `veraltet` gesetzt und ersetzt.

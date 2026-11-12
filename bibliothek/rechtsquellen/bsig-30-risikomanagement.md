@@ -2,6 +2,7 @@
 id: BIB-BSIG-30
 titel: NIS2 / BSIG – Risikomanagementmaßnahmen und Verhältnismäßigkeit
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

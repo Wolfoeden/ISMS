@@ -2,6 +2,7 @@
 id: BIB-DSGVO-32
 titel: DSGVO – Sicherheit der Verarbeitung und Meldung von Datenschutzverletzungen
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: EU
 status: quellengeprueft
 quellen:

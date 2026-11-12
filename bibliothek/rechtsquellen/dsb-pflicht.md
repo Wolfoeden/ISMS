@@ -2,6 +2,7 @@
 id: BIB-DSB
 titel: Pflicht zur Benennung eines Datenschutzbeauftragten (Art. 37 DSGVO, § 38 BDSG)
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

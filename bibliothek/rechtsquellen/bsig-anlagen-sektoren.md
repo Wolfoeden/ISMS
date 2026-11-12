@@ -2,6 +2,7 @@
 id: BIB-BSIG-ANL
 titel: BSIG Anlagen 1 und 2 – Sektoren und Einrichtungsarten
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

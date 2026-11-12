@@ -2,6 +2,7 @@
 id: BIB-MET-PROFIL
 titel: Methodik – Ableitung des Assurance Profile (Policy 2026-11.1)
 art: methodik
+verbindlichkeit: interner_standard
 rechtsraum: intern
 status: entwurf
 quellen:

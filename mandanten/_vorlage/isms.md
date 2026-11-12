@@ -56,20 +56,34 @@ stand: {{datum}}
 
 ## 6. Prüfbereiche und Controls
 
-Gliederung nach § 30 Abs. 2 BSIG (siehe `vorschriften.md` §2.3). Tiefe: 1 Basic · 2 Defined · 3 Managed · 4 Assured.
+Gliederung nach § 30 Abs. 2 BSIG (`vorschriften.md` §B2.3). Tiefe: 1 Basic · 2 Defined · 3 Managed · 4 Assured. Umsetzung (`unknown` · `absent` · `partial` · `present`) und Wirksamkeit (`not_verified` · `effective` · `ineffective`) werden getrennt bewertet (`vorschriften.md` §A8). Fragebogen-Antworten sind Aussagen, keine Nachweise.
 
-| Prüfbereich / Control | Anwendbar | Erforderliche Tiefe | Umsetzungsstand | Evidenz | Grundlage |
-|---|---|---|---|---|---|
-| 1 Risikoanalyse und Sicherheitskonzepte | | | | | |
-| 2 Bewältigung von Sicherheitsvorfällen | | | | | |
-| 3 Betriebskontinuität, Backup, Krisenmanagement | | | | | |
-| 4 Sicherheit der Lieferkette | | | | | |
-| 5 Erwerb, Entwicklung, Wartung, Schwachstellen | | | | | |
-| 6 Bewertung der Wirksamkeit | | | | | |
-| 7 Schulung und Sensibilisierung | | | | | |
-| 8 Kryptographie | | | | | |
-| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | | | | | |
-| 10 MFA, gesicherte Kommunikation | | | | | |
+| Prüfbereich / Control | Anwendbar | Erforderliche Tiefe | Umsetzung | Wirksamkeit | Evidenz | Grundlage |
+|---|---|---|---|---|---|---|
+| 1 Risikoanalyse und Sicherheitskonzepte | | | | | | |
+| 2 Bewältigung von Sicherheitsvorfällen | | | | | | |
+| 3 Betriebskontinuität, Backup, Krisenmanagement | | | | | | |
+| 4 Sicherheit der Lieferkette | | | | | | |
+| 5 Erwerb, Entwicklung, Wartung, Schwachstellen | | | | | | |
+| 6 Bewertung der Wirksamkeit | | | | | | |
+| 7 Schulung und Sensibilisierung | | | | | | |
+| 8 Kryptographie | | | | | | |
+| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | | | | | | |
+| 10 MFA, gesicherte Kommunikation | | | | | | |
+
+### 6a. ISO/IEC 27001 Abschnitte 4–10 (nur bei ISO-Mandaten)
+
+Status je Abschnitt: `not_assessed` · `evidence_missing` · `insufficient_evidence` · `partially_met` · `met` · `not_met` · `needs_review` – `not_applicable` ist hier unzulässig. Gliederung: 30 Unterabschnitte laut BIB-ISO27001.
+
+| Abschnitt | Status | Evidenz | Grundlage |
+|---|---|---|---|
+
+### 6b. Erklärung zur Anwendbarkeit – SoA (nur bei ISO-Mandaten)
+
+Referenz: ISO/IEC 27001 Anhang A (`A.5.1` … `A.8.34`). Nicht gewählte Controls mit Begründung.
+
+| Control | Anwendbar | Begründung | Umsetzung | Wirksamkeit | Risiken | Grundlage |
+|---|---|---|---|---|---|---|
 
 ## 7. Risiken
 

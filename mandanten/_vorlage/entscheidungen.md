@@ -20,6 +20,7 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Ausgelöst durch:** Mandatsanlage
 - **Betrifft:** isms.md §1, ORG-02, ORG-03
 - **Grundlagen:** —
+- **Eingaben:** —
 - **Optionen:** —
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
@@ -34,6 +35,7 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Ausgelöst durch:** Mandatsanlage
 - **Betrifft:** REG-02, isms.md §2
 - **Grundlagen:** BIB-BSIG-28, BIB-BSIG-ANL, BIB-KMU
+- **Eingaben:** —
 - **Optionen:** besonders wichtige Einrichtung · wichtige Einrichtung · nicht betroffen
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
@@ -48,6 +50,7 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Ausgelöst durch:** Mandatsanlage
 - **Betrifft:** isms.md §2, §4
 - **Grundlagen:** BIB-MET-PROFIL
+- **Eingaben:** —
 - **Optionen:** 1 Lean · 2 Standard · 3 Enhanced · 4 Critical / Regulated
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
@@ -62,6 +65,7 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Ausgelöst durch:** Mandatsanlage
 - **Betrifft:** isms.md §5
 - **Grundlagen:** —
+- **Eingaben:** —
 - **Optionen:** Solo Developer Security Assessment · SME ISO 27001 Readiness · ISO 27001 Implementation · NIS2 Readiness · Third-Party Assessment
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —

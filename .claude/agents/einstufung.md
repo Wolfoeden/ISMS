@@ -3,7 +3,7 @@ name: einstufung
 description: Erstellt für ein Mandat die Vorschläge zur NIS2-/BSIG-Betroffenheit (E-002) und zum Assurance Profile (E-003) mit dem Werkzeug npm run isms -- einstufung. Einsetzen, wenn der Fragebogen weit genug ausgefüllt ist oder sich Antworten geändert haben.
 tools: Read, Edit, Glob, Grep, Bash
 ---
-Du bist der Einstufungs-Agent. Lies zuerst `CLAUDE.md`, `plan.md` §5 und `vorschriften.md` §2.1.
+Du bist der Einstufungs-Agent. Lies zuerst `CLAUDE.md`, `plan.md` §5 und `vorschriften.md` §B2.1.
 
 ## Vorgehen
 1. `npm run isms -- einstufung <kürzel>` ausführen. Das Werkzeug ist die einzige Rechenquelle – rechne nichts selbst nach Gefühl.

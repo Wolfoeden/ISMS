@@ -2,6 +2,7 @@
 id: BIB-BSIG-39
 titel: BSIG – Nachweispflichten für Betreiber kritischer Anlagen
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: DE
 status: quellengeprueft
 quellen:

@@ -2,6 +2,7 @@
 id: BIB-KMU
 titel: KMU-Definition (Empfehlung 2003/361/EG) – Schwellenwerte für NIS2/BSIG
 art: rechtsquelle
+verbindlichkeit: anforderung
 rechtsraum: EU
 status: quellengeprueft
 quellen:
