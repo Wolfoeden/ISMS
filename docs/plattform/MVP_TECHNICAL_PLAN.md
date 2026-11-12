@@ -39,7 +39,7 @@ Vorhanden und getestet: Domänenkern (`src/`), PostgreSQL-Schema mit RLS-Muster,
 | WP-07 | Question/Task Engine + Client Portal | ○ | Task-Service (nicht BPMN, 02 §9); Portal S05/S06 | „nur eigene Aufgaben“ |
 | WP-08 | AI Proposals + Human Verification + Lock | ✔ `ai_proposal` mit Fundstelle, Modell-/Promptversion, Scope, Unsicherheit; Status 02 §4.4; annehmen/korrigieren/ablehnen/vertagen nur durch Menschen; gesperrte Stände unveränderlich; KI-Sitzung schreibt nur Vorschläge und liest nur ihr Mandat (`src/evidence/proposals.ts`, Migration 0010) | Anbindung eines KI-Dienstes (DEC-16: Opt-in, AVV) | ✔ TC-11, TC-12, TC-21, US-C2 |
 | WP-09 | Assessment Workflow, Finding/Risk/Action | ✔ Tabellen und Regeln; berechneter Berichtsstatus | an Case/Objekt binden; D-09/D-10 als Regelverträge | US-C2 |
-| WP-10 | Lead Review / QA / Report Release | ◐ SoD-Regeln, Freigabe-DoD, Formulierungsprüfung | `review`, `report_version` (gesperrt, Snapshot der Evidenz); QA-Ergebnisse nach 01 §4.3; Rework-Router D-12 | TC-13, TC-15, TC-16, US-D2 |
+| WP-10 | Lead Review / QA / Report Release | ✔ D-11 (QA für jeden finalen Bericht, QA ≠ Autor), Review-Paket mit Kriterien-/Nachweisbezug und Versionskonflikten, QA-Ergebnisse nach 01 §4.3, D-12 Nacharbeit in früheste Phase, D-13 Abschluss, gesperrte Berichtsversion mit Hash, Nachweis-Snapshot und Änderungsprotokoll (`src/engagement/report.ts`, Migration 0012) | PDF/HTML-Ausgabe und Signatur (DEC-17) | ✔ TC-13, TC-15, TC-16, US-C3, US-D1, US-D2 |
 | WP-11 | E2E-Traceability, 10 Negativpfade | ◐ Werkzeug-E2E am fiktiven Mandat | API-E2E über den ganzen Slice | alle P0-Tests |
 
 ## 4. Regelverträge (Handoff §5: D-03, D-05, D-06, D-07, D-08, D-11, D-12, D-13 zuerst)
@@ -62,15 +62,13 @@ Jede Regel: `decision_id`, `version`, Ein-/Ausgabeschema, Testfälle inkl. Grenz
 | Test | heute | Plan |
 |---|---|---|
 | TC-10, TC-11, TC-12, TC-21 | ✔ Kern (`test/evidence.test.ts`) und Schema (`db/tests/0010_smoke.sql`) | API-Test mit echtem KI-Dienst |
-| TC-13 QA SoD | ✔ Domänenkern (G6, Vier-Augen) | API-Test |
-| TC-14 Kundenwiderspruch | ✔ Kundenreaktion `bestritten` → erneute Prüfung | API-Test |
-| TC-16 Report limited | ◐ Freigabe-DoD, Pflicht „Einschränkungen“ | Endstatus `closed_with_limitations` |
 | TC-17 Normenversion | ◐ Policy-Version an Einstufung | Version-Pin + Impact-Entscheidung |
 | TC-18 Tenant Isolation | ✔ alle Tabellen (Struktur- und Verhaltenstest, 0008) | ✔ KI-Zugriffspfad (0010) |
-| TC-22 3PA-Bezeichnung | ◐ Sperrliste („zertifiziert“, „konform“) | Angebotsdialog |
 | TC-01, TC-02, TC-09 | ✔ Kern (`test/intake.test.ts`) und Schema (`db/tests/0009_smoke.sql`) | API-Test |
 | TC-07, TC-08, TC-19, TC-20, TC-22 | ✔ Kern (`test/offer.test.ts`) und Schema (`db/tests/0011_smoke.sql`) | API-Test |
-| TC-03–TC-06, TC-15 | ○ | TC-03/04 mit Bibliothek (ENT-017), TC-05/06 nach der Testphase (ENT-034), TC-15 mit WP-10 |
+| TC-13, TC-15, TC-16 | ✔ Kern (`test/report.test.ts`) und Schema (`db/tests/0012_smoke.sql`) | API-Test |
+| TC-14 Kundenwiderspruch | ✔ Kundenreaktion `bestritten` → erneute Prüfung (Domänenkern) | API-Test |
+| TC-03–TC-06 | ○ | TC-03/04 mit Bibliothek (ENT-017), TC-05/06 nach der Testphase (ENT-034) |
 
 Testdaten: nur fiktiv/anonymisiert (`07_BEISPIEL_CASES.json`, Fixtures). DB-Tests gegen echtes PostgreSQL (`db/test.sh`).
 
@@ -81,7 +79,7 @@ Testdaten: nur fiktiv/anonymisiert (`07_BEISPIEL_CASES.json`, Fixtures). DB-Test
 3. ✔ Intake + Objekt + Kernfragen (WP-02/03) in Kern und Schema, getestet mit TC-01/02/09; API folgt mit der Hosting-Entscheidung.
 4. ✔ Mandat + Scope-Lock (WP-04/05): Status, Scope-Sperre, Angebotsversionen, idempotente Mandatsanlage, Storno.
 5. ✔ Evidence + Proposals + Lock (WP-06/08), TC-10/11/12/21 – Kern und Schema; Dateispeicher und KI-Dienst folgen mit Hosting.
-6. Register + Review + ReportVersion (WP-09/10), TC-13–16.
+6. ✔ Register + Review + ReportVersion (WP-09/10), TC-13–16 – Kern und Schema.
 7. Portal-Screens S01–S07 und Workspace S08–S13 als dünnes UI.
 8. E2E mit einem fiktiven, dann einem realen Testmandat (Gate 2).
 

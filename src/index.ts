@@ -13,3 +13,4 @@ export * from './intake/readiness.js';
 export * from './evidence/evidence.js';
 export * from './evidence/proposals.js';
 export * from './engagement/offer.js';
+export * from './engagement/report.js';
