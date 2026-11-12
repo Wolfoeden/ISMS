@@ -10,8 +10,8 @@
 ## 0. Aufbau und Verbindlichkeit
 
 - **Teil A – Projektvorschriften:** wie wir arbeiten und was die Plattform können muss. **MUSS / SOLL / KANN** sind Projektkonventionen, keine Normzitate. Abweichungen von SOLL sind zu begründen.
-- **Teil B – Regelwerke → ISMS-Parameter:** wann eine Vorschrift oder Norm gilt und was sie festlegt. Jede Aussage verweist auf einen Bibliothekseintrag; verbindlich ist sie erst, wenn dieser `verifiziert` ist ([bibliothek/index.md](bibliothek/index.md)).
-- **Vorrang:** Gesetz und Vertrag > verifizierte Normanforderung > Projektvorschrift > Methodik. Widersprüche werden nicht stillschweigend aufgelöst, sondern als Entscheidung auf [`entscheidungen.md`](entscheidungen.md) angelegt.
+- **Teil B – Regelwerke → ISMS-Parameter:** wann eine Vorschrift oder Norm gilt und was sie festlegt. Jede Aussage verweist auf einen Bibliothekseintrag; verbindlich ist sie erst, wenn dieser `freigegeben` ist ([bibliothek/index.md](bibliothek/index.md)).
+- **Vorrang:** Gesetz und Vertrag > freigegebene Normanforderung > Projektvorschrift > Methodik. Widersprüche werden nicht stillschweigend aufgelöst, sondern als Entscheidung auf [`entscheidungen.md`](entscheidungen.md) angelegt.
 - Spalte **Umsetzung** zeigt den Stand im Repository: ✔ umgesetzt · ◐ teilweise · ○ offen.
 
 ---
@@ -37,7 +37,7 @@
 | 2 | **Verhältnismäßigkeit:** Tiefe nach Risiko, Kritikalität, Regulatorik, Kundenpflichten und Auslagerungen; die Mitarbeiterzahl ist nur ein Faktor. | ✔ Assurance Profile (§A13) |
 | 3 | **Nachvollziehbarkeit:** Aussagen, Belege, Schlussfolgerungen, Unsicherheiten und Entscheidungen getrennt speichern. | ◐ siehe §A8 |
 | 4 | **Keine Scheinkonformität:** Nicht Geprüftes oder nicht Belegtes nie als erfüllt ausgeben. | ✔ `pruefen` für `isms.md` |
-| 5 | **Mensch entscheidet:** Risikoakzeptanzen, Auditfeststellungen, Freigaben und finale Berichte bestätigen berechtigte Menschen. | ✔ Status `verifiziert` nur durch Menschen |
+| 5 | **Mensch entscheidet:** Risikoakzeptanzen, Auditfeststellungen, Freigaben und finale Berichte bestätigen berechtigte Menschen. | ✔ Status `freigegeben` nur durch Menschen |
 | 6 | **Kontinuität:** Wiederholungsprüfungen, Versionsstände und Verbesserungen abbilden. | ◐ Git-Historie, Verlauf; Neubewertung [ENT-010] |
 | 7 | **Mandantentrennung:** Daten, Bewertungen, Belege und Rechte verschiedener Kunden konsequent trennen. | ◐ Ordner je Mandat, RLS im Schema; Ablageort [ENT-012] |
 
@@ -76,7 +76,7 @@ Jedes Assessment **MUSS** diese Schritte unterstützen. Zuordnung zu den Phasen 
 | 8 | Belege sammeln mit Herkunft und Gültigkeit | `notizen/` | ◐ Evidenzregister §A8 |
 | 9 | Controls bewerten: Soll, Beschreibung, Umsetzung, Wirksamkeit getrennt | `isms.md` §6 | ✔ Spalten getrennt |
 | 10 | Findings und Maßnahmen ableiten | Entscheidungen `finding`, `massnahme` | ✔ |
-| 11 | Fachliche Qualitätssicherung | Quality Gate, `/verifizieren` | ✔ |
+| 11 | Fachliche Qualitätssicherung | Quality Gate, `/freigeben` | ✔ |
 | 12 | Bericht erzeugen | – | ○ Berichtsvorlage fehlt (§A12) |
 | 13 | Nachverfolgen, Neubewertung | Phase 6, [ENT-010] | ◐ |
 
@@ -137,7 +137,7 @@ Methode und Skalen für Mandate: [ENT-022].
 | `evidence` | bereitgestellter oder erhobener Nachweis | Dokument in `notizen/` mit Metadaten |
 | `observation` | aus dem Nachweis tatsächlich Erkennbares | Abschnitt „Evidenz“ eines Findings |
 | `inference` | abgeleitete Bewertung mit Unsicherheit | Vorschlag auf der Entscheidungsseite |
-| `decision` | formell freigegebene Entscheidung | verifizierte Entscheidung |
+| `decision` | formell freigegebene Entscheidung | freigegebene Entscheidung |
 
 Fragebogen-Antworten sind `claim`s: Sie genügen für die Einstufung, **nie** für die Bewertung `met` eines Controls oder einer Anforderung.
 
@@ -165,7 +165,7 @@ Fragebogen-Antworten sind `claim`s: Sie genügen für die Einstufung, **nie** f�
 | Wirksamkeit | `not_verified` · `effective` · `ineffective` |
 
 Weitere Regeln:
-- Jeder Nachweis **MUSS** Mandant, Quelle, Zeitpunkt, Art, Version, betroffene Anforderungen/Controls, Prüfer und Verifikationsstatus tragen; wo sinnvoll ein Integritätsmerkmal (Prüfsumme). ◐ Kopf je Notiz (`mandanten/_vorlage/notizen/README.md`)
+- Jeder Nachweis **MUSS** Mandant, Quelle, Zeitpunkt, Art, Version, betroffene Anforderungen/Controls, Prüfer und Freigabestatus tragen; wo sinnvoll ein Integritätsmerkmal (Prüfsumme). ◐ Kopf je Notiz (`mandanten/_vorlage/notizen/README.md`)
 - Ein Screenshot einer Richtlinie oder Einstellung belegt **nicht** dauerhafte Wirksamkeit.
 - Widersprüchliche Nachweise → `needs_review`.
 
@@ -342,7 +342,7 @@ Ein Vorfall kann zugleich NIS2-meldepflichtig (24 h / 72 h) und datenschutzmelde
 
 ## B4. ISO/IEC 27001:2022
 
-*Normaussagen sind Entwurf bis zur Verifikation von [BIB-ISO27001].*
+*Normaussagen sind Entwurf bis zur Freigabe von [BIB-ISO27001].*
 
 1. **Abschnitte 4–10** (30 Unterabschnitte, siehe [BIB-ISO27001]) sind bei einem vollständigen Gap- oder Readiness-Assessment **eigene Prüfdomäne** – ein reines Anhang-A-Assessment reicht nicht. Keine Anforderung wegen Größe ausschließbar; Status `not_applicable` unzulässig.
 2. **Konformitätsaussagen** nennen immer Scope, Normausgabe, Kriterium (Abschnitt), Evidenz, Status und freigebende Person. Die KI erklärt ein ISMS nie für zertifiziert, auditiert oder konform ohne zutreffende unabhängige Feststellung.
@@ -356,7 +356,7 @@ Geltung je Assessment-Typ: [BIB-ISO27001], Tabelle „Geltung je Assessment-Typ�
 
 ## B5. ISO/IEC 27002:2022
 
-*Normaussagen sind Entwurf bis zur Verifikation von [BIB-ISO27002].*
+*Normaussagen sind Entwurf bis zur Freigabe von [BIB-ISO27002].*
 
 ### B5.1 Katalog
 
@@ -368,7 +368,7 @@ Fünf Attribute je Control: Maßnahmenart · Sicherheitseigenschaften · Cybersi
 
 ### B5.3 Zuordnung Pflicht-Prüfbereiche § 30 BSIG → ISO/IEC 27001 Anhang A
 
-*Vorschlag (Auslegung, nicht verifiziert).* Dient der Doppelnutzung von Nachweisen; ersetzt keine Bewertung je Anforderung (§A7 Nr. 5).
+*Vorschlag (Auslegung, nicht freigegeben).* Dient der Doppelnutzung von Nachweisen; ersetzt keine Bewertung je Anforderung (§A7 Nr. 5).
 
 | § 30 Abs. 2 BSIG | Anhang-A-Controls (Schwerpunkt) | ergänzend ISO/IEC 27001 |
 |---|---|---|

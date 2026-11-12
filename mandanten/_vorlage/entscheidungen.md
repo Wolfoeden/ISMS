@@ -4,13 +4,18 @@ dokument: entscheidungen
 ---
 # Entscheidungsseite – {{name}}
 
-Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch es verifiziert hat und es abgelegt ist (Ablauf und Status: `entscheidungen.md` im Repository-Hauptordner). IDs: `E-001` fortlaufend.
+Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch es freigegeben hat und es abgelegt ist (Ablauf und Status: `entscheidungen.md` im Repository-Hauptordner). IDs: `E-001` fortlaufend.
 
-| Typ | Abgelegt in |
-|---|---|
-| `klaerung` | `fragebogen.md` (Antwort, Quelle = diese Entscheidung) |
-| `scope`, `einstufung`, `anwendbarkeit`, `risiko`, `finding`, `massnahme`, `organisation` | `isms.md` |
-| `wissen` | `bibliothek/` (über die globale Entscheidungsseite) |
+| Typ | Abgelegt in | Zusätzliche Pflichtfelder (ENT-028) |
+|---|---|---|
+| `klaerung` | `fragebogen.md` (Antwort, Quelle = diese Entscheidung) | – |
+| `scope`, `einstufung`, `anwendbarkeit`, `organisation` | `isms.md` | – |
+| `finding` (Feststellung) | `isms.md` §8 | **Schwere:** gering · mittel · hoch · kritisch — **Kundenreaktion:** offen · besprochen · akzeptiert · bestritten (≠ offen erst nach Ablage) |
+| `risiko` | `isms.md` §7 | **Phase:** identifiziert · bewertet · behandlung_entschieden · restrisiko_akzeptiert · in_ueberwachung · geschlossen — Akzeptanz nur mit „Risk Owner“ in „Freigegeben von“ |
+| `massnahme` (Empfehlung → Korrekturmaßnahme) | `isms.md` §9 | **Phase:** offen · beschlossen · in_umsetzung · umgesetzt · wirksam_bestaetigt · verworfen — ab beschlossen **Verantwortlich**, **Frist**; wirksam_bestaetigt nur mit **Nachweis:** notizen/… |
+| `wissen` | `bibliothek/` (über die globale Entscheidungsseite) | – |
+
+Feststellungen mit Schwere hoch oder kritisch gibt nur der Engagement Lead, ein Independent Reviewer oder der SME der Domäne frei (Quality Gate).
 
 ---
 
@@ -25,8 +30,8 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## E-002 · NIS2-/BSIG-Betroffenheit
@@ -40,8 +45,8 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## E-003 · Assurance Profile
@@ -55,8 +60,8 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## E-004 · Mandatstemplate und Team
@@ -70,6 +75,6 @@ Alles, was in diesem Mandat fehlt oder offen ist, steht hier – bis ein Mensch 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —

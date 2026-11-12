@@ -5,7 +5,7 @@ Hier landet alles, was für **alle Mandate** fehlt oder offen ist: Methodikfrage
 ## Ablauf
 
 ```
-offen ──▶ vorgeschlagen ──▶ verifiziert ──▶ abgelegt
+offen ──▶ vorgeschlagen ──▶ freigegeben ──▶ abgelegt
   Lücke      Agent/Berater     Mensch           Ergebnis übertragen
   erkannt    mit Grundlagen    entscheidet      (Bibliothek, plan.md, vorschriften.md, Code)
                          └──▶ verworfen
@@ -15,11 +15,13 @@ offen ──▶ vorgeschlagen ──▶ verifiziert ──▶ abgelegt
 |---|---|---|
 | `offen` | Lücke erkannt, noch kein Vorschlag | Agent oder Mensch |
 | `vorgeschlagen` | Optionen und Empfehlung mit Grundlagen (`BIB-…`) | Agent oder Mensch |
-| `verifiziert` | Entscheidung getroffen, Grundlagen geprüft; Name + Datum | **nur Mensch** |
+| `freigegeben` | Entscheidung getroffen, Grundlagen geprüft; Name + Datum | **nur Mensch** |
 | `abgelegt` | Ergebnis ist im Zielartefakt übernommen; „Abgelegt in“ gesetzt | Agent oder Mensch |
 | `verworfen` | nicht weiter verfolgt, mit Begründung | Mensch |
 
-Typen: `klaerung` · `scope` · `einstufung` · `anwendbarkeit` · `wissen` · `methodik` · `risiko` · `finding` · `massnahme` · `organisation`
+Typen: `klaerung` · `scope` · `einstufung` · `anwendbarkeit` · `wissen` · `methodik` · `risiko` · `finding` · `massnahme` · `organisation` – Pflichtfelder für `finding`, `risiko`, `massnahme`: siehe `mandanten/_vorlage/entscheidungen.md`.
+
+„Freigegeben“ heißt überall: Ein namentlich benannter, berechtigter Mensch hat geprüft und genehmigt ([ENT-027]). „Freigegeben von“ nennt Name und Rolle.
 
 Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen und `npm run isms -- pruefen` ausführen.
 
@@ -36,8 +38,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 ```
 
@@ -55,8 +57,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 2 light: an 5 bekannten Kunden rückwirkend durchrechnen, Abweichungen vom Bauchgefühl als Kalibrierungsfälle dokumentieren, dann vorläufig freigeben.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-002 · Untergrenze für NIS2 „wichtige Einrichtung“
@@ -71,8 +73,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1. § 30 Abs. 1 Satz 2 BSIG verlangt ausdrücklich, die Größe der Einrichtung bei der Verhältnismäßigkeit zu berücksichtigen; eine pauschale Einstufung aller wichtigen Einrichtungen in Profil 4 widerspräche dem. Die gesetzlichen Pflichten (Meldewege, Registrierung, Geschäftsleitung) gelten unabhängig davon über [ENT-009].
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-003 · ISO-27001-Zertifizierungsziel → mindestens Profil 2
@@ -84,11 +86,11 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Optionen:**
   1. Untergrenze Profil 2 beibehalten
   2. Untergrenze streichen; Lean-Profil um zertifizierungsrelevante Pflichtartefakte ergänzen
-- **Vorschlag:** Option 1. Hinweis: BIB-ISO27001 ist noch nicht verifiziert ([ENT-014]).
+- **Vorschlag:** Option 1. Hinweis: BIB-ISO27001 ist noch nicht freigegeben ([ENT-014]).
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-004 · Kundenrollen ISMS Manager/CISO und ISMS Coordinator getrennt führen
@@ -103,8 +105,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1 (aktueller Stand).
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-005 · Wer bestätigt kritische Findings?
@@ -119,8 +121,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1 (aktueller Stand).
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-006 · Zweitprüfung kritischer Findings in Lean-Mandaten mit nur einem Senior
@@ -135,8 +137,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-007 · Ab wann sieht der Kunde Findings?
@@ -151,8 +153,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1 (aktueller Stand) – Findings werden immer zuerst besprochen, nicht zugestellt.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-008 · Third-Party Pre-Assessment
@@ -167,8 +169,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-009 · Gesetzliche Pflichten als profilunabhängige Pflichtmodule
@@ -183,8 +185,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1. NIS2-Modul: Registrierung (3 Monate, Änderungen 2 Wochen), Meldeworkflow 24 h / 72 h / 1 Monat, Geschäftsleitung umsetzen/überwachen/Schulung plus dokumentierte Billigung, alle zehn Bereiche nach § 30 Abs. 2 als Pflicht-Prüfbereiche. KRITIS-Modul: Nachweis alle 3 Jahre. DSGVO-Modul: Meldung 72 h, TOM-Wirksamkeitsprüfung.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-010 · Anlässe für eine Neubewertung des Profils
@@ -199,8 +201,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1. Anlässe: Umstrukturierung/M&A, Wechsel der Größenklasse, neue Einrichtungsart, Einführung von OT oder kritischer KI, neue kritische Lieferanten, Gesetzesänderung. Änderungen der Registrierungsdaten lösen zusätzlich die 2-Wochen-Meldung aus.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-011 · Nur DT Agency oder mehrere Beratungshäuser?
@@ -215,8 +217,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-012 · Wo liegen Mandatsdaten?
@@ -232,27 +234,27 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
-## ENT-013 · Wer darf verifizieren?
+## ENT-013 · Wer darf freigeben?
 - **Status:** offen
 - **Typ:** organisation
 - **Ausgelöst durch:** Statusmodell von Bibliothek und Entscheidungen verlangt benannte Menschen
 - **Betrifft:** plan.md §6, CLAUDE.md
 - **Grundlagen:** —
-- **Eingaben:** Chat 2026-11-12: Paul verifiziert die ISO-Bibliothekseinträge
+- **Eingaben:** Chat 2026-11-12: Paul gibt die ISO-Bibliothekseinträge frei
 - **Optionen:**
   1. Bibliothek und Methodik: Methodik-Verantwortliche/r; Mandatsentscheidungen: Engagement Lead; Risikoakzeptanz und Scope: Kunde (Executive Sponsor / Risk Owner)
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
-## ENT-014 · Zugang zu lizenzierten Normen und Verifikation der ISO-Einträge
+## ENT-014 · Zugang zu lizenzierten Normen und Freigabe der ISO-Einträge
 - **Status:** vorgeschlagen
 - **Typ:** wissen
 - **Ausgelöst durch:** BIB-ISO27001 ohne Normexemplar nicht verifizierbar; am 2026-11-12 Projektaufbereitungen aus DIN EN ISO/IEC 27001:2024-01, DIN EN ISO/IEC 27002:2024-01 (TÜV-Süd-Akademie-E-Book) und ISO/IEC 27000:2018 geliefert
@@ -260,14 +262,14 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Grundlagen:** BIB-ISO27000, BIB-ISO27001, BIB-ISO27002
 - **Eingaben:** docs/vorgaben/eingang-2026-11-12/, docs/vorgaben/pruefbericht-2026-11-12.md; Chat 2026-11-12: Paul übernimmt den Abgleich
 - **Optionen:**
-  1. Ein Mensch mit Zugriff auf die E-Books gleicht die drei Einträge ab (Kurztitel, Abschnittsnummern, Kernaussagen) und verifiziert sie
+  1. Ein Mensch mit Zugriff auf die E-Books gleicht die drei Einträge ab (Kurztitel, Abschnittsnummern, Kernaussagen) und gibt sie frei
   2. zusätzlich Amd 1:2024 beschaffen und als eigenen Eintrag erfassen
 - **Vorschlag:** Option 1 durch Paul, Option 2 danach. Lizenz- und Urheberrechtsfrage getrennt in [ENT-026].
-- **Zuständig:** Paul (laut Chat 2026-11-12) – Rolle für den Verifikationsvermerk noch angeben
+- **Zuständig:** Paul (laut Chat 2026-11-12) – Rolle für den Freigabevermerk noch angeben
 - **Vorgeschlagen von:** Agent bibliothek, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-015 · Wissen fehlt: „kritische Anlage“ und KRITIS-Dachgesetz
@@ -281,8 +283,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-016 · Wissen fehlt: KMU-Anhang Art. 3–5 (verbundene Unternehmen, Jahresarbeitseinheiten)
@@ -296,8 +298,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-017 · Wissen fehlt: weitere Regelwerke
@@ -312,8 +314,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-018 · Einheitliches Bewertungsstatusmodell
@@ -331,8 +333,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** C mit 018.1 englische Codes / deutsche Bezeichnungen, 018.2 ja, 018.3 ja – Begründung und Beispiele in der Entscheidungsvorlage. Die 8-Werte-Liste mischt Anwendbarkeit, Bearbeitungsstand, Beweislage und Ergebnis und lässt das Assurance Profile in der Bewertung folgenlos.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-019 · Größenklassen: Rolle von micro / sme / enterprise
@@ -349,8 +351,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** C. micro/sme/enterprise verwischt die NIS2-Schwelle bei 50 Beschäftigten (sme = klein + mittel); die KMU-Klassen tun das nicht. Größe beeinflusst, wie geprüft wird, nie was und wie tief.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-020 · Leistungsarten und Mandatstypen zusammenführen
@@ -366,8 +368,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1; Product Security Assessment zuerst, weil es der Pilotfall braucht ([ENT-021]).
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-021 · Getrennte, verknüpfte Scopes für Organisation und Produkt (Pilotfall)
@@ -383,8 +385,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-022 · Risikomethode für Mandate
@@ -400,8 +402,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-023 · SoA referenziert ISO/IEC 27001 Anhang A, nicht ISO/IEC 27002
@@ -417,8 +419,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Option 1 – das SoA ist eine Anforderung der ISO/IEC 27001 (6.1.3) und bezieht sich auf deren Anhang A.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-024 · Prüfimpulse und Nachweise je Control ausarbeiten
@@ -434,8 +436,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-025 · Zuordnung § 30 Abs. 2 BSIG → ISO/IEC 27001 Anhang A freigeben
@@ -451,8 +453,8 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** Erst Option 2 prüfen (Agent bibliothek); bis dahin Option 1 als Arbeitsgrundlage, gekennzeichnet als Auslegung.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-026 · Urheberrecht und Lizenz: Umgang mit Norminhalten
@@ -469,26 +471,26 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** 1 sofort, 3 vor P1; 2 nur, falls die Lizenz Auszüge nicht erlaubt. Kundenberichte enthalten bis dahin nur Abschnittsnummern und eigene Texte. Begründung: Gesetze sind frei (§ 5 Abs. 1 UrhG), Normen bleiben geschützt (§ 5 Abs. 3); eine Überarbeitung ist nur frei, wenn sie hinreichenden Abstand hält (§ 23 Abs. 1) – Lizenzbedingungen gelten zusätzlich.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-027 · Ein Freigabebegriff und ein Finding-Ablauf
 - **Status:** vorgeschlagen
 - **Typ:** methodik
-- **Ausgelöst durch:** Entscheidungsvorlage Statusmodell: „verifiziert“ hat drei Bedeutungen; Findings laufen doppelt (Entscheidungsseite und Plattform-Code)
+- **Ausgelöst durch:** Entscheidungsvorlage Statusmodell: „verifiziert“ hatte drei Bedeutungen; Findings laufen doppelt (Entscheidungsseite und Plattform-Code)
 - **Betrifft:** vorschriften.md §A9, src/engagement/findings.ts, db/migrations, Vorlage entscheidungen.md
 - **Grundlagen:** —
 - **Eingaben:** docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md
 - **Optionen:**
-  A. „verifiziert“ überall = benannter, berechtigter Mensch hat geprüft/entschieden; Findings über die Entscheidungsseite, Feld „Kundenreaktion“; Plattform-Code übernimmt die Stufen
+  A. ein Begriff überall = benannter, berechtigter Mensch hat geprüft/entschieden; Findings über die Entscheidungsseite, Feld „Kundenreaktion“; Plattform-Code übernimmt die Stufen
   B. eigene Begriffe je Objekt (verifiziert, freigegeben, bestätigt)
   C. nur Zuordnungstabelle
 - **Vorschlag:** A
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —
 
 ## ENT-028 · Lebenszyklen für Nachweis, Risiko, Maßnahme, Mandat und isms.md
@@ -505,6 +507,6 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** A
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
-- **Verifiziert von:** —
-- **Verifiziert am:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
 - **Abgelegt in:** —

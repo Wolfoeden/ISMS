@@ -108,35 +108,44 @@ describe('Multi-Role Support & Segregation not feasible (§18)', () => {
   });
 });
 
-describe('Quality Gate für Findings (§22)', () => {
+describe('Quality Gate für Feststellungen (§22, ENT-027)', () => {
   const m = iso27001Mandate(3);
-  const draft: Finding = { id: 'F-9', mandateId: 'M-1', status: 'draft', severity: 'high', authorId: 'anna', aiAssisted: true };
+  const entwurf: Finding = { id: 'F-9', mandateId: 'M-1', status: 'open', customerResponse: 'pending', severity: 'high', authorId: 'anna', aiAssisted: true };
+  const mensch = (personId: string) => ({ kind: 'human' as const, personId });
 
   it('KI erstellt Entwürfe, löst aber keinen Statuswechsel aus', () => {
-    expect(transitionFinding(m, draft, 'submit', { kind: 'ai', system: 'assistant' }).ok).toBe(false);
+    expect(transitionFinding(m, entwurf, 'submit', { kind: 'ai', system: 'assistant' }).ok).toBe(false);
   });
 
-  it('Junior reicht ein, bestätigt aber nicht', () => {
-    expect(transitionFinding(m, draft, 'submit', { kind: 'human', personId: 'anna' })).toEqual({ ok: true, status: 'in_review' });
-    const inReview = { ...draft, status: 'in_review' as const };
-    expect(transitionFinding(m, inReview, 'confirm', { kind: 'human', personId: 'anna' }).ok).toBe(false);
+  it('Junior schlägt vor, gibt aber nicht frei', () => {
+    expect(transitionFinding(m, entwurf, 'submit', mensch('anna'))).toEqual({ ok: true, state: { status: 'proposed', customerResponse: 'pending' } });
+    expect(transitionFinding(m, { ...entwurf, status: 'proposed' }, 'approve', mensch('anna')).ok).toBe(false);
   });
 
-  it('kritisches Finding: Consultant darf nicht bestätigen, Engagement Lead schon', () => {
-    const inReview = { ...draft, status: 'in_review' as const };
-    expect(transitionFinding(m, inReview, 'confirm', { kind: 'human', personId: 'lisa' }).ok).toBe(false);
-    expect(transitionFinding(m, inReview, 'confirm', { kind: 'human', personId: 'paul' })).toEqual({ ok: true, status: 'confirmed' });
+  it('kritische Feststellung: Consultant darf nicht freigeben, Engagement Lead schon', () => {
+    const vorgeschlagen = { ...entwurf, status: 'proposed' as const };
+    expect(transitionFinding(m, vorgeschlagen, 'approve', mensch('lisa')).ok).toBe(false);
+    expect(transitionFinding(m, vorgeschlagen, 'approve', mensch('paul'))).toEqual({ ok: true, state: { status: 'approved', customerResponse: 'pending' } });
   });
 
-  it('Vier-Augen: Autor bestätigt eigenes Finding nicht', () => {
-    const own = { ...draft, status: 'in_review' as const, authorId: 'paul' };
-    expect(transitionFinding(m, own, 'confirm', { kind: 'human', personId: 'paul' }).ok).toBe(false);
+  it('Vier-Augen: wer verfasst hat, gibt nicht frei', () => {
+    expect(transitionFinding(m, { ...entwurf, status: 'proposed', authorId: 'paul' }, 'approve', mensch('paul')).ok).toBe(false);
   });
 
-  it('Kunde sieht Findings erst ab Customer Discussion', () => {
-    expect(visibleToCustomer('draft')).toBe(false);
-    expect(visibleToCustomer('confirmed')).toBe(false);
-    expect(visibleToCustomer('customer_discussion')).toBe(true);
+  it('Kundenreaktion erst nach Ablage; bestritten → erneute Prüfung', () => {
+    const abgelegt = { ...entwurf, status: 'filed' as const };
+    expect(transitionFinding(m, { ...entwurf, status: 'approved' }, 'discuss', mensch('paul')).ok).toBe(false);
+    expect(transitionFinding(m, abgelegt, 'discuss', mensch('lisa'))).toEqual({ ok: true, state: { status: 'filed', customerResponse: 'discussed' } });
+    const besprochen = { ...abgelegt, customerResponse: 'discussed' as const };
+    expect(transitionFinding(m, besprochen, 'dispute', mensch('md'))).toEqual({ ok: true, state: { status: 'filed', customerResponse: 'disputed' } });
+    expect(transitionFinding(m, { ...besprochen, customerResponse: 'disputed' }, 'rereview', mensch('paul')))
+      .toEqual({ ok: true, state: { status: 'proposed', customerResponse: 'pending' } });
+  });
+
+  it('Kunde sieht Feststellungen erst nach Ablage und Besprechung', () => {
+    expect(visibleToCustomer({ status: 'approved', customerResponse: 'pending' })).toBe(false);
+    expect(visibleToCustomer({ status: 'filed', customerResponse: 'pending' })).toBe(false);
+    expect(visibleToCustomer({ status: 'filed', customerResponse: 'discussed' })).toBe(true);
   });
 });
 

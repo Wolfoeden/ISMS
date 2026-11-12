@@ -11,8 +11,8 @@ quellen:
   - https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32003H0361
 stand_der_quelle: 2003-05-06
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-11-12
 ---
 # KMU-Definition – Schwellenwerte
@@ -33,7 +33,7 @@ naechste_pruefung: 2027-11-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Die Schwellen in § 28 BSIG (50 / 10 / 10 und 250 / 50 / 43) entsprechen diesen Größenklassen; Fragebogen `ORG-01`, `STA-06`, `STA-07`, `STA-08`.
 - Größenklassen kleinst / klein / mittel / groß als abgeleitete Eingangsgröße: Vorschlag in [ENT-019].

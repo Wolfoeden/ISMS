@@ -13,8 +13,8 @@ quellen:
   - https://www.gesetze-im-internet.de/urhg/
 stand_der_quelle: 2026-05-26
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # Urheberrecht – Normen und daraus abgeleitete Unterlagen
@@ -42,7 +42,7 @@ Anlass: Frage, ob überarbeitete Fassungen von ISO-Normen im Repository und in d
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – keine Rechtsberatung; verbindlich erst nach Verifikation.*
+*Auslegung – keine Rechtsberatung; verbindlich erst nach Freigabe.*
 
 | Inhalt | Einschätzung |
 |---|---|

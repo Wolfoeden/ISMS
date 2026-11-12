@@ -10,15 +10,15 @@ quellen:
   - docs/vorgaben/eingang-2026-11-12/ISO-27002-Controls.md (Projektaufbereitung, SHA256 a36d621e…)
 stand_der_quelle: 2024-01-01
 erfasst_von: Agent bibliothek aus Projektaufbereitung, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # ISO/IEC 27002:2022 – Control-Katalog
 
-**Kein Normtext.** Nur Kennungen, Kurztitel und eigene Einordnung. Prüfimpulse und Nachweisbeispiele sind DT-Agency-Vorschläge, keine Normanforderungen. Verifikation durch einen Menschen mit Normexemplar ([ENT-014]).
+**Kein Normtext.** Nur Kennungen, Kurztitel und eigene Einordnung. Prüfimpulse und Nachweisbeispiele sind DT-Agency-Vorschläge, keine Normanforderungen. Freigabe durch einen Menschen mit Normexemplar ([ENT-014]).
 
-## Kernaussagen (zu verifizieren)
+## Kernaussagen (vor Freigabe mit dem Normexemplar abzugleichen)
 
 1. **Leitfaden, keine Zertifizierungsnorm.** ISO/IEC 27002 erläutert Auswahl und Umsetzung von Maßnahmen; die Anforderungen an ein ISMS stehen in ISO/IEC 27001 ([BIB-ISO27001]).
 2. **93 Maßnahmen in vier Themen:** 5 organisatorisch (37), 6 personenbezogen (8), 7 physisch (14), 8 technologisch (34). Die Kennungen entsprechen Anhang A der ISO/IEC 27001:2022 (dort mit Präfix „A.“).
@@ -146,7 +146,7 @@ Nachweiskategorien (Beispiele, nicht normativ): **RL** Richtlinie, Versionshisto
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Je Control drei **getrennte** Bewertungsfelder: Anwendbarkeit · Umsetzung · Wirksamkeit (`vorschriften.md` §A8).
 - Erforderliche Umsetzungstiefe 1–4 nach Assurance Profile und Risikotreibern (`src/proportionality/controls.ts`).

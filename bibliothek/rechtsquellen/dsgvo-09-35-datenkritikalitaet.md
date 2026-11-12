@@ -11,8 +11,8 @@ quellen:
   - https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679
 stand_der_quelle: 2016-05-04
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-11-12
 ---
 # DSGVO – Besondere Kategorien (Art. 9) und DSFA (Art. 35)
@@ -30,7 +30,7 @@ naechste_pruefung: 2027-11-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - `INF-03` = `large_scale` → Informationsdimension 4 und Untergrenze F6 (mind. Profil 3) in der Methodik ([BIB-MET-PROFIL]).
 - `INF-03` ≠ `none` oder `KI-04` = `ja` → Prüfpunkt DSFA; `REG-04` = `extended`.

@@ -1,4 +1,4 @@
-import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
@@ -162,47 +162,108 @@ describe('Iterationszyklus an einem fiktiven Mandat', () => {
     expect(einstufung(root, 'muster')).toMatch(/Noch nicht ableitbar[\s\S]*REG-02/);
   });
 
-  it('2 · Agent darf nicht verifizieren', () => {
+  it('2 · Agent darf nicht freigeben', () => {
     const e = lies('entscheidungen.md');
-    schreibe('entscheidungen.md', e.replace(/(## E-002[\s\S]*?)- \*\*Status:\*\* offen/, '$1- **Status:** verifiziert')
+    schreibe('entscheidungen.md', e.replace(/(## E-002[\s\S]*?)- \*\*Status:\*\* offen/, '$1- **Status:** freigegeben')
       .replace(/(## E-002[\s\S]*?)- \*\*Entscheidung:\*\* —/, '$1- **Entscheidung:** wichtige Einrichtung')
-      .replace(/(## E-002[\s\S]*?)- \*\*Verifiziert von:\*\* —/, '$1- **Verifiziert von:** Agent einstufung')
-      .replace(/(## E-002[\s\S]*?)- \*\*Verifiziert am:\*\* —/, '$1- **Verifiziert am:** 2026-11-12'));
-    expect(pruefung().join()).toMatch(/E-002: "Verifiziert von" muss ein Mensch sein/);
+      .replace(/(## E-002[\s\S]*?)- \*\*Freigegeben von:\*\* —/, '$1- **Freigegeben von:** Agent einstufung')
+      .replace(/(## E-002[\s\S]*?)- \*\*Freigegeben am:\*\* —/, '$1- **Freigegeben am:** 2026-11-12'));
+    expect(pruefung().join()).toMatch(/E-002: "Freigegeben von" muss ein Mensch sein/);
   });
 
-  it('3 · Mensch verifiziert, Agent legt ab → Profil 4 wird ableitbar', () => {
+  it('3 · Mensch gibt frei, Agent legt ab → Profil 4 wird ableitbar', () => {
     schreibe('entscheidungen.md', lies('entscheidungen.md')
-      .replace('- **Verifiziert von:** Agent einstufung', '- **Verifiziert von:** Erika Beispiel, Engagement Lead'));
+      .replace('- **Freigegeben von:** Agent einstufung', '- **Freigegeben von:** Erika Beispiel, Engagement Lead'));
     expect(status().schritte[0]).toMatchObject({ agent: 'isms-pruefung', text: expect.stringMatching(/ablegen: E-002/) });
 
     const fb = lies('fragebogen.md').replace('- [ ] `important_entity`', '- [x] `important_entity`')
       .replace(/(### REG-02[\s\S]*?)Quelle:\n/, '$1Quelle: E-002\n');
     schreibe('fragebogen.md', fb);
     schreibe('entscheidungen.md', lies('entscheidungen.md')
-      .replace(/(## E-002[\s\S]*?)- \*\*Status:\*\* verifiziert/, '$1- **Status:** abgelegt')
+      .replace(/(## E-002[\s\S]*?)- \*\*Status:\*\* freigegeben/, '$1- **Status:** abgelegt')
       .replace(/(## E-002[\s\S]*?)- \*\*Abgelegt in:\*\* —/, '$1- **Abgelegt in:** fragebogen.md REG-02'));
     expect(pruefung()).toEqual([]);
     expect(einstufung(root, 'muster')).toMatch(/Profil 4 – Critical \/ Regulated/);
     expect(status().einstufung.empfehlung).toMatch(/^Profil 4/);
   });
 
-  it('4 · isms.md lehnt Unverifiziertes ab – außer unter „Offene Punkte“', () => {
+  it('4 · isms.md lehnt nicht Freigegebenes ab – außer unter „Offene Punkte“', () => {
     const isms = lies('isms.md');
     schreibe('isms.md', isms.replace('| NIS2 / BSIG | | |', '| NIS2 / BSIG | wichtige Einrichtung | [E-002] |'));
     expect(pruefung()).toEqual([]);
     schreibe('isms.md', isms.replace('| Assurance Profile | | |', '| Assurance Profile | Profil 4 | [E-003], [BIB-BSIG-28], [STA-08] |'));
     expect(pruefung()).toEqual([
-      '[E-003] Entscheidung nicht verifiziert (offen)',
-      '[BIB-BSIG-28] Bibliothekseintrag nicht verifiziert (quellengeprueft)',
+      '[E-003] Entscheidung nicht freigegeben (offen)',
+      '[BIB-BSIG-28] Bibliothekseintrag nicht freigegeben (quellengeprueft)',
       '[STA-08] Frage ist nicht beantwortet',
     ]);
+    schreibe('isms.md', isms);
   });
 
-  it('4b · ISO/IEC 27001 Abschnitte 4–10 können nicht „not_applicable“ sein', () => {
+  it('4b · ISO/IEC 27001 Abschnitte 4–10 kennen keine Nichtanwendbarkeit', () => {
     const isms = lies('isms.md');
-    schreibe('isms.md', isms.replace('| Abschnitt | Status | Evidenz | Grundlage |\n|---|---|---|---|', '| Abschnitt | Status | Evidenz | Grundlage |\n|---|---|---|---|\n| 6.1.2 | not_applicable | – | |'));
-    expect(pruefung().join()).toMatch(/Abschnitte 4–10 dürfen nicht/);
+    const kopf = '| Abschnitt | Erfüllung | Evidenzlage | Berichtsstatus | Nachweise | Grundlage |\n|---|---|---|---|---|---|';
+    schreibe('isms.md', isms.replace(kopf, `${kopf}\n| 6.1.2 | not_applicable | none | not_applicable | – | [E-002] |`));
+    expect(pruefung().join()).toMatch(/Erfüllung „not_applicable“ ungültig/);
+    schreibe('isms.md', isms);
+  });
+
+  it('4c · Berichtsstatus wird nachgerechnet; „ausreichend“ braucht einen geeigneten Nachweis', () => {
+    const isms = lies('isms.md');
+    const zeile = (ums: string, ev: string, st: string, nw: string) =>
+      `| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | applicable | 2 | ${ums} | not_verified | ${ev} | ${st} | ${nw} | [E-002] |`;
+    const leer = '| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | | | | | | | | |';
+    mkdirSync(join(mandat(), 'notizen'), { recursive: true });
+    writeFileSync(join(mandat(), 'notizen', 'interview.md'), '---\nart: claim\nquelle: Interview GF\ndatum: 2026-11-20\nerfasst_von: Anna Beispiel\n---\nMFA ist überall aktiv.\n');
+    writeFileSync(join(mandat(), 'notizen', 'mfa-export.md'), '---\nart: evidence\nquelle: Export IdP\ndatum: 2026-11-21\nerfasst_von: Anna Beispiel\npruefung: geeignet\ngeprueft_von: Erika Beispiel, Engagement Lead\ngueltig_bis: —\n---\n');
+
+    schreibe('isms.md', isms.replace(leer, zeile('present', 'claim_only', 'met', 'notizen/interview.md')));
+    expect(pruefung().join()).toMatch(/Berichtsstatus „met“ folgt nicht aus den Achsen – berechnet: insufficient_evidence/);
+
+    schreibe('isms.md', isms.replace(leer, zeile('present', 'sufficient', 'met', 'notizen/interview.md')));
+    expect(pruefung().join()).toMatch(/R1: Evidenzlage „ausreichend“ ohne geeigneten Nachweis/);
+
+    schreibe('isms.md', isms.replace(leer, zeile('present', 'sufficient', 'met', 'notizen/mfa-export.md')));
+    expect(pruefung()).toEqual([]);
+
+    schreibe('isms.md', isms.replace(leer, zeile('present', 'sufficient', 'met', 'notizen/mfa-export.md').replace(' [E-002] |', ' |')));
+    expect(pruefung().join()).toMatch(/Ergebniszeile ohne Grundlage/);
+    schreibe('isms.md', isms);
+  });
+
+  it('4d · Formulierungen: keine Konformitätsbehauptung, Auditbegriffe nur im Audit-Mandat', () => {
+    const isms = lies('isms.md');
+    const urteil = (t: string) => isms.replace('| Gesamturteil | | |', `| Gesamturteil | ${t} | [E-002] |`);
+    schreibe('isms.md', urteil('Das Unternehmen ist NIS2-konform.'));
+    expect(pruefung().join()).toMatch(/Formulierung „NIS2-konform“/);
+    schreibe('isms.md', urteil('Für Prüfbereich 9 wurde eine Nichtkonformität festgestellt.'));
+    expect(pruefung().join()).toMatch(/Auditbegriff außerhalb eines Audit-Mandats/);
+    schreibe('isms.md', urteil('Für Prüfbereich 9 wurde eine Nichtkonformität festgestellt.').replace('leistungsart: offen', 'leistungsart: internal_audit'));
+    expect(pruefung()).toEqual([]);
+    schreibe('isms.md', urteil('Im vereinbarten Prüfumfang lagen für 7 von 10 Prüfbereichen ausreichende Nachweise vor.'));
+    expect(pruefung()).toEqual([]);
+    schreibe('isms.md', isms);
+  });
+
+  it('4e · Lebenszyklen: Feststellung braucht Schwere, Restrisiko nur durch Risk Owner', () => {
+    const e = lies('entscheidungen.md');
+    const block = (id: string, typ: string, extra: string, status = 'vorgeschlagen', von = '—') =>
+      `\n## ${id} · Test\n- **Status:** ${status}\n- **Typ:** ${typ}\n- **Betrifft:** isms.md\n- **Eingaben:** notizen/interview.md\n${extra}- **Vorschlag:** x\n- **Entscheidung:** x\n- **Freigegeben von:** ${von}\n- **Freigegeben am:** 2026-11-12\n- **Abgelegt in:** —\n`;
+    schreibe('entscheidungen.md', e + block('E-090', 'finding', '- **Kundenreaktion:** offen\n'));
+    expect(pruefung().join()).toMatch(/E-090: Feld „schwere“ fehlt/);
+    schreibe('entscheidungen.md', e + block('E-091', 'risiko', '- **Phase:** restrisiko_akzeptiert\n', 'freigegeben', 'Erika Beispiel, Engagement Lead'));
+    expect(pruefung().join()).toMatch(/E-091: Risikoakzeptanz nur durch Risk Owner/);
+    schreibe('entscheidungen.md', e + block('E-091', 'risiko', '- **Phase:** restrisiko_akzeptiert\n', 'abgelegt', 'Max Muster, Risk Owner').replace('- **Abgelegt in:** —', '- **Abgelegt in:** isms.md §7'));
+    expect(pruefung().join()).not.toMatch(/E-091/);
+    schreibe('entscheidungen.md', e);
+  });
+
+  it('4f · isms.md wird nur mit vollständigem Prüfergebnis und ausgewiesenen offenen Punkten freigegeben', () => {
+    const isms = lies('isms.md');
+    schreibe('isms.md', isms.replace('status: entwurf', 'status: freigegeben'));
+    const f = pruefung().join();
+    expect(f).toMatch(/§10 „Gesamturteil“ fehlt/);
+    expect(f).toMatch(/§10 „Freigabe DT Agency“ fehlt/);
     schreibe('isms.md', isms);
   });
 

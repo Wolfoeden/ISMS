@@ -4,14 +4,14 @@ titel: Kurzer, eindeutiger Titel
 art: rechtsquelle            # rechtsquelle | norm | leitfaden | methodik
 verbindlichkeit: anforderung  # anforderung | empfehlung | definition | erlaeuterung | interner_standard | vertraglich
 rechtsraum: DE               # DE | EU | international | intern
-status: entwurf              # entwurf | quellengeprueft | verifiziert | veraltet
+status: entwurf              # entwurf | quellengeprueft | freigegeben | veraltet
 quellen:
   - quellen/<snapshot>.txt
   - https://<amtliche-url>
 stand_der_quelle: JJJJ-MM-TT
 erfasst_von: <Agent/Person>, JJJJ-MM-TT
-verifiziert_von:             # nur Mensch: Name, Rolle
-verifiziert_am:              # JJJJ-MM-TT
+freigegeben_von:             # nur Mensch: Name, Rolle
+freigegeben_am:              # JJJJ-MM-TT
 naechste_pruefung: JJJJ-MM-TT
 ---
 # Titel

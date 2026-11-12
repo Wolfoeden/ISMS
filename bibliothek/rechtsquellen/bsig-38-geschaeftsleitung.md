@@ -11,8 +11,8 @@ quellen:
   - https://www.gesetze-im-internet.de/bsig_2025/__38.html
 stand_der_quelle: 2026-10-22
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # NIS2 / BSIG – Pflichten der Geschäftsleitung
@@ -33,7 +33,7 @@ naechste_pruefung: 2027-05-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Für betroffene Einrichtungen ist die Rolle **Executive Sponsor = Geschäftsleitung** nicht delegierbar: Management Review mit dokumentierter Überwachung, Nachweis der Schulung der Geschäftsleitung.
 - Empfehlung: Freigabe (Billigung) der Maßnahmen durch die Geschäftsleitung dokumentieren, obwohl § 38 sie nicht wörtlich verlangt – das erfüllt Umsetzung, Überwachung und Richtlinienwortlaut zugleich. Entscheidung offen: [ENT-009].

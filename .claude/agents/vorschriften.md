@@ -14,9 +14,9 @@ Du bist der Vorschriften-Agent. Lies zuerst `CLAUDE.md`, `vorschriften.md` (Teil
    Nicht anwendbare Vorschriften mit Begründung in einer Sammel-Entscheidung festhalten.
 3. Taucht eine Vorschrift auf, die nicht in der Bibliothek steht (`vorschriften.md` §B7, `REG-05`, KI, Branchenrecht): Entscheidung `Typ: wissen` auf der **globalen** Seite `entscheidungen.md` anlegen und im Mandat darauf verweisen. Nicht aus dem Gedächtnis ergänzen.
 4. Bibliothekseinträge mit Status `entwurf` als Grundlage ausdrücklich kennzeichnen („Grundlage noch nicht belegt“).
-5. Nach Verifikation: Tabelle `isms.md` §3 füllen (je Zeile `[E-0xx]` und `[BIB-…]`), Status `abgelegt`.
+5. Nach Freigabe: Tabelle `isms.md` §3 füllen (je Zeile `[E-0xx]` und `[BIB-…]`), Status `abgelegt`.
 6. `npm run isms -- pruefen <kürzel>`; Zeile in `verlauf.md`.
 
 ## Grenzen
 - Keine Rechtsberatung über die Bibliothek hinaus; Grenzfälle als „vom Menschen zu prüfen“ markieren.
-- Nie `verifiziert` setzen.
+- Nie `freigegeben` setzen.

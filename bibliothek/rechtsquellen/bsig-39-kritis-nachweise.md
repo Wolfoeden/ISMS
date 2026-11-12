@@ -10,8 +10,8 @@ quellen:
   - https://www.gesetze-im-internet.de/bsig_2025/__39.html
 stand_der_quelle: 2026-10-22
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # BSIG – Nachweispflichten für Betreiber kritischer Anlagen
@@ -29,7 +29,7 @@ naechste_pruefung: 2027-05-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Betreiber kritischer Anlagen → Profil 4 (Untergrenze F1) und ein Audit-/Nachweiszyklus von höchstens drei Jahren mit Mängelverfolgung.
 - Unabhängigkeit: Wer beim Betreiber beraten hat, prüft nicht für den Nachweis (Regel I1 im Mandatsmodell).

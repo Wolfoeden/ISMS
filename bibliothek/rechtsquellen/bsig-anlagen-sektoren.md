@@ -12,8 +12,8 @@ quellen:
   - https://www.gesetze-im-internet.de/bsig_2025/anlage_2.html
 stand_der_quelle: 2026-10-22
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # BSIG Anlagen 1 und 2 – Sektoren und Einrichtungsarten
@@ -37,7 +37,7 @@ naechste_pruefung: 2027-05-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Die Auswahloptionen von Fragebogen `STA-04` bilden die Gliederung der Anlagen ab (`src/fragebogen/katalog.ts`). Bei Zweifel an der Zuordnung: Klärungs-Entscheidung, nicht raten.
 - Anlage 1 kann besonders wichtig oder wichtig ergeben, Anlage 2 nur wichtig (siehe [BIB-BSIG-28]).

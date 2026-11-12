@@ -26,7 +26,7 @@ export interface MandatStatus {
   schritte: Schritt[];
 }
 
-const hatEntscheidung = (m: Mandat, typ: string, status: string[] = ['verifiziert', 'abgelegt']) =>
+const hatEntscheidung = (m: Mandat, typ: string, status: string[] = ['freigegeben', 'abgelegt']) =>
   m.entscheidungen.some((e) => e.typ === typ && status.includes(e.status));
 
 export function nis2Eingaben(m: Mandat) {
@@ -79,8 +79,8 @@ export function mandatStatus(ws: Arbeitsbereich, m: Mandat): MandatStatus {
   // --- Nächste Schritte in fester Priorität (plan.md §3) ---
   const s: Schritt[] = [];
   if (befunde.fehler) s.push({ agent: 'qualitaet', text: `${befunde.fehler} Formfehler beheben (npm run isms -- pruefen ${m.kuerzel})` });
-  const zuAblegen = m.entscheidungen.filter((e) => e.status === 'verifiziert');
-  if (zuAblegen.length) s.push({ agent: 'isms-pruefung', text: `Verifizierte Entscheidungen ablegen: ${zuAblegen.map((e) => e.id).join(', ')}` });
+  const zuAblegen = m.entscheidungen.filter((e) => e.status === 'freigegeben');
+  if (zuAblegen.length) s.push({ agent: 'isms-pruefung', text: `Freigegebene Entscheidungen ablegen: ${zuAblegen.map((e) => e.id).join(', ')}` });
   const offen = zaehle('offen');
   if (offen) s.push({ agent: 'erhebung', text: `${offen} Fragen aus notizen/ beantworten oder auf unbekannt setzen` });
   if (unbekanntOhneKlaerung.length) {
@@ -95,7 +95,7 @@ export function mandatStatus(ws: Arbeitsbereich, m: Mandat): MandatStatus {
     s.push({ agent: 'einstufung', text: `Einstufung möglich (${einstufung.empfehlung}) – Profil-Entscheidung vorschlagen` });
   }
   const profilFest = m.entscheidungen.some((e) => e.typ === 'einstufung' && /profil/i.test(e.titel) && e.status === 'abgelegt');
-  if (profilFest && !hatEntscheidung(m, 'anwendbarkeit', ['vorgeschlagen', 'verifiziert', 'abgelegt'])) {
+  if (profilFest && !hatEntscheidung(m, 'anwendbarkeit', ['vorgeschlagen', 'freigegeben', 'abgelegt'])) {
     s.push({ agent: 'vorschriften', text: 'Anwendbare Vorschriften bestimmen und als Anwendbarkeits-Entscheidungen vorschlagen' });
   }
   // Globale Wissenslücken nur, wenn das Mandat auf sie verweist.
@@ -107,7 +107,7 @@ export function mandatStatus(ws: Arbeitsbereich, m: Mandat): MandatStatus {
     s.push({ agent: 'isms-pruefung', text: 'Controls bewerten, Findings und Maßnahmen als Entscheidungen vorschlagen' });
   }
   const warten = m.entscheidungen.filter((e) => e.status === 'vorgeschlagen');
-  if (warten.length) s.push({ agent: 'mensch', mensch: true, text: `Verifizieren: ${warten.map((e) => `${e.id} ${e.titel}`).join(' · ')}` });
+  if (warten.length) s.push({ agent: 'mensch', mensch: true, text: `Freigeben: ${warten.map((e) => `${e.id} ${e.titel}`).join(' · ')}` });
 
   return {
     kuerzel: m.kuerzel,

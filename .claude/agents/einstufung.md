@@ -16,9 +16,9 @@ Du bist der Einstufungs-Agent. Lies zuerst `CLAUDE.md`, `plan.md` §5 und `vorsc
    - Bei Grenzfall beide Profile mit Argumenten aus den Treibern darstellen, Empfehlung begründen.
    - `Grundlagen:` BIB-MET-PROFIL plus die Bibliothekseinträge der ausgelösten Untergrenzen.
 4. `Vorgeschlagen von: Agent einstufung, <Datum>`.
-5. Nach Verifikation durch den Engagement Lead: `REG-02` im Fragebogen mit `Quelle: E-002` setzen bzw. Profil in `isms.md` §2 und §4 eintragen (Parameter aus `src/proportionality/parameters.ts`), dann `Status: abgelegt`.
+5. Nach Freigabe durch den Engagement Lead: `REG-02` im Fragebogen mit `Quelle: E-002` setzen bzw. Profil in `isms.md` §2 und §4 eintragen (Parameter aus `src/proportionality/parameters.ts`), dann `Status: abgelegt`.
 6. `npm run isms -- pruefen <kürzel>`; Zeile in `verlauf.md`.
 
 ## Grenzen
 - Profil nie unter eine Untergrenze vorschlagen, nie herabstufen ohne ausdrückliche Anweisung des Engagement Lead.
-- Nie `verifiziert` setzen.
+- Nie `freigegeben` setzen.

@@ -6,7 +6,7 @@ import { dirname, join, relative } from 'node:path';
 import { leseFragebogen, type Fragebogen } from '../fragebogen/fragebogen.js';
 import { leseEntscheidungen, leseFrontmatter, leseZitate, type Entscheidung, type Frontmatter, type Zitat } from './markdown.js';
 
-export const BIBLIOTHEK_STATUS = ['entwurf', 'quellengeprueft', 'verifiziert', 'veraltet'] as const;
+export const BIBLIOTHEK_STATUS = ['entwurf', 'quellengeprueft', 'freigegeben', 'veraltet'] as const;
 /** vorschriften.md §A1 Nr. 2 */
 export const VERBINDLICHKEIT = ['anforderung', 'empfehlung', 'definition', 'erlaeuterung', 'interner_standard', 'vertraglich'] as const;
 
@@ -24,6 +24,8 @@ export interface Mandat {
   fragebogen?: Fragebogen;
   entscheidungen: Entscheidung[];
   ismsMd?: string;
+  /** Kopfzeilen der Notizen (Dateiname → Frontmatter), ohne README.md */
+  notizen: Map<string, Frontmatter>;
   vorhanden: Record<'fragebogen' | 'entscheidungen' | 'isms' | 'verlauf', boolean>;
 }
 
@@ -71,9 +73,17 @@ export function ladeMandat(root: string, kuerzel: string): Mandat {
     isms: existsSync(p('isms.md')),
     verlauf: existsSync(p('verlauf.md')),
   };
+  const notizen = new Map<string, Frontmatter>();
+  const nDir = p('notizen');
+  if (existsSync(nDir)) {
+    for (const n of readdirSync(nDir)) {
+      if (n.endsWith('.md') && n !== 'README.md') notizen.set(n, leseFrontmatter(lies(join(nDir, n))).fm);
+    }
+  }
   return {
     kuerzel,
     ordner,
+    notizen,
     ...(vorhanden.fragebogen ? { fragebogen: leseFragebogen(lies(p('fragebogen.md'))) } : {}),
     entscheidungen: vorhanden.entscheidungen ? leseEntscheidungen(lies(p('entscheidungen.md'))) : [],
     ...(vorhanden.isms ? { ismsMd: lies(p('isms.md')) } : {}),

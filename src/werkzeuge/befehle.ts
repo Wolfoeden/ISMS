@@ -77,11 +77,11 @@ export function index(root: string): string {
     '',
     `> Automatisch erzeugt mit \`npm run isms -- index\` am ${heute()}. Nicht von Hand bearbeiten.`,
     '',
-    '| ID | Titel | Art | Status | Verifiziert | Nächste Prüfung | Datei |',
+    '| ID | Titel | Art | Status | Freigegeben | Nächste Prüfung | Datei |',
     '|---|---|---|---|---|---|---|',
     ...ws.bibliothek
       .sort((a, b) => a.id.localeCompare(b.id))
-      .map((e) => `| ${e.id} | ${fmString(e.fm, 'titel')} | ${fmString(e.fm, 'art')} | ${e.status} | ${fmString(e.fm, 'verifiziert_von') || '—'} | ${fmString(e.fm, 'naechste_pruefung') || '—'} | [${e.datei.replace('bibliothek/', '')}](${e.datei.replace('bibliothek/', '')}) |`),
+      .map((e) => `| ${e.id} | ${fmString(e.fm, 'titel')} | ${fmString(e.fm, 'art')} | ${e.status} | ${fmString(e.fm, 'freigegeben_von') || '—'} | ${fmString(e.fm, 'naechste_pruefung') || '—'} | [${e.datei.replace('bibliothek/', '')}](${e.datei.replace('bibliothek/', '')}) |`),
     '',
     '## Quellen-Snapshots',
     '',

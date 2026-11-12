@@ -12,8 +12,8 @@ Führe genau **eine** Iteration für das Mandat `$ARGUMENTS` aus. Regeln: `CLAUD
 6. Änderungen committen: `Iteration <kürzel>: <Schritt>`.
 7. Abschlussbericht an den Menschen, kurz:
    - was erledigt wurde,
-   - **was der Mensch jetzt verifizieren muss** – je Entscheidung ID, Titel, Vorschlag in einem Satz und die Grundlagen,
+   - **was der Mensch jetzt freigeben muss** – je Entscheidung ID, Titel, Vorschlag in einem Satz und die Grundlagen,
    - welche Fragen an den Kunden gehen (Klärungen),
    - der nächste Schritt laut `status`.
 
-Setze niemals selbst `verifiziert`. Wenn der Mensch im Chat eine Entscheidung trifft, verwende `/verifizieren`.
+Setze niemals selbst `freigegeben`. Wenn der Mensch im Chat eine Entscheidung trifft, verwende `/freigeben`.

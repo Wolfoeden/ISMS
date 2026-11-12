@@ -11,8 +11,8 @@ quellen:
   - https://www.gesetze-im-internet.de/bsig_2025/__32.html
 stand_der_quelle: 2026-10-22
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # NIS2 / BSIG – Meldepflichten
@@ -43,7 +43,7 @@ naechste_pruefung: 2027-05-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Für betroffene Einrichtungen ist ein **Melde-Workflow mit den Fristen 24 h / 72 h / 1 Monat** Pflichtbestandteil des Incident-Managements – unabhängig vom Assurance Profile (Vorschlag [ENT-009]).
 - Prüfpunkte: Erkennung und Bewertung „erheblich“, Rufbereitschaft auch am Wochenende, Zugang zur Meldestelle, Vorlagen, Zusammenspiel mit der Datenschutz-Meldung nach Art. 33 DSGVO ([BIB-DSGVO-32]).

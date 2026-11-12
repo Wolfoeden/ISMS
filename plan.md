@@ -4,17 +4,17 @@
 |---|---|
 | Stand | 2026-11-12 · Entwurf |
 | Gilt für | alle Mandate von DT Agency |
-| Verbindlich | Abschnitte mit offenen Entscheidungen erst nach deren Verifikation |
+| Verbindlich | Abschnitte mit offenen Entscheidungen erst nach deren Freigabe |
 
-Dieser Plan beschreibt, **wie wir Unternehmen einstufen und wie wir daraus eine belastbare ISMS-Prüfung machen** – mit Agents, die Dateien iterativ bearbeiten, und Menschen, die jede verbindliche Aussage verifizieren.
+Dieser Plan beschreibt, **wie wir Unternehmen einstufen und wie wir daraus eine belastbare ISMS-Prüfung machen** – mit Agents, die Dateien iterativ bearbeiten, und Menschen, die jede verbindliche Aussage freigeben.
 
 ---
 
 ## 1. Prinzipien
 
-1. **Nur verifiziertes Wissen.** Eine ISMS-Aussage stützt sich auf einen verifizierten Bibliothekseintrag, eine verifizierte Entscheidung oder eine belegte Fragebogen-Antwort. Nichts aus dem Gedächtnis, nichts geraten.
-2. **Was fehlt, wird entschieden – nicht überbrückt.** Jede Lücke wird als Entscheidung auf der Entscheidungsseite sichtbar: offen → vorgeschlagen → verifiziert → abgelegt.
-3. **Agents bereiten vor, Menschen entscheiden.** Agents erheben, recherchieren, schlagen vor und legen ab. Den Status `verifiziert` setzt nur ein Mensch.
+1. **Nur freigegebenes Wissen.** Eine ISMS-Aussage stützt sich auf einen freigegebenen Bibliothekseintrag, eine freigegebene Entscheidung oder eine belegte Fragebogen-Antwort. Nichts aus dem Gedächtnis, nichts geraten.
+2. **Was fehlt, wird entschieden – nicht überbrückt.** Jede Lücke wird als Entscheidung auf der Entscheidungsseite sichtbar: offen → vorgeschlagen → freigegeben → abgelegt.
+3. **Agents bereiten vor, Menschen entscheiden.** Agents erheben, recherchieren, schlagen vor und legen ab. Den Status `freigegeben` setzt nur ein Mensch.
 4. **Proportional, nicht nach Größe.** Gleiche Anforderungen für alle, Tiefe nach Risiko. Gesetzliche Grundlage: § 30 Abs. 1 Satz 2 BSIG und Art. 21 Abs. 1 NIS2 nennen Risikoexposition, Größe, Kosten, Eintrittswahrscheinlichkeit, Schwere und Auswirkungen ([BIB-BSIG-30]).
 5. **Alles nachvollziehbar.** Jede Änderung ist ein Git-Commit; jede Iteration steht in `verlauf.md`; jede Einstufung trägt ihre Policy-Version.
 
@@ -22,13 +22,13 @@ Dieser Plan beschreibt, **wie wir Unternehmen einstufen und wie wir daraus eine 
 
 | Artefakt | Zweck | Wer bearbeitet |
 |---|---|---|
-| `plan.md` | dieser Plan: Methode, Ablauf, Rollen | Mensch; Agents nur nach verifizierter Entscheidung |
-| `vorschriften.md` | Teil A: Projektvorschriften (Arbeitsweise, Status-, Evidenz- und Rollenmodell); Teil B: welche Regelwerke welche ISMS-Parameter festlegen | Änderungen nur über Entscheidungen; Agent `vorschriften` schlägt vor, Mensch verifiziert |
-| `bibliothek/` | verifiziertes Wissen mit Quellen-Snapshots | Agent `bibliothek` erfasst, Mensch verifiziert |
-| `entscheidungen.md` | Entscheidungsseite für Methodik und Bibliothek (`ENT-…`) | alle; verifizieren nur Menschen |
+| `plan.md` | dieser Plan: Methode, Ablauf, Rollen | Mensch; Agents nur nach freigegebener Entscheidung |
+| `vorschriften.md` | Teil A: Projektvorschriften (Arbeitsweise, Status-, Evidenz- und Rollenmodell); Teil B: welche Regelwerke welche ISMS-Parameter festlegen | Änderungen nur über Entscheidungen; Agent `vorschriften` schlägt vor, Mensch freigegeben |
+| `bibliothek/` | freigegebenes Wissen mit Quellen-Snapshots | Agent `bibliothek` erfasst, Mensch gibt frei |
+| `entscheidungen.md` | Entscheidungsseite für Methodik und Bibliothek (`ENT-…`) | alle; freigeben nur Menschen |
 | `mandanten/<kürzel>/fragebogen.md` | Fakten zum Unternehmen, ankreuzbar, je Antwort eine Quelle | Agent `erhebung` |
-| `mandanten/<kürzel>/entscheidungen.md` | Entscheidungsseite des Mandats (`E-…`) | alle; verifizieren nur Menschen |
-| `mandanten/<kürzel>/isms.md` | **das ISMS-Artefakt** des Unternehmens – nur Verifiziertes | Agent `isms-pruefung` legt ab |
+| `mandanten/<kürzel>/entscheidungen.md` | Entscheidungsseite des Mandats (`E-…`) | alle; freigeben nur Menschen |
+| `mandanten/<kürzel>/isms.md` | **das ISMS-Artefakt** des Unternehmens – nur Freigegebenes | Agent `isms-pruefung` legt ab |
 | `mandanten/<kürzel>/verlauf.md` | Protokoll jeder Iteration | jeder Agent, jeder Mensch |
 | `mandanten/<kürzel>/notizen/` | Rohmaterial: Interviewprotokolle, Dokumente | Berater |
 | `docs/vorgaben/` | Eingangsdokumente (unverändert) und Prüfberichte | Mensch liefert, Agent prüft |
@@ -43,14 +43,14 @@ Dieser Plan beschreibt, **wie wir Unternehmen einstufen und wie wir daraus eine 
   npm run isms --     (Priorität        (erhebt, rechnet,       auf der Entscheidungsseite
   status <kürzel>      siehe unten)       recherchiert)                    │
                                                                            ▼
-  7 nächste Iteration ◀── 6 Ablage im Zielartefakt ◀── 5 Mensch verifiziert
+  7 nächste Iteration ◀── 6 Ablage im Zielartefakt ◀── 5 Mensch gibt frei
                           (fragebogen / isms / bibliothek)   (Name, Datum)
 ```
 
 Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `verlauf.md`. `npm run isms -- status <kürzel>` schlägt die nächsten Schritte in dieser **Priorität** vor:
 
 1. Formfehler beheben (`pruefen`)
-2. verifizierte Entscheidungen ablegen
+2. freigegebene Entscheidungen ablegen
 3. offene Fragebogen-Fragen aus `notizen/` beantworten
 4. für `unbekannt` beantwortete Fragen Klärungs-Entscheidungen anlegen
 5. NIS2-Vorprüfung in die Betroffenheits-Entscheidung übernehmen
@@ -58,9 +58,9 @@ Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `ve
 7. anwendbare Vorschriften vorschlagen, sobald das Profil abgelegt ist
 8. fehlendes Wissen recherchieren (Entscheidungen vom Typ `wissen`)
 9. Controls bewerten, Findings und Maßnahmen vorschlagen
-10. Menschen um Verifikation bitten (alle `vorgeschlagen`)
+10. Menschen um Freigabe bitten (alle `vorgeschlagen`)
 
-**Definition of Done einer ISMS-Prüfung:** `pruefen` fehlerfrei · keine Entscheidung `offen` oder `vorgeschlagen` außer bewusst vertagten (in `isms.md` §11 aufgeführt) · `isms.md` §1–§10 vollständig · Prüfergebnis vom Engagement Lead verifiziert.
+**Definition of Done einer ISMS-Prüfung:** `pruefen` fehlerfrei · keine Entscheidung `offen` oder `vorgeschlagen` außer bewusst vertagten (in `isms.md` §11 aufgeführt) · `isms.md` §1–§10 vollständig · Prüfergebnis vom Engagement Lead freigegeben.
 
 ## 4. Phasen eines Mandats
 
@@ -71,7 +71,7 @@ Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `ve
 | 2 Einstufung | vollständiger Fragebogen | `einstufung` | Vorschläge E-002 NIS2-Betroffenheit, E-003 Assurance Profile | Engagement Lead (Herabstufung zusätzlich QA) |
 | 3 Vorschriften | Profil abgelegt | `vorschriften` | Anwendbarkeits-Entscheidungen, Pflichtmodule | Engagement Lead |
 | 4 Prüfung | Profil + Vorschriften | `isms-pruefung` | Controls mit Tiefe, Evidenz, Findings, Risiken als Vorschläge | Senior/Reviewer gemäß Quality Gate |
-| 5 Ergebnis | verifizierte Findings | `isms-pruefung` | Maßnahmen, Prüfergebnis in `isms.md` §10 | Engagement Lead, Kunde (Risikoakzeptanz) |
+| 5 Ergebnis | freigegebene Findings | `isms-pruefung` | Maßnahmen, Prüfergebnis in `isms.md` §10 | Engagement Lead, Kunde (Risikoakzeptanz) |
 | 6 Betrieb | Anlass oder Turnus | alle | Neubewertung ([ENT-010]) | wie oben |
 
 Querschnittlich: Agent `bibliothek` bei Wissenslücken, Agent `qualitaet` vor jedem Commit.
@@ -115,12 +115,12 @@ Exposure-Score = 0,5 × Spitzenwert + 0,5 × Mittel der Top 3 → Band 1–4. Un
 | Fragebogen ausfüllen (mit Quelle) | ✔ | ✔ |
 | Entscheidung anlegen / vorschlagen | ✔ | ✔ |
 | Bibliothekseintrag `entwurf` / `quellengeprueft` | ✔ (nur mit fehlerfreiem `pruefen`) | ✔ |
-| Status `verifiziert` setzen | ✘ – nur auf ausdrückliche Anweisung eines Menschen im Chat, mit dessen Name | ✔ |
-| Ergebnis ablegen (`abgelegt`) | ✔ nach Verifikation | ✔ |
-| `isms.md` schreiben | ✔ nur Verifiziertes | ✔ |
+| Status `freigegeben` setzen | ✘ – nur auf ausdrückliche Anweisung eines Menschen im Chat, mit dessen Name | ✔ |
+| Ergebnis ablegen (`abgelegt`) | ✔ nach Freigabe | ✔ |
+| `isms.md` schreiben | ✔ nur Freigegebenes | ✔ |
 | Profil herabstufen, Untergrenze ändern, Risiko akzeptieren | ✘ | ✔ |
 
-Wer konkret verifizieren darf, ist in [ENT-013] offen.
+Wer konkret freigeben darf, ist in [ENT-013] offen.
 
 ## 7. Werkzeuge
 
@@ -129,7 +129,7 @@ Wer konkret verifizieren darf, ist in [ENT-013] offen.
 | `npm run isms -- neu <kürzel> "<Name>"` | Mandat aus `mandanten/_vorlage/` anlegen |
 | `npm run isms -- status <kürzel>` | Fortschritt und nächste Schritte |
 | `npm run isms -- einstufung <kürzel>` | NIS2-Vorprüfung und Profilvorschlag als Text für die Entscheidung |
-| `npm run isms -- pruefen [kürzel]` | Konsistenz: Zitate wörtlich, Verifikation durch Menschen, nur Verifiziertes in `isms.md` |
+| `npm run isms -- pruefen [kürzel]` | Konsistenz: Zitate wörtlich, Freigabe durch Menschen, nur Freigegebenes in `isms.md` |
 | `npm run isms -- index` | `bibliothek/index.md` neu erzeugen |
 | `/iteration <kürzel>` | eine Iteration in Claude Code ausführen (`.claude/commands/`) |
 
@@ -138,7 +138,7 @@ Wer konkret verifizieren darf, ist in [ENT-013] offen.
 1. Startkalibrierung an 5 bekannten Kunden ([ENT-001])
 2. Wissenslücken schließen: KRITIS ([ENT-015]), KMU Art. 3–5 ([ENT-016]), weitere Regelwerke nach Bedarf ([ENT-017])
 3. Vertiefte Assessment-Kataloge je Pflicht-Prüfbereich (§ 30 Abs. 2 Nr. 1–10), Tiefe je Profil
-4. ISO-Kataloge verifizieren ([ENT-014]) und Prüfimpulse je Control ausarbeiten ([ENT-024]); SoA nach [ENT-023]
+4. ISO-Kataloge freigeben ([ENT-014]) und Prüfimpulse je Control ausarbeiten ([ENT-024]); SoA nach [ENT-023]
 5. Pilotfall Einzelunternehmer mit Softwareprodukt: getrennte Scopes ([ENT-021]), Product Security Assessment ([ENT-020]), Evidenzregister, Risikomethode ([ENT-022]), Berichtsvorlage
 6. Third-Party Pre-Assessment ([ENT-008])
 7. Aufwandsschätzung aus Ist-Aufwänden

@@ -11,13 +11,13 @@ quellen:
   - quellen/de-bsig-p30.txt
 stand_der_quelle: 2026-11-12
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # Methodik – Ableitung des Assurance Profile
 
-Eigene Methodik von DT Agency. Verbindlich, sobald [ENT-001] verifiziert ist. Details: `docs/01-engagement-proportionality-model.md`, Umsetzung: `src/proportionality/`.
+Eigene Methodik von DT Agency. Verbindlich, sobald [ENT-001] freigegeben ist. Details: `docs/01-engagement-proportionality-model.md`, Umsetzung: `src/proportionality/`.
 
 ## Kernaussagen
 

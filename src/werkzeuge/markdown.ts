@@ -47,7 +47,7 @@ export const fmListe = (fm: Frontmatter, key: string): string[] => {
 // Entscheidungen
 // ---------------------------------------------------------------------------
 
-export const ENTSCHEIDUNG_STATUS = ['offen', 'vorgeschlagen', 'verifiziert', 'abgelegt', 'verworfen'] as const;
+export const ENTSCHEIDUNG_STATUS = ['offen', 'vorgeschlagen', 'freigegeben', 'abgelegt', 'verworfen'] as const;
 export type EntscheidungStatus = (typeof ENTSCHEIDUNG_STATUS)[number];
 
 export const ENTSCHEIDUNG_TYPEN = [

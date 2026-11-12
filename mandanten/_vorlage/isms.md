@@ -2,13 +2,15 @@
 mandant: {{kuerzel}}
 dokument: isms
 status: entwurf
+leistungsart: offen
 stand: {{datum}}
 ---
 # ISMS – {{name}}
 
-> Eigenständiges Artefakt des Mandats. **Hier steht nur Verifiziertes.**
-> Jede Zeile nennt ihre Grundlage: verifizierte Entscheidung (`[E-003]`, `[ENT-002]`), verifizierter Bibliothekseintrag (`[BIB-BSIG-30]`) oder beantwortete Fragebogen-Antwort (`[ORG-01]`).
-> Alles andere gehört auf die Entscheidungsseite. `npm run isms -- pruefen {{kuerzel}}` erzwingt diese Regel.
+> Eigenständiges Artefakt des Mandats. **Hier steht nur Freigegebenes.** Jede Ergebniszeile nennt ihre Grundlage: abgelegte Entscheidung (`[E-003]`, `[ENT-002]`), freigegebener Bibliothekseintrag (`[BIB-BSIG-30]`) oder beantwortete Frage (`[ORG-01]`).
+> Bewertungen in Codes nach `vorschriften.md` §A8; der **Berichtsstatus wird berechnet** und vom Werkzeug nachgerechnet. Formulierungen nach §A17.
+> `status`: `entwurf` → `in_pruefung` → `freigegeben` (nur bei erfüllter Definition of Done). `leistungsart` aus E-004; Auditbegriffe nur bei `internal_audit`.
+> `npm run isms -- pruefen {{kuerzel}}` muss fehlerfrei sein.
 
 ## 1. Organisation und Scope
 
@@ -26,6 +28,7 @@ stand: {{datum}}
 | NIS2 / BSIG | | |
 | Assurance Profile | | |
 | Untergrenzen, Grenzfall, Abweichung | | |
+| Größenklasse und Organisationsform | | |
 | Policy-Version | | |
 
 ## 3. Anwendbare Vorschriften und Pflichten
@@ -56,61 +59,72 @@ stand: {{datum}}
 
 ## 6. Prüfbereiche und Controls
 
-Gliederung nach § 30 Abs. 2 BSIG (`vorschriften.md` §B2.3). Tiefe: 1 Basic · 2 Defined · 3 Managed · 4 Assured. Umsetzung (`unknown` · `absent` · `partial` · `present`) und Wirksamkeit (`not_verified` · `effective` · `ineffective`) werden getrennt bewertet (`vorschriften.md` §A8). Fragebogen-Antworten sind Aussagen, keine Nachweise.
+Gliederung nach § 30 Abs. 2 BSIG (`vorschriften.md` §B2.3). Tiefe 1–4 aus Assurance Profile und Risikotreibern. Codes: Anwendbarkeit `applicable` · `not_applicable` · `undecided` · Umsetzung `unknown` · `absent` · `partial` · `present` · Wirksamkeit `not_verified` · `effective` · `ineffective` · Evidenzlage `none` · `claim_only` · `insufficient` · `sufficient` · `conflicting`. Nachweise als `notizen/<datei>.md`; „ausreichend“ verlangt einen Nachweis mit `art: evidence` und `pruefung: geeignet`.
 
-| Prüfbereich / Control | Anwendbar | Erforderliche Tiefe | Umsetzung | Wirksamkeit | Evidenz | Grundlage |
-|---|---|---|---|---|---|---|
-| 1 Risikoanalyse und Sicherheitskonzepte | | | | | | |
-| 2 Bewältigung von Sicherheitsvorfällen | | | | | | |
-| 3 Betriebskontinuität, Backup, Krisenmanagement | | | | | | |
-| 4 Sicherheit der Lieferkette | | | | | | |
-| 5 Erwerb, Entwicklung, Wartung, Schwachstellen | | | | | | |
-| 6 Bewertung der Wirksamkeit | | | | | | |
-| 7 Schulung und Sensibilisierung | | | | | | |
-| 8 Kryptographie | | | | | | |
-| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | | | | | | |
-| 10 MFA, gesicherte Kommunikation | | | | | | |
+| Prüfbereich / Control | Anwendbarkeit | Tiefe | Umsetzung | Wirksamkeit | Evidenzlage | Berichtsstatus | Nachweise | Grundlage |
+|---|---|---|---|---|---|---|---|---|
+| 1 Risikoanalyse und Sicherheitskonzepte | | | | | | | | |
+| 2 Bewältigung von Sicherheitsvorfällen | | | | | | | | |
+| 3 Betriebskontinuität, Backup, Krisenmanagement | | | | | | | | |
+| 4 Sicherheit der Lieferkette | | | | | | | | |
+| 5 Erwerb, Entwicklung, Wartung, Schwachstellen | | | | | | | | |
+| 6 Bewertung der Wirksamkeit | | | | | | | | |
+| 7 Schulung und Sensibilisierung | | | | | | | | |
+| 8 Kryptographie | | | | | | | | |
+| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | | | | | | | | |
+| 10 MFA, gesicherte Kommunikation | | | | | | | | |
 
 ### 6a. ISO/IEC 27001 Abschnitte 4–10 (nur bei ISO-Mandaten)
 
-Status je Abschnitt: `not_assessed` · `evidence_missing` · `insufficient_evidence` · `partially_met` · `met` · `not_met` · `needs_review` – `not_applicable` ist hier unzulässig. Gliederung: 30 Unterabschnitte laut BIB-ISO27001.
+Pflichtanforderungen: Anwendbarkeit immer `applicable`. Erfüllung `open` · `met` · `partially_met` · `not_met`. Gliederung: 30 Unterabschnitte laut BIB-ISO27001.
 
-| Abschnitt | Status | Evidenz | Grundlage |
-|---|---|---|---|
+| Abschnitt | Erfüllung | Evidenzlage | Berichtsstatus | Nachweise | Grundlage |
+|---|---|---|---|---|---|
 
 ### 6b. Erklärung zur Anwendbarkeit – SoA (nur bei ISO-Mandaten)
 
-Referenz: ISO/IEC 27001 Anhang A (`A.5.1` … `A.8.34`). Nicht gewählte Controls mit Begründung.
+Referenz: ISO/IEC 27001 Anhang A (`A.5.1` … `A.8.34`). Nichtanwendbarkeit nur mit begründeter, freigegebener Entscheidung.
 
-| Control | Anwendbar | Begründung | Umsetzung | Wirksamkeit | Risiken | Grundlage |
-|---|---|---|---|---|---|---|
+| Control | Anwendbarkeit | Begründung | Tiefe | Umsetzung | Wirksamkeit | Evidenzlage | Berichtsstatus | Risiken | Nachweise | Grundlage |
+|---|---|---|---|---|---|---|---|---|---|---|
 
 ## 7. Risiken
 
-| ID | Risiko | Bewertung | Behandlung | Risk Owner | Grundlage |
-|---|---|---|---|---|---|
+Phasen: `identifiziert` · `bewertet` · `behandlung_entschieden` · `restrisiko_akzeptiert` · `in_ueberwachung` · `geschlossen`. Restrisiken akzeptiert nur der Risk Owner.
+
+| ID | Risiko | Bewertung | Behandlung | Phase | Risk Owner | Grundlage |
+|---|---|---|---|---|---|---|
 
 ## 8. Feststellungen
 
-| ID | Feststellung | Schwere | Prüfbereich | Grundlage |
-|---|---|---|---|---|
+Schwere: `gering` · `mittel` · `hoch` · `kritisch`. Kundenreaktion: `offen` · `besprochen` · `akzeptiert` · `bestritten`.
 
-## 9. Maßnahmen
-
-| ID | Maßnahme | Verantwortlich | Frist | Bezug | Grundlage |
+| ID | Feststellung | Schwere | Prüfbereich | Kundenreaktion | Grundlage |
 |---|---|---|---|---|---|
 
+## 9. Empfehlungen und Korrekturmaßnahmen
+
+Phasen: `offen` (Empfehlung) · `beschlossen` · `in_umsetzung` · `umgesetzt` · `wirksam_bestaetigt` · `verworfen`.
+
+| ID | Maßnahme | Phase | Verantwortlich | Frist | Bezug | Grundlage |
+|---|---|---|---|---|---|---|
+
 ## 10. Prüfergebnis
+
+Formulierungen nach `vorschriften.md` §A17.3 – keine Aussage über den geprüften Umfang hinaus.
 
 | Punkt | Ergebnis | Grundlage |
 |---|---|---|
 | Gesamturteil | | |
-| Freigabe Engagement Lead | | |
-| Freigabe Kunde | | |
+| Prüfumfang | | |
+| Prüfzeitraum und Methode | | |
+| Einschränkungen | | |
+| Freigabe DT Agency | | |
+| Kenntnisnahme Kunde | | |
 
 ## 11. Offene Punkte
 
-Verweise auf noch offene Entscheidungen (hier dürfen unverifizierte Punkte stehen):
+Verweise auf noch offene Entscheidungen (hier dürfen nicht freigegebene Punkte stehen):
 
 - [E-001] Scope der Prüfung
 - [E-002] NIS2-/BSIG-Betroffenheit

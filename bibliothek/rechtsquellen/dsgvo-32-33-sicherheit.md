@@ -11,8 +11,8 @@ quellen:
   - https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32016R0679
 stand_der_quelle: 2016-05-04
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-11-12
 ---
 # DSGVO – Sicherheit der Verarbeitung (Art. 32) und Meldung (Art. 33)
@@ -33,7 +33,7 @@ naechste_pruefung: 2027-11-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Gilt für jede Organisation, die personenbezogene Daten verarbeitet (`INF-02` ≠ `none`) – unabhängig von NIS2 und Profil.
 - Incident-Prozess muss Datenschutz-Meldung (72 h) und ggf. NIS2-Meldung (24 h / 72 h, [BIB-BSIG-32]) parallel abdecken.

@@ -1,8 +1,8 @@
 /**
  * Konsistenzprüfung des Arbeitsbereichs – erzwingt die Regeln aus plan.md:
  *  - Zitate in der Bibliothek stehen wörtlich in den Quellen-Snapshots.
- *  - „verifiziert“ setzt ein Mensch (Name + Datum), nie ein Agent.
- *  - isms.md enthält nur Verweise auf verifiziertes Wissen und verifizierte Entscheidungen.
+ *  - „freigegeben“ setzt ein Mensch (Name + Datum), nie ein Agent.
+ *  - isms.md enthält nur Verweise auf freigegebenes Wissen und freigegebene Entscheidungen.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -17,6 +17,7 @@ import {
   zitatImText,
   type Entscheidung,
 } from './markdown.js';
+import { pruefeErgebnisse, pruefeLebenszyklus } from './ergebnis.js';
 import { BIBLIOTHEK_STATUS, VERBINDLICHKEIT, type Arbeitsbereich, type BibEintrag, type Mandat } from './repo.js';
 
 export interface Befund {
@@ -62,9 +63,9 @@ function pruefeBibliothek(ws: Arbeitsbereich, heute: string): Befund[] {
     if (e.status === 'quellengeprueft' && e.zitate.length === 0) {
       f('Status "quellengeprueft" erfordert mindestens ein belegtes Zitat');
     }
-    if (e.status === 'verifiziert') {
-      if (!istMenschlicherPruefer(fmString(e.fm, 'verifiziert_von'))) f('"verifiziert" erfordert verifiziert_von (Name eines Menschen)');
-      if (!DATUM.test(fmString(e.fm, 'verifiziert_am'))) f('"verifiziert" erfordert verifiziert_am (JJJJ-MM-TT)');
+    if (e.status === 'freigegeben') {
+      if (!istMenschlicherPruefer(fmString(e.fm, 'freigegeben_von'))) f('"freigegeben" erfordert freigegeben_von (Name eines Menschen)');
+      if (!DATUM.test(fmString(e.fm, 'freigegeben_am'))) f('"freigegeben" erfordert freigegeben_am (JJJJ-MM-TT)');
     }
     const naechste = fmString(e.fm, 'naechste_pruefung');
     if (DATUM.test(naechste) && naechste < heute && e.status !== 'veraltet') {
@@ -77,7 +78,7 @@ function pruefeBibliothek(ws: Arbeitsbereich, heute: string): Befund[] {
   return b;
 }
 
-function pruefeEntscheidungen(liste: Entscheidung[], datei: string, ws: Arbeitsbereich, prefix: RegExp): Befund[] {
+function pruefeEntscheidungen(liste: Entscheidung[], datei: string, ws: Arbeitsbereich, prefix: RegExp, heute: string, m?: Mandat): Befund[] {
   const b: Befund[] = [];
   const ids = new Set<string>();
   const bib = new Map(ws.bibliothek.map((e) => [e.id, e]));
@@ -89,21 +90,22 @@ function pruefeEntscheidungen(liste: Entscheidung[], datei: string, ws: Arbeitsb
     if (!(ENTSCHEIDUNG_STATUS as readonly string[]).includes(e.status)) f(`Status "${e.status}" ungültig (${ENTSCHEIDUNG_STATUS.join(', ')})`);
     if (!(ENTSCHEIDUNG_TYPEN as readonly string[]).includes(e.typ)) f(`Typ "${e.typ}" ungültig (${ENTSCHEIDUNG_TYPEN.join(', ')})`);
     if (e.status === 'vorgeschlagen' && !gesetzt(e.felder['vorschlag'])) f('"vorgeschlagen" ohne Vorschlag');
-    if (e.status === 'verifiziert' || e.status === 'abgelegt') {
+    if (e.status === 'freigegeben' || e.status === 'abgelegt') {
       if (!gesetzt(e.felder['entscheidung'])) f('Entscheidung fehlt');
-      if (!istMenschlicherPruefer(e.felder['verifiziert von'])) f('"Verifiziert von" muss ein Mensch sein (Name, Rolle)');
-      if (!DATUM.test(e.felder['verifiziert am'] ?? '')) f('"Verifiziert am" fehlt (JJJJ-MM-TT)');
+      if (!istMenschlicherPruefer(e.felder['freigegeben von'])) f('"Freigegeben von" muss ein Mensch sein (Name, Rolle)');
+      if (!DATUM.test(e.felder['freigegeben am'] ?? '')) f('"Freigegeben am" fehlt (JJJJ-MM-TT)');
     }
     if (e.status === 'abgelegt' && !gesetzt(e.felder['abgelegt in'])) f('"Abgelegt in" fehlt');
-    if (e.status === 'verifiziert') f('verifiziert, aber noch nicht abgelegt', 'warnung');
+    if (e.status === 'freigegeben') f('freigegeben, aber noch nicht abgelegt', 'warnung');
     if (e.status === 'vorgeschlagen' && /^E-/.test(e.id) && !gesetzt(e.felder['eingaben'])) {
       f('Vorschlag ohne „Eingaben“ (Notizen, Fragebogen-IDs) – vorschriften.md §A10 Nr. 9', 'warnung');
     }
-    for (const m of (e.felder['grundlagen'] ?? '').matchAll(/BIB-[A-Z0-9-]+/g)) {
-      const eintrag = bib.get(m[0]);
-      if (!eintrag) f(`Grundlage ${m[0]} existiert nicht in der Bibliothek`);
-      else if ((e.status === 'verifiziert' || e.status === 'abgelegt') && eintrag.status !== 'verifiziert') {
-        f(`Grundlage ${m[0]} ist noch nicht verifiziert (${eintrag.status})`, 'warnung');
+    b.push(...pruefeLebenszyklus(e, datei, m, heute));
+    for (const g of (e.felder['grundlagen'] ?? '').matchAll(/BIB-[A-Z0-9-]+/g)) {
+      const eintrag = bib.get(g[0]);
+      if (!eintrag) f(`Grundlage ${g[0]} existiert nicht in der Bibliothek`);
+      else if ((e.status === 'freigegeben' || e.status === 'abgelegt') && eintrag.status !== 'freigegeben') {
+        f(`Grundlage ${g[0]} ist noch nicht freigegeben (${eintrag.status})`, 'warnung');
       }
     }
   }
@@ -120,11 +122,11 @@ function pruefeVerweise(md: string, datei: string, ws: Arbeitsbereich, m: Mandat
     if (id.startsWith('BIB-')) {
       const e = bib.get(id);
       if (!e) f('unbekannter Bibliothekseintrag');
-      else if (streng && e.status !== 'verifiziert') f(`Bibliothekseintrag nicht verifiziert (${e.status})`);
+      else if (streng && e.status !== 'freigegeben') f(`Bibliothekseintrag nicht freigegeben (${e.status})`);
     } else if (/^E-\d{3}$/.test(id) || id.startsWith('ENT-')) {
       const e = (id.startsWith('ENT-') ? global : lokal).get(id);
       if (!e) f('unbekannte Entscheidung');
-      else if (streng && e.status !== 'verifiziert' && e.status !== 'abgelegt') f(`Entscheidung nicht verifiziert (${e.status})`);
+      else if (streng && e.status !== 'freigegeben' && e.status !== 'abgelegt') f(`Entscheidung nicht freigegeben (${e.status})`);
     } else if (m) {
       if (!frageById(id)) f('unbekannte Frage-ID');
       else if (streng) {
@@ -136,7 +138,7 @@ function pruefeVerweise(md: string, datei: string, ws: Arbeitsbereich, m: Mandat
   return b;
 }
 
-function pruefeMandat(ws: Arbeitsbereich, m: Mandat): Befund[] {
+function pruefeMandat(ws: Arbeitsbereich, m: Mandat, heute: string): Befund[] {
   const b: Befund[] = [];
   const pfad = (n: string) => `mandanten/${m.kuerzel}/${n}`;
   for (const [teil, da] of Object.entries(m.vorhanden)) {
@@ -148,29 +150,23 @@ function pruefeMandat(ws: Arbeitsbereich, m: Mandat): Befund[] {
       for (const t of a.fehler) b.push({ schwere: 'fehler', datei: pfad('fragebogen.md'), text: `${a.id}: ${t}` });
     }
   }
-  b.push(...pruefeEntscheidungen(m.entscheidungen, pfad('entscheidungen.md'), ws, /^E-\d{3}$/));
+  b.push(...pruefeEntscheidungen(m.entscheidungen, pfad('entscheidungen.md'), ws, /^E-\d{3}$/, heute, m));
   if (m.ismsMd) {
-    // Offene Punkte dürfen auf Unverifiziertes verweisen – alles andere nicht.
+    // Offene Punkte dürfen auf nicht Freigegebenes verweisen – alles andere nicht.
     const kern = ohneAbschnitt(m.ismsMd, /^## .*Offene Punkte/i);
     b.push(...pruefeVerweise(kern, pfad('isms.md'), ws, m, true));
-    // ISO/IEC 27001 Abschnitte 4–10: not_applicable unzulässig (vorschriften.md §A8, §B4)
-    const iso = m.ismsMd.split(/^### 6a\./m)[1]?.split(/^#{2,3} /m)[0] ?? '';
-    iso.split('\n').forEach((z) => {
-      if (/^\|/.test(z) && /\bnot_applicable\b/.test(z)) {
-        b.push({ schwere: 'fehler', datei: pfad('isms.md'), text: `ISO/IEC 27001 Abschnitte 4–10 dürfen nicht „not_applicable“ sein: ${z.trim()}` });
-      }
-    });
   }
+  b.push(...pruefeErgebnisse(m, heute));
   return b;
 }
 
 export function pruefeArbeitsbereich(ws: Arbeitsbereich, heute = new Date().toISOString().slice(0, 10)): Befund[] {
   const b: Befund[] = [...pruefeBibliothek(ws, heute)];
-  b.push(...pruefeEntscheidungen(ws.entscheidungen, 'entscheidungen.md', ws, /^ENT-\d{3}$/));
+  b.push(...pruefeEntscheidungen(ws.entscheidungen, 'entscheidungen.md', ws, /^ENT-\d{3}$/, heute));
   for (const doc of ['plan.md', 'vorschriften.md']) {
     const p = join(ws.root, doc);
     if (existsSync(p)) b.push(...pruefeVerweise(readFileSync(p, 'utf-8'), doc, ws, undefined, false));
   }
-  for (const m of ws.mandate) b.push(...pruefeMandat(ws, m));
+  for (const m of ws.mandate) b.push(...pruefeMandat(ws, m, heute));
   return b;
 }

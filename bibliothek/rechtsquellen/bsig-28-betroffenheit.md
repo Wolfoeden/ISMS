@@ -12,8 +12,8 @@ quellen:
   - https://www.gesetze-im-internet.de/bsig_2025/__28.html
 stand_der_quelle: 2026-10-22
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # NIS2 / BSIG – Betroffenheit
@@ -54,7 +54,7 @@ Deutsche Umsetzung der NIS-2-Richtlinie im BSI-Gesetz vom 2.12.2025 (BGBl. 2025 
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Fragebogen: `STA-04` (Einrichtungsart), `STA-05` (entgeltlich), `ORG-01`, `STA-06`, `STA-07` (Größe), `STA-08` (verbundene Unternehmen), `REG-03` (KRITIS) → Ergebnis in `REG-02`.
 - Werkzeug: `npm run isms -- einstufung <kürzel>` führt die Vorprüfung nach Abs. 1 und 2 durch (`src/regelwerk/nis2.ts`). Das Ergebnis ist ein Vorschlag für die Betroffenheits-Entscheidung.

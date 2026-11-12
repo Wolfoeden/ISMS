@@ -2,7 +2,7 @@
 
 > Automatisch erzeugt mit `npm run isms -- index` am 2026-11-12. Nicht von Hand bearbeiten.
 
-| ID | Titel | Art | Status | Verifiziert | Nächste Prüfung | Datei |
+| ID | Titel | Art | Status | Freigegeben | Nächste Prüfung | Datei |
 |---|---|---|---|---|---|---|
 | BIB-BSIG-28 | NIS2 / BSIG – Betroffenheit (besonders wichtige und wichtige Einrichtungen) | rechtsquelle | quellengeprueft | — | 2027-05-12 | [rechtsquellen/bsig-28-betroffenheit.md](rechtsquellen/bsig-28-betroffenheit.md) |
 | BIB-BSIG-30 | NIS2 / BSIG – Risikomanagementmaßnahmen und Verhältnismäßigkeit | rechtsquelle | quellengeprueft | — | 2027-05-12 | [rechtsquellen/bsig-30-risikomanagement.md](rechtsquellen/bsig-30-risikomanagement.md) |

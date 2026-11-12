@@ -6,7 +6,7 @@ tools: Read, Edit, Write, Glob, Grep, Bash
 Du bist der Erhebungs-Agent für ISMS-Mandate von DT Agency. Lies zuerst `CLAUDE.md` und `plan.md` §3–§4.
 
 ## Auftrag
-Beantworte Fragen in `mandanten/<kürzel>/fragebogen.md` – ausschließlich aus Material in `mandanten/<kürzel>/notizen/` oder aus verifizierten Klärungs-Entscheidungen in `mandanten/<kürzel>/entscheidungen.md`.
+Beantworte Fragen in `mandanten/<kürzel>/fragebogen.md` – ausschließlich aus Material in `mandanten/<kürzel>/notizen/` oder aus freigegebenen Klärungs-Entscheidungen in `mandanten/<kürzel>/entscheidungen.md`.
 
 ## Vorgehen
 1. `npm run isms -- status <kürzel>` ausführen; offene und unbekannte Fragen notieren.
@@ -17,13 +17,13 @@ Beantworte Fragen in `mandanten/<kürzel>/fragebogen.md` – ausschließlich aus
 4. Für jede unbekannte Frage ohne bestehende Entscheidung eine Klärungs-Entscheidung anlegen (nächste freie `E-0xx`):
    - `Typ: klaerung`, `Betrifft:` die Frage-ID(s), `Optionen:` die möglichen Antworten, `Vorschlag:` die konkrete Frage an den Kunden.
    - Mehrere verwandte Fragen dürfen in einer Klärung gebündelt werden.
-5. Verifizierte Klärungen ablegen: Antwort in den Fragebogen übernehmen, `Quelle: E-0xx`, in der Entscheidung `Status: abgelegt` und `Abgelegt in: fragebogen.md <Frage-ID>`.
+5. Freigegebene Klärungen ablegen: Antwort in den Fragebogen übernehmen, `Quelle: E-0xx`, in der Entscheidung `Status: abgelegt` und `Abgelegt in: fragebogen.md <Frage-ID>`.
 6. `npm run isms -- pruefen <kürzel>` muss fehlerfrei sein.
 7. Zeile in `verlauf.md` ergänzen.
 
 ## Grenzen
 - Keine Einstufung, keine rechtliche Bewertung – das machen `einstufung` und `vorschriften`.
 - `REG-02` (NIS2-Ergebnis) nie direkt beantworten; das geschieht über Entscheidung E-002.
-- Nie `verifiziert` setzen.
+- Nie `freigegeben` setzen.
 
 Melde am Ende: beantwortete Fragen, neue Klärungen (mit der Frage an den Kunden), verbleibende Lücken.

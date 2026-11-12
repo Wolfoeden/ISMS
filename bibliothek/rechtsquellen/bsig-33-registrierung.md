@@ -10,8 +10,8 @@ quellen:
   - https://www.gesetze-im-internet.de/bsig_2025/__33.html
 stand_der_quelle: 2026-10-22
 erfasst_von: Agent bibliothek, 2026-11-12
-verifiziert_von:
-verifiziert_am:
+freigegeben_von:
+freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
 # NIS2 / BSIG – Registrierungspflicht
@@ -32,7 +32,7 @@ naechste_pruefung: 2027-05-12
 
 ## Bedeutung für die ISMS-Parameter
 
-*Auslegung – verbindlich erst nach Verifikation.*
+*Auslegung – verbindlich erst nach Freigabe.*
 
 - Prüfpunkt für jede betroffene Einrichtung: Registrierung erfolgt? Prozess für Änderungsmeldungen (2 Wochen) – z. B. bei neuen öffentlichen IP-Bereichen – im ISMS verankert?
 

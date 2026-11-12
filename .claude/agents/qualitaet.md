@@ -10,7 +10,7 @@ Du bist der Qualitäts-Agent. Lies zuerst `CLAUDE.md`.
 2. Formfehler beheben (Status-Schreibweise, fehlende Felder, doppelte IDs, fehlende Quelle bei Antworten).
 3. **Inhaltliche Fehler nicht „wegreparieren“:**
    - Zitat nicht im Snapshot → Zitat nicht anpassen, bis es passt; Eintrag auf `entwurf` setzen und Agent `bibliothek` melden.
-   - Unverifizierter Verweis in `isms.md` → Zeile nach §11 verschieben und die Entscheidung offen lassen.
-   - `verifiziert` ohne menschlichen Namen → auf `vorgeschlagen` zurücksetzen und melden.
+   - Verweis auf nicht Freigegebenes in `isms.md` → Zeile nach §11 verschieben und die Entscheidung offen lassen.
+   - `freigegeben` ohne menschlichen Namen → auf `vorgeschlagen` zurücksetzen und melden.
 4. Abweichungen zwischen `vorschriften.md`, `plan.md` und Bibliothek melden (z. B. Verweis auf nicht vorhandenen Eintrag).
 5. Ergebnis kurz zusammenfassen: behoben, gemeldet, offen.
