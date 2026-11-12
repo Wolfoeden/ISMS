@@ -12,7 +12,7 @@
  */
 import { ALLE_FRAGEN } from '../fragebogen/katalog.js';
 import { BEZEICHNUNG, BERICHTSSTATUS } from '../bewertung/modell.js';
-import { leseTabellen } from './ergebnis.js';
+import { bewertungsobjekte, leseTabellen } from './ergebnis.js';
 import { fmString, leseFrontmatter } from './markdown.js';
 import type { Arbeitsbereich, Mandat } from './repo.js';
 import { mandatStatus } from './status.js';
@@ -35,6 +35,7 @@ export interface DashboardDaten {
   name: string;
   stand: string;
   ismsStatus: string;
+  objekte: string[];
   phasen: Phase[];
   fragebogen: { beantwortet: number; unbekannt: number; offen: number; gesamt: number };
   entscheidungen: Record<string, number>;
@@ -151,7 +152,7 @@ export function mandatDashboard(ws: Arbeitsbereich, m: Mandat, heute = new Date(
     .split('\n').map((z) => z.trim()).filter((z) => z.startsWith('- ')).map((z) => z.slice(2));
 
   return {
-    kuerzel: m.kuerzel, name, stand: heute, ismsStatus, phasen,
+    kuerzel: m.kuerzel, name, stand: heute, ismsStatus, objekte: bewertungsobjekte(m.ismsMd ?? ''), phasen,
     fragebogen: { beantwortet: f.beantwortet, unbekannt: f.unbekannt, offen: f.offen, gesamt: f.gesamt },
     entscheidungen, nachweise,
     bewertung: { bewertet, gesamt, verteilung: [...verteilung].map(([code, anzahl]) => ({ code, label: BEZEICHNUNG[code] ?? code, anzahl })) },
@@ -196,7 +197,7 @@ ul{margin:0;padding-left:18px}.leer{color:var(--m);margin:0}.wer{font-size:12px;
 footer{font-size:12.5px;color:var(--m)}
 </style></head><body><main>
 <header><div class="m">Fortschrittsübersicht · Stand ${esc(d.stand)} · ISMS-Dokument: ${esc(ISMS_DE[d.ismsStatus] ?? d.ismsStatus)}</div>
-<h1>${esc(d.name)}</h1><div class="m">Gleiche Ansicht für Kunde und DT Agency. Zeigt den Bearbeitungsstand, keine Bewertung des Sicherheitsniveaus.</div></header>
+<h1>${esc(d.name)}</h1>${d.objekte.length > 1 ? `<div class="m">Bewertungsobjekte: ${esc(d.objekte.join(', '))} – Ergebnisse je Objekt getrennt</div>` : ''}<div class="m">Gleiche Ansicht für Kunde und DT Agency. Zeigt den Bearbeitungsstand, keine Bewertung des Sicherheitsniveaus.</div></header>
 
 <section><h2>Phasen</h2><div class="ph">
 ${d.phasen.map((p) => `<div class="p"><b>${esc(p.name)}</b><span class="s ${p.stand}">${STAND_DE[p.stand]}</span><small>${esc(p.detail)}</small></div>`).join('\n')}

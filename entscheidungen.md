@@ -376,7 +376,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A3; src/engagement/model.ts (EngagementType); src/engagement/templates.ts (initial-assessment, gap-assessment, product-security-assessment); db/migrations/0006; Tests
 
 ## ENT-021 · Getrennte, verknüpfte Scopes für Organisation und Produkt (Pilotfall)
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** scope
 - **Ausgelöst durch:** Prüfbericht P-04: Pilotfall Einzelunternehmer mit Softwareprodukt; Mandat hat heute genau einen Freitext-Scope
 - **Betrifft:** mandanten/_vorlage (isms.md §1, E-001), Fragebogen, Datenmodell
@@ -391,7 +391,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 3 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** mandanten/_vorlage/isms.md §1 (Bewertungsobjekte); src/werkzeuge/ergebnis.ts (Objekt-Spalte, Gesamturteil je Objekt); vorschriften.md §A3, §A5, §A14; Agent isms-pruefung; Dashboard; test/werkzeuge.test.ts 4h. Datenbank (Objekt-Bezug je Bewertung): MVP-Plan WP-04
 
 ## ENT-022 · Risikomethode für Mandate
 - **Status:** abgelegt

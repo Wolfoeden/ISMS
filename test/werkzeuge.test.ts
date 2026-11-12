@@ -317,6 +317,20 @@ describe('Iterationszyklus an einem fiktiven Mandat', () => {
     schreibe('isms.md', isms);
   });
 
+  it('4h · Pilotfall Organisation + Produkt: Aussagen je Bewertungsobjekt getrennt (ENT-021)', () => {
+    const isms = lies('isms.md');
+    const zwei = isms.replace('| O-1 | organisation | | | |',
+      '| O-1 | organisation | Muster GmbH (fiktiv) | Sitz, Entwicklung | [ORG-01] |\n| O-2 | produkt | Muster-App 2.3 | Backend, App, Build-Pipeline | [ORG-01] |');
+    const leer = '| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | | | | | | | | |';
+    schreibe('isms.md', zwei.replace(leer, '| 9 Personal, Zugriffskontrolle, IKT-Verwaltung | applicable | 2 | unknown | not_verified | none | not_assessed | – | [E-002] |'));
+    expect(pruefung().join()).toMatch(/Spalte „Objekt“ fehlt/);
+    schreibe('isms.md', isms.replace('| O-1 | organisation | | | |', '| O-1 | produkt | Muster-App | | |'));
+    expect(pruefung().join()).toMatch(/Bewertungsobjekt ohne Grenzen/);
+    schreibe('isms.md', zwei.replace('status: entwurf', 'status: freigegeben'));
+    expect(pruefung().join()).toMatch(/„Gesamturteil O-2“ fehlt/);
+    schreibe('isms.md', isms);
+  });
+
   it('5 · manipuliertes Zitat in der Bibliothek wird erkannt', () => {
     const p = join(root, 'bibliothek/rechtsquellen/bsig-33-registrierung.md');
     writeFileSync(p, readFileSync(p, 'utf-8').replace('spätestens jedoch binnen zwei Wochen', 'spätestens jedoch binnen vier Wochen'));

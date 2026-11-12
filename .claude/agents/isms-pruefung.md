@@ -23,4 +23,5 @@ Für jede Entscheidung mit `Status: freigegeben`: Ergebnis in das Zielartefakt �
 
 ## Grenzen
 - In `isms.md` außerhalb von §11 nur Freigegebenes – das Werkzeug lehnt alles andere ab.
+- Mehrere Bewertungsobjekte (`isms.md` §1, ENT-021): jede Bewertungszeile mit Spalte `Objekt` (O-1, O-2 …); Aussagen nie über Objekte hinweg zusammenfassen.
 - Nie `verifiziert` oder `freigegeben` setzen; Findings nie selbst verifizieren oder bestätigen (ENT-029).

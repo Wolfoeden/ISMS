@@ -21,6 +21,12 @@ stand: {{datum}}
 | Scope | | |
 | Ausschlüsse mit Begründung | | |
 
+Bewertungsobjekte ([ENT-021]): ein Mandat, ein oder mehrere Objekte mit eigenen Grenzen und eigener Bewertung; gemeinsame Fakten werden nur einmal erhoben. Art: `organisation` · `produkt` · `standort` · `dienst` · `lieferant` · `ki_system`. Bei mehr als einem Objekt tragen die Bewertungstabellen eine Spalte `Objekt`, und §10 nennt je Objekt ein eigenes „Gesamturteil O-n“.
+
+| Objekt | Art | Bezeichnung / Version | Grenzen | Grundlage |
+|---|---|---|---|---|
+| O-1 | organisation | | | |
+
 ## 2. Einstufung
 
 | Punkt | Ergebnis | Grundlage |

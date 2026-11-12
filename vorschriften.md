@@ -57,7 +57,7 @@ Assessment-Typen **MÜSSEN** getrennt modelliert werden; Umfang, Kriterien, Meth
 | Internal ISMS Audit | Internal Audit Report | Objektivität und Unabhängigkeit erforderlich (Regel I1) | `internal_audit` |
 | Continuous Assessment | Continuous Assurance Report | wiederkehrende Bewertung definierter Kontrollen | `continuous_operation` |
 
-Zusammenführung der Typen: [ENT-020] – jede Leistungsart hat einen eigenen Mandatstyp mit Template (`src/engagement/templates.ts`, Migration 0006). **Pilotfall:** Einzelunternehmer mit eigenem Softwareprodukt – Organisation und Produkt in getrennten, verknüpften Scopes ([ENT-021]).
+Zusammenführung der Typen: [ENT-020] – jede Leistungsart hat einen eigenen Mandatstyp mit Template (`src/engagement/templates.ts`, Migration 0006). **Pilotfall:** Einzelunternehmer mit eigenem Softwareprodukt – ein Mandat mit den Bewertungsobjekten Organisation (O-1) und Produkt (O-2), getrennte Bewertung und getrenntes Gesamturteil je Objekt, gemeinsame Fakten nur einmal erhoben ([ENT-021]).
 
 Ein KI-erzeugter Bericht **DARF NICHT** als Zertifikat, akkreditierte Zertifizierung oder unabhängiges Audit ausgegeben werden, wenn die Voraussetzungen fehlen.
 
@@ -89,7 +89,7 @@ Ein Assessment **DARF** erst abgeschlossen werden, wenn alle Pflichtschritte erl
 |---|---|---|
 | Organization / OrganizationProfile | Mandant, Branche, Größe, Geschäftsmodell | ✔ `organization`, `complexity_assessment` |
 | Engagement / Assessment | Auftrag, Typ, Scope, Kriterien, Stand | ✔ `mandate` |
-| Scope | Grenzen, Einheiten, Produkte, Prozesse, Ausnahmen | ◐ Freitext ([ENT-021]) |
+| Scope / AssessmentObject | Grenzen, Einheiten, Produkte, Prozesse, Ausnahmen; ein Mandat, mehrere Bewertungsobjekte | ◐ `isms.md` §1 Bewertungsobjekte, werkzeuggeprüft ([ENT-021]); Datenbank mit WP-04 |
 | Framework / Version / Requirement | Quelle, Version, Anforderung, Anwendbarkeit | ✔ Bibliothek, `requirement_assessment` |
 | Stakeholder / Role / User | Interessen, Zuständigkeit, Rechte | ✔ `person`, `mandate_role` |
 | Asset / BusinessProcess / InformationSystem | Werte, Eigentümer, Schutzbedarf | ○ |
@@ -308,7 +308,7 @@ Neue Funktionen sind abnahmefähig, wenn Tests diese Fälle abdecken:
 | Unbefugte können keine Berichte freigeben | ✔ Regeln G5, Quality Gate |
 | Historische Berichte referenzieren damalige Bewertungsstände | ◐ Policy-Version, Git |
 | Dokumentinhalte überschreiben keine Regeln (Prompt Injection) | ○ Regel in `CLAUDE.md`, kein Test |
-| Organisatorisches 3PA und Produktbewertung bleiben unterscheidbar | ○ [ENT-021] |
+| Organisatorisches 3PA und Produktbewertung bleiben unterscheidbar | ✔ Arbeitssystem: Spalte `Objekt`, Gesamturteil je Objekt ([ENT-021]); Datenbank mit WP-04 |
 | Unzulässige Formulierungen in Endergebnissen werden abgelehnt | ✔ §A17.4 |
 | Freigabe von `isms.md` nur mit vollständigem Prüfergebnis | ✔ |
 

@@ -102,11 +102,51 @@ function pruefeNotizen(m: Mandat, heute: string): Befund[] {
 // Bewertungszeilen und Grundlagen in isms.md
 // ---------------------------------------------------------------------------
 
-function pruefeTabellen(m: Mandat, md: string, heute: string): Befund[] {
+export const OBJEKT_ART = ['organisation', 'produkt', 'standort', 'dienst', 'lieferant', 'ki_system'] as const;
+
+/** Bewertungsobjekte aus isms.md §1 (ENT-021): nur Zeilen mit Bezeichnung zählen. */
+export function bewertungsobjekte(md: string): string[] {
+  const t = leseTabellen(md).find((x) => /^1\./.test(x.abschnitt) && spalte(x, 'Objekt') === 0);
+  return (t?.zeilen ?? []).filter((z) => /^O-\d+$/.test(z.zellen[0] ?? '') && !leer(z.zellen[spalte(t!, 'Bezeichnung')])).map((z) => z.zellen[0]!);
+}
+
+function pruefeObjekte(md: string, datei: string): Befund[] {
   const b: Befund[] = [];
+  const tabellen = leseTabellen(md);
+  const t = tabellen.find((x) => /^1\./.test(x.abschnitt) && spalte(x, 'Objekt') === 0);
+  if (t) {
+    for (const { zellen: z, zeile } of t.zeilen) {
+      if (!hatInhalt(z)) continue;
+      const f = (text: string) => b.push({ schwere: 'fehler', datei, zeile, text: `${z[0]}: ${text}` });
+      if (!/^O-\d+$/.test(z[0] ?? '')) f('Objekt-ID im Format O-1, O-2 …');
+      const art = z[spalte(t, 'Art')] ?? '';
+      if (!(OBJEKT_ART as readonly string[]).includes(art)) f(`Art „${art}“ ungültig (${OBJEKT_ART.join(' · ')})`);
+      if (!leer(z[spalte(t, 'Bezeichnung')]) && leer(z[spalte(t, 'Grenzen')])) f('Bewertungsobjekt ohne Grenzen');
+    }
+  }
+  const objekte = bewertungsobjekte(md);
+  for (const x of tabellen) {
+    if (/^1\./.test(x.abschnitt) || /Offene Punkte/i.test(x.abschnitt)) continue;
+    const iObj = spalte(x, 'Objekt');
+    if (iObj < 0) {
+      if (objekte.length > 1 && spalte(x, 'Berichtsstatus') >= 0 && x.zeilen.some((z) => hatInhalt(z.zellen))) {
+        b.push({ schwere: 'fehler', datei, zeile: x.zeilen[0]!.zeile, text: `${x.abschnitt}: mehrere Bewertungsobjekte – Spalte „Objekt“ fehlt (Aussagen je Objekt trennen)` });
+      }
+      continue;
+    }
+    for (const { zellen: z, zeile } of x.zeilen) {
+      if (hatInhalt(z) && !objekte.includes(z[iObj] ?? '')) b.push({ schwere: 'fehler', datei, zeile, text: `${z[0]}: Objekt „${z[iObj] ?? ''}“ ist in §1 nicht angelegt` });
+    }
+  }
+  return b;
+}
+
+function pruefeTabellen(m: Mandat, md: string, heute: string): Befund[] {
+  const b: Befund[] = [...pruefeObjekte(md, `mandanten/${m.kuerzel}/isms.md`)];
   const datei = `mandanten/${m.kuerzel}/isms.md`;
   for (const t of leseTabellen(md)) {
     if (/Offene Punkte/i.test(t.abschnitt)) continue;
+    if (/^1\./.test(t.abschnitt) && spalte(t, 'Objekt') === 0) continue;
     const iGrund = spalte(t, 'Grundlage');
     const iStatus = spalte(t, 'Berichtsstatus');
     for (const { zellen: z, zeile } of t.zeilen) {
@@ -259,6 +299,15 @@ export function pruefeErgebnisse(m: Mandat, heute: string): Befund[] {
     }
     const t = leseTabellen(m.ismsMd);
     const ergebnis = t.find((x) => /^10\./.test(x.abschnitt));
+    // ENT-021: getrennte Gesamturteile je Bewertungsobjekt
+    const objekte = bewertungsobjekte(m.ismsMd);
+    if (objekte.length > 1) {
+      for (const o of objekte) {
+        if (!ergebnis?.zeilen.some((z) => z.zellen[0]?.startsWith(`Gesamturteil ${o}`) && hatInhalt(z.zellen))) {
+          b.push({ schwere: 'fehler', datei, text: `Freigabe nicht möglich: §10 „Gesamturteil ${o}“ fehlt (mehrere Bewertungsobjekte)` });
+        }
+      }
+    }
     for (const pflicht of ['Gesamturteil', 'Prüfumfang', 'Einschränkungen', 'Verifizierung DT Agency', 'Freigabe DT Agency']) {
       const zeile = ergebnis?.zeilen.find((z) => z.zellen[0]?.startsWith(pflicht));
       if (!zeile || !hatInhalt(zeile.zellen)) b.push({ schwere: 'fehler', datei, text: `Freigabe nicht möglich: §10 „${pflicht}“ fehlt` });
