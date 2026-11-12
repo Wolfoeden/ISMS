@@ -7,6 +7,7 @@ import { ALLE_FRAGEN } from '../src/fragebogen/katalog.js';
 import { deriveAssuranceProfile } from '../src/proportionality/profile.js';
 import { nis2Vorpruefung } from '../src/regelwerk/nis2.js';
 import { einstufung, neu } from '../src/werkzeuge/befehle.js';
+import { pruefeFormulierungen } from '../src/werkzeuge/ergebnis.js';
 import { leseEntscheidungen, leseVerweise, zitatImText } from '../src/werkzeuge/markdown.js';
 import { pruefeArbeitsbereich } from '../src/werkzeuge/pruefen.js';
 import { ladeArbeitsbereich } from '../src/werkzeuge/repo.js';
@@ -114,6 +115,37 @@ describe('Markdown-Bausteine', () => {
     const [e] = leseEntscheidungen('## E-007 · Test\n- **Status:** vorgeschlagen\n- **Typ:** finding\n- **Optionen:**\n  1. a\n  2. b\n- **Vorschlag:** x\n');
     expect(e).toMatchObject({ id: 'E-007', status: 'vorgeschlagen', typ: 'finding' });
     expect(e!.felder['optionen']).toBe('1. a\n2. b');
+  });
+});
+
+describe('Formulierungen (vorschriften.md §A17)', () => {
+  const vorschriften = readFileSync(join(ROOT, 'vorschriften.md'), 'utf-8');
+  const bausteine = (vorschriften.split('### A17.3')[1] ?? '').split('### A17.4')[0]!
+    .split('\n').filter((z) => z.startsWith('> ')).map((z) => z.slice(2));
+
+  it('alle Satzbausteine aus §A17.3 bestehen die Formulierungsprüfung', () => {
+    expect(bausteine.length).toBeGreaterThanOrEqual(9);
+    const befunde = pruefeFormulierungen(bausteine.join('\n'), 'vorschriften.md', false);
+    expect(befunde.filter((b) => b.schwere === 'fehler')).toEqual([]);
+    // einzig zulässige Warnung: „zertifiziert“ im Zertifikats-Baustein
+    expect(befunde.map((b) => b.text)).toEqual([expect.stringMatching(/„zertifiziert“/)]);
+  });
+
+  it.each([
+    'Das ISMS ist vollständig konform.',
+    'Die Organisation ist NIS2-konform.',
+    'Die Umsetzung ist DSGVO-konform.',
+    'Wir garantieren die Sicherheit.',
+    'Die Systeme sind lückenlos geschützt.',
+    'Das Unternehmen erfüllt alle gesetzlichen Pflichten.',
+    'Die Einordnung ist rechtsverbindlich.',
+    'Es wurde eine Nichtkonformität festgestellt.',
+  ])('„%s“ wird abgelehnt', (satz) => {
+    expect(pruefeFormulierungen(satz, 'x', false).some((b) => b.schwere === 'fehler')).toBe(true);
+  });
+
+  it('Auditbegriffe sind im Audit-Mandat zulässig', () => {
+    expect(pruefeFormulierungen('Es wurde eine Nichtkonformität festgestellt.', 'x', true)).toEqual([]);
   });
 });
 

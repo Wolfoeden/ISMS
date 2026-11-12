@@ -10,7 +10,7 @@ Beantworte Fragen in `mandanten/<kürzel>/fragebogen.md` – ausschließlich aus
 
 ## Vorgehen
 1. `npm run isms -- status <kürzel>` ausführen; offene und unbekannte Fragen notieren.
-2. Notizen lesen. Für jede Frage, die das Material **eindeutig** beantwortet:
+2. Neue Notizen mit Kopf anlegen (`art`, `quelle`, `datum`, `erfasst_von`; bei Nachweisen `pruefung: eingegangen` – „geeignet“ setzt nur ein Mensch). Notizen lesen. Für jede Frage, die das Material **eindeutig** beantwortet:
    - genau die passende Option ankreuzen (`- [x]`) bzw. `Antwort:` ausfüllen,
    - `Quelle:` setzen: Notizdatei und Stelle, z. B. `notizen/2026-11-20-interview-gf.md, Abschnitt IT`.
 3. Ist die Antwort nicht eindeutig, widersprüchlich oder fehlt sie: `unbekannt` ankreuzen bzw. `Antwort: unbekannt`. **Niemals schätzen** – auch nicht „vermutlich“.

@@ -48,7 +48,7 @@ Anlass: Frage, ob überarbeitete Fassungen von ISO-Normen im Repository und in d
 |---|---|
 | Gesetzestexte als Snapshots | zulässig (Kernaussage 1) |
 | Abschnitts- und Control-Nummern, Gliederung, eigene Zusammenfassungen, eigene Prüfregeln und Datenmodelle | geringes Risiko, wenn eigenständig formuliert (hinreichender Abstand, Kernaussage 3) |
-| Amtliche deutsche Kurztitel der 93 Controls und PDF-Seitenzahlen | geringes bis mittleres Risiko: einzelne Kurztitel sind kaum schutzfähig, die vollständige Liste gibt aber einen Teil der DIN-Fassung wieder |
+| Amtliche deutsche Kurztitel der 93 Controls und PDF-Seitenzahlen | geringes bis mittleres Risiko: einzelne Kurztitel sind kaum schutzfähig, die vollständige Liste gibt aber einen Teil der DIN-Fassung wieder – seit 2026-11-12 in der Bibliothek durch eigene Themenbezeichnungen ersetzt; nur noch im unveränderten Eingangsdokument (`docs/vorgaben/`, intern) |
 | Eng am Normtext entlang paraphrasierte Passagen | Bearbeitung – Verwertung (z. B. Weitergabe an Kunden, Bestandteil eines Produkts) nur mit Zustimmung |
 | Erstellung der Aufbereitungen mit KI aus dem E-Book | hängt vom Vorbehalt des Rechtsinhabers bzw. von den Lizenzbedingungen ab (Kernaussage 4) – **ungeklärt** |
 | Lizenzbedingungen des E-Books | Vertragsrecht, unabhängig vom Urheberrecht; können strenger sein (z. B. Nutzung nur durch eine Person, keine Datenbanken) – **ungeklärt** |

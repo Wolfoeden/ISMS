@@ -262,7 +262,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Grundlagen:** BIB-ISO27000, BIB-ISO27001, BIB-ISO27002
 - **Eingaben:** docs/vorgaben/eingang-2026-11-12/, docs/vorgaben/pruefbericht-2026-11-12.md; Chat 2026-11-12: Paul übernimmt den Abgleich
 - **Optionen:**
-  1. Ein Mensch mit Zugriff auf die E-Books gleicht die drei Einträge ab (Kurztitel, Abschnittsnummern, Kernaussagen) und gibt sie frei
+  1. Ein Mensch mit Zugriff auf die E-Books gleicht die drei Einträge ab (Kennungen, eindeutige Zuordnung der Themenbezeichnungen, Kernaussagen) und gibt sie frei
   2. zusätzlich Amd 1:2024 beschaffen und als eigenen Eintrag erfassen
 - **Vorschlag:** Option 1 durch Paul, Option 2 danach. Lizenz- und Urheberrechtsfrage getrennt in [ENT-026].
 - **Zuständig:** Paul (laut Chat 2026-11-12) – Rolle für den Freigabevermerk noch angeben
@@ -319,7 +319,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-018 · Einheitliches Bewertungsstatusmodell
-- **Status:** vorgeschlagen
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Prüfbericht P-01; Auftrag Paul 2026-11-12: Statusmodell muss in die gesamte Logik passen
 - **Betrifft:** vorschriften.md §A8, isms.md §6, db/migrations (künftige Tabellen)
@@ -332,13 +332,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   Teilfragen: 018.1 Sprache der Werte · 018.2 Lücke schon auf Aussage hin berichten · 018.3 Wirksamkeitspflicht ab Tiefe 3
 - **Vorschlag:** C mit 018.1 englische Codes / deutsche Bezeichnungen, 018.2 ja, 018.3 ja – Begründung und Beispiele in der Entscheidungsvorlage. Die 8-Werte-Liste mischt Anwendbarkeit, Bearbeitungsstand, Beweislage und Ergebnis und lässt das Assurance Profile in der Bewertung folgenlos.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
-- **Abgelegt in:** —
+- **Entscheidung:** Option C, Teilfragen 018.1–018.3 wie vorgeschlagen (Chat 2026-11-12)
+- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben am:** 2026-11-12
+- **Abgelegt in:** vorschriften.md §A8; src/bewertung/modell.ts; mandanten/_vorlage/isms.md §6/§6a/§6b; src/werkzeuge/ergebnis.ts; db/migrations/0002 (report_status, control_assessment, requirement_assessment)
 
 ## ENT-019 · Größenklassen: Rolle von micro / sme / enterprise
-- **Status:** vorgeschlagen
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Prüfbericht P-02: Eingangsdokument Vorschriften §14 steuert die Tiefe über Größenklassen – Widerspruch zu „Profile sind keine Größenklassen“
 - **Betrifft:** vorschriften.md §A13
@@ -350,10 +350,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   C. wie B; zusätzlich steuert die Größenklasse die Organisationsform (Gesprächspartner, Rollenbündelung, Freigabewege) – nie Prüfumfang oder Prüftiefe
 - **Vorschlag:** C. micro/sme/enterprise verwischt die NIS2-Schwelle bei 50 Beschäftigten (sme = klein + mittel); die KMU-Klassen tun das nicht. Größe beeinflusst, wie geprüft wird, nie was und wie tief.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
-- **Abgelegt in:** —
+- **Entscheidung:** Option C (Chat 2026-11-12)
+- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben am:** 2026-11-12
+- **Abgelegt in:** vorschriften.md §A13; src/bewertung/groessenklasse.ts; Werkzeug status/einstufung; isms.md §2
 
 ## ENT-020 · Leistungsarten und Mandatstypen zusammenführen
 - **Status:** vorgeschlagen
@@ -463,12 +463,12 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** Frage Paul 2026-11-12: „keine ISO-Dokumente, sondern überarbeitete Version – erfüllen wir die gesetzlichen Vorschriften?“
 - **Betrifft:** bibliothek/normen/, docs/vorgaben/, künftige Plattform (P1), Kundenberichte
 - **Grundlagen:** BIB-URHG
-- **Eingaben:** Chat 2026-11-12; docs/vorgaben/pruefbericht-2026-11-12.md P-16
+- **Eingaben:** Chat 2026-11-12 (Auftrag Paul: hinreichende, streng auditkonforme Formulierungen ohne rechtliche Konsequenzen); BIB-URHG; BIB-RDG; docs/vorgaben/pruefbericht-2026-11-12.md P-16
 - **Optionen:**
-  1. Interne Nutzung wie heute; Paul prüft die Lizenzbedingungen der E-Books (Nutzerkreis, abgeleitete Werke, KI-Verarbeitung)
-  2. DIN-Kurztitel und PDF-Seitenzahlen sofort durch eigene Kurzbezeichnungen ersetzen – nur Nummern und eigene Texte
-  3. Vor kommerzieller Nutzung (Katalog in der Plattform, Weitergabe an Kunden) Lizenz beim Rechteinhaber anfragen bzw. anwaltlich prüfen lassen
-- **Vorschlag:** 1 sofort, 3 vor P1; 2 nur, falls die Lizenz Auszüge nicht erlaubt. Kundenberichte enthalten bis dahin nur Abschnittsnummern und eigene Texte. Begründung: Gesetze sind frei (§ 5 Abs. 1 UrhG), Normen bleiben geschützt (§ 5 Abs. 3); eine Überarbeitung ist nur frei, wenn sie hinreichenden Abstand hält (§ 23 Abs. 1) – Lizenzbedingungen gelten zusätzlich.
+  1. Formulierungsregeln wie erarbeitet freigeben: eigene Themenbezeichnungen statt Normtitel, Normbezüge nur über Kennung/Abschnitt, Satzbausteine für Ergebnisse, Liste unzulässiger Formulierungen mit Werkzeugprüfung (vorschriften.md §A17.2–§A17.4)
+  2. wie 1, zusätzlich vor kommerzieller Nutzung Lizenzbedingungen der E-Books prüfen und Leistungsbeschreibung/RDG-Abgrenzung anwaltlich bestätigen lassen
+  3. Normbezüge nur als Kennungen, ganz ohne Themenbezeichnungen
+- **Vorschlag:** Option 2. Umgesetzt und werkzeuggeprüft: 93 eigene Themenbezeichnungen (BIB-ISO27002), eigene Bezeichnungen der 30 Unterabschnitte (BIB-ISO27001), PDF-Seitenzahlen entfernt; §A17.3 Satzbausteine (Gesamturteil, Prüfumfang, Einschränkungen, Anwendbarkeit eines Gesetzes als fachliche Einschätzung, Feststellung, Empfehlung); §A17.4 unzulässige Formulierungen. Offen und nicht durch DT Agency selbst lösbar: Lizenzbedingungen (Nutzerkreis, KI-Verarbeitung) und die anwaltliche Bestätigung der Nebenleistung nach § 5 RDG.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Freigegeben von:** —
@@ -476,7 +476,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-027 · Ein Freigabebegriff und ein Finding-Ablauf
-- **Status:** vorgeschlagen
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Entscheidungsvorlage Statusmodell: „verifiziert“ hatte drei Bedeutungen; Findings laufen doppelt (Entscheidungsseite und Plattform-Code)
 - **Betrifft:** vorschriften.md §A9, src/engagement/findings.ts, db/migrations, Vorlage entscheidungen.md
@@ -488,13 +488,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   C. nur Zuordnungstabelle
 - **Vorschlag:** A
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
-- **Abgelegt in:** —
+- **Entscheidung:** Option A mit Auflage: Wording muss zu den fachlichen Inhalten und zu den Normen passen und für Nutzer klar sein (Chat 2026-11-12). Begriffswahl zur Umsetzung der Auflage: [ENT-029]
+- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben am:** 2026-11-12
+- **Abgelegt in:** vorschriften.md §A9, §A17.1; src/engagement/findings.ts; db/migrations/0002 (finding, customer_response); Vorlagen, Agents, Befehl /freigeben
 
 ## ENT-028 · Lebenszyklen für Nachweis, Risiko, Maßnahme, Mandat und isms.md
-- **Status:** vorgeschlagen
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** vorschriften.md §A6, §A8 verlangen Status, die im Repository fehlen
 - **Betrifft:** Vorlagen notizen/, entscheidungen.md (Typ risiko, massnahme), isms.md, Werkzeug pruefen
@@ -505,6 +505,23 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   B. Nachweis und Maßnahme jetzt, Risiko nach ENT-022
   C. später
 - **Vorschlag:** A
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** Option A (Chat 2026-11-12)
+- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben am:** 2026-11-12
+- **Abgelegt in:** vorschriften.md §A6, §A8.4, §A12; Vorlagen notizen, entscheidungen.md, isms.md §7–§10; src/werkzeuge/ergebnis.ts; db/migrations/0002 (evidence, risk, measure)
+
+## ENT-029 · Begriffswahl „freigegeben“ zur Umsetzung der Auflage aus ENT-027 bestätigen
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** ENT-027 Auflage (Paul, 2026-11-12): Wording muss zu Fachinhalten und Normen passen und klar sein
+- **Betrifft:** vorschriften.md §A9, §A17.1; alle Status- und Feldnamen (`freigegeben`, „Freigegeben von/am“, `/freigeben`)
+- **Grundlagen:** BIB-ISO27001
+- **Eingaben:** Entscheidungsvorlage docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md §4
+- **Optionen:**
+  1. „freigegeben“ für die menschliche Genehmigung; „Verifizierung“/`quellengeprueft` nur für den Abgleich mit Quelle oder Nachweis (umgesetzt)
+  2. „verifiziert“ für alles (ursprünglicher Vorschlag in der Entscheidungsvorlage)
+- **Vorschlag:** Option 1. In der Normsprache bezeichnet Verifizierung die Bestätigung anhand objektiver Nachweise – das ist die Tätigkeit des Abgleichs, nicht die Genehmigung einer Entscheidung, einer Risikoakzeptanz oder eines Ergebnisses. „Freigegeben“ passt für alle Objekte gleich, entspricht dem Sprachgebrauch für Genehmigung und Freigabe dokumentierter Information und ist für Kunden verständlich. Rücknahme wäre eine reine Umbenennung.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Freigegeben von:** —

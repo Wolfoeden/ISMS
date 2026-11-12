@@ -17,6 +17,7 @@ Dieser Plan beschreibt, **wie wir Unternehmen einstufen und wie wir daraus eine 
 3. **Agents bereiten vor, Menschen entscheiden.** Agents erheben, recherchieren, schlagen vor und legen ab. Den Status `freigegeben` setzt nur ein Mensch.
 4. **Proportional, nicht nach Größe.** Gleiche Anforderungen für alle, Tiefe nach Risiko. Gesetzliche Grundlage: § 30 Abs. 1 Satz 2 BSIG und Art. 21 Abs. 1 NIS2 nennen Risikoexposition, Größe, Kosten, Eintrittswahrscheinlichkeit, Schwere und Auswirkungen ([BIB-BSIG-30]).
 5. **Alles nachvollziehbar.** Jede Änderung ist ein Git-Commit; jede Iteration steht in `verlauf.md`; jede Einstufung trägt ihre Policy-Version.
+6. **Auditsichere Endergebnisse.** Jede Ergebniszeile hat eine Grundlage, der Berichtsstatus wird berechnet und nachgerechnet, Nachweise sind geprüft, Formulierungen bleiben im geprüften Umfang (`vorschriften.md` §A2 Nr. 0, §A8, §A17).
 
 ## 2. Artefakte
 
@@ -60,7 +61,7 @@ Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `ve
 9. Controls bewerten, Findings und Maßnahmen vorschlagen
 10. Menschen um Freigabe bitten (alle `vorgeschlagen`)
 
-**Definition of Done einer ISMS-Prüfung:** `pruefen` fehlerfrei · keine Entscheidung `offen` oder `vorgeschlagen` außer bewusst vertagten (in `isms.md` §11 aufgeführt) · `isms.md` §1–§10 vollständig · Prüfergebnis vom Engagement Lead freigegeben.
+**Definition of Done einer ISMS-Prüfung:** `pruefen` fehlerfrei · keine Entscheidung `offen` oder `vorgeschlagen` außer bewusst vertagten (in `isms.md` §11 aufgeführt) · `isms.md` §1–§10 vollständig, §10 mit Gesamturteil, Prüfumfang, Einschränkungen und Freigabe DT Agency · kein Berichtsstatus `needs_review` · erst dann `isms.md` `status: freigegeben` – das Werkzeug prüft diese Punkte.
 
 ## 4. Phasen eines Mandats
 

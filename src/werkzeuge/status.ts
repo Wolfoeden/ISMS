@@ -4,6 +4,7 @@
 import { zuFakten } from '../fragebogen/fragebogen.js';
 import { KATALOG } from '../fragebogen/katalog.js';
 import { deriveAssuranceProfile, PROFILE_NAMES } from '../proportionality/profile.js';
+import { groessenklasse, type GroessenErgebnis } from '../bewertung/groessenklasse.js';
 import { nis2Vorpruefung, type Nis2Vorpruefung } from '../regelwerk/nis2.js';
 import type { Arbeitsbereich, Mandat } from './repo.js';
 import { pruefeArbeitsbereich } from './pruefen.js';
@@ -21,6 +22,7 @@ export interface MandatStatus {
   unbekanntOhneKlaerung: string[];
   entscheidungen: Record<string, string[]>;
   nis2?: Nis2Vorpruefung;
+  groesse?: GroessenErgebnis;
   einstufung: { moeglich: boolean; fehlend: string[]; empfehlung?: string };
   befunde: { fehler: number; warnungen: number };
   schritte: Schritt[];
@@ -69,6 +71,7 @@ export function mandatStatus(ws: Arbeitsbereich, m: Mandat): MandatStatus {
     einstufung.empfehlung = `Profil ${d.recommended} (${PROFILE_NAMES[d.recommended]})${d.borderline ? `, Grenzfall ${d.borderline.alternative}` : ''}`;
   }
   const nis2 = m.fragebogen ? nis2Vorpruefung(nis2Eingaben(m)) : undefined;
+  const groesse = m.fragebogen ? groessenklasse(nis2Eingaben(m)) : undefined;
 
   const befundListe = pruefeArbeitsbereich({ ...ws, mandate: [m] }).filter((b) => b.datei.startsWith(`mandanten/${m.kuerzel}/`));
   const befunde = {
@@ -116,6 +119,7 @@ export function mandatStatus(ws: Arbeitsbereich, m: Mandat): MandatStatus {
     unbekanntOhneKlaerung,
     entscheidungen,
     ...(nis2 ? { nis2 } : {}),
+    ...(groesse ? { groesse } : {}),
     einstufung,
     befunde,
     schritte: s,
@@ -134,6 +138,7 @@ export function formatiereStatus(st: MandatStatus): string {
     ...Object.entries(st.entscheidungen).flatMap(([s, l]) => l.map((x) => `  [${s}] ${x}`)),
     '',
     `NIS2-Vorprüfung: ${st.nis2 ? st.nis2.ergebnis + (st.nis2.fehlend.length ? ` (fehlt: ${st.nis2.fehlend.join(', ')})` : '') : '—'}`,
+    `Größenklasse: ${st.groesse?.klasse ? st.groesse.klasse + (st.groesse.vorlaeufig ? ' (vorläufig)' : '') : `offen${st.groesse?.fehlend.length ? ` (fehlt: ${st.groesse.fehlend.join(', ')})` : ''}`}`,
     `Einstufung: ${st.einstufung.moeglich ? st.einstufung.empfehlung : `blockiert – ${st.einstufung.fehlend.length} Antworten fehlen`}`,
     `Prüfung: ${st.befunde.fehler} Fehler · ${st.befunde.warnungen} Warnungen`,
     '',

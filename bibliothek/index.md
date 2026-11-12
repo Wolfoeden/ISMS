@@ -16,9 +16,10 @@
 | BIB-DSGVO-32 | DSGVO – Sicherheit der Verarbeitung und Meldung von Datenschutzverletzungen | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/dsgvo-32-33-sicherheit.md](rechtsquellen/dsgvo-32-33-sicherheit.md) |
 | BIB-ISO27000 | ISO/IEC 27000:2018 – Überblick und Begriffe der ISMS-Normenfamilie | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27000-2018.md](normen/iso-iec-27000-2018.md) |
 | BIB-ISO27001 | ISO/IEC 27001:2022 – Anforderungen an das ISMS (Abschnitte 4–10), Anhang A und SoA | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27001-2022.md](normen/iso-iec-27001-2022.md) |
-| BIB-ISO27002 | ISO/IEC 27002:2022 – Control-Katalog (93 Maßnahmen), Attribute, Nachweiskategorien | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27002-2022-controls.md](normen/iso-iec-27002-2022-controls.md) |
+| BIB-ISO27002 | ISO/IEC 27002:2022 – Control-Index (93 Kennungen), Attribute, Nachweiskategorien | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27002-2022-controls.md](normen/iso-iec-27002-2022-controls.md) |
 | BIB-KMU | KMU-Definition (Empfehlung 2003/361/EG) – Schwellenwerte für NIS2/BSIG | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/kmu-definition.md](rechtsquellen/kmu-definition.md) |
 | BIB-MET-PROFIL | Methodik – Ableitung des Assurance Profile (Policy 2026-11.1) | methodik | entwurf | — | 2027-05-12 | [methodik/assurance-profile.md](methodik/assurance-profile.md) |
+| BIB-RDG | Rechtsdienstleistungsgesetz – Grenze zwischen fachlicher Einschätzung und Rechtsberatung | rechtsquelle | quellengeprueft | — | 2027-05-12 | [rechtsquellen/rdg-rechtsdienstleistung.md](rechtsquellen/rdg-rechtsdienstleistung.md) |
 | BIB-URHG | Urheberrecht – Schutz von Normen, Bearbeitungen, Text und Data Mining, Zitate | rechtsquelle | quellengeprueft | — | 2027-05-12 | [rechtsquellen/urhg-normen-und-ableitungen.md](rechtsquellen/urhg-normen-und-ableitungen.md) |
 
 ## Quellen-Snapshots
@@ -32,6 +33,9 @@
 - [quellen/de-bsig-p33.txt](quellen/de-bsig-p33.txt) – BIB-BSIG-33
 - [quellen/de-bsig-p38.txt](quellen/de-bsig-p38.txt) – BIB-BSIG-38
 - [quellen/de-bsig-p39.txt](quellen/de-bsig-p39.txt) – BIB-BSIG-39
+- [quellen/de-rdg-p2.txt](quellen/de-rdg-p2.txt) – BIB-RDG
+- [quellen/de-rdg-p3.txt](quellen/de-rdg-p3.txt) – BIB-RDG
+- [quellen/de-rdg-p5.txt](quellen/de-rdg-p5.txt) – BIB-RDG
 - [quellen/de-urhg-p23.txt](quellen/de-urhg-p23.txt) – BIB-URHG
 - [quellen/de-urhg-p44b.txt](quellen/de-urhg-p44b.txt) – BIB-URHG
 - [quellen/de-urhg-p5.txt](quellen/de-urhg-p5.txt) – BIB-URHG

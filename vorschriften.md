@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Stand | 2026-11-12 · Revision 2 · Entwurf |
+| Stand | 2026-11-12 · Revision 3 · Entwurf; §A8, §A9, §A13 nach Freigabe von ENT-018, ENT-019, ENT-027, ENT-028 |
 | Gilt für | Menschen und KI-Agents in diesem Repository und in der späteren Plattform (ISMS, GRC, Third-Party Assessments) |
 | Ersetzt | Revision 1 dieser Datei und das Eingangsdokument `docs/vorgaben/eingang-2026-11-12/Vorschriften.md` |
 | Prüfung | [`docs/vorgaben/pruefbericht-2026-11-12.md`](docs/vorgaben/pruefbericht-2026-11-12.md) |
@@ -33,9 +33,10 @@
 
 | # | Prinzip | Umsetzung |
 |---|---|---|
+| 0 | **Auditsichere Endergebnisse:** Jedes Ergebnis ist (a) auf seine Grundlage zurückführbar, (b) deterministisch hergeleitet, (c) von einem benannten Menschen freigegeben, (d) durch geprüfte Nachweise belegt, (e) auf den geprüften Umfang begrenzt formuliert, (f) unveränderlich historisiert und (g) vor der Freigabe maschinell geprüft. | ✔ (a) Verweis je Ergebniszeile · (b) Berichtsstatus berechnet, Policy-Version · (c) „Freigegeben von“ · (d) Nachweis-Prüfstufe, Gültigkeit · (e) §A17 · (f) Git · (g) `pruefen` |
 | 1 | **Risikoorientierung:** Scope, Schutzbedarf, Bedrohungen, Schwachstellen, Auswirkungen und Anforderungen berücksichtigen; ein Ja/Nein-Fragebogen allein reicht nicht. | ◐ Triage-Fragebogen ✔; Asset- und Risikoaufnahme ○ |
 | 2 | **Verhältnismäßigkeit:** Tiefe nach Risiko, Kritikalität, Regulatorik, Kundenpflichten und Auslagerungen; die Mitarbeiterzahl ist nur ein Faktor. | ✔ Assurance Profile (§A13) |
-| 3 | **Nachvollziehbarkeit:** Aussagen, Belege, Schlussfolgerungen, Unsicherheiten und Entscheidungen getrennt speichern. | ◐ siehe §A8 |
+| 3 | **Nachvollziehbarkeit:** Aussagen, Belege, Schlussfolgerungen, Unsicherheiten und Entscheidungen getrennt speichern. | ✔ §A8 |
 | 4 | **Keine Scheinkonformität:** Nicht Geprüftes oder nicht Belegtes nie als erfüllt ausgeben. | ✔ `pruefen` für `isms.md` |
 | 5 | **Mensch entscheidet:** Risikoakzeptanzen, Auditfeststellungen, Freigaben und finale Berichte bestätigen berechtigte Menschen. | ✔ Status `freigegeben` nur durch Menschen |
 | 6 | **Kontinuität:** Wiederholungsprüfungen, Versionsstände und Verbesserungen abbilden. | ◐ Git-Historie, Verlauf; Neubewertung [ENT-010] |
@@ -73,11 +74,11 @@ Jedes Assessment **MUSS** diese Schritte unterstützen. Zuordnung zu den Phasen 
 | 5 | Kontext und Assets aufnehmen | – | ○ Asset-Register fehlt |
 | 6 | Risiken analysieren | `isms.md` §7 | ◐ Methode fehlt ([ENT-022]) |
 | 7 | Adaptiv interviewen, nichts doppelt fragen | Agent `erhebung`, Klärungen | ✔ |
-| 8 | Belege sammeln mit Herkunft und Gültigkeit | `notizen/` | ◐ Evidenzregister §A8 |
+| 8 | Belege sammeln mit Herkunft und Gültigkeit | `notizen/` mit Kopf und Prüfstufe | ✔ |
 | 9 | Controls bewerten: Soll, Beschreibung, Umsetzung, Wirksamkeit getrennt | `isms.md` §6 | ✔ Spalten getrennt |
 | 10 | Findings und Maßnahmen ableiten | Entscheidungen `finding`, `massnahme` | ✔ |
 | 11 | Fachliche Qualitätssicherung | Quality Gate, `/freigeben` | ✔ |
-| 12 | Bericht erzeugen | – | ○ Berichtsvorlage fehlt (§A12) |
+| 12 | Bericht erzeugen | `isms.md` §10 mit Pflichtzeilen und Satzbausteinen (§A17.3) | ◐ Berichtsvorlage fehlt |
 | 13 | Nachverfolgen, Neubewertung | Phase 6, [ENT-010] | ◐ |
 
 Ein Assessment **DARF** erst abgeschlossen werden, wenn alle Pflichtschritte erledigt oder begründet ausgenommen sind und die Freigabe vorliegt (Definition of Done: `plan.md` §3).
@@ -89,15 +90,15 @@ Ein Assessment **DARF** erst abgeschlossen werden, wenn alle Pflichtschritte erl
 | Organization / OrganizationProfile | Mandant, Branche, Größe, Geschäftsmodell | ✔ `organization`, `complexity_assessment` |
 | Engagement / Assessment | Auftrag, Typ, Scope, Kriterien, Stand | ✔ `mandate` |
 | Scope | Grenzen, Einheiten, Produkte, Prozesse, Ausnahmen | ◐ Freitext ([ENT-021]) |
-| Framework / Version / Requirement | Quelle, Version, Anforderung, Anwendbarkeit | ◐ Bibliothek; DB-Tabelle fehlt |
+| Framework / Version / Requirement | Quelle, Version, Anforderung, Anwendbarkeit | ✔ Bibliothek, `requirement_assessment` |
 | Stakeholder / Role / User | Interessen, Zuständigkeit, Rechte | ✔ `person`, `mandate_role` |
 | Asset / BusinessProcess / InformationSystem | Werte, Eigentümer, Schutzbedarf | ○ |
 | Threat / Vulnerability | Bedrohung, Schwachstelle, Kontext | ○ |
-| Risk / RiskAssessment / RiskTreatment | Szenario, Bewertung, Akzeptanz, Restrisiko | ○ |
-| Control / ControlImplementation | Ziel, Anwendbarkeit, Umsetzung, Wirksamkeit | ◐ `control`, `control_applicability` |
+| Risk / RiskAssessment / RiskTreatment | Szenario, Bewertung, Akzeptanz, Restrisiko | ◐ `risk` mit Phasen und Risk-Owner-Prüfung; Skala [ENT-022] |
+| Control / ControlImplementation | Ziel, Anwendbarkeit, Umsetzung, Wirksamkeit | ✔ `control`, `control_assessment` mit Achsen und berechnetem Berichtsstatus |
 | AssessmentQuestion / Response | Frage, Antwort, Zeitpunkt, Kontext | ✔ Fragebogen-Katalog |
-| Evidence / EvidenceReview | Herkunft, Version, Gültigkeit, Integrität, Prüfergebnis | ○ |
-| Finding / CorrectiveAction | Feststellung, Begründung, Priorität, Frist | ◐ `finding` |
+| Evidence / EvidenceReview | Herkunft, Version, Gültigkeit, Integrität, Prüfergebnis | ✔ `evidence`, `assessment_evidence`; Notiz-Kopf |
+| Finding / CorrectiveAction | Feststellung, Begründung, Priorität, Frist | ✔ `finding` mit Kundenreaktion, `measure` mit Phasen |
 | Approval / AuditLog / Report | Freigabe, Historie, Bericht | ◐ `finding_transition`, `profile_decision` |
 
 Beziehungskette (viele-zu-viele zulässig): `Organization → Scope → Requirement → Asset/Process/System → Risk → Control → Evidence → Bewertung/Finding → Maßnahme → Bericht`.
@@ -113,6 +114,8 @@ Jede fachliche Entität **MUSS** stabile ID, Mandantenzuordnung, Zeitstempel und
 5. Behandlungsoptionen: vermeiden · reduzieren · teilen · bewusst tragen.
 6. Restrisiken **MÜSSEN** Verantwortlichen, Entscheidung, Datum, Begründung und Wiedervorlage haben. **Nur der Risk Owner** akzeptiert; die KI schlägt vor.
 7. Ein fehlender Nachweis ist ohne weitere Analyse **keine** bestätigte Schwachstelle und keine Normabweichung.
+
+8. Phasen eines Risikos (ENT-028): `identifiziert` → `bewertet` → `behandlung_entschieden` → `restrisiko_akzeptiert` → `in_ueberwachung` → `geschlossen`. Ab `restrisiko_akzeptiert` muss „Freigegeben von“ den Risk Owner nennen – das Werkzeug prüft das.
 
 Methode und Skalen für Mandate: [ENT-022].
 
@@ -139,35 +142,53 @@ Methode und Skalen für Mandate: [ENT-022].
 | `inference` | abgeleitete Bewertung mit Unsicherheit | Vorschlag auf der Entscheidungsseite |
 | `decision` | formell freigegebene Entscheidung | freigegebene Entscheidung |
 
-Fragebogen-Antworten sind `claim`s: Sie genügen für die Einstufung, **nie** für die Bewertung `met` eines Controls oder einer Anforderung.
+Fragebogen-Antworten sind `claim`s: Sie genügen für die Einstufung, **nie** für einen Berichtsstatus `met`.
 
-**Statusmodell – vorläufig.** Die folgende Liste vereinheitlicht die drei Listen der Eingangsdokumente. Sie mischt jedoch Anwendbarkeit, Bearbeitungsstand, Beweislage und Ergebnis; ein Achsenmodell mit berechnetem Berichtsstatus liegt zur Entscheidung vor ([ENT-018], [ENT-027], [ENT-028], Vorlage `docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md`). Bis dahin gilt:
+### A8.1 Bewertungsmodell (ENT-018, Option C)
 
-*Anforderungen* (ISO/IEC 27001 Abschnitte 4–10, gesetzliche Pflichten, Kundenanforderungen) – ein Status:
+Gespeichert werden getrennte **Achsen**; der **Berichtsstatus wird berechnet** und nie frei gesetzt. Codes englisch, Bezeichnungen im Bericht deutsch (§A17.1). Umsetzung: `src/bewertung/modell.ts`.
 
-| Status | Bedeutung | entspricht in den Eingangsdokumenten |
+| Achse | Codes | gilt für |
 |---|---|---|
-| `not_assessed` | nicht geprüft | `not_assessed` |
-| `evidence_missing` | Nachweis fehlt | `not_evidenced` |
-| `insufficient_evidence` | Nachweis reicht nicht | – |
-| `partially_met` | teilweise erfüllt, mit Begründung | – |
-| `met` | anhand definierter Kriterien ausreichend belegt | `conforming` |
-| `not_met` | Nichterfüllung festgestellt | `nonconforming` |
-| `not_applicable` | begründet nicht anwendbar – **unzulässig** für ISO/IEC 27001 Abschnitte 4–10 bei Konformitätsanspruch | `not_applicable` |
-| `needs_review` | fachliche Prüfung nötig, z. B. bei widersprüchlichen Nachweisen | `needs_review` |
+| Anwendbarkeit | `undecided` · `applicable` · `not_applicable` | alle |
+| Erfüllung | `open` · `met` · `partially_met` · `not_met` | Anforderungen (ISO/IEC 27001 4–10, Gesetzespflichten, Vertragspflichten) |
+| Umsetzung | `unknown` · `absent` · `partial` · `present` | Controls, Prüfbereiche |
+| Wirksamkeit | `not_verified` · `effective` · `ineffective` | Controls, Prüfbereiche |
+| Evidenzlage | `none` · `claim_only` · `insufficient` · `sufficient` · `conflicting` | alle |
+| Freigabe | `offen` · `vorgeschlagen` · `freigegeben` · `abgelegt` | alle – identisch mit der Entscheidungsseite |
 
-*Controls* – drei getrennte Felder:
+### A8.2 Regeln
 
-| Feld | Werte |
-|---|---|
-| Anwendbarkeit | `undecided` · `applicable` · `not_applicable` |
-| Umsetzung | `unknown` · `absent` · `partial` · `present` |
-| Wirksamkeit | `not_verified` · `effective` · `ineffective` |
+| # | Regel | geprüft |
+|---|---|---|
+| R1 | Gespeichert wird, was erhoben wurde. **Berichtet** wird eine Erfüllung nur mit Evidenzlage `sufficient`; eine Lücke (`not_met`, `absent`) wird schon auf eine Aussage hin als Lücke berichtet. `sufficient` verlangt mindestens einen Nachweis mit `art: evidence`, `pruefung: geeignet`, nicht abgelaufen. | ✔ |
+| R2 | Wirksamkeit (`effective`/`ineffective`) nur bei Umsetzung `partial`/`present` und mit Nachweis der Art `evidence`. | ✔ |
+| R3 | Ab erforderlicher Tiefe 3 gilt ein umgesetztes Control erst mit `effective` als erfüllt. | ✔ |
+| R4 | `not_applicable` nur mit begründeter, freigegebener Entscheidung; nie für ISO/IEC 27001 Abschnitte 4–10 und nie für Pflichten eines als anwendbar entschiedenen Gesetzes. | ✔ |
+| R5 | Widersprüchliche Nachweise (`conflicting`) erzwingen eine menschliche Klärung; nicht freigebbar. | ✔ |
+| R6 | In `isms.md` (außer §11) nur Abgelegtes; jede Ergebniszeile mit Grundlage. | ✔ |
 
-Weitere Regeln:
-- Jeder Nachweis **MUSS** Mandant, Quelle, Zeitpunkt, Art, Version, betroffene Anforderungen/Controls, Prüfer und Freigabestatus tragen; wo sinnvoll ein Integritätsmerkmal (Prüfsumme). ◐ Kopf je Notiz (`mandanten/_vorlage/notizen/README.md`)
+### A8.3 Berechneter Berichtsstatus
+
+Erste zutreffende Zeile gewinnt.
+
+| # | Bedingung | Berichtsstatus |
+|---|---|---|
+| 1 | Anwendbarkeit `not_applicable` | `not_applicable` |
+| 2 | Evidenzlage `conflicting` oder Freigabe `vorgeschlagen` | `needs_review` |
+| 3 | Anwendbarkeit `undecided`, Erfüllung `open` bzw. Umsetzung `unknown` | `not_assessed` |
+| 4 | Erfüllung `not_met`, Umsetzung `absent` oder Wirksamkeit `ineffective` | `not_met` |
+| 5 | Evidenzlage `none` | `evidence_missing` |
+| 6 | Evidenzlage `claim_only`/`insufficient`, oder Umsetzung `present` bei Tiefe ≥ 3 ohne `effective` | `insufficient_evidence` |
+| 7 | Erfüllung `partially_met` bzw. Umsetzung `partial` | `partially_met` |
+| 8 | sonst | `met` |
+
+Werte aus den Eingangsdokumenten: `conforming` → `met`, `nonconforming` → `not_met`, `not_evidenced` → `evidence_missing`.
+
+### A8.4 Nachweise (ENT-028)
+
+- Jeder Nachweis trägt einen Kopf: Art, Quelle, Datum, erfasst von, Version, Prüfsumme, betroffene Anforderungen, **Prüfstufe** `eingegangen` · `geeignet` · `ungeeignet` · `abgelaufen`, geprüft von (Mensch), gültig bis (`mandanten/_vorlage/notizen/README.md`). ✔ geprüft
 - Ein Screenshot einer Richtlinie oder Einstellung belegt **nicht** dauerhafte Wirksamkeit.
-- Widersprüchliche Nachweise → `needs_review`.
 
 ## A9. Rollen, Freigaben und Unabhängigkeit
 
@@ -187,6 +208,20 @@ Weitere Regeln:
 | AI Agent | Agents in `.claude/agents/` | **keines** – vorbereiten, analysieren, empfehlen |
 
 Eine Person **KANN** mehrere Rollen halten (Einzelunternehmer). Funktionstrennung und Unabhängigkeit **MÜSSEN** bei Audits gesondert geprüft werden (Regeln G3, G6, T5, I1 in `docs/01` §6; Karenzzeit 24 Monate).
+
+**Ein Freigabebegriff (ENT-027, Option A):** „freigegeben“ heißt überall – Bibliothek, Entscheidungen, Feststellungen, Nachweise, `isms.md` –, dass ein namentlich benannter, berechtigter Mensch geprüft und genehmigt hat. „Freigegeben von“ nennt **Name und Rolle**, „Freigegeben am“ das Datum. Ein Agent gibt nie frei. „Verifizierung“ bezeichnet nur die Tätigkeit des Abgleichs mit einer Quelle oder einem Nachweis (Status `quellengeprueft`), nie die Genehmigung.
+
+**Feststellungen** durchlaufen dieselben Stufen wie jede Entscheidung; die Kundenreaktion ist ein eigenes Feld:
+
+| Stufe | Code Plattform | Kundenreaktion nach Ablage |
+|---|---|---|
+| offen | `open` | – |
+| vorgeschlagen | `proposed` | – |
+| freigegeben (Quality Gate: bei Schwere hoch/kritisch nur Engagement Lead, Independent Reviewer oder SME der Domäne) | `approved` | – |
+| abgelegt (`isms.md` §8) | `filed` | `offen` → `besprochen` → `akzeptiert` · `bestritten` (bestritten → erneute Prüfung) |
+| verworfen | `rejected` | – |
+
+Kunden sehen Feststellungen erst, wenn sie abgelegt und besprochen sind.
 
 ## A10. Regeln für KI-Agents
 
@@ -218,11 +253,20 @@ Verbindlich (MUSS):
 
 Jeder Abschlussbericht **MUSS** enthalten: Titel, ID, Version, Datum, Auftraggeber, beurteilte Einheit · Ziel, Methode, Scope-Grenzen · Regelwerke, Versionen, Kriterien, Ausnahmen · Prüfschritte, Interviews, Quellen, Evidenzlage · Feststellungen mit Kriterien- und Belegbezug · Risiken, Auswirkungen, Unsicherheiten · priorisierte Maßnahmen · nicht geprüfte Bereiche, offene Fragen · Reviewer, Freigabe, Datum, Status.
 
-Berichte **DÜRFEN** den geprüften Scope nicht überschreiten und **DÜRFEN NICHT** Zertifizierung oder uneingeschränkte Sicherheit suggerieren. ○ Berichtsvorlage aus `isms.md` fehlt.
+Berichte **DÜRFEN** den geprüften Scope nicht überschreiten und **DÜRFEN NICHT** Zertifizierung oder uneingeschränkte Sicherheit suggerieren. Formulierungen nach §A17. ✔ `isms.md` §10 mit Pflichtzeilen (Gesamturteil, Prüfumfang, Einschränkungen, Freigabe), Freigabe von `isms.md` nur bei erfüllter Definition of Done · ○ eigenständige Berichtsvorlage
 
 ## A13. Proportionalität
 
-Die Assessment-Tiefe steuert das **Assurance Profile** 1 Lean · 2 Standard · 3 Enhanced · 4 Critical/Regulated ([BIB-MET-PROFIL], `plan.md` §5). Die Größenklassen `micro` · `sme` · `enterprise` aus dem Eingangsdokument sind **keine** Steuerungsprofile für Prüfumfang oder -tiefe. Vorschlag zur Entscheidung ([ENT-019]): Größenklasse kleinst / klein / mittel / groß nach [BIB-KMU] als berechnete Eingangsgröße, die nur die Organisationsform des Assessments steuert (Gesprächspartner, Rollenbündelung, Freigabewege).
+Die Assessment-Tiefe steuert das **Assurance Profile** 1 Lean · 2 Standard · 3 Enhanced · 4 Critical/Regulated ([BIB-MET-PROFIL], `plan.md` §5). **Größenklasse (ENT-019, Option C):** `kleinst` · `klein` · `mittel` · `gross` nach der KMU-Empfehlung ([BIB-KMU]), berechnet aus `ORG-01`, `STA-06`, `STA-07` (vorläufig, solange `STA-08` ungeklärt ist). Sie steuert **nur die Organisationsform** – wie geprüft wird –, **nie** Prüfumfang, Anwendbarkeit, Prüftiefe oder Evidenzanforderungen. Die Klassen `micro` · `sme` · `enterprise` des Eingangsdokuments entfallen, weil `sme` die NIS2-Schwelle bei 50 Beschäftigten verwischt. Umsetzung: `src/bewertung/groessenklasse.ts`.
+
+| Größenklasse | Gesprächspartner | Rollenbündelung | Vier-Augen | Freigabewege |
+|---|---|---|---|---|
+| kleinst | 1–2 Personen, Gespräche gebündelt | erwartet; SoD-Ausnahmen vorbereitet | in der Regel extern (DT Agency) | eine freigebende Person beim Kunden |
+| klein | 2–4 Schlüsselpersonen | zulässig mit SoD-Ausnahme | intern, wo möglich, sonst extern | Geschäftsführung; Risk Owner je Risiko |
+| mittel | je Prüfbereich der Control Owner | eingeschränkt | intern | Rollenträger; Geschäftsleitung für Profil, Scope, Restrisiken |
+| gross | Control Owner und Teams, Stichproben je Standort | nur mit SoD-Ausnahme | intern, formalisiert | Gremien und Workflows des Kunden |
+
+Beispiel: DNS-Diensteanbieter mit 6 Beschäftigten – Profil 4 (größenunabhängig besonders wichtige Einrichtung) bestimmt Umfang und Evidenztiefe; die Größenklasse `kleinst` bestimmt Gesprächsführung, Rollenbündelung und externes Vier-Augen-Prinzip.
 
 Vor jeder Konfiguration **MUSS** geprüft sein: Geschäftsmodell und Leistungen · Art und Kritikalität der Informationen · Kunden- und Vertragspflichten · regulatorische Pflichten · Dienstleister, Cloud und Lieferkette · IT-/OT-Systeme · relevante Risiken. ✔ Fragebogen-Abschnitte
 
@@ -236,14 +280,16 @@ Neue Funktionen sind abnahmefähig, wenn Tests diese Fälle abdecken:
 |---|---|
 | Normversion: alte und neue Versionen liefern unterscheidbare Bewertungen | ○ |
 | Nichtanwendbarkeit braucht Scope-Bezug und Begründung | ✔ Schema-Constraint, Control-Resolver |
-| Fehlende Evidenz führt nie automatisch zu `met` | ◐ `isms.md`-Prüfung; Statusmodell ○ |
-| Widersprüchliche Nachweise → `needs_review` | ○ |
-| KI kann keine Risikoakzeptanz erteilen | ✔ Agent als Verifizierer wird abgelehnt |
+| Fehlende Evidenz führt nie automatisch zu `met` | ✔ Berichtsstatus berechnet und nachgerechnet |
+| Widersprüchliche Nachweise → `needs_review` | ✔ R5, Ableitung Zeile 2 |
+| KI kann keine Risikoakzeptanz erteilen | ✔ Agent als Freigebender abgelehnt; Restrisiko nur durch Risk Owner |
 | Zugriff zwischen Mandanten wird abgewiesen | ✔ RLS-Test (Schema) |
 | Unbefugte können keine Berichte freigeben | ✔ Regeln G5, Quality Gate |
 | Historische Berichte referenzieren damalige Bewertungsstände | ◐ Policy-Version, Git |
 | Dokumentinhalte überschreiben keine Regeln (Prompt Injection) | ○ Regel in `CLAUDE.md`, kein Test |
 | Organisatorisches 3PA und Produktbewertung bleiben unterscheidbar | ○ [ENT-021] |
+| Unzulässige Formulierungen in Endergebnissen werden abgelehnt | ✔ §A17.4 |
+| Freigabe von `isms.md` nur mit vollständigem Prüfergebnis | ✔ |
 
 ## A15. Umsetzungsreihenfolge
 
@@ -256,6 +302,102 @@ Neue Funktionen sind abnahmefähig, wenn Tests diese Fälle abdecken:
 ## A16. Definition of Done für KI-erzeugte Änderungen
 
 Vor Abschluss dokumentiert der Agent: umgesetzte Regel und Anwendungsfall · betroffene Entitäten, Zustände, Berechtigungen, Quellen · ob normative Aussagen durch freigegebene, aktuelle Quellen gedeckt sind · Migrationen, Tests, Dokumentation · Einhaltung von Scope-, Mandanten-, Evidenz- und Freigaberegeln · offene Annahmen. Technisch: `npm run check` und `npm run isms -- pruefen` fehlerfrei.
+
+## A17. Formulierungen und Begriffe
+
+Ergebnisse müssen fachlich eindeutig, in der Terminologie normnah und für Kunden verständlich sein – und dürfen keine Aussagen enthalten, für die DT Agency nicht einstehen kann ([ENT-026], [ENT-027]). §A17.4 prüft das Werkzeug.
+
+### A17.1 Begriffe
+
+| Begriff | Code | Bedeutung | Nicht verwechseln mit |
+|---|---|---|---|
+| **freigegeben** | `freigegeben` | ein benannter, berechtigter Mensch hat geprüft und genehmigt (Name, Rolle, Datum) | quellengeprüft |
+| quellengeprüft | `quellengeprueft` | Wortlaut ist mit der amtlichen Quelle abgeglichen (Tätigkeit „Verifizierung“) – noch keine Freigabe | freigegeben |
+| abgelegt | `abgelegt` | Freigegebenes ist in das Zielartefakt übernommen | – |
+| Aussage | `claim` | Angabe einer befragten Person | Nachweis |
+| Nachweis | `evidence` | Dokument, Export, Test oder Beobachtung mit Herkunft, Stand und Prüfstufe | Aussage |
+| Anforderung | – | Muss-Vorgabe aus Gesetz, Vertrag oder ISO/IEC 27001 Abschnitte 4–10 | Empfehlung, Control |
+| Control | – | Sicherheitsmaßnahme nach ISO/IEC 27001 Anhang A, immer mit Kennung `A.x.y` (in der deutschen Normfassung „Maßnahme“) | Korrekturmaßnahme |
+| Prüfbereich | – | einer der zehn Bereiche nach § 30 Abs. 2 BSIG ([BIB-BSIG-30]) | – |
+| Feststellung | `finding` | belegter Befund zu einer Anforderung oder einem Control, mit Schwere | Risiko, Bewertung |
+| Nichtkonformität | – | Nichterfüllung einer Anforderung – **nur in Audit-Mandaten** (`leistungsart: internal_audit`) | „nicht erfüllt“ in Beratungsmandaten |
+| Empfehlung | `massnahme`, Phase `offen` | Vorschlag von DT Agency | Korrekturmaßnahme |
+| Korrekturmaßnahme | `massnahme`, ab Phase `beschlossen` | vom Kunden beschlossene Maßnahme zur Behebung einer Feststellung | Control |
+| Risk Owner (Risikoeigentümer) | – | entscheidet beim Kunden über Behandlung und Restrisiko | Control Owner |
+| Restrisikoakzeptanz | Phase `restrisiko_akzeptiert` | Entscheidung des Risk Owners, kein Urteil von DT Agency | Freigabe durch DT Agency |
+| Berichtsstatus | §A8.3 | berechnetes Ergebnis | Achsen |
+| Größenklasse | §A13 | steuert die Organisationsform des Assessments | Assurance Profile |
+
+**Bezeichnungen der Berichtsstatus:**
+
+| Code | Bericht | Audit-Mandat |
+|---|---|---|
+| `met` | erfüllt | konform |
+| `partially_met` | teilweise erfüllt | teilweise erfüllt |
+| `not_met` | nicht erfüllt | Nichtkonformität |
+| `evidence_missing` | Nachweis fehlt | Nachweis fehlt |
+| `insufficient_evidence` | Nachweis unzureichend | Nachweis unzureichend |
+| `not_assessed` | nicht bewertet | nicht bewertet |
+| `not_applicable` | nicht anwendbar | nicht anwendbar |
+| `needs_review` | in Klärung | in Klärung |
+
+### A17.2 Normbezüge (ENT-026)
+
+| # | Regel |
+|---|---|
+| N1 | Normen werden über **Kennung, Ausgabe und Abschnitt** zitiert: „ISO/IEC 27001:2022, 6.1.3“, „Anhang A, A.8.5“. Die Kennung ist der Bezug – nicht der Titel. |
+| N2 | Statt Normtiteln stehen **eigene Themenbezeichnungen** ([BIB-ISO27001], [BIB-ISO27002]). Kein Normtext, auch nicht entlang des Wortlauts umformuliert. |
+| N3 | Anforderungen werden als **eigene Prüfkriterien** formuliert („Geprüft wird, ob …“), nicht als Nacherzählung eines Normsatzes. |
+| N4 | Keine Seitenzahlen, Tabellen oder Gliederungsauszüge aus lizenzierten Ausgaben in Kundenausgaben. |
+| N5 | Gesetzestexte dürfen wörtlich zitiert werden – mit Fundstelle und Fassung ([BIB-URHG]). |
+| N6 | Bis zur Klärung der Lizenzbedingungen ([ENT-026]) enthalten Kundenausgaben nur Kennungen und eigene Texte. |
+
+### A17.3 Satzbausteine für Ergebnisse
+
+Platzhalter in eckigen Klammern. Diese Bausteine sind mit der Prüfung nach §A17.4 abgeglichen.
+
+**Ergebnis je Anforderung oder Control**
+> [Kennung] – [Thema]: Berichtsstatus „[Bezeichnung]“. Grundlage: [Nachweise mit Datum]. Stand: [Datum].
+
+**Gesamturteil (Beratungsmandat)**
+> Im vereinbarten Prüfumfang ([Scope], Stand [Datum]) lagen für [n] von [m] bewerteten Anforderungen ausreichende Nachweise für eine Erfüllung vor; [k] Anforderungen sind teilweise oder nicht erfüllt, [j] befinden sich in Klärung. Einzelheiten stehen in den Abschnitten 6 bis 9.
+
+**Prüfumfang**
+> Bewertet wurden [Prüfbereiche/Anforderungen] für [Organisationseinheit/System/Standort] auf Grundlage von [Interviews, Dokumenten, Stichproben] im Zeitraum [von–bis]. Nicht bewertet wurden: [Bereiche].
+
+**Einschränkungen (Pflichttext)**
+> Die Bewertung beruht auf den bis zum [Datum] vorgelegten Nachweisen und auf Angaben der befragten Personen. Stichproben erlauben keinen Schluss auf eine vollständige Fehlerfreiheit. Die Aussagen gelten nur für den genannten Prüfumfang und Zeitpunkt. Dieses Ergebnis ist keine Zertifizierung und kein Audit einer akkreditierten Stelle.
+
+**Einschätzung zur Anwendbarkeit eines Gesetzes (z. B. NIS2/BSIG)**
+> Fachliche Einschätzung im Rahmen der Informationssicherheitsberatung: Nach den vorliegenden Angaben ([Fragebogen-IDs], Stand [Datum]) spricht die Prüfung nach [Fundstelle] für eine Einordnung als [Ergebnis]. Getroffene Annahmen: [Annahmen]. Die verbindliche rechtliche Bewertung obliegt dem Unternehmen bzw. seiner Rechtsberatung.
+
+**Feststellung**
+> Feststellung [ID] ([Schwere]): Für [Kennung] wurde am [Datum] anhand von [Nachweis] festgestellt, dass [beobachteter Sachverhalt]. Mögliche Auswirkung: [Auswirkung].
+
+**Empfehlung**
+> Empfehlung [ID]: [Maßnahme], um [Ziel] zu erreichen. Priorität: [Priorität]. Über Umsetzung und verbleibendes Risiko entscheidet [Rolle beim Kunden].
+
+**Nur Aussage, kein Nachweis**
+> Für [Kennung] liegt bislang nur eine Aussage vor ([Quelle, Datum]); ein Nachweis steht aus.
+
+**Zertifikat des Kunden (nur als belegte Tatsache)**
+> Laut vorgelegtem Zertifikat [Nummer] der Stelle [Name] vom [Datum], gültig bis [Datum], ist der Geltungsbereich [Geltungsbereich] nach ISO/IEC 27001 zertifiziert.
+
+### A17.4 Unzulässige Formulierungen
+
+Das Werkzeug lehnt in `isms.md` (außer §11) ab (`src/werkzeuge/ergebnis.ts`):
+
+| Formulierung | stattdessen | Prüfung |
+|---|---|---|
+| „ist/wird … konform“, „rechtskonform“, „rechtssicher“, „zertifizierungsreif“ | Berichtsstatus je Anforderung, Gesamturteil-Baustein | Fehler |
+| „NIS2-konform“, „ISO-27001-konform“, „DSGVO-konform“ | Gesamturteil-Baustein | Fehler |
+| „garantiert“, „gewährleistet“ | „im Prüfumfang festgestellt“ | Fehler |
+| „vollständig/100 % sicher“, „lückenlos geschützt“ | Einschränkungen-Baustein | Fehler |
+| „erfüllt alle …“ | Gesamturteil-Baustein | Fehler |
+| „rechtsverbindlich“, „Rechtsgutachten“, „rechtlich geprüft“ | Anwendbarkeits-Baustein ([BIB-RDG]) | Fehler |
+| „Nichtkonformität“, „Auditfeststellung“, „auditiert“ außerhalb eines Audit-Mandats | „nicht erfüllt“, „Feststellung“ | Fehler |
+| „es bestehen keine Risiken/Schwachstellen“ | „im Prüfumfang wurden keine … festgestellt“ | Warnung |
+| „zertifiziert“ | nur Zertifikats-Baustein | Warnung |
 
 ---
 
@@ -360,7 +502,7 @@ Geltung je Assessment-Typ: [BIB-ISO27001], Tabelle „Geltung je Assessment-Typ�
 
 ### B5.1 Katalog
 
-93 Controls (37 / 8 / 14 / 34) mit Kennung, Kurztitel und Nachweiskategorie: [BIB-ISO27002]. Die Plattform **MUSS** alle 93 Kennungen stabil mit Framework, Ausgabe und Abschnitt speichern. `control_definition` (Referenzkatalog) und `control_assessment` (Kundenbewertung) **DÜRFEN NICHT** vermischt werden.
+93 Controls (37 / 8 / 14 / 34) mit Kennung, eigener Themenbezeichnung (§A17.2) und Nachweiskategorie: [BIB-ISO27002]. Die Plattform **MUSS** alle 93 Kennungen stabil mit Framework, Ausgabe und Abschnitt speichern. `control_definition` (Referenzkatalog) und `control_assessment` (Kundenbewertung) **DÜRFEN NICHT** vermischt werden.
 
 ### B5.2 Attribute
 

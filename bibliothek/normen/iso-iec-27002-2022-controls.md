@@ -1,6 +1,6 @@
 ---
 id: BIB-ISO27002
-titel: ISO/IEC 27002:2022 – Control-Katalog (93 Maßnahmen), Attribute, Nachweiskategorien
+titel: ISO/IEC 27002:2022 – Control-Index (93 Kennungen), Attribute, Nachweiskategorien
 art: norm
 verbindlichkeit: empfehlung
 rechtsraum: international
@@ -16,7 +16,7 @@ naechste_pruefung: 2027-05-12
 ---
 # ISO/IEC 27002:2022 – Control-Katalog
 
-**Kein Normtext.** Nur Kennungen, Kurztitel und eigene Einordnung. Prüfimpulse und Nachweisbeispiele sind DT-Agency-Vorschläge, keine Normanforderungen. Freigabe durch einen Menschen mit Normexemplar ([ENT-014]).
+**Kein Normtext.** Nur Kennungen, eigene Themenbezeichnungen und eigene Einordnung ([ENT-026]). Die Themenbezeichnungen sind keine Normtitel; maßgeblich für die Zuordnung ist allein die Kennung. Prüfimpulse und Nachweisbeispiele sind DT-Agency-Vorschläge, keine Normanforderungen. Freigabe durch einen Menschen mit Normexemplar ([ENT-014]).
 
 ## Kernaussagen (vor Freigabe mit dem Normexemplar abzugleichen)
 
@@ -29,120 +29,120 @@ naechste_pruefung: 2027-05-12
 
 Nachweiskategorien (Beispiele, nicht normativ): **RL** Richtlinie, Versionshistorie, Kommunikation · **RO** Rollen-/Befugnismatrix, Ernennungen · **PR** geregelter Prozess, Umsetzungsbeleg, Stichprobe · **VO** Verfahrensanweisung, Fall-/Ticketbeispiele · **LI** Lieferanteninventar, Verträge, Due Diligence · **IAM** Rechteexporte, Rezertifizierung · **BC** BC-/Backup-Konzept, Wiederherstellungstests · **PE** Personalprozess, Teilnahme- und Vertragsnachweise (datensparsam) · **PH** Standort-/Zonenplan, Zutrittskonzept, Wartungsprotokolle · **TR** technische Richtlinie, Systemkonfiguration · **TS** technische Standards, Logs, Testnachweise · **SD** SDLC-Regeln, Pipeline-Konfiguration, Code Reviews.
 
-¹ Kategorie gegenüber der Projektaufbereitung geändert (Prüfbericht P-15). PDF-S. = Seite im lizenzierten E-Book.
+¹ Kategorie gegenüber der Projektaufbereitung geändert (Prüfbericht P-15).
 
 ### 5 – Organisatorische Maßnahmen
 
-| ID | Kurztitel (DIN-Ausgabe, zu prüfen) | Nachweis | PDF-S. |
-|---|---|---|---|
-| 5.1 | Informationssicherheitspolitik und -richtlinien | RL | 27 |
-| 5.2 | Informationssicherheitsrollen und -verantwortlichkeiten | RO | 29 |
-| 5.3 | Aufgabentrennung | PR | 30 |
-| 5.4 | Verantwortlichkeiten der Leitung | RO | 32 |
-| 5.5 | Kontakt mit Behörden | PR | 33 |
-| 5.6 | Kontakt mit speziellen Interessengruppen | PR | 34 |
-| 5.7 | Informationen über die Bedrohungslage | VO | 34 |
-| 5.8 | Informationssicherheit im Projektmanagement | PR | 36 |
-| 5.9 | Inventar der Informationen und anderer damit verbundener Werte | PR | 38 |
-| 5.10 | Zulässiger Gebrauch von Informationen und anderen damit verbundenen Werten | PR | 40 |
-| 5.11 | Rückgabe von Werten | PR | 42 |
-| 5.12 | Klassifizierung von Informationen | PR | 43 |
-| 5.13 | Kennzeichnung von Informationen | PR | 45 |
-| 5.14 | Informationsübermittlung | PR | 46 |
-| 5.15 | Zugangssteuerung | IAM | 49 |
-| 5.16 | Identitätsmanagement | IAM | 52 |
-| 5.17 | Authentisierungsinformationen | IAM | 53 |
-| 5.18 | Zugangsrechte | IAM | 56 |
-| 5.19 | Informationssicherheit in Lieferantenbeziehungen | LI | 58 |
-| 5.20 | Behandlung von Informationssicherheit in Lieferantenvereinbarungen | LI | 60 |
-| 5.21 | Umgang mit der Informationssicherheit in der IKT-Lieferkette | LI | 63 |
-| 5.22 | Überwachung, Überprüfung und Änderungsmanagement von Lieferantendienstleistungen | LI | 65 |
-| 5.23 | Informationssicherheit für die Nutzung von Cloud-Diensten | LI | 67 |
-| 5.24 | Planung und Vorbereitung der Handhabung von Informationssicherheitsvorfällen | PR | 70 |
-| 5.25 | Beurteilung und Entscheidung über Informationssicherheitsereignisse | VO | 72 |
-| 5.26 | Reaktion auf Informationssicherheitsvorfälle | PR | 73 |
-| 5.27 | Erkenntnisse aus Informationssicherheitsvorfällen | PR | 74 |
-| 5.28 | Sammeln von Beweismaterial | PR | 75 |
-| 5.29 | Informationssicherheit bei Störungen | BC | 76 |
-| 5.30 | IKT-Bereitschaft für Business-Continuity | BC | 77 |
-| 5.31 | Juristische, gesetzliche, regulatorische und vertragliche Anforderungen | PR | 78 |
-| 5.32 | Geistige Eigentumsrechte | PR | 80 |
-| 5.33 | Schutz von Aufzeichnungen | PR | 82 |
-| 5.34 | Datenschutz und Schutz personenbezogener Daten (pbD) | PR | 84 |
-| 5.35 | Unabhängige Überprüfung der Informationssicherheit | PR | 85 |
-| 5.36 | Einhaltung von Richtlinien, Vorschriften und Normen für die Informationssicherheit | RL | 86 |
-| 5.37 | Dokumentierte Betriebsabläufe | PR | 87 |
+| ID | Thema (DT-Agency-Bezeichnung) | Nachweis |
+|---|---|---|
+| 5.1 | Sicherheitsleitlinie und themenspezifische Richtlinien | RL |
+| 5.2 | Zuständigkeiten für Informationssicherheit festlegen | RO |
+| 5.3 | Unvereinbare Aufgaben trennen | PR |
+| 5.4 | Leitung fordert Einhaltung ein | RO |
+| 5.5 | Verbindung zu Behörden halten | PR |
+| 5.6 | Austausch mit Fachgremien und Sicherheitsforen | PR |
+| 5.7 | Erkenntnisse zu Bedrohungen gewinnen und auswerten | VO |
+| 5.8 | Sicherheit in Projekten berücksichtigen | PR |
+| 5.9 | Verzeichnis der Informationswerte und ihrer Verantwortlichen | PR |
+| 5.10 | Regeln für den Umgang mit Informationswerten | PR |
+| 5.11 | Herausgabe von Werten bei Austritt oder Vertragsende | PR |
+| 5.12 | Schutzbedarf von Informationen einstufen | PR |
+| 5.13 | Einstufung an Informationen sichtbar machen | PR |
+| 5.14 | Sichere Weitergabe von Informationen | PR |
+| 5.15 | Regeln für Zugang und Zugriff | IAM |
+| 5.16 | Lebenszyklus digitaler Identitäten | IAM |
+| 5.17 | Umgang mit Passwörtern und anderen Anmeldedaten | IAM |
+| 5.18 | Vergabe, Überprüfung und Entzug von Berechtigungen | IAM |
+| 5.19 | Sicherheitsanforderungen an Lieferanten | LI |
+| 5.20 | Sicherheitsregelungen in Lieferantenverträgen | LI |
+| 5.21 | Sicherheit in der IKT-Lieferkette | LI |
+| 5.22 | Lieferantenleistungen überwachen und Änderungen steuern | LI |
+| 5.23 | Sichere Nutzung von Cloud-Diensten | LI |
+| 5.24 | Vorbereitung auf Sicherheitsvorfälle | PR |
+| 5.25 | Ereignisse bewerten und als Vorfall einstufen | VO |
+| 5.26 | Bearbeitung von Sicherheitsvorfällen | PR |
+| 5.27 | Lernen aus Sicherheitsvorfällen | PR |
+| 5.28 | Beweissicherung | PR |
+| 5.29 | Sicherheit während Störungen aufrechterhalten | BC |
+| 5.30 | IKT-Vorsorge für die Geschäftsfortführung | BC |
+| 5.31 | Rechtliche, regulatorische und vertragliche Vorgaben ermitteln und einhalten | PR |
+| 5.32 | Schutz von Urheber- und Schutzrechten | PR |
+| 5.33 | Schutz von Aufzeichnungen und Nachweisen | PR |
+| 5.34 | Schutz personenbezogener Daten | PR |
+| 5.35 | Überprüfung durch unabhängige Stellen | PR |
+| 5.36 | Einhaltung interner Sicherheitsvorgaben prüfen | RL |
+| 5.37 | Betriebsabläufe dokumentieren und bereitstellen | PR |
 
 ### 6 – Personenbezogene Maßnahmen
 
-| ID | Kurztitel (DIN-Ausgabe, zu prüfen) | Nachweis | PDF-S. |
-|---|---|---|---|
-| 6.1 | Sicherheitsüberprüfung | PR | 89 |
-| 6.2 | Beschäftigungs- und Vertragsbedingungen | PE | 90 |
-| 6.3 | Informationssicherheitsbewusstsein, -ausbildung und -schulung | PE | 92 |
-| 6.4 | Maßregelungsprozess | PR | 94 |
-| 6.5 | Verantwortlichkeiten bei Beendigung oder Änderung der Beschäftigung | PE ¹ | 95 |
-| 6.6 | Vertraulichkeits- oder Geheimhaltungsvereinbarungen | PE | 96 |
-| 6.7 | Remote-Arbeit | PR | 97 |
-| 6.8 | Meldung von Informationssicherheitsereignissen | VO | 99 |
+| ID | Thema (DT-Agency-Bezeichnung) | Nachweis |
+|---|---|---|
+| 6.1 | Überprüfung von Bewerbern und Beschäftigten | PR |
+| 6.2 | Sicherheitspflichten im Arbeits- bzw. Vertragsverhältnis | PE |
+| 6.3 | Sensibilisierung und Schulung | PE |
+| 6.4 | Konsequenzen bei Verstößen | PR |
+| 6.5 | Pflichten bei Austritt oder Rollenwechsel | PE ¹ |
+| 6.6 | Verschwiegenheitsvereinbarungen | PE |
+| 6.7 | Sicheres Arbeiten außerhalb der Räumlichkeiten | PR |
+| 6.8 | Melden von Sicherheitsereignissen durch Beschäftigte | VO |
 
 ### 7 – Physische Maßnahmen
 
-| ID | Kurztitel (DIN-Ausgabe, zu prüfen) | Nachweis | PDF-S. |
-|---|---|---|---|
-| 7.1 | Physische Sicherheitsperimeter | PH | 100 |
-| 7.2 | Physischer Zutritt | IAM | 101 |
-| 7.3 | Sichern von Büros, Räumen und Einrichtungen | PH | 103 |
-| 7.4 | Physische Sicherheitsüberwachung | TS | 104 |
-| 7.5 | Schutz vor physischen und umweltbedingten Bedrohungen | PH | 105 |
-| 7.6 | Arbeiten in Sicherheitsbereichen | PH | 107 |
-| 7.7 | Aufgeräumte Arbeitsumgebung und Bildschirmsperren | TR ¹ | 108 |
-| 7.8 | Platzierung und Schutz von Geräten und Betriebsmitteln | PH | 109 |
-| 7.9 | Sicherheit von Werten außerhalb der Räumlichkeiten | PH | 110 |
-| 7.10 | Speichermedien | TR ¹ | 111 |
-| 7.11 | Versorgungseinrichtungen | BC | 113 |
-| 7.12 | Sicherheit der Verkabelung | PH | 114 |
-| 7.13 | Instandhaltung von Geräten und Betriebsmitteln | PH | 115 |
-| 7.14 | Sichere Entsorgung oder Wiederverwendung von Geräten und Betriebsmitteln | PH | 116 |
+| ID | Thema (DT-Agency-Bezeichnung) | Nachweis |
+|---|---|---|
+| 7.1 | Abgrenzung geschützter Bereiche | PH |
+| 7.2 | Zutrittskontrolle | IAM |
+| 7.3 | Schutz von Büros und Räumen | PH |
+| 7.4 | Überwachung von Gebäuden und Bereichen | TS |
+| 7.5 | Schutz vor Feuer, Wasser und anderen Umweltgefahren | PH |
+| 7.6 | Regeln für Sicherheitsbereiche | PH |
+| 7.7 | Aufgeräumter Arbeitsplatz und Sperren unbeaufsichtigter Geräte | TR ¹ |
+| 7.8 | Standort und Schutz von Geräten | PH |
+| 7.9 | Schutz mobiler Werte außerhalb des Standorts | PH |
+| 7.10 | Umgang mit Datenträgern | TR ¹ |
+| 7.11 | Strom und andere Versorgung absichern | BC |
+| 7.12 | Schutz von Leitungen und Verkabelung | PH |
+| 7.13 | Wartung von Geräten | PH |
+| 7.14 | Daten vor Entsorgung oder Wiederverwendung von Geräten entfernen | PH |
 
 ### 8 – Technologische Maßnahmen
 
-| ID | Kurztitel (DIN-Ausgabe, zu prüfen) | Nachweis | PDF-S. |
-|---|---|---|---|
-| 8.1 | Endpunktgeräte des Benutzers | TR | 118 |
-| 8.2 | Privilegierte Zugangsrechte | IAM | 120 |
-| 8.3 | Informationszugangsbeschränkung | IAM | 122 |
-| 8.4 | Zugriff auf den Quellcode | IAM | 124 |
-| 8.5 | Sichere Authentisierung | IAM | 125 |
-| 8.6 | Kapazitätssteuerung | TR | 127 |
-| 8.7 | Schutz gegen Schadsoftware | TR | 129 |
-| 8.8 | Handhabung von technischen Schwachstellen | VO | 131 |
-| 8.9 | Konfigurationsmanagement | TS | 135 |
-| 8.10 | Löschung von Informationen | TR | 137 |
-| 8.11 | Datenmaskierung | TR | 139 |
-| 8.12 | Verhinderung von Datenlecks | TR | 141 |
-| 8.13 | Sicherung von Informationen | BC | 142 |
-| 8.14 | Redundanz von informationsverarbeitenden Einrichtungen | BC | 144 |
-| 8.15 | Protokollierung | TS | 145 |
-| 8.16 | Überwachung von Aktivitäten | TS | 149 |
-| 8.17 | Uhrensynchronisation | TR | 151 |
-| 8.18 | Gebrauch von Hilfsprogrammen mit privilegierten Rechten | IAM | 152 |
-| 8.19 | Installation von Software auf Systemen in Betrieb | TR | 153 |
-| 8.20 | Netzwerksicherheit | TS | 155 |
-| 8.21 | Sicherheit von Netzwerkdiensten | TS | 156 |
-| 8.22 | Trennung von Netzwerken | TS | 157 |
-| 8.23 | Webfilterung | TR | 159 |
-| 8.24 | Verwendung von Kryptographie | TS | 160 |
-| 8.25 | Lebenszyklus einer sicheren Entwicklung | SD | 162 |
-| 8.26 | Anforderungen an die Anwendungssicherheit | SD | 163 |
-| 8.27 | Sichere Systemarchitektur und Entwicklungsgrundsätze | SD | 166 |
-| 8.28 | Sichere Codierung | SD | 168 |
-| 8.29 | Sicherheitsprüfung bei Entwicklung und Abnahme | SD | 171 |
-| 8.30 | Ausgegliederte Entwicklung | LI | 173 |
-| 8.31 | Trennung von Entwicklungs-, Test- und Produktionsumgebungen | SD | 174 |
-| 8.32 | Änderungssteuerung | TR | 176 |
-| 8.33 | Testdaten | SD | 177 |
-| 8.34 | Schutz der Informationssysteme während Tests im Rahmen von Audits | TR | 178 |
+| ID | Thema (DT-Agency-Bezeichnung) | Nachweis |
+|---|---|---|
+| 8.1 | Schutz von Endgeräten | TR |
+| 8.2 | Privilegierte Konten | IAM |
+| 8.3 | Zugriff auf Informationen beschränken | IAM |
+| 8.4 | Zugriff auf Quellcode und Entwicklungswerkzeuge | IAM |
+| 8.5 | Sichere Anmeldung (z. B. Mehr-Faktor-Authentisierung) | IAM |
+| 8.6 | Kapazitätsplanung und -überwachung | TR |
+| 8.7 | Abwehr von Schadsoftware | TR |
+| 8.8 | Schwachstellenmanagement | VO |
+| 8.9 | Sichere Konfiguration und Konfigurationsverwaltung | TS |
+| 8.10 | Löschen nicht mehr benötigter Informationen | TR |
+| 8.11 | Maskierung und Pseudonymisierung von Daten | TR |
+| 8.12 | Verhinderung von Datenabfluss | TR |
+| 8.13 | Datensicherung und Wiederherstellung | BC |
+| 8.14 | Redundanz kritischer Systeme | BC |
+| 8.15 | Protokollierung von Ereignissen | TS |
+| 8.16 | Überwachung auf ungewöhnliches Verhalten | TS |
+| 8.17 | Einheitliche Zeitquelle | TR |
+| 8.18 | Werkzeuge mit Administratorrechten kontrollieren | IAM |
+| 8.19 | Softwareinstallation auf produktiven Systemen steuern | TR |
+| 8.20 | Absicherung von Netzwerken | TS |
+| 8.21 | Absicherung von Netzwerkdiensten | TS |
+| 8.22 | Netzwerksegmentierung | TS |
+| 8.23 | Filterung von Webzugriffen | TR |
+| 8.24 | Einsatz von Kryptographie und Schlüsselverwaltung | TS |
+| 8.25 | Sicherer Entwicklungsprozess | SD |
+| 8.26 | Sicherheitsanforderungen an Anwendungen | SD |
+| 8.27 | Sichere Architektur- und Entwicklungsprinzipien | SD |
+| 8.28 | Sichere Programmierung | SD |
+| 8.29 | Sicherheitstests in Entwicklung und Abnahme | SD |
+| 8.30 | Steuerung ausgelagerter Entwicklung | LI |
+| 8.31 | Getrennte Entwicklungs-, Test- und Produktionsumgebungen | SD |
+| 8.32 | Änderungsmanagement | TR |
+| 8.33 | Umgang mit Testdaten | SD |
+| 8.34 | Systemschutz bei Audit- und Prüftests | TR |
 
 ## Bedeutung für die ISMS-Parameter
 
@@ -154,6 +154,6 @@ Nachweiskategorien (Beispiele, nicht normativ): **RL** Richtlinie, Versionshisto
 
 ## Grenzen und offene Punkte
 
-- Kurztitel gegen die DIN-Ausgabe prüfen (Schreibweise; zwei Titel wurden korrigiert: 5.2, 6.3).
+- Themenbezeichnungen beim Abgleich mit dem Normexemplar auf eindeutige Zuordnung prüfen ([ENT-014]).
 - Attributzuordnung je Maßnahme fehlt.
 - Prüfimpulse je Maßnahme sind noch zu formulieren ([ENT-024]); die Vorlagen aus der Projektaufbereitung sind generisch und teils grammatisch fehlerhaft.

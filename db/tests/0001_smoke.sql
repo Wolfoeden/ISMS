@@ -84,21 +84,21 @@ select pg_temp.expect_fail($$
 
 insert into control (id, title) values ('ACC-REV', 'Access Review');
 select pg_temp.expect_fail($$
-  insert into control_applicability (mandate_id, control_id, applicable) values ('00000000-0000-0000-0000-0000000000e1', 'ACC-REV', false) $$,
+  insert into control_assessment (mandate_id, control_id, applicability) values ('00000000-0000-0000-0000-0000000000e1', 'ACC-REV', 'not_applicable') $$,
   'nicht anwendbar ohne Begründung');
 select pg_temp.expect_fail($$
-  insert into control_applicability (mandate_id, control_id, applicable, base_depth, required_depth, tailored_depth)
-  values ('00000000-0000-0000-0000-0000000000e1', 'ACC-REV', true, 4, 4, 2) $$,
+  insert into control_assessment (mandate_id, control_id, applicability, base_depth, required_depth, tailored_depth)
+  values ('00000000-0000-0000-0000-0000000000e1', 'ACC-REV', 'applicable', 4, 4, 2) $$,
   'Tailoring ohne Risikoakzeptanz');
 
-insert into finding (id, mandate_id, title, severity, status, author_id, ai_assisted) values
-  ('00000000-0000-0000-0000-0000000000f1', '00000000-0000-0000-0000-0000000000e1', 'Entwurf: Fernwartung ohne MFA', 'high', 'draft',
+insert into finding (id, mandate_id, title, severity, status, customer_response, author_id, ai_assisted) values
+  ('00000000-0000-0000-0000-0000000000f1', '00000000-0000-0000-0000-0000000000e1', 'Entwurf: Fernwartung ohne MFA', 'high', 'open', 'pending',
    '00000000-0000-0000-0000-00000000a002', true),
-  ('00000000-0000-0000-0000-0000000000f2', '00000000-0000-0000-0000-0000000000e1', 'Bestätigt: Kein OT-Asset-Inventar', 'high', 'customer_discussion',
+  ('00000000-0000-0000-0000-0000000000f2', '00000000-0000-0000-0000-0000000000e1', 'Abgelegt und besprochen: Kein OT-Asset-Inventar', 'high', 'filed', 'discussed',
    '00000000-0000-0000-0000-00000000a002', false);
 
 insert into finding_transition (finding_id, action, from_status, to_status, actor_id)
-values ('00000000-0000-0000-0000-0000000000f2', 'confirm', 'in_review', 'confirmed', '00000000-0000-0000-0000-00000000a001');
+values ('00000000-0000-0000-0000-0000000000f2', 'approve', 'proposed', 'approved', '00000000-0000-0000-0000-00000000a001');
 select pg_temp.expect_fail($$ delete from finding_transition $$, 'Verlauf löschen');
 
 -- RLS: Sicht als nicht-privilegierte Rolle
@@ -110,7 +110,7 @@ set local role isms_app_test;
 set local app.person_id = '00000000-0000-0000-0000-00000000c002';
 do $$ begin
   if (select count(*) from isms.finding) <> 1 then raise exception 'Kunde sieht Entwurfs-Findings'; end if;
-  raise notice 'ok – Kunde sieht nur bestätigte/vorgestellte Findings';
+  raise notice 'ok – Kunde sieht nur abgelegte und besprochene Feststellungen';
 end $$;
 
 set local app.person_id = '00000000-0000-0000-0000-00000000a002';

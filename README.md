@@ -23,8 +23,8 @@ mandanten/
 .claude/commands/        /iteration, /neues-mandat, /freigeben
 CLAUDE.md                Regeln für alle Agents
 docs/                    Fachkonzept Engagement & Proportionality Model
-src/                     Domänenkern (Profil, Controls, Mandat) und Werkzeuge (Fragebogen, NIS2-Vorprüfung, Prüfung)
-db/                      PostgreSQL-Schema der späteren Plattform
+src/                     Domänenkern (Profil, Controls, Mandat, Bewertungsmodell, Größenklasse) und Werkzeuge (Fragebogen, NIS2-Vorprüfung, Prüfung der Endergebnisse)
+db/                      PostgreSQL-Schema der späteren Plattform (0001 Mandatsmodell, 0002 Bewertung, Freigabe, Lebenszyklen)
 ```
 
 ## Arbeiten

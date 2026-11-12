@@ -4,7 +4,7 @@
 |---|---|
 | Für | Paul |
 | Entscheidungen | [ENT-018] Bewertungsmodell · [ENT-027] Freigabebegriff und Finding-Ablauf · [ENT-028] fehlende Lebenszyklen · [ENT-019] Größenklassen |
-| Stand | 2026-11-12, Vorschlag des Agents – nichts davon ist umgesetzt, bis du entschieden hast |
+| Stand | 2026-11-12 – **entschieden** (Paul): ENT-018 C, ENT-019 C, ENT-027 A (mit Auflage zum Wording, Begriffswahl in ENT-029), ENT-028 A; umgesetzt, siehe entscheidungen.md |
 | Antwortform | am Ende: Entscheidungsbogen, z. B. „ENT-018: C, ENT-027: A, …“ |
 
 ## 1. Ausgangslage: 13 Statusbegriffe, die nicht zusammenpassen

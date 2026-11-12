@@ -4,6 +4,7 @@
 import { cpSync, existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { erzeugeFragebogen, zuFakten } from '../fragebogen/fragebogen.js';
+import { groessenklasse, ORGANISATIONSFORM } from '../bewertung/groessenklasse.js';
 import { deriveAssuranceProfile, PROFILE_NAMES } from '../proportionality/profile.js';
 import { NIS2_FAKT, nis2Vorpruefung } from '../regelwerk/nis2.js';
 import { fmListe, fmString } from './markdown.js';
@@ -50,6 +51,21 @@ export function einstufung(root: string, kuerzel: string): string {
     `- Grundlagen: BIB-BSIG-28, BIB-KMU, BIB-BSIG-ANL`,
     '',
   ];
+  const g = groessenklasse(nis2Eingaben(m));
+  out.push('### Größenklasse und Organisationsform (ENT-019) – Vorschlag');
+  if (!g.klasse) out.push(`- Noch nicht bestimmbar. Fehlende Angaben: ${g.fehlend.join(', ')}`);
+  else {
+    const o = ORGANISATIONSFORM[g.klasse];
+    out.push(
+      `- Größenklasse: **${g.klasse}**${g.vorlaeufig ? ' (vorläufig)' : ''} – nach Empfehlung 2003/361/EG, Anhang Art. 2`,
+      `- Gesprächspartner: ${o.gespraechspartner}`,
+      `- Rollenbündelung: ${o.rollenbuendelung}`,
+      `- Vier-Augen: ${o.vierAugen}`,
+      `- Freigabewege: ${o.freigabewege}`,
+      '- Steuert nur die Organisationsform – nie Prüfumfang, Anwendbarkeit, Prüftiefe oder Evidenz.',
+    );
+  }
+  out.push(...g.hinweise.map((h) => `- Hinweis: ${h}`), '- Grundlagen: BIB-KMU', '');
   const f = zuFakten(m.fragebogen);
   if (!f.fakten) {
     out.push(`### Assurance Profile`, `- Noch nicht ableitbar. Fehlende Antworten (${f.fehlend.length}): ${f.fehlend.join(', ')}`);

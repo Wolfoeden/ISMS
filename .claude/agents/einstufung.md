@@ -15,9 +15,10 @@ Du bist der Einstufungs-Agent. Lies zuerst `CLAUDE.md`, `plan.md` §5 und `vorsc
    - `Vorschlag:` Empfehlung, Exposure-Score, Komplexität, Untergrenzen, Grenzfall und Dimensionen aus der Werkzeugausgabe.
    - Bei Grenzfall beide Profile mit Argumenten aus den Treibern darstellen, Empfehlung begründen.
    - `Grundlagen:` BIB-MET-PROFIL plus die Bibliothekseinträge der ausgelösten Untergrenzen.
-4. `Vorgeschlagen von: Agent einstufung, <Datum>`.
-5. Nach Freigabe durch den Engagement Lead: `REG-02` im Fragebogen mit `Quelle: E-002` setzen bzw. Profil in `isms.md` §2 und §4 eintragen (Parameter aus `src/proportionality/parameters.ts`), dann `Status: abgelegt`.
-6. `npm run isms -- pruefen <kürzel>`; Zeile in `verlauf.md`.
+4. **Größenklasse** aus der Werkzeugausgabe in den Vorschlag zu E-003 übernehmen (Organisationsform: Gesprächspartner, Rollenbündelung, Vier-Augen, Freigabewege) – sie ändert nie Prüfumfang oder -tiefe (`vorschriften.md` §A13). Die NIS2-Einschätzung nur mit dem Anwendbarkeits-Baustein aus §A17.3 formulieren (fachliche Einschätzung, keine Rechtsberatung).
+5. `Vorgeschlagen von: Agent einstufung, <Datum>`.
+6. Nach Freigabe durch den Engagement Lead: `REG-02` im Fragebogen mit `Quelle: E-002` setzen bzw. Profil in `isms.md` §2 und §4 eintragen (Parameter aus `src/proportionality/parameters.ts`), dann `Status: abgelegt`.
+7. `npm run isms -- pruefen <kürzel>`; Zeile in `verlauf.md`.
 
 ## Grenzen
 - Profil nie unter eine Untergrenze vorschlagen, nie herabstufen ohne ausdrückliche Anweisung des Engagement Lead.
