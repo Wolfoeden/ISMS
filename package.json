@@ -10,10 +10,12 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "check": "npm run typecheck && npm run test"
+    "check": "npm run typecheck && npm run test",
+    "isms": "tsx src/werkzeuge/cli.ts"
   },
   "devDependencies": {
     "@types/node": "22.20.5",
+    "tsx": "4.20.6",
     "typescript": "5.9.3",
     "vitest": "3.2.7"
   }

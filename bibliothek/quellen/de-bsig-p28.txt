@@ -1,0 +1,51 @@
+Quelle:    BSI-Gesetz (BSIG) vom 2.12.2025
+Teil:      § 28 Besonders wichtige Einrichtungen und wichtige Einrichtungen
+URL:       https://www.gesetze-im-internet.de/bsig_2025/
+Fassung:   BGBl. 2025 I Nr. 301; in Kraft seit 6.12.2025; zuletzt geändert durch Art. 8 G v. 22.10.2026 (BGBl. 2026 I Nr. 318)
+Abgerufen: 2026-11-12
+Hinweis:   Automatisch extrahierter Wortlaut (amtliches Werk). Maßgeblich ist die amtliche Veröffentlichung.
+------------------------------------------------------------------------------
+(1) Als besonders wichtige Einrichtung gelten 1.
+Betreiber kritischer Anlagen,
+2.
+qualifizierte Vertrauensdiensteanbieter, Top Level Domain Name Registries oder DNS-Diensteanbieter,
+3.
+Anbieter öffentlich zugänglicher Telekommunikationsdienste oder Betreiber öffentlicher Telekommunikationsnetze, die a)
+mindestens 50 Mitarbeiter beschäftigen oder
+b)
+einen Jahresumsatz und eine Jahresbilanzsumme von jeweils über 10 Millionen Euro aufweisen,
+4.
+sonstige natürliche oder juristische Personen oder rechtlich unselbstständige Organisationseinheiten einer Gebietskörperschaft, die anderen natürlichen oder juristischen Personen entgeltlich Waren oder Dienstleistungen anbieten und die einer der in Anlage 1 bestimmten Einrichtungsarten zuzuordnen sind, und a)
+mindestens 250 Mitarbeiter beschäftigen oder
+b)
+einen Jahresumsatz von über 50 Millionen Euro und zudem eine Jahresbilanzsumme von über 43 Millionen Euro aufweisen.
+Davon ausgenommen sind Einrichtungen der Bundesverwaltung, sofern sie nicht gleichzeitig Betreiber kritischer Anlagen sind.
+(2) Als wichtige Einrichtungen gelten 1.
+Vertrauensdiensteanbieter,
+2.
+Anbieter öffentlich zugänglicher Telekommunikationsdienste oder Betreiber öffentlicher Telekommunikationsnetze, die a)
+weniger als 50 Mitarbeiter beschäftigen und
+b)
+einen Jahresumsatz oder eine Jahresbilanzsumme von jeweils 10 Millionen Euro oder weniger aufweisen,
+3.
+sonstige natürliche oder juristische Personen oder rechtlich unselbstständige Organisationseinheiten einer Gebietskörperschaft, die anderen natürlichen oder juristischen Personen entgeltlich Waren oder Dienstleistungen anbieten und die einer der in den Anlagen 1 und 2 bestimmten Einrichtungsarten zuzuordnen sind und a)
+mindestens 50 Mitarbeiter beschäftigen oder
+b)
+einen Jahresumsatz und eine Jahresbilanzsumme von jeweils über 10 Millionen Euro aufweisen.
+Davon ausgenommen sind besonders wichtige Einrichtungen und Einrichtungen der Bundesverwaltung.
+(3) Bei der Zuordnung zu einer der Einrichtungsarten nach den Anlagen 1 und 2 können solche Geschäftstätigkeiten unberücksichtigt bleiben, die im Hinblick auf die gesamte Geschäftstätigkeit der Einrichtung vernachlässigbar sind.
+(4) Bei der Bestimmung von Mitarbeiteranzahl, Jahresumsatz und Jahresbilanzsumme nach den Absätzen 1 und 2 ist außer für rechtlich unselbstständige Organisationseinheiten einer Gebietskörperschaft die Empfehlung der Kommission (2003/361/EG) mit Ausnahme von Artikel 3 Absatz 4 des Anhangs anzuwenden. Die Daten von Partner- oder verbundenen Unternehmen im Sinne der Empfehlung der Kommission (2003/361/EG) sind nicht hinzuzurechnen, wenn das Unternehmen unter Berücksichtigung der rechtlichen, wirtschaftlichen und tatsächlichen Umstände mit Blick auf die Beschaffenheit und den Betrieb der informationstechnischen Systeme, Komponenten und Prozesse unabhängig von seinen Partner- oder verbundenen Unternehmen ist.
+(5) Die §§ 30, 31, 32, 35, 36, 38, 39, 61 und 62 gelten nicht für besonders wichtige Einrichtungen und wichtige Einrichtungen, die 1.
+ein öffentliches Telekommunikationsnetz betreiben oder öffentlich zugängliche Telekommunikationsdienste erbringen oder
+2.
+Energieversorgungsnetze, Energieanlagen oder digitale Energiedienste nach dem Energiewirtschaftsgesetz betreiben und den Regelungen der §§ 5c bis 5e des Energiewirtschaftsgesetzes unterliegen.
+Satz 1 gilt nicht für die dort aufgeführten besonders wichtigen und wichtigen Einrichtungen, soweit sie über die in Satz 1 Nummer 1 und 2 genannten Anlagen hinaus weitere kritische Anlagen nach § 2 Nummer 22 betreiben oder aufgrund weiterer Tätigkeiten einer der in Anlage 1 oder 2 bestimmten Einrichtungsarten zuzuordnen sind. Satz 2 gilt für alle informationstechnischen Systeme, die für den Betrieb der weiteren kritischen Anlagen erforderlich sind. Im Fall, dass der Betrieb einer Energieanlage nach Satz 1 Nummer 2 einer in Satz 1 aufgeführten besonders wichtigen und wichtigen Einrichtung im Hinblick auf die gesamte Geschäftstätigkeit dieser Einrichtung eine Nebentätigkeit darstellt, findet dieser Absatz keine Anwendung.
+(6) Die §§ 30, 31, 32, 35, 36, 38 und 39 gelten nicht für 1.
+Finanzunternehmen nach Artikel 2 Absatz 2 der Verordnung (EU) 2022/2554 und Unternehmen, für die die Anforderungen der Verordnung (EU) 2022/2554 aufgrund von § 1a Absatz 2 und 2a des Kreditwesengesetzes oder § 293 Absatz 5 des Versicherungsaufsichtsgesetzes gelten,
+2.
+die Gesellschaft für Telematik nach § 306 Absatz 1 Satz 3 des Fünften Buches Sozialgesetzbuch, Betreiber von Diensten der Telematikinfrastruktur im Hinblick auf die nach § 311 Absatz 6 und § 325 des Fünften Buches Sozialgesetzbuch zugelassenen Dienste und Betreiber von Diensten, soweit sie die Telematikinfrastruktur für nach § 327 Absatz 2 bis 5 des Fünften Buches Sozialgesetzbuch bestätigte Anwendungen nutzen.
+(7) § 32 gilt nicht für Betreiber kritischer Anlagen, soweit sie eine Anlage für Unternehmen nach Absatz 6 Nummer 1 betreiben.
+(8) Dieses Gesetz findet keine Anwendung auf rechtlich unselbstständige Organisationseinheiten von Gebietskörperschaften und auf juristische Personen, an denen ausschließlich Gebietskörperschaften, ausgenommen der Bund, beteiligt sind, wenn sie 1.
+zu dem Zweck errichtet wurden, im öffentlichen Auftrag Leistungen für Verwaltungen zu erbringen, und
+2.
+durch vergleichbare landesrechtliche Vorschriften unter Bezugnahme auf diesen Absatz reguliert werden.

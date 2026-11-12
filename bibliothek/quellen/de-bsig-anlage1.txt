@@ -1,0 +1,82 @@
+Quelle:    BSI-Gesetz (BSIG) vom 2.12.2025
+Teil:      Anlage 1 – Sektoren besonders wichtiger und wichtiger Einrichtungen
+URL:       https://www.gesetze-im-internet.de/bsig_2025/
+Fassung:   BGBl. 2025 I Nr. 301; in Kraft seit 6.12.2025; zuletzt geändert durch Art. 8 G v. 22.10.2026 (BGBl. 2026 I Nr. 318)
+Abgerufen: 2026-11-12
+Hinweis:   Automatisch extrahierter Wortlaut (amtliches Werk). Maßgeblich ist die amtliche Veröffentlichung.
+------------------------------------------------------------------------------
+(Fundstelle: BGBl. 2025 I Nr. 301, S. 43 - 46)
+Spalte ASpalte BSpalte CSpalte D
+NummerSektorBrancheEinrichtungsart
+1Energie
+1.1 Stromversorgung
+1.1.1  Stromlieferanten nach § 3 Nummer 31c EnWG
+1.1.2  Betreiber von Elektrizitätsverteilernetzen nach § 3 Nummer 3 EnWG
+1.1.3  Betreiber von Übertragungsnetzen nach § 3 Nummer 10 EnWG
+1.1.4  Betreiber von Erzeugungsanlagen nach § 3 Nummer 18d EnWG
+1.1.5  Nominierte Strommarktbetreiber nach Artikel 2 Nummer 8 der Verordnung (EU) 2019/943
+1.1.6  Aggregatoren nach § 3 Nummer 1a EnWG
+1.1.7  Betreiber von Energiespeicheranlagen nach § 3 Nummer 15d EnWG
+1.1.8  Anbieter von Ausgleichsleistungen nach § 3 Nummer 1b EnWG
+1.1.9  Ladepunktbetreiber nach § 2 Nummer 8 LSV
+1.2 Fernwärmeversorgung oder Fernkälteversorgung
+1.2.1  Betreiber von Fernwärme- oder Fernkälteversorgung im Sinne von § 3 Nummer 19 oder Nummer 20 GModG
+1.3 Kraftstoff- und Heizölversorgung
+1.3.1  Betreiber von Erdöl-Fernleitungen
+1.3.2  Betreiber von Anlagen zur Produktion, Raffination und Aufbereitung von Erdöl sowie Betreiber von Erdöllagern und Erdöl-Fernleitungen
+1.3.3  Zentrale Bevorratungsstellen nach Artikel 2 Buchstabe f der Richtlinie 2009/119/EG
+1.4 Gasversorgung
+1.4.1  Betreiber von Gasverteilernetzen nach § 3 Nummer 8 EnWG
+1.4.2  Betreiber von Fernleitungsnetzen nach § 3 Nummer 5 EnWG
+1.4.3  Betreiber von Gasspeicheranlagen nach § 3 Nummer 6 EnWG
+1.4.4  Betreiber von LNG-Anlagen nach § 3 Nummer 9 EnWG
+1.4.5  Gaslieferanten nach § 3 Nummer 19b EnWG
+1.4.6  Betreiber von Anlagen zur Gewinnung von Erdgas
+1.4.7  Betreiber von Anlagen zur Raffination und Aufbereitung von Erdgas
+1.4.8  Betreiber im Bereich Wasserstofferzeugung, ‑speicherung und -fernleitung
+2Transport und Verkehr
+2.1 Luftverkehr
+2.1.1  Luftfahrtunternehmen nach Artikel 3 Nummer 4 der Verordnung (EG) Nr. 300/2008, die für gewerbliche Zwecke genutzt werden
+2.1.2  Flughafenleitungsorgane nach Artikel 2 Nummer 2 der Richtlinie 2009/12/EG, Flughäfen nach Artikel 2 Nummer 1 jener Richtlinie, einschließlich der in Anhang II Abschnitt 2 der Verordnung (EU) Nr. 1315/2013 aufgeführten Flughäfen des Kernnetzes, und Einrichtungen, die innerhalb von Flughäfen befindliche zugehörige Einrichtungen betreiben
+2.1.3  ATM/ANS-Anbieter nach Artikel 2 Nummer 2 der Durchführungsverordnung (EU) 2017/373
+2.2 Schienenverkehr
+2.2.1  Betreiber von Eisenbahninfrastruktur nach § 2 Absatz 6 und 6a AEG einschließlich zentraler Einrichtungen, die den Zugbetrieb vorausschauend und bei unerwartet eintretenden Ereignissen disponiert
+2.2.2  Eisenbahnverkehrsunternehmen nach § 2 Absatz 3 AEG, einschließlich Betreiber einer Serviceeinrichtung nach § 2 Nummer 9 AEG
+2.3 Schifffahrt
+2.3.1  Passagier- und Frachtbeförderungsunternehmen der Binnen-, See- und Küstenschifffahrt, wie sie in Anhang I der Verordnung (EG) Nr. 725/2004 für die Schifffahrt definiert sind, ausschließlich der einzelnen von diesen Unternehmen betriebenen Schiffe
+2.3.2  Leitungsorgane von Häfen nach Artikel 3 Nummer 1 der Richtlinie 2005/65/EG, einschließlich ihrer Hafenanlagen nach Artikel 2 Nummer 11 der Verordnung (EG) Nr. 725/2004, sowie Einrichtungen, die innerhalb von Häfen befindliche Anlagen und Ausrüstung betreiben
+2.3.3  Betreiber einer Anlage oder eines Systems zum sicheren Betrieb einer Wasserstraße im Sinne von § 1 Absatz 6 Nummer 1 WaStrG
+2.4 Straßenverkehr
+2.4.1  Betreiber einer Anlage oder eines Systems zur Verkehrsbeeinflussung im Straßenverkehr einschließlich der in § 1 Absatz 4 Nummer 1, 3 und 4 FStrG genannten Einrichtungen, zum Beispiel Verkehrs-, Betriebs- und Tunnelleitzentralen, Entwässerungsanlagen, intelligente Verkehrssysteme und Fachstellen für Informationstechnik und -sicherheit im Straßenbau sowie der Telekommunikationsnetze der Bundesautobahnen
+2.4.2  Betreiber eines intelligenten Verkehrssystems nach § 2 Nummer 1 IVSG
+3Finanzwesen
+3.1 Bankwesen
+3.1.1  Kreditinstitute: Einrichtungen, deren Tätigkeit darin besteht, Einlagen oder andere rückzahlbare Gelder des Publikums entgegenzunehmen und Kredite für eigene Rechnung zu gewähren
+3.2 Finanzmarktinfrastrukturen
+3.2.1  Handelsplätze im Sinne von § 2 Absatz 22 WpHG
+3.2.2  Zentrale Gegenparteien, die zwischen die Gegenparteien der auf einem oder mehreren Märkten gehandelten Kontrakte tritt und somit als Käufer für jeden Verkäufer bzw. als Verkäufer für jeden Käufer fungiert
+4Gesundheit
+4.1.1  Erbringer von Gesundheitsdienstleistungen im Sinne der Richtlinie 2011/24/EU
+4.1.2  EU-Referenzlaboratorien nach Artikel 15 der Verordnung (EU) 2022/2371
+4.1.3  Unternehmen, die Forschungs- und Entwicklungstätigkeiten in Bezug auf Arzneimittel nach § 2 AMG ausüben
+4.1.4  Unternehmen, die pharmazeutische Erzeugnisse nach Abschnitt C Abteilung 21 der Statistischen Systematik der Wirtschaftszweige in der Europäischen Gemeinschaft (NACE Rev. 2) herstellen
+4.1.5  Unternehmen, die Medizinprodukte herstellen, die während einer Notlage im Bereich der öffentlichen Gesundheit als kritisch nach Artikel 22 der Verordnung (EU) 2022/123 („Liste kritischer Medizinprodukte für Notlagen im Bereich der öffentlichen Gesundheit“) eingestuft werden
+5Wasser
+5.1 Trinkwasserversorgung
+5.1.1  Betreiber von Wasserversorgungsanlagen im Sinne von § 2 Nummer 3 TrinkwV, jedoch unter Ausschluss der Lieferanten, für die die Lieferung von Wasser für den menschlichen Gebrauch ein nicht wesentlicher Teil ihrer allgemeinen Tätigkeit der Lieferung anderer Rohstoffe und Güter ist
+5.2 Abwasserbeseitigung
+5.2.1  Unternehmen, die Abwasser nach § 54 Absatz 1 WHG sammeln, entsorgen oder behandeln, jedoch unter Ausschluss der Unternehmen, für die das Sammeln, die Entsorgung oder die Behandlung solchen Abwassers ein nicht wesentlicher Teil ihrer allgemeinen Tätigkeit ist
+6Digitale Infrastruktur
+6.1.1  Betreiber von Internet Exchange Points
+6.1.2  DNS-Dienstanbieter, ausgenommen Betreiber von Root-Nameservern
+6.1.3  Top Level Domain Name Registry
+6.1.4  Anbieter von Cloud-Computing-Diensten
+6.1.5  Anbieter von Rechenzentrumsdiensten
+6.1.6  Betreiber von Content Delivery Networks
+6.1.7  Vertrauensdiensteanbieter
+6.1.8  Betreiber öffentlicher Telekommunikationsnetze
+6.1.9  Anbieter öffentlich zugänglicher Telekommunikationsdienste
+6.1.10  Managed Services Provider
+6.1.11  Managed Security Services Provider
+7Weltraum
+7.1.1  Betreiber von Bodeninfrastrukturen, die sich im Eigentum von Mitgliedstaaten oder privaten Parteien befinden und von diesen verwaltet und betrieben werden und die Erbringung von weltraumgestützten Diensten unterstützen, ausgenommen Anbieter öffentlicher elektronischer Kommunikationsnetze

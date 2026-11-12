@@ -6,7 +6,7 @@
 | Policy-Version | `2026-11.1` |
 | Umsetzung | `src/proportionality/`, `src/engagement/`, `db/migrations/0001_engagement_proportionality.sql` |
 
-Dieses Dokument präzisiert das Fachkonzept „Engagement & Proportionality Model“ so weit, dass es implementierbar und prüfbar ist. Wo das Ausgangskonzept offen war, sind Entscheidungen getroffen und in [Abschnitt 10](#10-designentscheidungen) begründet. Was fachlich noch zu bestätigen ist, steht in [Abschnitt 11](#11-offene-punkte).
+Dieses Dokument präzisiert das Fachkonzept „Engagement & Proportionality Model“ so weit, dass es implementierbar und prüfbar ist. Wo das Ausgangskonzept offen war, sind Entscheidungen getroffen und in [Abschnitt 10](#10-designentscheidungen) begründet. Was fachlich noch zu bestätigen ist, steht auf der Entscheidungsseite [`entscheidungen.md`](../entscheidungen.md). Der Arbeitsablauf steht in [`plan.md`](../plan.md).
 
 ---
 
@@ -278,20 +278,22 @@ Voraussetzung ist eine Datenbasis. Deshalb werden **ab dem ersten Mandat** Ist-A
 
 ## 11. Offene Punkte
 
-| # | Frage | Aktueller Stand |
-|---|---|---|
-| O1 | Schwellwerte, Gewichte und Profilparameter sind eine Erstkalibrierung. | Mit 10–20 realen bzw. historischen Kundenfällen gegenprüfen. |
-| O2 | Reicht NIS2 „wichtige Einrichtung“ ohne OT für Profil 3, oder soll jede NIS2-Einrichtung Profil 4 erhalten? | Floor 3 (F3); Profil 4 über F2/F4. Pflichten wie Meldewege gelten unabhängig davon (siehe O9). |
-| O3 | ISO-27001-Zertifizierungsziel → mindestens Profil 2? | F7 gesetzt; Lean könnte für zertifizierungswillige Einzelunternehmer zu knapp sein. |
-| O4 | ISMS Manager/CISO und ISMS Coordinator als getrennte Rollen? | Getrennt modelliert. |
-| O5 | Darf ein (nicht-junior) Consultant kritische Findings bestätigen? | Nein – nur Engagement Lead, Independent Reviewer, SME der Domäne. |
-| O6 | Lean-Mandate mit nur einem Senior: Wer reviewt kritische Findings? | Erfordert einen Pool-Review-Prozess bei DT Agency (E9). |
-| O7 | Sehen Kunden bestätigte Findings schon vor der Besprechung? | Nein, erst ab `customer_discussion`. |
-| O8 | Third-Party Pre-Assessment | Eigener verkürzter Fragenkatalog – noch nicht modelliert. |
-| O9 | Regulatorische Module (NIS2-Meldewege nach Art. 23, Pflichten der Geschäftsleitung nach Art. 20, Registrierung) | Vorschlag: als eigene, profilunabhängige Module aktivieren. |
-| O10 | Wann wird das Profil neu bewertet? | Vorschlag: jährlich sowie anlassbezogen (M&A, neue Regulierung, Einführung OT/KI, neue kritische Lieferanten). |
-| O11 | Nur DT Agency oder mehrere Beratungshäuser auf der Plattform? | Schema geht von einer Agentur aus; Mehrmandantenfähigkeit wäre eine Erweiterung. |
-| O12 | Technologie-Stack | Domänenkern ist framework-unabhängig (TypeScript); Schema ist PostgreSQL-kompatibel (z. B. Supabase). |
+Die offenen Punkte werden auf der Entscheidungsseite geführt: [`entscheidungen.md`](../entscheidungen.md).
+
+| Bisher | Jetzt |
+|---|---|
+| O1 Kalibrierung | ENT-001 |
+| O2 NIS2-Untergrenze | ENT-002 |
+| O3 ISO-Zertifizierungsziel | ENT-003 |
+| O4 ISMS Manager vs. Coordinator | ENT-004 |
+| O5 Bestätigung kritischer Findings | ENT-005 |
+| O6 Zweitprüfung in Lean-Mandaten | ENT-006 |
+| O7 Sichtbarkeit von Findings | ENT-007 |
+| O8 Third-Party Pre-Assessment | ENT-008 |
+| O9 Regulatorische Module | ENT-009 |
+| O10 Neubewertung | ENT-010 |
+| O11 Mehrmandantenfähigkeit | ENT-011 |
+| O12 Technologie-Stack | entschieden: TypeScript-Domänenkern, PostgreSQL-Schema |
 
 ## 12. Umsetzung im Repository
 

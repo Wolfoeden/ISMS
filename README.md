@@ -1,35 +1,59 @@
-# ISMS-Plattform
+# ISMS-Plattform – DT Agency
 
-Plattform für Information Security Governance und gleichzeitig Delivery Operating System für DT Agency:
+Arbeitssystem für ISMS-Einstufungen und -Prüfungen: Agents bearbeiten Dateien iterativ, Menschen verifizieren jede verbindliche Aussage, und nur verifiziertes Wissen gelangt in das ISMS eines Unternehmens.
+
+**Einstieg:** [`plan.md`](plan.md) → [`vorschriften.md`](vorschriften.md) → [`entscheidungen.md`](entscheidungen.md) → [`bibliothek/`](bibliothek/README.md)
+
+## Aufbau
 
 ```
-Customer → Mandate → Team → Scope → Assessment → Interviews → Evidence
-  → Expert Review → Findings → Measures → Deliverables → Customer Decision → Continuous Operation
+plan.md                  Methode und Ablauf: wie wir einstufen, wie eine Iteration läuft, wer was darf
+vorschriften.md          welche Vorschriften welche ISMS-Parameter festlegen
+entscheidungen.md        Entscheidungsseite für Methodik und Bibliothek (ENT-…)
+bibliothek/              verifiziertes Wissen mit wörtlich belegten Zitaten
+  quellen/               Wortlaut-Snapshots amtlicher Texte (BSIG, NIS2, DSGVO, BDSG, KMU)
+mandanten/
+  _vorlage/              Vorlage je Unternehmen:
+    fragebogen.md          Fakten zum Unternehmen, ankreuzbar, mit Quelle
+    entscheidungen.md      Entscheidungsseite des Mandats (E-…)
+    isms.md                das ISMS-Artefakt – nur Verifiziertes
+    verlauf.md             Protokoll der Iterationen
+    notizen/               Rohmaterial (Interviews, Dokumente)
+.claude/agents/          Agents: erhebung, einstufung, vorschriften, bibliothek, isms-pruefung, qualitaet
+.claude/commands/        /iteration, /neues-mandat, /verifizieren
+CLAUDE.md                Regeln für alle Agents
+docs/                    Fachkonzept Engagement & Proportionality Model
+src/                     Domänenkern (Profil, Controls, Mandat) und Werkzeuge (Fragebogen, NIS2-Vorprüfung, Prüfung)
+db/                      PostgreSQL-Schema der späteren Plattform
 ```
 
-## Stand
-
-Erster Baustein: **Engagement & Proportionality Model**. Er legt fest, wie viel Assurance eine Organisation braucht und wie ein Mandat organisiert wird.
-
-- Fachkonzept mit Designentscheidungen und offenen Punkten: [`docs/01-engagement-proportionality-model.md`](docs/01-engagement-proportionality-model.md)
-- Domänenkern (TypeScript, ohne Laufzeitabhängigkeiten): `src/`
-  - `proportionality/` – Complexity Profile, Ableitung des Assurance Profile, Profilparameter, Control-Umsetzungstiefe
-  - `engagement/` – Mandat, Rollen, Responsibility Model, Rollentrennung, Auditunabhängigkeit, Quality Gate, Templates
-- Datenbankschema (PostgreSQL ≥ 15): `db/migrations/`
-
-## Entwicklung
+## Arbeiten
 
 ```bash
 npm install
 ```
 
 ```bash
+npm run isms -- neu mueller-gmbh "Müller GmbH"
+```
+
+```bash
+npm run isms -- status mueller-gmbh
+```
+
+In Claude Code: `/iteration mueller-gmbh` führt eine Iteration aus und endet mit der Liste dessen, was ein Mensch verifizieren muss. `/verifizieren E-003 mueller-gmbh` hält eine menschliche Entscheidung fest.
+
+Weitere Befehle: `npm run isms -- einstufung <kürzel>`, `npm run isms -- pruefen [kürzel]`, `npm run isms -- index`.
+
+## Entwicklung
+
+```bash
 npm run check
 ```
 
-`check` führt Typprüfung und Tests aus. Die Beispiele aus dem Fachkonzept (Einzelentwickler A/B, Produktionsunternehmen, Access Review) sind als Tests hinterlegt.
+Typprüfung und Tests, darunter ein vollständiger Iterationszyklus an einem fiktiven Mandat und der Abgleich aller Bibliothekszitate mit den Quellen-Snapshots.
 
-Datenbank-Tests (benötigt lokale PostgreSQL-Binaries, nicht als root):
+Datenbank-Tests (lokale PostgreSQL-Binaries, nicht als root):
 
 ```bash
 db/test.sh
