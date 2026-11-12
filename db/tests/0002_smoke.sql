@@ -75,8 +75,9 @@ select pg_temp.expect_fail($$
 
 insert into control_assessment (mandate_id, control_id, applicability, base_depth, required_depth, implementation, evidence_state, approval)
 values ('00000000-0000-0000-0000-0000000000e1', 'A.8.5', 'applicable', 2, 2, 'present', 'sufficient', 'filed');
-insert into assessment_evidence (evidence_id, control_mandate_id, control_id)
-values ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-0000000000e1', 'A.8.5');
+insert into assessment_evidence (evidence_id, control_assessment_id)
+select '00000000-0000-0000-0000-0000000000b1', id from control_assessment
+ where mandate_id = '00000000-0000-0000-0000-0000000000e1' and control_id = 'A.8.5';
 set constraints all immediate;
 select pg_temp.expect_eq((select report_status from control_assessment where control_id = 'A.8.5'), 'met', 'mit geeignetem Nachweis berechnet');
 set constraints all deferred;

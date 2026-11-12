@@ -51,8 +51,18 @@ update mandate set status = 'active', profile_decision_id = '00000000-0000-0000-
 
 insert into evidence (mandate_id, kind, source, captured_at, captured_by)
 values ('00000000-0000-0000-0000-0000000005e1', 'evidence', 'Export', '2026-11-12', '00000000-0000-0000-0000-0000000005a1');
+-- ab 0007: Prüfvorgang braucht freigegebenen Scope mit Objekt
+insert into mandate_role values ('00000000-0000-0000-0000-0000000005e1', '00000000-0000-0000-0000-0000000005a1', 'engagement_lead');
 insert into assessment_case (id, mandate_id, entry_route, status)
-values ('00000000-0000-0000-0000-0000000005f1', '00000000-0000-0000-0000-0000000005e1', 'guided_discovery', 'collecting_evidence');
+values ('00000000-0000-0000-0000-0000000005f1', '00000000-0000-0000-0000-0000000005e1', 'guided_discovery', 'scope_draft');
+insert into assessment_object (id, organization_id, object_type, name, boundaries)
+values ('00000000-0000-0000-0000-0000000005b1', '00000000-0000-0000-0000-0000000005c1', 'product', 'Produkt X', 'Backend und App');
+insert into scope_version (id, case_id, version, goal, criteria, handling_mode, assurance_statement)
+values ('00000000-0000-0000-0000-0000000005d2', '00000000-0000-0000-0000-0000000005f1', 1, 'Sicherheitsbewertung', 'vereinbarte Kriterien', 'assisted', 'professionally_reviewed');
+insert into scope_object values ('00000000-0000-0000-0000-0000000005d2', '00000000-0000-0000-0000-0000000005b1');
+update scope_version set status = 'approved', approved_by = '00000000-0000-0000-0000-0000000005a1', approved_at = now()
+ where id = '00000000-0000-0000-0000-0000000005d2';
+update assessment_case set status = 'collecting_evidence' where id = '00000000-0000-0000-0000-0000000005f1';
 
 select pg_temp.expect_fail($$
   update assessment_case set status = 'closed_with_limitations' where id = '00000000-0000-0000-0000-0000000005f1' $$,
