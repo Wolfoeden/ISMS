@@ -10,3 +10,5 @@ export * from './engagement/templates.js';
 export * from './engagement/lifecycle.js';
 export * from './intake/intake.js';
 export * from './intake/readiness.js';
+export * from './evidence/evidence.js';
+export * from './evidence/proposals.js';

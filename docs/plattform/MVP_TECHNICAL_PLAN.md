@@ -35,9 +35,9 @@ Vorhanden und getestet: Domänenkern (`src/`), PostgreSQL-Schema mit RLS-Muster,
 | WP-03 | Produkt-/Organisationsobjekt, adaptive Kernfragen | ✔ 7 Kernfragen mit Materialität, Objektzweig Produkt/Organisation, Ask once; D-06 Entscheidungsfähigkeit (`src/intake/readiness.ts`, Schema-Trigger); Teilfakten (ENT-033) | Übergabe Intake → Fragebogen (Fakten vorbelegen) | ✔ US-A3, TC-09 |
 | WP-04 | Scope, Criteria, Modus, Assurance getrennt | ✔ `scope_version` mit Modus, Assurance-Aussage, Prüftiefenprofil; gesperrt nach Freigabe; Objekte je Scope; Bewertung je Objekt (0007) | Kriterien strukturiert statt Freitext (Framework/Version je Scope) | US-B1 ✔ (Schema), TC-03, US-B3 |
 | WP-05 | Mandat mit Scope-Fixierung | ◐ Mandat, Profilentscheidung | ✔ Mandatsstatus und Prüfvorgang (ENT-036, Migration 0005); Upload erst bei `active`; **idempotente** Mandatsanlage | TC-07, TC-08, TC-19, TC-20 |
-| WP-06 | Evidence Store, Provenienz, Deduplikation | ◐ Tabelle `evidence`, Prüfstufe, R1/R2 im Schema | Upload in verschlüsselten Speicher, Hash, Dedup über Hash; EvidenceLink mit Bewertungsumfang | TC-10, US-C1 |
+| WP-06 | Evidence Store, Provenienz, Deduplikation | ✔ SHA-256, Dedup je Mandat, Klassifikation, Verknüpfung mit Bewertungsumfang; Wiederverwendung erst nach Prüfung von Geltungsbereich, Stand, Zulassung, Aussagekraft (`src/evidence/evidence.ts`, Migration 0010) | verschlüsselter Dateispeicher (mit Hosting-Entscheidung) | ✔ TC-10, US-C1 |
 | WP-07 | Question/Task Engine + Client Portal | ○ | Task-Service (nicht BPMN, 02 §9); Portal S05/S06 | „nur eigene Aufgaben“ |
-| WP-08 | AI Proposals + Human Verification + Lock | ◐ Regeln (Agent nie freigebend), Statusmodell | Artefaktstatus 02 §4.4 als Tabelle; Proposal mit Quelle, Modell-/Promptversion, Unsicherheit; Lock verhindert Überschreiben | TC-11, TC-12, TC-21 |
+| WP-08 | AI Proposals + Human Verification + Lock | ✔ `ai_proposal` mit Fundstelle, Modell-/Promptversion, Scope, Unsicherheit; Status 02 §4.4; annehmen/korrigieren/ablehnen/vertagen nur durch Menschen; gesperrte Stände unveränderlich; KI-Sitzung schreibt nur Vorschläge und liest nur ihr Mandat (`src/evidence/proposals.ts`, Migration 0010) | Anbindung eines KI-Dienstes (DEC-16: Opt-in, AVV) | ✔ TC-11, TC-12, TC-21, US-C2 |
 | WP-09 | Assessment Workflow, Finding/Risk/Action | ✔ Tabellen und Regeln; berechneter Berichtsstatus | an Case/Objekt binden; D-09/D-10 als Regelverträge | US-C2 |
 | WP-10 | Lead Review / QA / Report Release | ◐ SoD-Regeln, Freigabe-DoD, Formulierungsprüfung | `review`, `report_version` (gesperrt, Snapshot der Evidenz); QA-Ergebnisse nach 01 §4.3; Rework-Router D-12 | TC-13, TC-15, TC-16, US-D2 |
 | WP-11 | E2E-Traceability, 10 Negativpfade | ◐ Werkzeug-E2E am fiktiven Mandat | API-E2E über den ganzen Slice | alle P0-Tests |
@@ -61,15 +61,15 @@ Jede Regel: `decision_id`, `version`, Ein-/Ausgabeschema, Testfälle inkl. Grenz
 
 | Test | heute | Plan |
 |---|---|---|
-| TC-12 AI-Overwrite | ◐ Regel „Agent gibt nie frei“ ✔ | Lock-Test auf `persisted_locked` |
+| TC-10, TC-11, TC-12, TC-21 | ✔ Kern (`test/evidence.test.ts`) und Schema (`db/tests/0010_smoke.sql`) | API-Test mit echtem KI-Dienst |
 | TC-13 QA SoD | ✔ Domänenkern (G6, Vier-Augen) | API-Test |
 | TC-14 Kundenwiderspruch | ✔ Kundenreaktion `bestritten` → erneute Prüfung | API-Test |
 | TC-16 Report limited | ◐ Freigabe-DoD, Pflicht „Einschränkungen“ | Endstatus `closed_with_limitations` |
 | TC-17 Normenversion | ◐ Policy-Version an Einstufung | Version-Pin + Impact-Entscheidung |
-| TC-18 Tenant Isolation | ✔ alle Tabellen (Struktur- und Verhaltenstest, 0008) | AI-Zugriffspfad mit WP-08 |
+| TC-18 Tenant Isolation | ✔ alle Tabellen (Struktur- und Verhaltenstest, 0008) | ✔ KI-Zugriffspfad (0010) |
 | TC-22 3PA-Bezeichnung | ◐ Sperrliste („zertifiziert“, „konform“) | Angebotsdialog |
 | TC-01, TC-02, TC-09 | ✔ Kern (`test/intake.test.ts`) und Schema (`db/tests/0009_smoke.sql`) | API-Test |
-| TC-03–TC-08, TC-10, TC-11, TC-15, TC-19–TC-21 | ○ | mit WP-04 bis WP-10 |
+| TC-03–TC-08, TC-15, TC-19, TC-20 | ○ | mit WP-04/05 und WP-10 |
 
 Testdaten: nur fiktiv/anonymisiert (`07_BEISPIEL_CASES.json`, Fixtures). DB-Tests gegen echtes PostgreSQL (`db/test.sh`).
 
@@ -79,7 +79,7 @@ Testdaten: nur fiktiv/anonymisiert (`07_BEISPIEL_CASES.json`, Fixtures). DB-Test
 2. ✔ WP-01: Migrationen 0005, 0007, 0008 – Prüfvorgang, Objekte, Scope-Versionen, Audit-Protokoll, RLS für alle Tabellen.
 3. ✔ Intake + Objekt + Kernfragen (WP-02/03) in Kern und Schema, getestet mit TC-01/02/09; API folgt mit der Hosting-Entscheidung.
 4. ◐ Mandat + Scope-Lock (WP-04/05): Status und Scope-Sperre ✔; offen: Angebotsversionen, Idempotenz TC-20.
-5. Evidence + Proposals + Lock (WP-06/08), TC-10/11/12.
+5. ✔ Evidence + Proposals + Lock (WP-06/08), TC-10/11/12/21 – Kern und Schema; Dateispeicher und KI-Dienst folgen mit Hosting.
 6. Register + Review + ReportVersion (WP-09/10), TC-13–16.
 7. Portal-Screens S01–S07 und Workspace S08–S13 als dünnes UI.
 8. E2E mit einem fiktiven, dann einem realen Testmandat (Gate 2).
