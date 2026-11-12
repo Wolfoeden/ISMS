@@ -513,7 +513,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A6, §A8.4, §A12; Vorlagen notizen, entscheidungen.md, isms.md §7–§10; src/werkzeuge/ergebnis.ts; db/migrations/0002 (evidence, risk, measure)
 
 ## ENT-029 · Begriffswahl „freigegeben“ zur Umsetzung der Auflage aus ENT-027 bestätigen
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** ENT-027 Auflage (Paul, 2026-11-12): Wording muss zu Fachinhalten und Normen passen und klar sein
 - **Betrifft:** vorschriften.md §A9, §A17.1; alle Status- und Feldnamen (`freigegeben`, „Freigegeben von/am“, `/freigeben`)
@@ -525,13 +525,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   3. zwei Stufen: „verifiziert“ (fachlich gegen Quelle/Nachweise geprüft) und „freigegeben“ (zur Verwendung/Weitergabe genehmigt)
 - **Vorschlag:** Option 3 (geändert nach Eingang des neuen Plans; Begründung und Zuordnung je Objekt in der Entscheidungsvorlage). Bisherige Begründung zu Option 1: In der Normsprache bezeichnet Verifizierung die Bestätigung anhand objektiver Nachweise – das ist die Tätigkeit des Abgleichs, nicht die Genehmigung einer Entscheidung, einer Risikoakzeptanz oder eines Ergebnisses. „Freigegeben“ passt für alle Objekte gleich, entspricht dem Sprachgebrauch für Genehmigung und Freigabe dokumentierter Information und ist für Kunden verständlich. Rücknahme wäre eine reine Umbenennung.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 3: zwei Stufen „verifiziert“ (fachlich gegen Quelle/Nachweise geprüft) und „freigegeben“ (zur Verwendung/Weitergabe genehmigt) (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-030 · Begriffskonflikt „Assurance Profile“
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** Gap-Analyse G-11: `07_BEISPIEL_CASES.json` nutzt assuranceProfile für Review-Pflicht und Unabhängigkeitsanspruch; das Repository für die Proportionalitätsstufe 1–4
 - **Betrifft:** vorschriften.md, docs/01, src/proportionality, Schema
@@ -542,9 +542,9 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Stufe 1–4 bleibt „Assurance Profile“, das Objekt aus 07 wird umbenannt
 - **Vorschlag:** Option 1 – das README des neuen Plans definiert Assurance als begrenzte Aussagequalität; die Stufe 1–4 beschreibt dagegen die Prüftiefe.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1: Stufe 1–4 heißt „Prüftiefenprofil“; „Assurance“ bleibt der Aussagequalität vorbehalten (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-031 · Statusvokabular der Beispiel-Cases abbilden
@@ -616,7 +616,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-035 · Prüftiefe: drei Stufen (Basis/Standard/Enhanced) oder vier Profile
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** neuer Plan 06 DEC-11 (Basis / Standard / Enhanced als interne Methodik), 02 D-07 (Ausgabe Sampling, Tiefe, Review-Level); Repository: Profil 1–4 mit Untergrenzen F1–F8
 - **Betrifft:** vorschriften.md Teil A, src/proportionality, Schema, D-07
@@ -628,9 +628,9 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   3. vier Stufen auch nach außen
 - **Vorschlag:** Option 1 – die getesteten Untergrenzen bleiben, die Angebotssprache folgt DEC-11; die Tiefe bleibt getrennt von Modus und Assurance-Aussage (ENT-030).
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1: intern vier Profile mit Untergrenzen F1–F8; nach außen Basis (1), Standard (2), Enhanced (3 und 4) (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-036 · Mandats- und Case-Status an den neuen Plan angleichen
