@@ -46,7 +46,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 ---
 
 ## ENT-001 · Policy 2026-11.1 als Startkalibrierung freigeben
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O1 – Schwellwerte, Gewichte und Profilparameter sind eine Erstkalibrierung
 - **Betrifft:** src/proportionality/profile.ts, src/proportionality/parameters.ts, BIB-MET-PROFIL, plan.md §5
@@ -56,13 +56,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Vor Freigabe an 10–20 historischen Kundenfällen rückwirkend testen
 - **Vorschlag:** Option 2 light: an 5 bekannten Kunden rückwirkend durchrechnen, Abweichungen vom Bauchgefühl als Kalibrierungsfälle dokumentieren, dann vorläufig freigeben.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Vorschlag (Option 2 light): an 5 bekannten Kunden rückwirkend durchrechnen, Abweichungen als Kalibrierungsfälle dokumentieren, dann Policy 2026-11.1 vorläufig freigeben (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-002 · Untergrenze für NIS2 „wichtige Einrichtung“
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O2
 - **Betrifft:** Untergrenzen F2–F4, src/proportionality/profile.ts, vorschriften.md §B2
@@ -72,13 +72,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. jede NIS2-Einrichtung → Profil 4
 - **Vorschlag:** Option 1. § 30 Abs. 1 Satz 2 BSIG verlangt ausdrücklich, die Größe der Einrichtung bei der Verhältnismäßigkeit zu berücksichtigen; eine pauschale Einstufung aller wichtigen Einrichtungen in Profil 4 widerspräche dem. Die gesetzlichen Pflichten (Meldewege, Registrierung, Geschäftsleitung) gelten unabhängig davon über [ENT-009].
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-003 · ISO-27001-Zertifizierungsziel → mindestens Profil 2
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O3
 - **Betrifft:** Untergrenze F7
@@ -88,13 +88,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Untergrenze streichen; Lean-Profil um zertifizierungsrelevante Pflichtartefakte ergänzen
 - **Vorschlag:** Option 1. Hinweis: BIB-ISO27001 ist noch nicht freigegeben ([ENT-014]).
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-004 · Kundenrollen ISMS Manager/CISO und ISMS Coordinator getrennt führen
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O4 – Konzept nennt beide Rollen
 - **Betrifft:** src/engagement/model.ts, src/proportionality/parameters.ts
@@ -104,13 +104,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. zusammenlegen
 - **Vorschlag:** Option 1 (aktueller Stand).
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-005 · Wer bestätigt kritische Findings?
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O5
 - **Betrifft:** src/engagement/findings.ts, src/engagement/governance.ts (Regel G4)
@@ -120,13 +120,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. zusätzlich erfahrene (nicht-junior) Consultants
 - **Vorschlag:** Option 1 (aktueller Stand).
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-006 · Zweitprüfung kritischer Findings in Lean-Mandaten mit nur einem Senior
-- **Status:** offen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O6 / E9
 - **Betrifft:** Solo Developer Security Assessment, Regel G3
@@ -136,13 +136,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Selbstprüfung mit dokumentierter Begründung, stichprobenhafte QA quartalsweise
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Pool-Review durch einen anderen Senior) (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-007 · Ab wann sieht der Kunde Findings?
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O7
 - **Betrifft:** Quality Gate, RLS-Regel finding_customer
@@ -152,13 +152,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. bereits ab `confirmed`
 - **Vorschlag:** Option 1 (aktueller Stand) – Findings werden immer zuerst besprochen, nicht zugestellt.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 – umgesetzt als „abgelegt“ + Kundenreaktion „besprochen“ (ENT-027) (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-008 · Third-Party Pre-Assessment
-- **Status:** offen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O8 – Template „Third-Party Assessment“ ohne eigenen Fragebogen
 - **Betrifft:** src/fragebogen/katalog.ts
@@ -168,13 +168,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. eigener Katalog entlang § 30 Abs. 2 Nr. 4 BSIG (Lieferkette)
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (ausdrücklich gewünscht) (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-009 · Gesetzliche Pflichten als profilunabhängige Pflichtmodule
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O9; Quellenauswertung BSIG §§ 30, 32, 33, 38, 39
 - **Betrifft:** vorschriften.md, isms.md §3/§6, Prüfbereiche
@@ -184,13 +184,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Pflichten in die Profilparameter einrechnen
 - **Vorschlag:** Option 1. NIS2-Modul: Registrierung (3 Monate, Änderungen 2 Wochen), Meldeworkflow 24 h / 72 h / 1 Monat, Geschäftsleitung umsetzen/überwachen/Schulung plus dokumentierte Billigung, alle zehn Bereiche nach § 30 Abs. 2 als Pflicht-Prüfbereiche. KRITIS-Modul: Nachweis alle 3 Jahre. DSGVO-Modul: Meldung 72 h, TOM-Wirksamkeitsprüfung.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-010 · Anlässe für eine Neubewertung des Profils
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O10
 - **Betrifft:** plan.md §4 Phase 6
@@ -200,13 +200,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. nur anlassbezogen
 - **Vorschlag:** Option 1. Anlässe: Umstrukturierung/M&A, Wechsel der Größenklasse, neue Einrichtungsart, Einführung von OT oder kritischer KI, neue kritische Lieferanten, Gesetzesänderung. Änderungen der Registrierungsdaten lösen zusätzlich die 2-Wochen-Meldung aus.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-011 · Nur DT Agency oder mehrere Beratungshäuser?
-- **Status:** offen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O11
 - **Betrifft:** Datenmodell, Rechte
@@ -216,13 +216,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. mehrere Beratungshäuser (Mehrmandantenfähigkeit)
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** zunächst nur DT Agency (Option 1); wenn der Prototyp stabil läuft, als White-Label für weitere Beratungshäuser anbieten (Option 2) – Datenmodell bleibt mandantenfähig (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-012 · Wo liegen Mandatsdaten?
-- **Status:** offen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** Fragebogen, Notizen und isms.md enthalten vertrauliche Kundendaten
 - **Betrifft:** mandanten/, Zugriffsrechte, Löschfristen
@@ -233,13 +233,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   3. Mandatsdaten außerhalb von Git (z. B. Plattform-Datenbank), nur Methodik im Repo
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 2: ein privates Repository je Kunde; Methodik und Bibliothek aus diesem Repository (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-013 · Wer darf freigeben?
-- **Status:** offen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** Statusmodell von Bibliothek und Entscheidungen verlangt benannte Menschen
 - **Betrifft:** plan.md §6, CLAUDE.md
@@ -249,9 +249,9 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   1. Bibliothek und Methodik: Methodik-Verantwortliche/r; Mandatsentscheidungen: Engagement Lead; Risikoakzeptanz und Scope: Kunde (Executive Sponsor / Risk Owner)
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-014 · Zugang zu lizenzierten Normen und Freigabe der ISO-Einträge
@@ -260,7 +260,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** BIB-ISO27001 ohne Normexemplar nicht verifizierbar; am 2026-11-12 Projektaufbereitungen aus DIN EN ISO/IEC 27001:2024-01, DIN EN ISO/IEC 27002:2024-01 (TÜV-Süd-Akademie-E-Book) und ISO/IEC 27000:2018 geliefert
 - **Betrifft:** bibliothek/normen/, vorschriften.md §B4, §B5
 - **Grundlagen:** BIB-ISO27000, BIB-ISO27001, BIB-ISO27002
-- **Eingaben:** docs/vorgaben/eingang-2026-11-12/, docs/vorgaben/pruefbericht-2026-11-12.md; Chat 2026-11-12: Paul übernimmt den Abgleich
+- **Eingaben:** docs/vorgaben/eingang-2026-11-12/, docs/vorgaben/pruefbericht-2026-11-12.md; Chat 2026-11-12: Paul übernimmt den Abgleich; Chat 2026-11-12 (Paul): Abgleich und Freigabe der ISO-Einträge erfolgen in der Testphase
 - **Optionen:**
   1. Ein Mensch mit Zugriff auf die E-Books gleicht die drei Einträge ab (Kennungen, eindeutige Zuordnung der Themenbezeichnungen, Kernaussagen) und gibt sie frei
   2. zusätzlich Amd 1:2024 beschaffen und als eigenen Eintrag erfassen
@@ -278,6 +278,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** BIB-BSIG-28, Grenzen
 - **Betrifft:** Fragebogen REG-03, Untergrenze F1
 - **Grundlagen:** BIB-BSIG-28
+- **Eingaben:** Chat 2026-11-12 (Paul): nach der Testphase
 - **Optionen:**
   1. § 2 Nr. 22 BSIG, KRITIS-Dachgesetz und zugehörige Rechtsverordnung als Snapshots erfassen
 - **Vorschlag:** —
@@ -293,6 +294,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** BIB-KMU, Grenzen
 - **Betrifft:** Fragebogen ORG-01, STA-08; NIS2-Vorprüfung
 - **Grundlagen:** BIB-KMU
+- **Eingaben:** Chat 2026-11-12 (Paul): nach der Testphase
 - **Optionen:**
   1. Snapshot von Art. 3–6 des Anhangs ziehen, Eintrag BIB-KMU erweitern
 - **Vorschlag:** —
@@ -308,6 +310,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** vorschriften.md §B7 – DORA, KI-Verordnung, Cyber Resilience Act, TISAX, BSI IT-Grundschutz sind nicht erfasst
 - **Betrifft:** vorschriften.md, Fragebogen REG-05, KI-01–KI-04
 - **Grundlagen:** —
+- **Eingaben:** Chat 2026-11-12 (Paul): nach der Testphase
 - **Optionen:**
   1. nach Kundenbedarf priorisieren: erst erfassen, wenn ein Mandat sie braucht
   2. vorab vollständig erfassen
@@ -356,7 +359,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A13; src/bewertung/groessenklasse.ts; Werkzeug status/einstufung; isms.md §2
 
 ## ENT-020 · Leistungsarten und Mandatstypen zusammenführen
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** Prüfbericht P-03: Eingangsdokument nennt 7 Leistungsarten, das Mandatsmodell 7 Mandatstypen mit anderer Schnittmenge
 - **Betrifft:** src/engagement/model.ts (EngagementType), src/engagement/templates.ts, db/migrations
@@ -367,13 +370,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Leistungsart nur als Berichtstyp führen
 - **Vorschlag:** Option 1; Product Security Assessment zuerst, weil es der Pilotfall braucht ([ENT-021]).
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-021 · Getrennte, verknüpfte Scopes für Organisation und Produkt (Pilotfall)
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** scope
 - **Ausgelöst durch:** Prüfbericht P-04: Pilotfall Einzelunternehmer mit Softwareprodukt; Mandat hat heute genau einen Freitext-Scope
 - **Betrifft:** mandanten/_vorlage (isms.md §1, E-001), Fragebogen, Datenmodell
@@ -385,13 +388,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   3. ein Mandat mit mehreren Bewertungsobjekten (Organisation, Produkt …) nach 02; je Objekt eigene Grenzen, Kriterien und Bewertung, gemeinsame Fakten (Ask once), ein Bericht mit getrennten Aussagen je Objekt
 - **Vorschlag:** Option 3 – entspricht dem Datenmodell des neuen Plans und dem Pilotfall ADR-009; Option 1 ist darin enthalten, Option 2 würde gemeinsame Fakten doppelt erheben.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 3 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-022 · Risikomethode für Mandate
-- **Status:** offen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** Prüfbericht P-05: Vorschriften §7 verlangen konfigurierbare, reproduzierbare Risikokriterien; im Repository fehlt eine Methode
 - **Betrifft:** isms.md §7, Risk Engine
@@ -402,13 +405,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Methode des Kunden übernehmen, falls vorhanden; sonst Standardmethode
 - **Vorschlag:** —
 - **Vorgeschlagen von:** —
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 2 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-023 · SoA referenziert ISO/IEC 27001 Anhang A, nicht ISO/IEC 27002
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** Prüfbericht P-06: Datenmodell im Eingangsdokument ISO-27001 §6 nutzt control_reference ISO_IEC_27002_2022_8_4
 - **Betrifft:** vorschriften.md §A7 Nr. 6, künftiges SoA-Datenmodell
@@ -419,9 +422,9 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. Referenz auf 27002 beibehalten
 - **Vorschlag:** Option 1 – das SoA ist eine Anforderung der ISO/IEC 27001 (6.1.3) und bezieht sich auf deren Anhang A.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-024 · Prüfimpulse und Nachweise je Control ausarbeiten
@@ -442,7 +445,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-025 · Zuordnung § 30 Abs. 2 BSIG → ISO/IEC 27001 Anhang A freigeben
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** Doppelnutzung von Nachweisen in NIS2- und ISO-Mandaten
 - **Betrifft:** vorschriften.md §B5.3, isms.md §6
@@ -453,9 +456,9 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. offizielle Zuordnungstabellen (z. B. von BSI oder ENISA) recherchieren und übernehmen
 - **Vorschlag:** Erst Option 2 prüfen (Agent bibliothek); bis dahin Option 1 als Arbeitsgrundlage, gekennzeichnet als Auslegung.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Vorschlag: zuerst offizielle Zuordnungstabellen prüfen (Option 2); bis dahin Option 1 als gekennzeichnete Auslegung (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-026 · Urheberrecht und Lizenz: Umgang mit Norminhalten
@@ -464,7 +467,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** Frage Paul 2026-11-12: „keine ISO-Dokumente, sondern überarbeitete Version – erfüllen wir die gesetzlichen Vorschriften?“
 - **Betrifft:** bibliothek/normen/, docs/vorgaben/, künftige Plattform (P1), Kundenberichte
 - **Grundlagen:** BIB-URHG
-- **Eingaben:** Entscheidungsvorlage docs/vorschlaege/2026-11-12-ENT-026-029-formulierungen-und-begriffe.md (Teilpunkte 026-A bis 026-E); Chat 2026-11-12 (Auftrag Paul: hinreichende, streng auditkonforme Formulierungen ohne rechtliche Konsequenzen); BIB-URHG; BIB-RDG; docs/vorgaben/pruefbericht-2026-11-12.md P-16
+- **Eingaben:** Entscheidungsvorlage docs/vorschlaege/2026-11-12-ENT-026-029-formulierungen-und-begriffe.md (Teilpunkte 026-A bis 026-E); Chat 2026-11-12 (Auftrag Paul: hinreichende, streng auditkonforme Formulierungen ohne rechtliche Konsequenzen); BIB-URHG; BIB-RDG; docs/vorgaben/pruefbericht-2026-11-12.md P-16; Chat 2026-11-12 (Paul): Freigabe der Formulierungen während der Testphase; Anforderung: verständlich, sachlich, auditkorrekt, saubere Referenzierung auf ISO möglich
 - **Optionen:**
   1. Formulierungsregeln wie erarbeitet freigeben: eigene Themenbezeichnungen statt Normtitel, Normbezüge nur über Kennung/Abschnitt, Satzbausteine für Ergebnisse, Liste unzulässiger Formulierungen mit Werkzeugprüfung (vorschriften.md §A17.2–§A17.4)
   2. wie 1, zusätzlich vor kommerzieller Nutzung Lizenzbedingungen der E-Books prüfen und Leistungsbeschreibung/RDG-Abgrenzung anwaltlich bestätigen lassen
@@ -548,7 +551,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A13; src/proportionality (DepthProfile, deriveDepthProfile); db/migrations/0003 (mandate.depth_profile); Vorlagen, Agents, Bibliothek (Prosa); BIB-MET-PROFIL Titel
 
 ## ENT-031 · Statusvokabular der Beispiel-Cases abbilden
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** Gap-Analyse G-10
 - **Betrifft:** Schema, Plattform-API
@@ -559,13 +562,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. eigene Statuswerte der Cases beibehalten
 - **Vorschlag:** Option 1. Detailtabelle nach 02: Artefaktstatus `ai_proposed`/`in_review` → Freigabe vorgeschlagen; `verified` → verifiziert (ENT-029); `persisted_locked` → freigegeben und gesperrt; `superseded` → ersetzt; `rejected_with_reason` → abgelehnt; `deferred_with_owner_impact_trigger` → offen mit Verantwortlichem; D-05 `applicable`/`not_applicable` → Anwendbarkeit applicable/not_applicable, `uncertain`/`review_required` → undecided mit Grund; D-09 `sufficient/insufficient/expired/unsupported` → Evidenzlage sufficient/insufficient, Nachweis abgelaufen bzw. ungeeignet; Fakt `unknown` → Umsetzung unknown.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-032 · Technologie, BPMN-Engine und DMN
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** organisation
 - **Ausgelöst durch:** README §2: Stack ausdrücklich offen; Handoff §2 Nr. 5, §5
 - **Betrifft:** gesamte Plattform
@@ -576,13 +579,13 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. sofort Engine und DMN-Werkzeug festlegen
 - **Vorschlag:** Option 1 – keine voreilige Festlegung, wie vom Handoff verlangt.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1: Regeln vorerst als versionierter, getesteter Code; Engine-/DMN-Auswahl erneut vorlegen, wenn das MVP stabil läuft (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-033 · Einstufung mit vollständigem Fragebogen oder progressiv
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** Gap-Analyse G-06; ADR-005 (evidence-first, progressive Fragen)
 - **Betrifft:** src/fragebogen, src/werkzeuge/status.ts, Agent erhebung
@@ -593,9 +596,9 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. vollständigen Fragebogen beibehalten
 - **Vorschlag:** Option 1, Materialität je Frage nach Dokument 02.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
 
 ## ENT-034 · Rechtsgrundlage für proaktive Kontaktaufnahme (DiscoveryRun)
@@ -604,7 +607,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** BPMN Process_DiscoveryRun, T_OutreachRules; Handoff §6 (keine Cold-E-Mail als Default)
 - **Betrifft:** Plattform-Funktion Outreach
 - **Grundlagen:** —
-- **Eingaben:** docs/plattform/ARCHITECTURE_GAP_ANALYSIS.md; docs/vorgaben/eingang-2026-11-12-plan/
+- **Eingaben:** docs/plattform/ARCHITECTURE_GAP_ANALYSIS.md; docs/vorgaben/eingang-2026-11-12-plan/; Chat 2026-11-12 (Paul): nach der Testphase, wenn der Prototyp stabil läuft; bis dahin Outreach gesperrt
 - **Optionen:**
   1. Rechtsquellen (u. a. Wettbewerbsrecht zu Werbung per E-Mail/Telefon, DSGVO) als Snapshots erfassen, Regel ableiten; bis dahin Outreach technisch gesperrt
   2. Discovery/Outreach aus dem Plattformumfang streichen
@@ -634,7 +637,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A13; src/proportionality/profile.ts (offeredDepth, OFFERED_DEPTH); db/migrations/0003 (isms.offered_depth, mandate.offered_depth); test/profile.test.ts, db/tests/0003_smoke.sql
 
 ## ENT-036 · Mandats- und Case-Status an den neuen Plan angleichen
-- **Status:** vorgeschlagen
+- **Status:** freigegeben
 - **Typ:** methodik
 - **Ausgelöst durch:** 02 §4.2 Mandat `draft → offered → signed → active → closed` (+ `rejected`, `expired`, `terminated`) und §4.3 AssessmentCase; Schema 0001: `planned/active/closed/cancelled`
 - **Betrifft:** db/migrations, src/engagement/model.ts, mandanten/_vorlage
@@ -645,7 +648,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   2. heutige vier Status behalten, 02 nur abbilden
 - **Vorschlag:** Option 1 mit Migration 0003; bestehende Regel „aktiv nur mit Profilentscheidung“ bleibt.
 - **Vorgeschlagen von:** Agent, 2026-11-12
-- **Entscheidung:** —
-- **Freigegeben von:** —
-- **Freigegeben am:** —
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
