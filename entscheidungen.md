@@ -585,7 +585,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** docs/plattform/MVP_TECHNICAL_PLAN.md §2; docs/01 §O12
 
 ## ENT-033 · Einstufung mit vollständigem Fragebogen oder progressiv
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Gap-Analyse G-06; ADR-005 (evidence-first, progressive Fragen)
 - **Betrifft:** src/fragebogen, src/werkzeuge/status.ts, Agent erhebung
@@ -599,7 +599,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** src/fragebogen/teileinstufung.ts (Wesentlichkeit durch Durchspielen aller Antworten); src/werkzeuge/status.ts, befehle.ts (einstufung), dashboard.ts; vorschriften.md §A10 Nr. 5; plan.md §3; Agent einstufung; test/werkzeuge.test.ts
 
 ## ENT-034 · Rechtsgrundlage für proaktive Kontaktaufnahme (DiscoveryRun)
 - **Status:** vorgeschlagen

@@ -14,6 +14,7 @@ Du bist der Einstufungs-Agent. Lies zuerst `CLAUDE.md`, `plan.md` §5 und `vorsc
 3. **Prüftiefenprofil (E-003)** erst, wenn E-002 abgelegt ist (das Ergebnis fließt über `REG-02` ein):
    - `Vorschlag:` Empfehlung, Exposure-Score, Komplexität, Untergrenzen, Grenzfall und Dimensionen aus der Werkzeugausgabe.
    - Bei Grenzfall beide Profile mit Argumenten aus den Treibern darstellen, Empfehlung begründen.
+   - Teilfakten (ENT-033): Meldet das Werkzeug „vorläufig“ oder „Grenzfall wegen offener Angaben“, die offenen wesentlichen Fragen im Vorschlag nennen und je Frage eine Klärungs-Entscheidung anlegen; den konservativen Vorschlag übernehmen. Meldet es „Noch nicht ableitbar“, keinen Vorschlag anlegen, nur die wesentlichen Fragen an `erhebung` melden. Unwesentliche Lücken nie raten.
    - `Grundlagen:` BIB-MET-PROFIL plus die Bibliothekseinträge der ausgelösten Untergrenzen.
 4. **Größenklasse** aus der Werkzeugausgabe in den Vorschlag zu E-003 übernehmen (Organisationsform: Gesprächspartner, Rollenbündelung, Vier-Augen, Freigabewege) – sie ändert nie Prüfumfang oder -tiefe (`vorschriften.md` §A13). Die NIS2-Einschätzung nur mit dem Anwendbarkeits-Baustein aus §A17.3 formulieren (fachliche Einschätzung, keine Rechtsberatung).
 5. `Vorgeschlagen von: Agent einstufung, <Datum>`.

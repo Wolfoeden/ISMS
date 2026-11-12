@@ -55,7 +55,7 @@ Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `ve
 3. offene Fragebogen-Fragen aus `notizen/` beantworten
 4. für `unbekannt` beantwortete Fragen Klärungs-Entscheidungen anlegen
 5. NIS2-Vorprüfung in die Betroffenheits-Entscheidung übernehmen
-6. Prüftiefenprofil vorschlagen, sobald der Fragebogen vollständig ist
+6. Prüftiefenprofil vorschlagen, sobald keine **wesentliche** Angabe mehr fehlt ([ENT-033]): das Werkzeug spielt fehlende Angaben durch – unwesentliche blockieren nicht, wesentliche führen zu Grenzfall (benachbarte Profile, konservativer Vorschlag) oder Blockade
 7. anwendbare Vorschriften vorschlagen, sobald das Profil abgelegt ist
 8. fehlendes Wissen recherchieren (Entscheidungen vom Typ `wissen`)
 9. Controls bewerten, Findings und Maßnahmen vorschlagen
@@ -69,7 +69,7 @@ Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `ve
 |---|---|---|---|---|
 | 0 Anlage | Auftrag | – | `npm run isms -- neu <kürzel> "<Name>"` | Engagement Lead benannt |
 | 1 Erhebung | Interviews, Dokumente in `notizen/` | `erhebung` | Fragebogen mit Quellen; Klärungsfragen | Kunde bestätigt Klärungen |
-| 2 Einstufung | vollständiger Fragebogen | `einstufung` | Vorschläge E-002 NIS2-Betroffenheit, E-003 Prüftiefenprofil | Engagement Lead (Herabstufung zusätzlich QA) |
+| 2 Einstufung | keine wesentliche Angabe offen ([ENT-033]) | `einstufung` | Vorschläge E-002 NIS2-Betroffenheit, E-003 Prüftiefenprofil | Engagement Lead (Herabstufung zusätzlich QA) |
 | 3 Vorschriften | Profil abgelegt | `vorschriften` | Anwendbarkeits-Entscheidungen, Pflichtmodule | Engagement Lead |
 | 4 Prüfung | Profil + Vorschriften | `isms-pruefung` | Controls mit Tiefe, Evidenz, Findings, Risiken als Vorschläge | Senior/Reviewer gemäß Quality Gate |
 | 5 Ergebnis | freigegebene Findings | `isms-pruefung` | Maßnahmen, Prüfergebnis in `isms.md` §10 | Engagement Lead, Kunde (Risikoakzeptanz) |

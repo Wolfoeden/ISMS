@@ -108,7 +108,7 @@ export function mandatDashboard(ws: Arbeitsbereich, m: Mandat, heute = new Date(
     {
       name: 'Einstufung',
       stand: stufe(profil?.status),
-      detail: profil?.status === 'abgelegt' ? 'Prüftiefenprofil festgelegt' : st.einstufung.moeglich ? 'Vorschlag möglich' : `${st.einstufung.fehlend.length} Angaben fehlen`,
+      detail: profil?.status === 'abgelegt' ? 'Prüftiefenprofil festgelegt' : st.einstufung.moeglich ? 'Vorschlag möglich' : `${st.einstufung.fehlend.length} ${st.einstufung.teil ? 'wesentliche ' : ''}Angaben fehlen`,
     },
     {
       name: 'Vorschriften',

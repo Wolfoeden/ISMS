@@ -4,6 +4,7 @@
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { erzeugeFragebogen, zuFakten } from '../fragebogen/fragebogen.js';
+import { teilEinstufung } from '../fragebogen/teileinstufung.js';
 import { groessenklasse, ORGANISATIONSFORM } from '../bewertung/groessenklasse.js';
 import { deriveDepthProfile, PROFILE_NAMES } from '../proportionality/profile.js';
 import { NIS2_FAKT, nis2Vorpruefung } from '../regelwerk/nis2.js';
@@ -68,13 +69,21 @@ export function einstufung(root: string, kuerzel: string): string {
   }
   out.push(...g.hinweise.map((h) => `- Hinweis: ${h}`), '- Grundlagen: BIB-KMU', '');
   const f = zuFakten(m.fragebogen);
-  if (!f.fakten) {
-    out.push(`### Prüftiefenprofil`, `- Noch nicht ableitbar. Fehlende Antworten (${f.fehlend.length}): ${f.fehlend.join(', ')}`);
+  const t = f.fakten ? undefined : teilEinstufung(m.fragebogen);
+  if (t && t.status === 'blockiert') {
+    out.push(
+      `### Prüftiefenprofil`,
+      `- Noch nicht ableitbar (ENT-033): Spanne Profil ${t.min}–${t.max}.`,
+      `- Wesentlich offen – verändern das Profil, bitte klären: ${t.wesentlich.join(', ')}`,
+      ...(t.unwesentlich.length ? [`- Ohne Einfluss auf das Profil: ${t.unwesentlich.join(', ')}`] : []),
+    );
   } else {
-    const d = deriveDepthProfile(f.fakten);
+    const d = t ? t.konservativ : deriveDepthProfile(f.fakten!);
     out.push(
       `### Prüftiefenprofil – Vorschlag (Policy ${d.policyVersion})`,
-      `- Empfehlung: **Profil ${d.recommended} – ${PROFILE_NAMES[d.recommended]}**`,
+      `- Empfehlung: **Profil ${d.recommended} – ${PROFILE_NAMES[d.recommended]}**${t ? ' (vorläufig, Teilfakten nach ENT-033)' : ''}`,
+      ...(t && t.status === 'grenzfall' ? [`- Grenzfall wegen offener Angaben: Profil ${t.min} möglich, wenn ${t.wesentlich.join(', ')} günstig beantwortet werden – Vorschlag konservativ, Entscheidung Engagement Lead`] : []),
+      ...(t && t.unwesentlich.length ? [`- Offen, aber ohne Einfluss auf das Profil: ${t.unwesentlich.join(', ')}`] : []),
       ...(d.borderline ? [`- Grenzfall: Profil ${d.borderline.alternative} vertretbar (Abstand ${d.borderline.distance}) – Entscheidung Engagement Lead`] : []),
       `- Exposure ${d.exposureScore} → Band ${d.exposureBand} · Komplexität ${d.complexityScore}${d.complexityLift ? ' → +1' : ''}`,
       ...(d.floors.length ? [`- Untergrenzen: ${d.floors.map((x) => `${x.id} (${x.reason}) → ${x.profile}`).join('; ')}`] : []),

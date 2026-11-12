@@ -12,7 +12,8 @@ import { leseEntscheidungen, leseVerweise, zitatImText } from '../src/werkzeuge/
 import { pruefeArbeitsbereich } from '../src/werkzeuge/pruefen.js';
 import { ladeArbeitsbereich } from '../src/werkzeuge/repo.js';
 import { mandatStatus } from '../src/werkzeuge/status.js';
-import { MANUFACTURER } from './fixtures.js';
+import { MANUFACTURER, SOLO_DEV_A } from './fixtures.js';
+import { teilEinstufung } from '../src/fragebogen/teileinstufung.js';
 
 const ROOT = join(import.meta.dirname, '..');
 const fehler = (b: { schwere: string; text: string }[]) => b.filter((x) => x.schwere === 'fehler').map((x) => x.text);
@@ -191,7 +192,9 @@ describe('Iterationszyklus an einem fiktiven Mandat', () => {
     expect(s.unbekanntOhneKlaerung).toEqual(['STA-08']);
     expect(s.nis2?.ergebnis).toBe('wichtig');
     expect(s.schritte.map((x) => x.agent)).toEqual(expect.arrayContaining(['erhebung', 'einstufung']));
-    expect(einstufung(root, 'muster')).toMatch(/Noch nicht ableitbar[\s\S]*REG-02/);
+    // ENT-033: fehlende NIS2-Angabe ist wesentlich, verschiebt hier aber nur zwischen Profil 3 und 4 → Grenzfall
+    expect(einstufung(root, 'muster')).toMatch(/Profil 4[\s\S]*Grenzfall wegen offener Angaben: Profil 3[\s\S]*REG-02/);
+    expect(s.einstufung.teil).toMatchObject({ status: 'grenzfall', min: 3, max: 4, wesentlich: ['REG-02'] });
   });
 
   it('2 · Agent darf nicht freigeben', () => {
@@ -356,6 +359,41 @@ describe('Mandate in einem eigenen Kundenrepository (ENT-012)', () => {
       else process.env['ISMS_MANDANTEN'] = vorher;
       rmSync(root, { recursive: true, force: true });
       rmSync(extern, { recursive: true, force: true });
+    }
+  });
+});
+
+describe('Einstufung mit Teilfakten (ENT-033)', () => {
+  const fb = (a: Record<string, string | number | string[]>) => leseFragebogen(beantworte(erzeugeFragebogen({ kuerzel: 'x', name: 'X' }), a));
+  const ohne = (a: Record<string, string | number | string[]>, ...ids: string[]) => {
+    const k = { ...a };
+    for (const id of ids) delete k[id];
+    return k;
+  };
+
+  it('vollständige Angaben: Profil wie bisher, nichts wesentlich offen', () => {
+    const t = teilEinstufung(fb(antwortenAus(MANUFACTURER)));
+    expect(t).toMatchObject({ vollstaendig: true, status: 'fest', wesentlich: [] });
+    expect(t.min).toBe(deriveDepthProfile(MANUFACTURER).recommended);
+  });
+
+  it('fehlende NIS2-Angabe beim Einzelentwickler ist wesentlich und blockiert', () => {
+    const t = teilEinstufung(fb(ohne(antwortenAus(SOLO_DEV_A), 'REG-02')));
+    expect(t.wesentlich).toContain('REG-02');
+    expect(t.min).toBe(1);
+    expect(t.max).toBe(4);
+    expect(t.status).toBe('blockiert');
+  });
+
+  it('Spanne enthält immer das tatsächliche Profil; Lücken werden vollständig zugeordnet', () => {
+    const fehlen = ['KRY-02', 'ORG-03', 'TEC-07', 'REI-08'];
+    for (const fakten of [SOLO_DEV_A, MANUFACTURER]) {
+      const t = teilEinstufung(fb(ohne(antwortenAus(fakten), ...fehlen)));
+      const ist = deriveDepthProfile(fakten).recommended;
+      expect(t.min).toBeLessThanOrEqual(ist);
+      expect(t.max).toBeGreaterThanOrEqual(ist);
+      expect([...t.wesentlich, ...t.unwesentlich].sort()).toEqual([...fehlen].sort());
+      if (t.status === 'fest') expect(t.wesentlich).toEqual([]);
     }
   });
 });

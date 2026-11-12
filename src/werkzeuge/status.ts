@@ -3,6 +3,7 @@
  */
 import { zuFakten } from '../fragebogen/fragebogen.js';
 import { KATALOG } from '../fragebogen/katalog.js';
+import { teilEinstufung, type TeilEinstufung } from '../fragebogen/teileinstufung.js';
 import { deriveDepthProfile, PROFILE_NAMES } from '../proportionality/profile.js';
 import { groessenklasse, type GroessenErgebnis } from '../bewertung/groessenklasse.js';
 import { nis2Vorpruefung, type Nis2Vorpruefung } from '../regelwerk/nis2.js';
@@ -23,7 +24,7 @@ export interface MandatStatus {
   entscheidungen: Record<string, string[]>;
   nis2?: Nis2Vorpruefung;
   groesse?: GroessenErgebnis;
-  einstufung: { moeglich: boolean; fehlend: string[]; empfehlung?: string };
+  einstufung: { moeglich: boolean; fehlend: string[]; empfehlung?: string; teil?: TeilEinstufung };
   befunde: { fehler: number; warnungen: number };
   schritte: Schritt[];
 }
@@ -69,6 +70,17 @@ export function mandatStatus(ws: Arbeitsbereich, m: Mandat): MandatStatus {
   if (fakten.fakten) {
     const d = deriveDepthProfile(fakten.fakten);
     einstufung.empfehlung = `Profil ${d.recommended} (${PROFILE_NAMES[d.recommended]})${d.borderline ? `, Grenzfall ${d.borderline.alternative}` : ''}`;
+  } else if (m.fragebogen && fakten.fehlend.length < antworten.filter((a) => !a.frage.feld.startsWith('stammdaten')).length) {
+    // ENT-033: Einstufung mit Teilfakten – wesentliche Lücken blockieren, unwesentliche nicht
+    const t = teilEinstufung(m.fragebogen);
+    einstufung.teil = t;
+    einstufung.fehlend = t.wesentlich;
+    if (t.status !== 'blockiert') {
+      einstufung.moeglich = true;
+      einstufung.empfehlung = t.status === 'fest'
+        ? `Profil ${t.max} (${PROFILE_NAMES[t.max]}), vorläufig – ${t.unwesentlich.length} Angaben offen, ohne Einfluss auf das Profil`
+        : `Profil ${t.max} (${PROFILE_NAMES[t.max]}) konservativ, Grenzfall ${t.min} – wesentlich offen: ${t.wesentlich.join(', ')}`;
+    }
   }
   const nis2 = m.fragebogen ? nis2Vorpruefung(nis2Eingaben(m)) : undefined;
   const groesse = m.fragebogen ? groessenklasse(nis2Eingaben(m)) : undefined;
@@ -139,7 +151,7 @@ export function formatiereStatus(st: MandatStatus): string {
     '',
     `NIS2-Vorprüfung: ${st.nis2 ? st.nis2.ergebnis + (st.nis2.fehlend.length ? ` (fehlt: ${st.nis2.fehlend.join(', ')})` : '') : '—'}`,
     `Größenklasse: ${st.groesse?.klasse ? st.groesse.klasse + (st.groesse.vorlaeufig ? ' (vorläufig)' : '') : `offen${st.groesse?.fehlend.length ? ` (fehlt: ${st.groesse.fehlend.join(', ')})` : ''}`}`,
-    `Einstufung: ${st.einstufung.moeglich ? st.einstufung.empfehlung : `blockiert – ${st.einstufung.fehlend.length} Antworten fehlen`}`,
+    `Einstufung: ${st.einstufung.moeglich ? st.einstufung.empfehlung : st.einstufung.teil ? `blockiert – Spanne Profil ${st.einstufung.teil.min}–${st.einstufung.teil.max}, wesentlich offen: ${st.einstufung.fehlend.join(', ')}` : `blockiert – ${st.einstufung.fehlend.length} Antworten fehlen`}`,
     `Prüfung: ${st.befunde.fehler} Fehler · ${st.befunde.warnungen} Warnungen`,
     '',
     '## Nächste Schritte',
