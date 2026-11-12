@@ -323,3 +323,25 @@ describe('Iterationszyklus an einem fiktiven Mandat', () => {
     expect(fehler(pruefeArbeitsbereich(ladeArbeitsbereich(root, 'muster'))).join()).toMatch(/nicht wörtlich in de-bsig-p33.txt/);
   });
 });
+
+describe('Mandate in einem eigenen Kundenrepository (ENT-012)', () => {
+  it('ISMS_MANDANTEN lenkt Anlage und Laden in einen externen Ordner', () => {
+    const root = mkdtempSync(join(tmpdir(), 'isms-root-'));
+    const extern = mkdtempSync(join(tmpdir(), 'isms-kunde-'));
+    for (const p of ['plan.md', 'entscheidungen.md', 'bibliothek', 'mandanten']) cpSync(join(ROOT, p), join(root, p), { recursive: true });
+    const vorher = process.env['ISMS_MANDANTEN'];
+    process.env['ISMS_MANDANTEN'] = extern;
+    try {
+      expect(neu(root, 'kunde-a', 'Kunde A (fiktiv)')).toMatch(/Angelegt/);
+      expect(readFileSync(join(extern, 'kunde-a', 'isms.md'), 'utf-8')).toMatch(/Kunde A/);
+      const ws = ladeArbeitsbereich(root);
+      expect(ws.mandate.map((m) => m.kuerzel)).toEqual(['kunde-a']);
+      expect(fehler(pruefeArbeitsbereich(ws))).toEqual([]);
+    } finally {
+      if (vorher === undefined) delete process.env['ISMS_MANDANTEN'];
+      else process.env['ISMS_MANDANTEN'] = vorher;
+      rmSync(root, { recursive: true, force: true });
+      rmSync(extern, { recursive: true, force: true });
+    }
+  });
+});

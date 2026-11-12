@@ -5,7 +5,7 @@
 | Stand | 2026-11-12 · nach `05_CLAUDE_HANDOFF.md` §8 Nr. 3 |
 | MVP | 3PA Einzelunternehmer + Softwareprodukt (ADR-009, DEC-03), Inbound only (DEC-09) |
 | Slice | `Inbound → Discovery → Scope → Mandat → Evidence → AI Proposal → Human Verification → Review → Report` |
-| Voraussetzung | Gate 0 (04 §5): offene Entscheidungen in [`DECISION_LOG.md`](DECISION_LOG.md), vor allem ENT-029, ENT-030, ENT-032, ENT-035, ENT-036 |
+| Voraussetzung | Gate 0 (04 §5): ENT-029, ENT-030, ENT-035, ENT-036 freigegeben; ENT-032 Option 1 (Engine später) – siehe [`DECISION_LOG.md`](DECISION_LOG.md) |
 
 ## 1. Ausgangslage
 
@@ -13,7 +13,9 @@ Vorhanden und getestet: Domänenkern (`src/`), PostgreSQL-Schema mit RLS-Muster,
 
 **Strategie:** Den Domänenkern weiterverwenden – er ist die einzige Stelle, an der Fachregeln stehen (Arbeitssystem und Plattform rechnen identisch). Die Plattform kommt als dünne Schicht darüber; keine Vollmigration, kein Engine-Bau vor L1.
 
-## 2. Technologie (Entscheidung ENT-032 erforderlich)
+## 2. Technologie (ENT-032: Option 1, freigegeben 2026-11-12)
+
+**Entschieden:** Regeln bleiben versionierter, getesteter Code im Domänenkern; BPMN bleibt L0/L1-Dokumentation. Die Auswahl von Engine, DMN-Werkzeug und Betriebsplattform wird **erneut vorgelegt, wenn das MVP stabil läuft**. Bis dahin läuft das MVP lokal bzw. in einer Testumgebung gegen PostgreSQL wie in `db/test.sh`; eine Hosting-Entscheidung ist spätestens vor dem ersten realen Testmandat (Gate 2) nötig. Optionen zur Vorlage:
 
 | Option | Inhalt | Für | Gegen |
 |---|---|---|---|
@@ -21,7 +23,7 @@ Vorhanden und getestet: Domänenkern (`src/`), PostgreSQL-Schema mit RLS-Muster,
 | B | selbst betriebenes PostgreSQL + eigener Auth-Dienst + S3-kompatibler Speicher | volle Kontrolle | mehr Betriebs- und Sicherheitsaufwand vor dem Pilot |
 | C | BPMN-Engine (Camunda/Flowable/Zeebe) von Beginn an | Prozesse ausführbar | widerspricht L0/L1-Stufung (02 §9, Handoff §5); hoher Aufwand vor Nutzen |
 
-**Empfehlung: A** für den Pilot, Workflow als serverseitige Zustandsmaschinen im Domänenkern (wie heute `findings.ts`), BPMN bleibt L0/L1-Dokumentation bis zur Engine-Entscheidung. AI-Anbieter austauschbar über eine Schnittstelle; kein Training mit Kundendaten, Opt-in je Mandat (DEC-16).
+**Bisherige Empfehlung: A** für den Pilot, Workflow als serverseitige Zustandsmaschinen im Domänenkern (wie heute `findings.ts`), BPMN bleibt L0/L1-Dokumentation bis zur Engine-Entscheidung. AI-Anbieter austauschbar über eine Schnittstelle; kein Training mit Kundendaten, Opt-in je Mandat (DEC-16).
 
 ## 3. Arbeitspakete (04 §2) – Bestand und nächster Schritt
 
@@ -91,3 +93,24 @@ Jeder Schritt endet mit: Requirement-/Story-Bezug, Migration, API-/State-/Rechte
 | Normlizenz ungeklärt | keine Normtexte im Produkt; nur Kennungen und eigene Bezeichnungen (ENT-026) |
 | AI-Anbieter und Kundendaten | Opt-in je Mandat, AVV, kein Training, Logging (DEC-16) |
 | Umfang wächst vor Pilot | Discovery, weitere Frameworks, Integrationen ausdrücklich nach Gate 4 |
+
+## 8. Mehrmandantenfähigkeit (ENT-011, freigegeben 2026-11-12)
+
+Zunächst nur DT Agency. Wenn der Prototyp stabil läuft, wird die Plattform als **White-Label** für weitere Beratungshäuser angeboten. Deshalb trägt jede neue Tabelle ab Migration 0005 eine Spalte für das Beratungshaus (`tenant`), und RLS trennt danach – auch wenn es im MVP nur einen Wert gibt. Mandatsdaten des Arbeitssystems liegen je Kunde in einem eigenen privaten Repository (ENT-012).
+
+## 9. Abbildung der Statuswerte (ENT-031, freigegeben 2026-11-12)
+
+| Plan (02 / 07) | Repository |
+|---|---|
+| `ai_proposed`, `in_review` · `UNVERIFIED`, `PROVISIONAL`, `DRAFT` | Freigabe `vorgeschlagen` / Finding `proposed` |
+| `verified` | `verifiziert` / `verified` (ENT-029) |
+| `persisted_locked` | `freigegeben` + gesperrt (Änderung nur als neue Version) |
+| `superseded` | ersetzt (Versionskette) |
+| `rejected_with_reason` | `verworfen` / `rejected` mit Begründung |
+| `deferred_with_owner_impact_trigger` | `offen` mit Verantwortlichem und Auslöser |
+| D-05 `applicable` / `not_applicable` | Anwendbarkeit `applicable` / `not_applicable` (begründet, freigegeben) |
+| D-05 `uncertain`, `review_required` · `POSSIBLY_APPLICABLE`, `REQUIRES_EXPERT_REVIEW` | Anwendbarkeit `undecided` mit Grund |
+| `OPTIONAL_ASSESSMENT_CRITERION`, `POTENTIAL_VOLUNTARY_STANDARD` | Kriterium vom Typ „freiwillig“ |
+| D-09 `sufficient` / `insufficient` | Evidenzlage `sufficient` / `insufficient` |
+| D-09 `expired` / `unsupported` | Nachweis `abgelaufen` / `ungeeignet` |
+| Fakt `unknown` | Umsetzung `unknown` bzw. Fragebogen `unbekannt` |

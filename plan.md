@@ -96,14 +96,14 @@ Exposure-Score = 0,5 × Spitzenwert + 0,5 × Mittel der Top 3 → Band 1–4. Un
 
 | ID | Bedingung | min. Profil | Grundlage | Status |
 |---|---|---|---|---|
-| F1 | Betreiber kritischer Anlagen | 4 | [BIB-BSIG-28] | Methodik offen [ENT-001] |
-| F2 | besonders wichtige Einrichtung | 4 | [BIB-BSIG-28] | offen [ENT-002] |
-| F3 | wichtige Einrichtung | 3 | [BIB-BSIG-28] | offen [ENT-002] |
-| F4 | NIS2-relevant und OT oder sehr hohe Kritikalität | 4 | [BIB-BSIG-28] | offen [ENT-002] |
-| F5 | OT bei hoher Kritikalität | 3 | Methodik | offen [ENT-001] |
-| F6 | besondere Kategorien personenbezogener Daten in großem Umfang | 3 | [BIB-DSGVO-09] | offen [ENT-001] |
-| F7 | ISO-27001-Zertifizierung angestrebt | 2 | [BIB-ISO27001] | offen [ENT-003] |
-| F8 | privilegierter Zugriff auf Kundensysteme | 2 | Methodik | offen [ENT-001] |
+| F1 | Betreiber kritischer Anlagen | 4 | [BIB-BSIG-28] | Methodik, Kalibrierung [ENT-001] |
+| F2 | besonders wichtige Einrichtung | 4 | [BIB-BSIG-28] | freigegeben [ENT-002] |
+| F3 | wichtige Einrichtung | 3 | [BIB-BSIG-28] | freigegeben [ENT-002] |
+| F4 | NIS2-relevant und OT oder sehr hohe Kritikalität | 4 | [BIB-BSIG-28] | freigegeben [ENT-002] |
+| F5 | OT bei hoher Kritikalität | 3 | Methodik | Kalibrierung [ENT-001] |
+| F6 | besondere Kategorien personenbezogener Daten in großem Umfang | 3 | [BIB-DSGVO-09] | Kalibrierung [ENT-001] |
+| F7 | ISO-27001-Zertifizierung angestrebt | 2 | [BIB-ISO27001] | freigegeben [ENT-003] |
+| F8 | privilegierter Zugriff auf Kundensysteme | 2 | Methodik | Kalibrierung [ENT-001] |
 
 **Schritt 3 – Entscheidung** durch den Engagement Lead: Empfehlung übernehmen oder mit Begründung abweichen; Herabstufung nur mit QA-Review; Untergrenzen sind nicht unterschreitbar.
 
@@ -121,7 +121,7 @@ Exposure-Score = 0,5 × Spitzenwert + 0,5 × Mittel der Top 3 → Band 1–4. Un
 | `isms.md` schreiben | ✔ nur Freigegebenes | ✔ |
 | Profil herabstufen, Untergrenze ändern, Risiko akzeptieren | ✘ | ✔ |
 
-Wer konkret freigeben darf, ist in [ENT-013] offen.
+Wer freigeben darf ([ENT-013]): Bibliothek und Methodik die bzw. der Methodikverantwortliche; Mandatsentscheidungen der Engagement Lead; Risikoakzeptanz und Scope der Kunde (Executive Sponsor bzw. Risk Owner). Verifizierung und Freigabe nach `vorschriften.md` §A9.
 
 ## 7. Werkzeuge
 
@@ -132,18 +132,19 @@ Wer konkret freigeben darf, ist in [ENT-013] offen.
 | `npm run isms -- einstufung <kürzel>` | NIS2-Vorprüfung und Profilvorschlag als Text für die Entscheidung |
 | `npm run isms -- pruefen [kürzel]` | Konsistenz: Zitate wörtlich, Freigabe durch Menschen, nur Freigegebenes in `isms.md` |
 | `npm run isms -- index` | `bibliothek/index.md` neu erzeugen |
+| `npm run isms -- dashboard <kürzel>` | Fortschrittsübersicht `dashboard.html` im Mandatsordner – gleiche Ansicht für Kunde und Berater ([ENT-037]) |
 | `/iteration <kürzel>` | eine Iteration in Claude Code ausführen (`.claude/commands/`) |
 
 ## 8. Ausbau der Methodik (nächste Iterationen)
 
-1. Startkalibrierung an 5 bekannten Kunden ([ENT-001])
-2. Wissenslücken schließen: KRITIS ([ENT-015]), KMU Art. 3–5 ([ENT-016]), weitere Regelwerke nach Bedarf ([ENT-017])
+1. Startkalibrierung ([ENT-001], freigegeben): Policy 2026-11.1 an 5 bekannten Kunden rückwirkend durchrechnen, Abweichungen als Kalibrierungsfälle dokumentieren, dann vorläufig freigeben
+2. Wissenslücken schließen – **nach der Testphase**: KRITIS ([ENT-015]), KMU Art. 3–5 ([ENT-016]), weitere Regelwerke nach Bedarf ([ENT-017])
 3. Vertiefte Assessment-Kataloge je Pflicht-Prüfbereich (§ 30 Abs. 2 Nr. 1–10), Tiefe je Profil
-4. ISO-Kataloge freigeben ([ENT-014]) und Prüfimpulse je Control ausarbeiten ([ENT-024]); SoA nach [ENT-023]
+4. ISO-Kataloge in der Testphase freigeben ([ENT-014]) und Prüfimpulse je Control ausarbeiten ([ENT-024]); SoA nach [ENT-023]
 5. Pilotfall Einzelunternehmer mit Softwareprodukt: getrennte Scopes ([ENT-021]), Product Security Assessment ([ENT-020]), Evidenzregister, Risikomethode ([ENT-022]), Berichtsvorlage
 6. Third-Party Pre-Assessment ([ENT-008])
 7. Aufwandsschätzung aus Ist-Aufwänden
 
 ## 9. Vertraulichkeit
 
-Mandatsordner enthalten vertrauliche Kundendaten. Das Repository ist privat; wo Mandatsdaten dauerhaft liegen, ist in [ENT-012] offen. Bis dahin: keine Zugangsdaten, keine Originaldokumente mit besonders schützenswerten Inhalten in `notizen/` – stattdessen Zusammenfassungen mit Fundstelle beim Kunden.
+Mandatsordner enthalten vertrauliche Kundendaten. Sie liegen nach [ENT-012] in **einem privaten Repository je Kunde**; dieses Repository liefert Methodik, Bibliothek, Vorlage und Werkzeuge. Die Werkzeuge finden die Mandate über `ISMS_MANDANTEN=<Pfad zum Kundenrepository>`; `mandanten/` enthält hier nur die Vorlage und fiktive Testmandate (`.gitignore`). Löschung je Kunde = Löschung seines Repositorys. Zusätzlich: keine Zugangsdaten, keine Originaldokumente mit besonders schützenswerten Inhalten in `notizen/` – stattdessen Zusammenfassungen mit Fundstelle beim Kunden.

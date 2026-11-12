@@ -1,14 +1,14 @@
 /**
  * Befehle der Werkzeug-Kommandozeile – als Funktionen, damit sie testbar sind.
  */
-import { cpSync, existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { erzeugeFragebogen, zuFakten } from '../fragebogen/fragebogen.js';
 import { groessenklasse, ORGANISATIONSFORM } from '../bewertung/groessenklasse.js';
 import { deriveDepthProfile, PROFILE_NAMES } from '../proportionality/profile.js';
 import { NIS2_FAKT, nis2Vorpruefung } from '../regelwerk/nis2.js';
 import { fmListe, fmString } from './markdown.js';
-import { ladeArbeitsbereich, ladeMandat } from './repo.js';
+import { ladeArbeitsbereich, ladeMandat, mandantenOrdner } from './repo.js';
 import { nis2Eingaben } from './status.js';
 
 const heute = () => new Date().toISOString().slice(0, 10);
@@ -20,8 +20,9 @@ function fail(msg: string): never {
 
 export function neu(root: string, kuerzel?: string, name?: string): string {
   if (!kuerzel || !/^[a-z0-9][a-z0-9-]{1,40}$/.test(kuerzel)) fail('Kürzel: Kleinbuchstaben, Ziffern, Bindestrich (z. B. "mueller-gmbh").');
-  const ziel = join(root, 'mandanten', kuerzel);
+  const ziel = join(mandantenOrdner(root), kuerzel);
   if (existsSync(ziel)) fail(`mandanten/${kuerzel} existiert bereits.`);
+  mkdirSync(dirname(ziel), { recursive: true });
   cpSync(join(root, 'mandanten', '_vorlage'), ziel, { recursive: true });
   const ersetze = (p: string) => {
     for (const n of readdirSync(p, { withFileTypes: true })) {

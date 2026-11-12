@@ -46,7 +46,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 ---
 
 ## ENT-001 · Policy 2026-11.1 als Startkalibrierung freigeben
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O1 – Schwellwerte, Gewichte und Profilparameter sind eine Erstkalibrierung
 - **Betrifft:** src/proportionality/profile.ts, src/proportionality/parameters.ts, BIB-MET-PROFIL, plan.md §5
@@ -59,10 +59,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Vorschlag (Option 2 light): an 5 bekannten Kunden rückwirkend durchrechnen, Abweichungen als Kalibrierungsfälle dokumentieren, dann Policy 2026-11.1 vorläufig freigeben (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** plan.md §5 (Untergrenzen F1, F5, F6, F8: Kalibrierung) und §8 Nr. 1 (Arbeitsauftrag Kalibrierung an 5 Kunden)
 
 ## ENT-002 · Untergrenze für NIS2 „wichtige Einrichtung“
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O2
 - **Betrifft:** Untergrenzen F2–F4, src/proportionality/profile.ts, vorschriften.md §B2
@@ -75,10 +75,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** plan.md §5 (F2–F4); src/proportionality/profile.ts (Untergrenzen); vorschriften.md §B6
 
 ## ENT-003 · ISO-27001-Zertifizierungsziel → mindestens Profil 2
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O3
 - **Betrifft:** Untergrenze F7
@@ -91,10 +91,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** plan.md §5 (F7); src/proportionality/profile.ts; vorschriften.md §B6
 
 ## ENT-004 · Kundenrollen ISMS Manager/CISO und ISMS Coordinator getrennt führen
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O4 – Konzept nennt beide Rollen
 - **Betrifft:** src/engagement/model.ts, src/proportionality/parameters.ts
@@ -107,10 +107,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A9; src/engagement/model.ts (Rollen isms_manager, isms_coordinator)
 
 ## ENT-005 · Wer bestätigt kritische Findings?
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O5
 - **Betrifft:** src/engagement/findings.ts, src/engagement/governance.ts (Regel G4)
@@ -123,7 +123,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A9; src/engagement/governance.ts (canConfirmCritical); src/engagement/findings.ts (verify)
 
 ## ENT-006 · Zweitprüfung kritischer Findings in Lean-Mandaten mit nur einem Senior
 - **Status:** freigegeben
@@ -142,7 +142,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-007 · Ab wann sieht der Kunde Findings?
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O7
 - **Betrifft:** Quality Gate, RLS-Regel finding_customer
@@ -155,7 +155,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 – umgesetzt als „abgelegt“ + Kundenreaktion „besprochen“ (ENT-027) (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A9; src/engagement/findings.ts (visibleToCustomer); db/migrations/0002 (Policy finding_customer); src/werkzeuge/dashboard.ts
 
 ## ENT-008 · Third-Party Pre-Assessment
 - **Status:** freigegeben
@@ -174,7 +174,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-009 · Gesetzliche Pflichten als profilunabhängige Pflichtmodule
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O9; Quellenauswertung BSIG §§ 30, 32, 33, 38, 39
 - **Betrifft:** vorschriften.md, isms.md §3/§6, Prüfbereiche
@@ -187,10 +187,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §B2.2
 
 ## ENT-010 · Anlässe für eine Neubewertung des Profils
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O10
 - **Betrifft:** plan.md §4 Phase 6
@@ -203,10 +203,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A2 Nr. 6, §A4 Nr. 13; plan.md §3 Phase 6
 
 ## ENT-011 · Nur DT Agency oder mehrere Beratungshäuser?
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O11
 - **Betrifft:** Datenmodell, Rechte
@@ -219,10 +219,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** zunächst nur DT Agency (Option 1); wenn der Prototyp stabil läuft, als White-Label für weitere Beratungshäuser anbieten (Option 2) – Datenmodell bleibt mandantenfähig (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** docs/plattform/MVP_TECHNICAL_PLAN.md §8; docs/01 §O11
 
 ## ENT-012 · Wo liegen Mandatsdaten?
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** Fragebogen, Notizen und isms.md enthalten vertrauliche Kundendaten
 - **Betrifft:** mandanten/, Zugriffsrechte, Löschfristen
@@ -236,10 +236,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 2: ein privates Repository je Kunde; Methodik und Bibliothek aus diesem Repository (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** src/werkzeuge/repo.ts (mandantenOrdner, ISMS_MANDANTEN); src/werkzeuge/befehle.ts; .gitignore; plan.md §9; vorschriften.md §A2 Nr. 7; .claude/commands/neues-mandat.md; test/werkzeuge.test.ts
 
 ## ENT-013 · Wer darf freigeben?
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** Statusmodell von Bibliothek und Entscheidungen verlangt benannte Menschen
 - **Betrifft:** plan.md §6, CLAUDE.md
@@ -252,7 +252,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** plan.md §6; vorschriften.md §A9
 
 ## ENT-014 · Zugang zu lizenzierten Normen und Freigabe der ISO-Einträge
 - **Status:** vorgeschlagen
@@ -411,7 +411,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-023 · SoA referenziert ISO/IEC 27001 Anhang A, nicht ISO/IEC 27002
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Prüfbericht P-06: Datenmodell im Eingangsdokument ISO-27001 §6 nutzt control_reference ISO_IEC_27002_2022_8_4
 - **Betrifft:** vorschriften.md §A7 Nr. 6, künftiges SoA-Datenmodell
@@ -425,7 +425,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A7 Nr. 6
 
 ## ENT-024 · Prüfimpulse und Nachweise je Control ausarbeiten
 - **Status:** offen
@@ -445,7 +445,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-025 · Zuordnung § 30 Abs. 2 BSIG → ISO/IEC 27001 Anhang A freigeben
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Doppelnutzung von Nachweisen in NIS2- und ISO-Mandaten
 - **Betrifft:** vorschriften.md §B5.3, isms.md §6
@@ -459,7 +459,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Vorschlag: zuerst offizielle Zuordnungstabellen prüfen (Option 2); bis dahin Option 1 als gekennzeichnete Auslegung (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §B5.3 (als Auslegung gekennzeichnet; Recherche offizieller Tabellen in plan.md §8)
 
 ## ENT-026 · Urheberrecht und Lizenz: Umgang mit Norminhalten
 - **Status:** vorgeschlagen
@@ -551,7 +551,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A13; src/proportionality (DepthProfile, deriveDepthProfile); db/migrations/0003 (mandate.depth_profile); Vorlagen, Agents, Bibliothek (Prosa); BIB-MET-PROFIL Titel
 
 ## ENT-031 · Statusvokabular der Beispiel-Cases abbilden
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Gap-Analyse G-10
 - **Betrifft:** Schema, Plattform-API
@@ -565,10 +565,10 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** docs/plattform/MVP_TECHNICAL_PLAN.md §9
 
 ## ENT-032 · Technologie, BPMN-Engine und DMN
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** README §2: Stack ausdrücklich offen; Handoff §2 Nr. 5, §5
 - **Betrifft:** gesamte Plattform
@@ -582,7 +582,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1: Regeln vorerst als versionierter, getesteter Code; Engine-/DMN-Auswahl erneut vorlegen, wenn das MVP stabil läuft (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** docs/plattform/MVP_TECHNICAL_PLAN.md §2; docs/01 §O12
 
 ## ENT-033 · Einstufung mit vollständigem Fragebogen oder progressiv
 - **Status:** freigegeben
@@ -652,3 +652,19 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** —
+
+## ENT-037 · Fortschrittsübersicht je Mandat für Kunde und Berater
+- **Status:** abgelegt
+- **Typ:** organisation
+- **Ausgelöst durch:** Chat 2026-11-12 (Paul): „Dashboard pro Mandant – Fortschrittsübersicht auf der Mandantenebene für User und Berater gleich“
+- **Betrifft:** Werkzeuge, Plattform-Screens S05 (Kunde) und S08 (Workspace)
+- **Grundlagen:** —
+- **Eingaben:** docs/plattform/SERVICE_BLUEPRINT_IMPLEMENTATION.md §1 (kein Prozentwert ohne kalibrierte Methode; Fortschritt getrennt nach Phasen); ENT-007; ENT-012
+- **Optionen:**
+  1. eine gemeinsame Ansicht für Kunde und Berater: Phasen, Kennzahlen „x von y“, nächste Aufgaben je Beteiligtem, offene Punkte; Feststellungen bis zur Ablage nur als Anzahl
+- **Vorschlag:** Option 1
+- **Vorgeschlagen von:** Paul, zertifizierter CISO (Auftrag im Chat)
+- **Entscheidung:** Option 1 (Chat 2026-11-12)
+- **Freigegeben von:** Paul, zertifizierter CISO
+- **Freigegeben am:** 2026-11-12
+- **Abgelegt in:** src/werkzeuge/dashboard.ts; `npm run isms -- dashboard <kürzel>` (cli.ts) erzeugt dashboard.html im Mandatsordner; test/dashboard.test.ts; plan.md §7; docs/plattform/SERVICE_BLUEPRINT_IMPLEMENTATION.md S05/S08

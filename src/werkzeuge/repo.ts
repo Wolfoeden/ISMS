@@ -2,7 +2,7 @@
  * Arbeitsbereich laden: Bibliothek, globale Entscheidungsseite, Mandate.
  */
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
-import { dirname, join, relative } from 'node:path';
+import { dirname, join, relative, resolve } from 'node:path';
 import { leseFragebogen, type Fragebogen } from '../fragebogen/fragebogen.js';
 import { leseEntscheidungen, leseFrontmatter, leseZitate, type Entscheidung, type Frontmatter, type Zitat } from './markdown.js';
 
@@ -64,8 +64,19 @@ function mdDateien(dir: string): string[] {
   });
 }
 
+/**
+ * Ablageort der Mandate (ENT-012, Option 2): ein privates Repository je Kunde.
+ * `ISMS_MANDANTEN` zeigt auf den Ordner, der die Mandatsordner enthält (z. B. den
+ * Klon des Kundenrepositorys); ohne Angabe gilt `mandanten/` dieses Repositorys,
+ * das nur die Vorlage und Testmandate führt.
+ */
+export function mandantenOrdner(root: string): string {
+  const env = process.env['ISMS_MANDANTEN'];
+  return env ? resolve(env) : join(root, 'mandanten');
+}
+
 export function ladeMandat(root: string, kuerzel: string): Mandat {
-  const ordner = join(root, 'mandanten', kuerzel);
+  const ordner = join(mandantenOrdner(root), kuerzel);
   const p = (n: string) => join(ordner, n);
   const vorhanden = {
     fragebogen: existsSync(p('fragebogen.md')),
@@ -113,7 +124,7 @@ export function ladeArbeitsbereich(root = findeRoot(), nurMandat?: string): Arbe
   const ePfad = join(root, 'entscheidungen.md');
   const entscheidungen = existsSync(ePfad) ? leseEntscheidungen(lies(ePfad)) : [];
 
-  const mDir = join(root, 'mandanten');
+  const mDir = mandantenOrdner(root);
   const kuerzel = nurMandat
     ? [nurMandat]
     : existsSync(mDir)

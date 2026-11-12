@@ -4,3 +4,9 @@ coverage/
 *.log
 .env
 .env.*
+
+# ENT-012: Mandatsdaten liegen in einem privaten Repository je Kunde (ISMS_MANDANTEN).
+# Hier nur Vorlage und fiktive Testmandate.
+mandanten/*
+!mandanten/_vorlage/
+!mandanten/test-*/

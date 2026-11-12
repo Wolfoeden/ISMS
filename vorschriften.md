@@ -40,7 +40,7 @@
 | 4 | **Keine Scheinkonformität:** Nicht Geprüftes oder nicht Belegtes nie als erfüllt ausgeben. | ✔ `pruefen` für `isms.md` |
 | 5 | **Mensch entscheidet:** Risikoakzeptanzen, Auditfeststellungen, Freigaben und finale Berichte bestätigen berechtigte Menschen. | ✔ Status `freigegeben` nur durch Menschen |
 | 6 | **Kontinuität:** Wiederholungsprüfungen, Versionsstände und Verbesserungen abbilden. | ◐ Git-Historie, Verlauf; Neubewertung [ENT-010] |
-| 7 | **Mandantentrennung:** Daten, Bewertungen, Belege und Rechte verschiedener Kunden konsequent trennen. | ◐ Ordner je Mandat, RLS im Schema; Ablageort [ENT-012] |
+| 7 | **Mandantentrennung:** Daten, Bewertungen, Belege und Rechte verschiedener Kunden konsequent trennen. | ✔ privates Repository je Kunde (`ISMS_MANDANTEN`, [ENT-012]), RLS im Schema |
 
 ## A3. Leistungsarten
 
@@ -208,6 +208,8 @@ Werte aus den Eingangsdokumenten: `conforming` → `met`, `nonconforming` → `n
 | AI Agent | Agents in `.claude/agents/` | **keines** – vorbereiten, analysieren, empfehlen |
 
 Eine Person **KANN** mehrere Rollen halten (Einzelunternehmer). Funktionstrennung und Unabhängigkeit **MÜSSEN** bei Audits gesondert geprüft werden (Regeln G3, G6, T5, I1 in `docs/01` §6; Karenzzeit 24 Monate).
+
+**Wer freigibt (ENT-013):** Bibliothek und Methodik – Methodikverantwortliche/r; Mandatsentscheidungen – Engagement Lead; Risikoakzeptanz und Scope – Kunde (Executive Sponsor bzw. Risk Owner). **Kundenrollen (ENT-004):** ISMS Manager/CISO (fachlich verantwortlich) und ISMS Coordinator (operativ) werden getrennt geführt und dürfen dieselbe Person sein. **Kritische Feststellungen (ENT-005)** verifizieren nur Engagement Lead, Independent Reviewer oder SME der Domäne; Kunden sehen Feststellungen erst nach Ablage und Besprechung (ENT-007).
 
 **Zwei Stufen (ENT-029, Option 3; ergänzt ENT-027):** „verifiziert“ heißt, dass ein namentlich benannter, berechtigter Mensch den Inhalt fachlich gegen Quelle, Nachweise und Kriterien geprüft hat. „Freigegeben“ heißt, dass die zuständige Rolle ihn zur Verwendung oder Weitergabe genehmigt hat. „Freigegeben von“ bzw. „Verifiziert von“ nennen **Name und Rolle**, dazu das Datum. Ein Agent verifiziert nie und gibt nie frei. „Quellengeprüft“ bleibt der werkzeuggestützte Abgleich eines Zitats mit dem amtlichen Snapshot.
 
@@ -454,7 +456,7 @@ Prüfreihenfolge nach § 28 BSIG – umgesetzt in `npm run isms -- einstufung` (
 
 Immer zu prüfen: vernachlässigbare Nebentätigkeiten (Abs. 3), Partner-/verbundene Unternehmen und IT-Unabhängigkeit (Abs. 4), Ausnahmen für TK/Energie (Abs. 5) und DORA-Finanzunternehmen (Abs. 6). Ergebnis → Entscheidung E-002 → `REG-02`.
 
-### B2.2 Pflichtmodul NIS2 (profilunabhängig, Vorschlag [ENT-009])
+### B2.2 Pflichtmodul NIS2 (profilunabhängig, [ENT-009])
 
 | Pflicht | Parameter im ISMS | Fundstelle |
 |---|---|---|
@@ -538,7 +540,7 @@ Fünf Attribute je Control: Maßnahmenart · Sicherheitseigenschaften · Cybersi
 | Nr. 9 Personal, Zugriff, IKT-Verwaltung | 6.1, 6.2, 6.5, 5.15–5.18, 8.2, 5.9–5.11 | – |
 | Nr. 10 MFA, gesicherte Kommunikation | 8.5, 5.14 | – |
 
-Freigabe dieser Zuordnung: [ENT-025]. Für Software-3PA stehen erfahrungsgemäß 5.19–5.30, 8.2–8.5, 8.8–8.9, 8.13–8.16 und 8.24–8.34 im Vordergrund; die Auswahl folgt den Risiken und Vertragsanforderungen.
+Zuordnung nach [ENT-025]: **Auslegung von DT Agency**, bis offizielle Zuordnungstabellen (z. B. BSI, ENISA) geprüft sind; in Berichten als Auslegung kennzeichnen. Für Software-3PA stehen erfahrungsgemäß 5.19–5.30, 8.2–8.5, 8.8–8.9, 8.13–8.16 und 8.24–8.34 im Vordergrund; die Auswahl folgt den Risiken und Vertragsanforderungen.
 
 ## B6. Parametermatrix
 
@@ -555,7 +557,7 @@ Zusätzlich zu den Parametern des Prüftiefenprofils:
 | Geschäftsleitung: Umsetzung, Überwachung, Schulung | empfohlen | Pflicht | Pflicht | Pflicht | Führung (5.1) |
 | Externer Nachweiszyklus | – | – | – | alle 3 Jahre | Zertifizierungszyklus (nicht erfasst) |
 
-Grundlagen: [BIB-BSIG-28], [BIB-BSIG-30], [BIB-BSIG-32], [BIB-BSIG-33], [BIB-BSIG-38], [BIB-BSIG-39], [BIB-ISO27001]. Untergrenzen offen in [ENT-002] und [ENT-003].
+Grundlagen: [BIB-BSIG-28], [BIB-BSIG-30], [BIB-BSIG-32], [BIB-BSIG-33], [BIB-BSIG-38], [BIB-BSIG-39], [BIB-ISO27001]. Untergrenzen nach [ENT-002] und [ENT-003].
 
 ## B7. Noch nicht erfasst
 

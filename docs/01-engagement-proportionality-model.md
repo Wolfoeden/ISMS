@@ -282,18 +282,18 @@ Die offenen Punkte werden auf der Entscheidungsseite geführt: [`entscheidungen.
 
 | Bisher | Jetzt |
 |---|---|
-| O1 Kalibrierung | ENT-001 |
-| O2 NIS2-Untergrenze | ENT-002 |
-| O3 ISO-Zertifizierungsziel | ENT-003 |
-| O4 ISMS Manager vs. Coordinator | ENT-004 |
-| O5 Bestätigung kritischer Findings | ENT-005 |
-| O6 Zweitprüfung in Lean-Mandaten | ENT-006 |
-| O7 Sichtbarkeit von Findings | ENT-007 |
-| O8 Third-Party Pre-Assessment | ENT-008 |
-| O9 Regulatorische Module | ENT-009 |
-| O10 Neubewertung | ENT-010 |
-| O11 Mehrmandantenfähigkeit | ENT-011 |
-| O12 Technologie-Stack | entschieden: TypeScript-Domänenkern, PostgreSQL-Schema |
+| O1 Kalibrierung | ENT-001 (freigegeben 2026-11-12) |
+| O2 NIS2-Untergrenze | ENT-002 (freigegeben 2026-11-12) |
+| O3 ISO-Zertifizierungsziel | ENT-003 (freigegeben 2026-11-12) |
+| O4 ISMS Manager vs. Coordinator | ENT-004 (freigegeben 2026-11-12) |
+| O5 Bestätigung kritischer Findings | ENT-005 (freigegeben 2026-11-12) |
+| O6 Zweitprüfung in Lean-Mandaten | ENT-006 (freigegeben 2026-11-12) |
+| O7 Sichtbarkeit von Findings | ENT-007 (freigegeben 2026-11-12) |
+| O8 Third-Party Pre-Assessment | ENT-008 (freigegeben 2026-11-12) |
+| O9 Regulatorische Module | ENT-009 (freigegeben 2026-11-12) |
+| O10 Neubewertung | ENT-010 (freigegeben 2026-11-12) |
+| O11 Mehrmandantenfähigkeit | ENT-011 (freigegeben 2026-11-12) |
+| O12 Technologie-Stack | entschieden: TypeScript-Domänenkern, PostgreSQL-Schema; Engine/DMN nach stabilem MVP (ENT-032) |
 
 ## 12. Umsetzung im Repository
 
