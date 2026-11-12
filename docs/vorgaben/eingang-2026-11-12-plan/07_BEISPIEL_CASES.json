@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "purpose": "Fiktive Testdaten fuer UX, Decision Services und API-Schemas; keine rechtlichen Feststellungen",
+  "cases": [
+    {
+      "intakeId": "INT-DEMO-0001",
+      "entryRoute": "KNOWN_NEED",
+      "assessmentGoal": "Sicherheitsbewertung eines Softwareprodukts als Nachweis fuer einen B2B-Kunden",
+      "assessmentObject": {
+        "id": "OBJ-DEMO-SOFT-1",
+        "type": "SOFTWARE_PRODUCT",
+        "name": "Beispiel-Cloudportal",
+        "providerRole": "SOFTWARE_VENDOR",
+        "jurisdictions": ["DE", "EU"],
+        "status": "PROVISIONAL"
+      },
+      "assessmentType": "THIRD_PARTY_SECURITY_ASSESSMENT",
+      "handlingMode": "ASSISTED",
+      "assuranceProfile": {"id": "AP-DEMO-1", "reviewRequired": true, "independenceClaim": false, "status": "DRAFT"},
+      "frameworkCandidates": [
+        {"frameworkId": "CRA", "status": "POSSIBLY_APPLICABLE", "bindingDetermination": false, "reason": "Produkt mit digitalen Elementen; Produkt- und Markt-/Rollendaten noch zu bestaetigen"},
+        {"frameworkId": "ISO_27001", "status": "OPTIONAL_ASSESSMENT_CRITERION", "bindingDetermination": false, "reason": "Unternehmens-/Vertragsthema, nicht pauschal produktspezifische Rechtsvorgabe"}
+      ],
+      "contextFacts": [
+        {"id": "FACT-1", "name": "market", "value": "EU", "sourceType": "CUSTOMER_INPUT", "verificationStatus": "UNVERIFIED"}
+      ],
+      "openQuestions": [
+        {"id": "QUESTION-1", "label": "Wird das Produkt in der EU auf dem Markt bereitgestellt, und in welcher Rolle?", "materiality": "MATERIAL", "status": "OPEN"},
+        {"id": "QUESTION-2", "label": "Welche Nachweiskriterien verlangt der Geschaeftspartner?", "materiality": "MATERIAL", "status": "OPEN"}
+      ],
+      "scopeVersion": 0,
+      "professionalReportAllowed": false
+    },
+    {
+      "intakeId": "INT-DEMO-0002",
+      "entryRoute": "GUIDED_DISCOVERY",
+      "assessmentGoal": "Aviation Information Security und moegliche regulatorische Betroffenheit klaeren",
+      "assessmentObject": {"id": "OBJ-DEMO-AV-1", "type": "AVIATION_ORGANIZATION", "name": "Beispiel-Luftfahrtbetrieb", "jurisdictions": ["DE"], "status": "PROVISIONAL"},
+      "frameworkCandidates": [
+        {"frameworkId": "EASA_PART_IS", "status": "REQUIRES_EXPERT_REVIEW", "bindingDetermination": false, "reason": "Organisationstyp, Genehmigung und jeweils betroffene Unterregel nicht geklaert"},
+        {"frameworkId": "NIS2_DE_BSIG", "status": "REQUIRES_EXPERT_REVIEW", "bindingDetermination": false, "reason": "Sektor und Scope nach deutschem BSIG verifizieren"}
+      ],
+      "openQuestions": [
+        {"id": "QUESTION-3", "label": "Welche Luftfahrt-Genehmigungsart und genehmigten Taetigkeiten liegen vor?", "materiality": "MATERIAL", "status": "OPEN"}
+      ],
+      "professionalReportAllowed": false
+    },
+    {
+      "intakeId": "INT-DEMO-0003",
+      "entryRoute": "GUIDED_DISCOVERY",
+      "assessmentGoal": "Regulatorische Einordnung einer KI-gestuetzten Anwendung",
+      "assessmentObject": {"id": "OBJ-DEMO-AI-1", "type": "AI_SYSTEM", "name": "Beispiel-KI-Anwendung", "jurisdictions": ["EU"], "status": "PROVISIONAL"},
+      "frameworkCandidates": [
+        {"frameworkId": "EU_AI_ACT", "status": "REQUIRES_EXPERT_REVIEW", "bindingDetermination": false, "reason": "Konkrete Zweckbestimmung, Betreiber-/Anbieterrolle und Risiken noch ungeklaert"},
+        {"frameworkId": "ISO_42001", "status": "POTENTIAL_VOLUNTARY_STANDARD", "bindingDetermination": false, "reason": "Moeglicher Managementsystem-Rahmen, keine automatische gesetzliche Pflicht"}
+      ],
+      "openQuestions": [
+        {"id": "QUESTION-4", "label": "Welche Entscheidungen unterstuetzt das KI-System und welche Personen sind betroffen?", "materiality": "MATERIAL", "status": "OPEN"}
+      ],
+      "professionalReportAllowed": false
+    }
+  ]
+}

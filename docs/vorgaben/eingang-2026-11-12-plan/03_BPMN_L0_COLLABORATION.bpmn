@@ -1,0 +1,1589 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_DTAgency_IntelligentAssessment_v1" targetNamespace="https://dt-agency.example/bpmn/assessment/v1" exporter="DT Agency architecture specification" exporterVersion="1.0">
+  <message id="Msg_candidate" name="CandidateAccepted"/>
+  <message id="Msg_inbound" name="InboundAssessmentRequest"/>
+  <message id="Msg_discovery_questions" name="AdaptiveDiscoveryQuestions"/>
+  <message id="Msg_discovery_response" name="CustomerDiscoveryContext"/>
+  <message id="Msg_outreach" name="OutboundContactInvitation"/>
+  <message id="Msg_reaction" name="CustomerContactResponse"/>
+  <message id="Msg_offer" name="AssessmentProposal"/>
+  <message id="Msg_signed" name="SignedMandate"/>
+  <message id="Msg_decline" name="MandateDeclined"/>
+  <message id="Msg_changes" name="MandateChangeRequest"/>
+  <message id="Msg_clarify" name="EvidenceClarificationRequest"/>
+  <message id="Msg_clarification" name="EvidenceClarificationResponse"/>
+  <message id="Msg_report" name="FinalAssessmentReport"/>
+  <collaboration id="Collab_DTAgency_IntelligentAssessment" name="Opportunity to Assessment: customer, discovery and delivery">
+    <participant id="Participant_Customer" name="Kunde / Interessent (Black Box)"/>
+    <participant id="Participant_Discovery" name="DT Agency / Prospecting Run" processRef="Process_DiscoveryRun"/>
+    <participant id="Participant_Case" name="DT Agency / Assessment Case" processRef="Process_OpportunityToAssessment"/>
+    <messageFlow id="Message_Candidate" sourceRef="D_Publish" targetRef="Start_Candidate" messageRef="Msg_candidate"/>
+    <messageFlow id="Message_Inbound" sourceRef="Participant_Customer" targetRef="Start_Inbound" messageRef="Msg_inbound"/>
+    <messageFlow id="Message_DiscoveryQuestions" sourceRef="T_SendDiscovery" targetRef="Participant_Customer" messageRef="Msg_discovery_questions"/>
+    <messageFlow id="Message_DiscoveryContext" sourceRef="Participant_Customer" targetRef="Catch_DiscoveryContext" messageRef="Msg_discovery_response"/>
+    <messageFlow id="Message_Outreach" sourceRef="T_SendContact" targetRef="Participant_Customer" messageRef="Msg_outreach"/>
+    <messageFlow id="Message_CustomerResponse" sourceRef="Participant_Customer" targetRef="Catch_Reaction" messageRef="Msg_reaction"/>
+    <messageFlow id="Message_Offer" sourceRef="T_SendOffer" targetRef="Participant_Customer" messageRef="Msg_offer"/>
+    <messageFlow id="Message_Signed" sourceRef="Participant_Customer" targetRef="Catch_Signed" messageRef="Msg_signed"/>
+    <messageFlow id="Message_Declined" sourceRef="Participant_Customer" targetRef="Catch_OfferDecline" messageRef="Msg_decline"/>
+    <messageFlow id="Message_Changes" sourceRef="Participant_Customer" targetRef="Catch_OfferChange" messageRef="Msg_changes"/>
+    <messageFlow id="Message_ClarificationReq" sourceRef="T_RequestEvidence" targetRef="Participant_Customer" messageRef="Msg_clarify"/>
+    <messageFlow id="Message_ClarificationResponse" sourceRef="Participant_Customer" targetRef="Catch_Clarification" messageRef="Msg_clarification"/>
+    <messageFlow id="Message_Report" sourceRef="T_Publish" targetRef="Participant_Customer" messageRef="Msg_report"/>
+  </collaboration>
+  <process id="Process_DiscoveryRun" name="Proactive Discovery Run (0..n candidates)" isExecutable="false">
+    <documentation>Descriptive L0/L1 reference. isExecutable=false. Execution requires message correlation, services, DMN bindings, explicit policies, exception/timeout handling and authorization. See Markdown specifications.</documentation>
+    <startEvent id="D_Start" name="Suchlauf gestartet">
+      <outgoing>Flow_D_Start__D_Policy</outgoing>
+    </startEvent>
+    <businessRuleTask id="D_Policy" name="Quellen- und Datenschutzregeln pruefen">
+      <incoming>Flow_D_Start__D_Policy</incoming>
+      <outgoing>Flow_D_Policy__D_Find</outgoing>
+    </businessRuleTask>
+    <serviceTask id="D_Find" name="Rechtmaessige Marktsignale erfassen &amp; deduplizieren">
+      <incoming>Flow_D_Policy__D_Find</incoming>
+      <outgoing>Flow_D_Find__D_Publish</outgoing>
+    </serviceTask>
+    <serviceTask id="D_Publish" name="Je Candidate eine Nachricht / Case-Korrelation erzeugen">
+      <incoming>Flow_D_Find__D_Publish</incoming>
+      <outgoing>Flow_D_Publish__D_End</outgoing>
+      <multiInstanceLoopCharacteristics id="MI_DiscoveryCandidates" isSequential="false">
+        <loopCardinality>candidateCount</loopCardinality>
+      </multiInstanceLoopCharacteristics>
+    </serviceTask>
+    <endEvent id="D_End" name="Discovery Run abgeschlossen">
+      <incoming>Flow_D_Publish__D_End</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_D_Start__D_Policy" sourceRef="D_Start" targetRef="D_Policy"/>
+    <sequenceFlow id="Flow_D_Policy__D_Find" sourceRef="D_Policy" targetRef="D_Find"/>
+    <sequenceFlow id="Flow_D_Find__D_Publish" sourceRef="D_Find" targetRef="D_Publish"/>
+    <sequenceFlow id="Flow_D_Publish__D_End" sourceRef="D_Publish" targetRef="D_End"/>
+  </process>
+  <process id="Process_OpportunityToAssessment" name="One opportunity / mandate / assessment case" isExecutable="false">
+    <documentation>Descriptive L0/L1 reference. isExecutable=false. Execution requires message correlation, services, DMN bindings, explicit policies, exception/timeout handling and authorization. See Markdown specifications.</documentation>
+    <laneSet id="Lanes_Case">
+      <lane id="Lane_Platform" name="Plattform / Agents / Decision Services">
+        <flowNodeRef>Start_Candidate</flowNodeRef>
+        <flowNodeRef>Start_Inbound</flowNodeRef>
+        <flowNodeRef>T_Intake</flowNodeRef>
+        <flowNodeRef>G_Route</flowNodeRef>
+        <flowNodeRef>T_PublicContext</flowNodeRef>
+        <flowNodeRef>T_PreScreen</flowNodeRef>
+        <flowNodeRef>G_Qualified</flowNodeRef>
+        <flowNodeRef>End_NotQualified</flowNodeRef>
+        <flowNodeRef>T_OutreachRules</flowNodeRef>
+        <flowNodeRef>G_Outreach</flowNodeRef>
+        <flowNodeRef>End_NoOutreach</flowNodeRef>
+        <flowNodeRef>T_SendContact</flowNodeRef>
+        <flowNodeRef>G_Response</flowNodeRef>
+        <flowNodeRef>Catch_Reaction</flowNodeRef>
+        <flowNodeRef>Catch_NoReaction</flowNodeRef>
+        <flowNodeRef>End_NoReaction</flowNodeRef>
+        <flowNodeRef>G_Interested</flowNodeRef>
+        <flowNodeRef>End_DeclinedContact</flowNodeRef>
+        <flowNodeRef>G_Join</flowNodeRef>
+        <flowNodeRef>T_Discovery</flowNodeRef>
+        <flowNodeRef>T_SendDiscovery</flowNodeRef>
+        <flowNodeRef>G_DiscoveryWait</flowNodeRef>
+        <flowNodeRef>Catch_DiscoveryContext</flowNodeRef>
+        <flowNodeRef>Catch_DiscoveryTimeout</flowNodeRef>
+        <flowNodeRef>End_ContextTimeout</flowNodeRef>
+        <flowNodeRef>T_FrameworkPreview</flowNodeRef>
+        <flowNodeRef>T_SendOffer</flowNodeRef>
+        <flowNodeRef>G_OfferWait</flowNodeRef>
+        <flowNodeRef>Catch_Signed</flowNodeRef>
+        <flowNodeRef>Catch_OfferDecline</flowNodeRef>
+        <flowNodeRef>End_OfferDeclined</flowNodeRef>
+        <flowNodeRef>T_CreateMandate</flowNodeRef>
+        <flowNodeRef>T_EvidenceIntake</flowNodeRef>
+        <flowNodeRef>T_Readiness</flowNodeRef>
+        <flowNodeRef>G_Ready</flowNodeRef>
+        <flowNodeRef>T_RequestEvidence</flowNodeRef>
+        <flowNodeRef>G_ClarifyWait</flowNodeRef>
+        <flowNodeRef>Catch_Clarification</flowNodeRef>
+        <flowNodeRef>Call_Configure</flowNodeRef>
+        <flowNodeRef>Call_Assess</flowNodeRef>
+        <flowNodeRef>T_Draft</flowNodeRef>
+        <flowNodeRef>T_Completion</flowNodeRef>
+        <flowNodeRef>G_Complete</flowNodeRef>
+        <flowNodeRef>T_Rework</flowNodeRef>
+        <flowNodeRef>G_Rework</flowNodeRef>
+        <flowNodeRef>G_QA</flowNodeRef>
+        <flowNodeRef>T_Publish</flowNodeRef>
+        <flowNodeRef>G_FinalType</flowNodeRef>
+        <flowNodeRef>End_Completed</flowNodeRef>
+        <flowNodeRef>End_Limited</flowNodeRef>
+      </lane>
+      <lane id="Lane_Consulting" name="Engagement Lead / Consultant / Analyst">
+        <flowNodeRef>T_Qualify</flowNodeRef>
+        <flowNodeRef>T_ApproveOutreach</flowNodeRef>
+        <flowNodeRef>G_ContactApproved</flowNodeRef>
+        <flowNodeRef>End_NoContactApproval</flowNodeRef>
+        <flowNodeRef>T_ProvisionalScope</flowNodeRef>
+        <flowNodeRef>Catch_OfferChange</flowNodeRef>
+        <flowNodeRef>Catch_OfferTimeout</flowNodeRef>
+        <flowNodeRef>End_OfferExpired</flowNodeRef>
+        <flowNodeRef>T_FinalScope</flowNodeRef>
+        <flowNodeRef>Catch_ClarifyTimeout</flowNodeRef>
+        <flowNodeRef>T_MaterialDecision</flowNodeRef>
+        <flowNodeRef>G_Limit</flowNodeRef>
+        <flowNodeRef>End_Stopped</flowNodeRef>
+        <flowNodeRef>T_LeadReview</flowNodeRef>
+        <flowNodeRef>End_QAStop</flowNodeRef>
+      </lane>
+      <lane id="Lane_QA" name="Reviewer / QA / Freigabe">
+        <flowNodeRef>T_QA</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="Start_Candidate" name="Candidate eingegangen">
+      <outgoing>Flow_Start_Candidate__T_Intake</outgoing>
+      <messageEventDefinition id="Def_Start_Candidate" messageRef="Msg_candidate"/>
+    </startEvent>
+    <startEvent id="Start_Inbound" name="Kundenanfrage eingegangen">
+      <outgoing>Flow_Start_Inbound__T_Intake</outgoing>
+      <messageEventDefinition id="Def_Start_Inbound" messageRef="Msg_inbound"/>
+    </startEvent>
+    <serviceTask id="T_Intake" name="Intake Case und Entry Route normalisieren">
+      <incoming>Flow_Start_Candidate__T_Intake</incoming>
+      <incoming>Flow_Start_Inbound__T_Intake</incoming>
+      <outgoing>Flow_T_Intake__G_Route</outgoing>
+    </serviceTask>
+    <exclusiveGateway id="G_Route" name="Proaktiver Candidate?">
+      <incoming>Flow_T_Intake__G_Route</incoming>
+      <outgoing>Flow_G_Route__T_PublicContext</outgoing>
+      <outgoing>Flow_G_Route__G_Join</outgoing>
+    </exclusiveGateway>
+    <serviceTask id="T_PublicContext" name="Zulaessige oeffentliche Fakten &amp; Signale strukturieren">
+      <incoming>Flow_G_Route__T_PublicContext</incoming>
+      <outgoing>Flow_T_PublicContext__T_PreScreen</outgoing>
+    </serviceTask>
+    <businessRuleTask id="T_PreScreen" name="Indikative Bedarfsindikatoren bestimmen">
+      <incoming>Flow_T_PublicContext__T_PreScreen</incoming>
+      <outgoing>Flow_T_PreScreen__T_Qualify</outgoing>
+    </businessRuleTask>
+    <userTask id="T_Qualify" name="Opportunity fachlich qualifizieren">
+      <incoming>Flow_T_PreScreen__T_Qualify</incoming>
+      <outgoing>Flow_T_Qualify__G_Qualified</outgoing>
+    </userTask>
+    <exclusiveGateway id="G_Qualified" name="Bedarf und Fit?">
+      <incoming>Flow_T_Qualify__G_Qualified</incoming>
+      <outgoing>Flow_G_Qualified__End_NotQualified</outgoing>
+      <outgoing>Flow_G_Qualified__T_OutreachRules</outgoing>
+    </exclusiveGateway>
+    <endEvent id="End_NotQualified" name="Nicht qualifiziert">
+      <incoming>Flow_G_Qualified__End_NotQualified</incoming>
+    </endEvent>
+    <businessRuleTask id="T_OutreachRules" name="Kontaktkanal rechtlich pruefen">
+      <incoming>Flow_G_Qualified__T_OutreachRules</incoming>
+      <outgoing>Flow_T_OutreachRules__G_Outreach</outgoing>
+    </businessRuleTask>
+    <exclusiveGateway id="G_Outreach" name="Outreach zulaessig?">
+      <incoming>Flow_T_OutreachRules__G_Outreach</incoming>
+      <outgoing>Flow_G_Outreach__End_NoOutreach</outgoing>
+      <outgoing>Flow_G_Outreach__T_ApproveOutreach</outgoing>
+    </exclusiveGateway>
+    <endEvent id="End_NoOutreach" name="Keine erlaubte Kontaktaufnahme">
+      <incoming>Flow_G_Outreach__End_NoOutreach</incoming>
+    </endEvent>
+    <userTask id="T_ApproveOutreach" name="Kontaktaufnahme pruefen und entscheiden">
+      <incoming>Flow_G_Outreach__T_ApproveOutreach</incoming>
+      <outgoing>Flow_T_ApproveOutreach__G_ContactApproved</outgoing>
+    </userTask>
+    <exclusiveGateway id="G_ContactApproved" name="Freigegeben?">
+      <incoming>Flow_T_ApproveOutreach__G_ContactApproved</incoming>
+      <outgoing>Flow_G_ContactApproved__End_NoContactApproval</outgoing>
+      <outgoing>Flow_G_ContactApproved__T_SendContact</outgoing>
+    </exclusiveGateway>
+    <endEvent id="End_NoContactApproval" name="Kontaktaufnahme abgelehnt">
+      <incoming>Flow_G_ContactApproved__End_NoContactApproval</incoming>
+    </endEvent>
+    <sendTask id="T_SendContact" name="Einladung / Kontakt senden" messageRef="Msg_outreach">
+      <incoming>Flow_G_ContactApproved__T_SendContact</incoming>
+      <outgoing>Flow_T_SendContact__G_Response</outgoing>
+    </sendTask>
+    <eventBasedGateway id="G_Response" name="Auf Kundenreaktion warten">
+      <incoming>Flow_T_SendContact__G_Response</incoming>
+      <outgoing>Flow_G_Response__Catch_Reaction</outgoing>
+      <outgoing>Flow_G_Response__Catch_NoReaction</outgoing>
+    </eventBasedGateway>
+    <intermediateCatchEvent id="Catch_Reaction" name="Kundenreaktion">
+      <incoming>Flow_G_Response__Catch_Reaction</incoming>
+      <outgoing>Flow_Catch_Reaction__G_Interested</outgoing>
+      <messageEventDefinition id="Def_Catch_Reaction" messageRef="Msg_reaction"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="Catch_NoReaction" name="Antwortfrist erreicht">
+      <incoming>Flow_G_Response__Catch_NoReaction</incoming>
+      <outgoing>Flow_Catch_NoReaction__End_NoReaction</outgoing>
+      <timerEventDefinition id="TimerDef_Catch_NoReaction">
+        <timeDuration>P14D</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <endEvent id="End_NoReaction" name="Ohne Rueckmeldung / Beobachtung">
+      <incoming>Flow_Catch_NoReaction__End_NoReaction</incoming>
+    </endEvent>
+    <exclusiveGateway id="G_Interested" name="Interesse bestaetigt?">
+      <incoming>Flow_Catch_Reaction__G_Interested</incoming>
+      <outgoing>Flow_G_Interested__End_DeclinedContact</outgoing>
+      <outgoing>Flow_G_Interested__G_Join</outgoing>
+    </exclusiveGateway>
+    <endEvent id="End_DeclinedContact" name="Kein Interesse / Suppression pruefen">
+      <incoming>Flow_G_Interested__End_DeclinedContact</incoming>
+    </endEvent>
+    <exclusiveGateway id="G_Join" name="Bedarf klaeren">
+      <incoming>Flow_G_Interested__G_Join</incoming>
+      <incoming>Flow_G_Route__G_Join</incoming>
+      <outgoing>Flow_G_Join__T_Discovery</outgoing>
+    </exclusiveGateway>
+    <serviceTask id="T_Discovery" name="Context- und Objekt-Hypothesen strukturieren">
+      <incoming>Flow_G_Join__T_Discovery</incoming>
+      <outgoing>Flow_T_Discovery__T_SendDiscovery</outgoing>
+    </serviceTask>
+    <sendTask id="T_SendDiscovery" name="Adaptive Kontextfragen senden" messageRef="Msg_discovery_questions">
+      <incoming>Flow_T_Discovery__T_SendDiscovery</incoming>
+      <outgoing>Flow_T_SendDiscovery__G_DiscoveryWait</outgoing>
+    </sendTask>
+    <eventBasedGateway id="G_DiscoveryWait" name="Auf Kontextantwort warten">
+      <incoming>Flow_T_SendDiscovery__G_DiscoveryWait</incoming>
+      <outgoing>Flow_G_DiscoveryWait__Catch_DiscoveryContext</outgoing>
+      <outgoing>Flow_G_DiscoveryWait__Catch_DiscoveryTimeout</outgoing>
+    </eventBasedGateway>
+    <intermediateCatchEvent id="Catch_DiscoveryContext" name="Kundenangaben erhalten">
+      <incoming>Flow_G_DiscoveryWait__Catch_DiscoveryContext</incoming>
+      <outgoing>Flow_Catch_DiscoveryContext__T_FrameworkPreview</outgoing>
+      <messageEventDefinition id="Def_Catch_DiscoveryContext" messageRef="Msg_discovery_response"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="Catch_DiscoveryTimeout" name="Kontextantwortfrist">
+      <incoming>Flow_G_DiscoveryWait__Catch_DiscoveryTimeout</incoming>
+      <outgoing>Flow_Catch_DiscoveryTimeout__End_ContextTimeout</outgoing>
+      <timerEventDefinition id="TimerDef_Catch_DiscoveryTimeout">
+        <timeDuration>P14D</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <endEvent id="End_ContextTimeout" name="Kein weiterer Kontext / pausiert">
+      <incoming>Flow_Catch_DiscoveryTimeout__End_ContextTimeout</incoming>
+    </endEvent>
+    <businessRuleTask id="T_FrameworkPreview" name="Rahmenkandidaten &amp; offene Fragen vorschlagen">
+      <incoming>Flow_Catch_DiscoveryContext__T_FrameworkPreview</incoming>
+      <outgoing>Flow_T_FrameworkPreview__T_ProvisionalScope</outgoing>
+    </businessRuleTask>
+    <userTask id="T_ProvisionalScope" name="Ziel, Objekt und vorlaeufigen Scope abstimmen">
+      <incoming>Flow_T_FrameworkPreview__T_ProvisionalScope</incoming>
+      <incoming>Flow_Catch_OfferChange__T_ProvisionalScope</incoming>
+      <outgoing>Flow_T_ProvisionalScope__T_SendOffer</outgoing>
+    </userTask>
+    <sendTask id="T_SendOffer" name="Leistungsbeschreibung / Angebot senden" messageRef="Msg_offer">
+      <incoming>Flow_T_ProvisionalScope__T_SendOffer</incoming>
+      <outgoing>Flow_T_SendOffer__G_OfferWait</outgoing>
+    </sendTask>
+    <eventBasedGateway id="G_OfferWait" name="Warten auf Mandatsreaktion">
+      <incoming>Flow_T_SendOffer__G_OfferWait</incoming>
+      <outgoing>Flow_G_OfferWait__Catch_Signed</outgoing>
+      <outgoing>Flow_G_OfferWait__Catch_OfferDecline</outgoing>
+      <outgoing>Flow_G_OfferWait__Catch_OfferChange</outgoing>
+      <outgoing>Flow_G_OfferWait__Catch_OfferTimeout</outgoing>
+    </eventBasedGateway>
+    <intermediateCatchEvent id="Catch_Signed" name="Beauftragung">
+      <incoming>Flow_G_OfferWait__Catch_Signed</incoming>
+      <outgoing>Flow_Catch_Signed__T_CreateMandate</outgoing>
+      <messageEventDefinition id="Def_Catch_Signed" messageRef="Msg_signed"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="Catch_OfferDecline" name="Ablehnung">
+      <incoming>Flow_G_OfferWait__Catch_OfferDecline</incoming>
+      <outgoing>Flow_Catch_OfferDecline__End_OfferDeclined</outgoing>
+      <messageEventDefinition id="Def_Catch_OfferDecline" messageRef="Msg_decline"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="Catch_OfferChange" name="Aenderungswunsch">
+      <incoming>Flow_G_OfferWait__Catch_OfferChange</incoming>
+      <outgoing>Flow_Catch_OfferChange__T_ProvisionalScope</outgoing>
+      <messageEventDefinition id="Def_Catch_OfferChange" messageRef="Msg_changes"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="Catch_OfferTimeout" name="Angebotsfrist">
+      <incoming>Flow_G_OfferWait__Catch_OfferTimeout</incoming>
+      <outgoing>Flow_Catch_OfferTimeout__End_OfferExpired</outgoing>
+      <timerEventDefinition id="TimerDef_Catch_OfferTimeout">
+        <timeDuration>P21D</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <endEvent id="End_OfferDeclined" name="Auftrag abgelehnt">
+      <incoming>Flow_Catch_OfferDecline__End_OfferDeclined</incoming>
+    </endEvent>
+    <endEvent id="End_OfferExpired" name="Angebot abgelaufen">
+      <incoming>Flow_Catch_OfferTimeout__End_OfferExpired</incoming>
+    </endEvent>
+    <serviceTask id="T_CreateMandate" name="Mandat mit Version und Rechten anlegen">
+      <incoming>Flow_Catch_Signed__T_CreateMandate</incoming>
+      <outgoing>Flow_T_CreateMandate__T_FinalScope</outgoing>
+    </serviceTask>
+    <userTask id="T_FinalScope" name="Assessment Scope, Kriterien und Datenrahmen finalisieren">
+      <incoming>Flow_T_CreateMandate__T_FinalScope</incoming>
+      <outgoing>Flow_T_FinalScope__T_EvidenceIntake</outgoing>
+    </userTask>
+    <serviceTask id="T_EvidenceIntake" name="Unterlagen / Fakten evidenzbezogen strukturieren">
+      <incoming>Flow_T_FinalScope__T_EvidenceIntake</incoming>
+      <incoming>Flow_Catch_Clarification__T_EvidenceIntake</incoming>
+      <incoming>Flow_G_Rework__T_EvidenceIntake</incoming>
+      <outgoing>Flow_T_EvidenceIntake__T_Readiness</outgoing>
+    </serviceTask>
+    <businessRuleTask id="T_Readiness" name="Materiale Informationsluecken beurteilen">
+      <incoming>Flow_T_EvidenceIntake__T_Readiness</incoming>
+      <outgoing>Flow_T_Readiness__G_Ready</outgoing>
+    </businessRuleTask>
+    <exclusiveGateway id="G_Ready" name="Entscheidungsfaehig?">
+      <incoming>Flow_T_Readiness__G_Ready</incoming>
+      <outgoing>Flow_G_Ready__T_RequestEvidence</outgoing>
+      <outgoing>Flow_G_Ready__Call_Configure</outgoing>
+    </exclusiveGateway>
+    <sendTask id="T_RequestEvidence" name="Gezielte Klaerungsanfrage senden" messageRef="Msg_clarify">
+      <incoming>Flow_G_Ready__T_RequestEvidence</incoming>
+      <outgoing>Flow_T_RequestEvidence__G_ClarifyWait</outgoing>
+    </sendTask>
+    <eventBasedGateway id="G_ClarifyWait" name="Auf Antwort oder Frist warten">
+      <incoming>Flow_T_RequestEvidence__G_ClarifyWait</incoming>
+      <outgoing>Flow_G_ClarifyWait__Catch_Clarification</outgoing>
+      <outgoing>Flow_G_ClarifyWait__Catch_ClarifyTimeout</outgoing>
+    </eventBasedGateway>
+    <intermediateCatchEvent id="Catch_Clarification" name="Klaerungsinformationen">
+      <incoming>Flow_G_ClarifyWait__Catch_Clarification</incoming>
+      <outgoing>Flow_Catch_Clarification__T_EvidenceIntake</outgoing>
+      <messageEventDefinition id="Def_Catch_Clarification" messageRef="Msg_clarification"/>
+    </intermediateCatchEvent>
+    <intermediateCatchEvent id="Catch_ClarifyTimeout" name="Klaerungsfrist">
+      <incoming>Flow_G_ClarifyWait__Catch_ClarifyTimeout</incoming>
+      <outgoing>Flow_Catch_ClarifyTimeout__T_MaterialDecision</outgoing>
+      <timerEventDefinition id="TimerDef_Catch_ClarifyTimeout">
+        <timeDuration>P14D</timeDuration>
+      </timerEventDefinition>
+    </intermediateCatchEvent>
+    <userTask id="T_MaterialDecision" name="Umgang mit Limitations / Abbruch entscheiden">
+      <incoming>Flow_Catch_ClarifyTimeout__T_MaterialDecision</incoming>
+      <outgoing>Flow_T_MaterialDecision__G_Limit</outgoing>
+    </userTask>
+    <exclusiveGateway id="G_Limit" name="Begrenzter Abschluss erlaubt?">
+      <incoming>Flow_T_MaterialDecision__G_Limit</incoming>
+      <outgoing>Flow_G_Limit__End_Stopped</outgoing>
+      <outgoing>Flow_G_Limit__Call_Configure</outgoing>
+    </exclusiveGateway>
+    <endEvent id="End_Stopped" name="Abbruch / nicht beurteilbar">
+      <incoming>Flow_G_Limit__End_Stopped</incoming>
+    </endEvent>
+    <callActivity id="Call_Configure" name="Scope, Regulatorik, Assurance, Requirements" calledElement="Process_AssessmentSetup">
+      <incoming>Flow_G_Limit__Call_Configure</incoming>
+      <incoming>Flow_G_Ready__Call_Configure</incoming>
+      <incoming>Flow_G_Rework__Call_Configure</incoming>
+      <outgoing>Flow_Call_Configure__Call_Assess</outgoing>
+    </callActivity>
+    <callActivity id="Call_Assess" name="Assessment durchfuehren" calledElement="Process_AssessmentExecution">
+      <incoming>Flow_Call_Configure__Call_Assess</incoming>
+      <incoming>Flow_G_Rework__Call_Assess</incoming>
+      <outgoing>Flow_Call_Assess__T_Draft</outgoing>
+    </callActivity>
+    <serviceTask id="T_Draft" name="Berichtsentwurf + Findings Register erstellen">
+      <incoming>Flow_Call_Assess__T_Draft</incoming>
+      <outgoing>Flow_T_Draft__T_LeadReview</outgoing>
+    </serviceTask>
+    <userTask id="T_LeadReview" name="Fachlichen Ergebnisreview vornehmen">
+      <incoming>Flow_T_Draft__T_LeadReview</incoming>
+      <outgoing>Flow_T_LeadReview__T_Completion</outgoing>
+    </userTask>
+    <businessRuleTask id="T_Completion" name="Methodische Abschlusskriterien pruefen">
+      <incoming>Flow_T_LeadReview__T_Completion</incoming>
+      <outgoing>Flow_T_Completion__G_Complete</outgoing>
+    </businessRuleTask>
+    <exclusiveGateway id="G_Complete" name="QA-reif?">
+      <incoming>Flow_T_Completion__G_Complete</incoming>
+      <outgoing>Flow_G_Complete__T_Rework</outgoing>
+      <outgoing>Flow_G_Complete__T_QA</outgoing>
+    </exclusiveGateway>
+    <businessRuleTask id="T_Rework" name="Rework-Bedarf klassifizieren">
+      <incoming>Flow_G_Complete__T_Rework</incoming>
+      <incoming>Flow_G_QA__T_Rework</incoming>
+      <outgoing>Flow_T_Rework__G_Rework</outgoing>
+    </businessRuleTask>
+    <exclusiveGateway id="G_Rework" name="Bearbeitungsphase?">
+      <incoming>Flow_T_Rework__G_Rework</incoming>
+      <outgoing>Flow_G_Rework__T_EvidenceIntake</outgoing>
+      <outgoing>Flow_G_Rework__Call_Configure</outgoing>
+      <outgoing>Flow_G_Rework__Call_Assess</outgoing>
+    </exclusiveGateway>
+    <userTask id="T_QA" name="Unabhaengiges QA / Berichtsfreigabe">
+      <incoming>Flow_G_Complete__T_QA</incoming>
+      <outgoing>Flow_T_QA__G_QA</outgoing>
+    </userTask>
+    <exclusiveGateway id="G_QA" name="QA-Entscheidung?">
+      <incoming>Flow_T_QA__G_QA</incoming>
+      <outgoing>Flow_G_QA__T_Rework</outgoing>
+      <outgoing>Flow_G_QA__End_QAStop</outgoing>
+      <outgoing>Flow_G_QA__T_Publish</outgoing>
+    </exclusiveGateway>
+    <endEvent id="End_QAStop" name="QA stoppt Mandat">
+      <incoming>Flow_G_QA__End_QAStop</incoming>
+    </endEvent>
+    <sendTask id="T_Publish" name="Freigegebenen Bericht versioniert uebermitteln" messageRef="Msg_report">
+      <incoming>Flow_G_QA__T_Publish</incoming>
+      <outgoing>Flow_T_Publish__G_FinalType</outgoing>
+    </sendTask>
+    <exclusiveGateway id="G_FinalType" name="Explizite Grenzen?">
+      <incoming>Flow_T_Publish__G_FinalType</incoming>
+      <outgoing>Flow_G_FinalType__End_Completed</outgoing>
+      <outgoing>Flow_G_FinalType__End_Limited</outgoing>
+    </exclusiveGateway>
+    <endEvent id="End_Completed" name="Assessment abgeschlossen">
+      <incoming>Flow_G_FinalType__End_Completed</incoming>
+    </endEvent>
+    <endEvent id="End_Limited" name="Abschluss mit Einschraenkungen">
+      <incoming>Flow_G_FinalType__End_Limited</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_Start_Candidate__T_Intake" sourceRef="Start_Candidate" targetRef="T_Intake"/>
+    <sequenceFlow id="Flow_Start_Inbound__T_Intake" sourceRef="Start_Inbound" targetRef="T_Intake"/>
+    <sequenceFlow id="Flow_T_Intake__G_Route" sourceRef="T_Intake" targetRef="G_Route"/>
+    <sequenceFlow id="Flow_G_Route__T_PublicContext" sourceRef="G_Route" targetRef="T_PublicContext" name="proaktiv"/>
+    <sequenceFlow id="Flow_T_PublicContext__T_PreScreen" sourceRef="T_PublicContext" targetRef="T_PreScreen"/>
+    <sequenceFlow id="Flow_T_PreScreen__T_Qualify" sourceRef="T_PreScreen" targetRef="T_Qualify"/>
+    <sequenceFlow id="Flow_T_Qualify__G_Qualified" sourceRef="T_Qualify" targetRef="G_Qualified"/>
+    <sequenceFlow id="Flow_G_Qualified__End_NotQualified" sourceRef="G_Qualified" targetRef="End_NotQualified" name="kein qualifizierter Bedarf"/>
+    <sequenceFlow id="Flow_G_Qualified__T_OutreachRules" sourceRef="G_Qualified" targetRef="T_OutreachRules" name="qualifiziert"/>
+    <sequenceFlow id="Flow_T_OutreachRules__G_Outreach" sourceRef="T_OutreachRules" targetRef="G_Outreach"/>
+    <sequenceFlow id="Flow_G_Outreach__End_NoOutreach" sourceRef="G_Outreach" targetRef="End_NoOutreach" name="nicht zulaessig"/>
+    <sequenceFlow id="Flow_G_Outreach__T_ApproveOutreach" sourceRef="G_Outreach" targetRef="T_ApproveOutreach" name="zulaessiger Kontaktweg"/>
+    <sequenceFlow id="Flow_T_ApproveOutreach__G_ContactApproved" sourceRef="T_ApproveOutreach" targetRef="G_ContactApproved"/>
+    <sequenceFlow id="Flow_G_ContactApproved__End_NoContactApproval" sourceRef="G_ContactApproved" targetRef="End_NoContactApproval" name="abgelehnt"/>
+    <sequenceFlow id="Flow_G_ContactApproved__T_SendContact" sourceRef="G_ContactApproved" targetRef="T_SendContact" name="freigegeben"/>
+    <sequenceFlow id="Flow_T_SendContact__G_Response" sourceRef="T_SendContact" targetRef="G_Response"/>
+    <sequenceFlow id="Flow_G_Response__Catch_Reaction" sourceRef="G_Response" targetRef="Catch_Reaction"/>
+    <sequenceFlow id="Flow_G_Response__Catch_NoReaction" sourceRef="G_Response" targetRef="Catch_NoReaction"/>
+    <sequenceFlow id="Flow_Catch_NoReaction__End_NoReaction" sourceRef="Catch_NoReaction" targetRef="End_NoReaction"/>
+    <sequenceFlow id="Flow_Catch_Reaction__G_Interested" sourceRef="Catch_Reaction" targetRef="G_Interested"/>
+    <sequenceFlow id="Flow_G_Interested__End_DeclinedContact" sourceRef="G_Interested" targetRef="End_DeclinedContact" name="kein Interesse"/>
+    <sequenceFlow id="Flow_G_Interested__G_Join" sourceRef="G_Interested" targetRef="G_Join" name="interessiert"/>
+    <sequenceFlow id="Flow_G_Route__G_Join" sourceRef="G_Route" targetRef="G_Join" name="Inbound / aktive Anfrage"/>
+    <sequenceFlow id="Flow_G_Join__T_Discovery" sourceRef="G_Join" targetRef="T_Discovery"/>
+    <sequenceFlow id="Flow_T_Discovery__T_SendDiscovery" sourceRef="T_Discovery" targetRef="T_SendDiscovery"/>
+    <sequenceFlow id="Flow_T_SendDiscovery__G_DiscoveryWait" sourceRef="T_SendDiscovery" targetRef="G_DiscoveryWait"/>
+    <sequenceFlow id="Flow_G_DiscoveryWait__Catch_DiscoveryContext" sourceRef="G_DiscoveryWait" targetRef="Catch_DiscoveryContext"/>
+    <sequenceFlow id="Flow_G_DiscoveryWait__Catch_DiscoveryTimeout" sourceRef="G_DiscoveryWait" targetRef="Catch_DiscoveryTimeout"/>
+    <sequenceFlow id="Flow_Catch_DiscoveryTimeout__End_ContextTimeout" sourceRef="Catch_DiscoveryTimeout" targetRef="End_ContextTimeout"/>
+    <sequenceFlow id="Flow_Catch_DiscoveryContext__T_FrameworkPreview" sourceRef="Catch_DiscoveryContext" targetRef="T_FrameworkPreview"/>
+    <sequenceFlow id="Flow_T_FrameworkPreview__T_ProvisionalScope" sourceRef="T_FrameworkPreview" targetRef="T_ProvisionalScope"/>
+    <sequenceFlow id="Flow_T_ProvisionalScope__T_SendOffer" sourceRef="T_ProvisionalScope" targetRef="T_SendOffer"/>
+    <sequenceFlow id="Flow_T_SendOffer__G_OfferWait" sourceRef="T_SendOffer" targetRef="G_OfferWait"/>
+    <sequenceFlow id="Flow_G_OfferWait__Catch_Signed" sourceRef="G_OfferWait" targetRef="Catch_Signed"/>
+    <sequenceFlow id="Flow_G_OfferWait__Catch_OfferDecline" sourceRef="G_OfferWait" targetRef="Catch_OfferDecline"/>
+    <sequenceFlow id="Flow_G_OfferWait__Catch_OfferChange" sourceRef="G_OfferWait" targetRef="Catch_OfferChange"/>
+    <sequenceFlow id="Flow_G_OfferWait__Catch_OfferTimeout" sourceRef="G_OfferWait" targetRef="Catch_OfferTimeout"/>
+    <sequenceFlow id="Flow_Catch_OfferDecline__End_OfferDeclined" sourceRef="Catch_OfferDecline" targetRef="End_OfferDeclined"/>
+    <sequenceFlow id="Flow_Catch_OfferTimeout__End_OfferExpired" sourceRef="Catch_OfferTimeout" targetRef="End_OfferExpired"/>
+    <sequenceFlow id="Flow_Catch_OfferChange__T_ProvisionalScope" sourceRef="Catch_OfferChange" targetRef="T_ProvisionalScope" name="Angebot/Scope ueberarbeiten"/>
+    <sequenceFlow id="Flow_Catch_Signed__T_CreateMandate" sourceRef="Catch_Signed" targetRef="T_CreateMandate"/>
+    <sequenceFlow id="Flow_T_CreateMandate__T_FinalScope" sourceRef="T_CreateMandate" targetRef="T_FinalScope"/>
+    <sequenceFlow id="Flow_T_FinalScope__T_EvidenceIntake" sourceRef="T_FinalScope" targetRef="T_EvidenceIntake"/>
+    <sequenceFlow id="Flow_T_EvidenceIntake__T_Readiness" sourceRef="T_EvidenceIntake" targetRef="T_Readiness"/>
+    <sequenceFlow id="Flow_T_Readiness__G_Ready" sourceRef="T_Readiness" targetRef="G_Ready"/>
+    <sequenceFlow id="Flow_G_Ready__T_RequestEvidence" sourceRef="G_Ready" targetRef="T_RequestEvidence" name="noch unklar"/>
+    <sequenceFlow id="Flow_T_RequestEvidence__G_ClarifyWait" sourceRef="T_RequestEvidence" targetRef="G_ClarifyWait"/>
+    <sequenceFlow id="Flow_G_ClarifyWait__Catch_Clarification" sourceRef="G_ClarifyWait" targetRef="Catch_Clarification"/>
+    <sequenceFlow id="Flow_G_ClarifyWait__Catch_ClarifyTimeout" sourceRef="G_ClarifyWait" targetRef="Catch_ClarifyTimeout"/>
+    <sequenceFlow id="Flow_Catch_Clarification__T_EvidenceIntake" sourceRef="Catch_Clarification" targetRef="T_EvidenceIntake" name="neue Evidenz"/>
+    <sequenceFlow id="Flow_Catch_ClarifyTimeout__T_MaterialDecision" sourceRef="Catch_ClarifyTimeout" targetRef="T_MaterialDecision"/>
+    <sequenceFlow id="Flow_T_MaterialDecision__G_Limit" sourceRef="T_MaterialDecision" targetRef="G_Limit"/>
+    <sequenceFlow id="Flow_G_Limit__End_Stopped" sourceRef="G_Limit" targetRef="End_Stopped" name="Abbruch"/>
+    <sequenceFlow id="Flow_G_Limit__Call_Configure" sourceRef="G_Limit" targetRef="Call_Configure" name="kontrollierte Limitation"/>
+    <sequenceFlow id="Flow_G_Ready__Call_Configure" sourceRef="G_Ready" targetRef="Call_Configure" name="ready"/>
+    <sequenceFlow id="Flow_Call_Configure__Call_Assess" sourceRef="Call_Configure" targetRef="Call_Assess"/>
+    <sequenceFlow id="Flow_Call_Assess__T_Draft" sourceRef="Call_Assess" targetRef="T_Draft"/>
+    <sequenceFlow id="Flow_T_Draft__T_LeadReview" sourceRef="T_Draft" targetRef="T_LeadReview"/>
+    <sequenceFlow id="Flow_T_LeadReview__T_Completion" sourceRef="T_LeadReview" targetRef="T_Completion"/>
+    <sequenceFlow id="Flow_T_Completion__G_Complete" sourceRef="T_Completion" targetRef="G_Complete"/>
+    <sequenceFlow id="Flow_G_Complete__T_Rework" sourceRef="G_Complete" targetRef="T_Rework" name="offen"/>
+    <sequenceFlow id="Flow_G_Complete__T_QA" sourceRef="G_Complete" targetRef="T_QA" name="QA-reif"/>
+    <sequenceFlow id="Flow_T_QA__G_QA" sourceRef="T_QA" targetRef="G_QA"/>
+    <sequenceFlow id="Flow_G_QA__T_Rework" sourceRef="G_QA" targetRef="T_Rework" name="zurueck zur Bearbeitung"/>
+    <sequenceFlow id="Flow_G_QA__End_QAStop" sourceRef="G_QA" targetRef="End_QAStop" name="nicht freigabefaehig / Stop"/>
+    <sequenceFlow id="Flow_G_QA__T_Publish" sourceRef="G_QA" targetRef="T_Publish" name="freigegeben"/>
+    <sequenceFlow id="Flow_T_Rework__G_Rework" sourceRef="T_Rework" targetRef="G_Rework"/>
+    <sequenceFlow id="Flow_G_Rework__T_EvidenceIntake" sourceRef="G_Rework" targetRef="T_EvidenceIntake" name="Erhebung"/>
+    <sequenceFlow id="Flow_G_Rework__Call_Configure" sourceRef="G_Rework" targetRef="Call_Configure" name="Scope / Regulatorik / Anforderungen"/>
+    <sequenceFlow id="Flow_G_Rework__Call_Assess" sourceRef="G_Rework" targetRef="Call_Assess" name="Assessment / Findings"/>
+    <sequenceFlow id="Flow_T_Publish__G_FinalType" sourceRef="T_Publish" targetRef="G_FinalType"/>
+    <sequenceFlow id="Flow_G_FinalType__End_Completed" sourceRef="G_FinalType" targetRef="End_Completed" name="ohne zentrale Limitation"/>
+    <sequenceFlow id="Flow_G_FinalType__End_Limited" sourceRef="G_FinalType" targetRef="End_Limited" name="mit verifizierter Limitation"/>
+  </process>
+  <process id="Process_AssessmentSetup" name="Reusable Assessment Setup / configuration" isExecutable="false">
+    <documentation>Descriptive L0/L1 reference. isExecutable=false. Execution requires message correlation, services, DMN bindings, explicit policies, exception/timeout handling and authorization. See Markdown specifications.</documentation>
+    <laneSet id="LaneSet_Setup">
+      <lane id="Lane_Setup_Agent" name="Agents / Decision Services">
+        <flowNodeRef>S_Start</flowNodeRef>
+        <flowNodeRef>S_RegRules</flowNodeRef>
+        <flowNodeRef>S_RegPersist</flowNodeRef>
+        <flowNodeRef>S_ProfileRules</flowNodeRef>
+        <flowNodeRef>S_ProfilePersist</flowNodeRef>
+        <flowNodeRef>S_Requirements</flowNodeRef>
+        <flowNodeRef>S_ReqPersist</flowNodeRef>
+        <flowNodeRef>S_End</flowNodeRef>
+      </lane>
+      <lane id="Lane_Setup_Human" name="Engagement Lead / Expert Review">
+        <flowNodeRef>S_RegVerify</flowNodeRef>
+        <flowNodeRef>S_ProfileVerify</flowNodeRef>
+        <flowNodeRef>S_ReqVerify</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="S_Start" name="Scope versioniert bestaetigt">
+      <outgoing>Flow_S_Start__S_RegRules</outgoing>
+    </startEvent>
+    <businessRuleTask id="S_RegRules" name="Regulatory Applicability vorschlagen">
+      <incoming>Flow_S_Start__S_RegRules</incoming>
+      <outgoing>Flow_S_RegRules__S_RegVerify</outgoing>
+    </businessRuleTask>
+    <userTask id="S_RegVerify" name="Regulatorische Einstufung verifizieren">
+      <incoming>Flow_S_RegRules__S_RegVerify</incoming>
+      <outgoing>Flow_S_RegVerify__S_RegPersist</outgoing>
+    </userTask>
+    <serviceTask id="S_RegPersist" name="Entscheid versioniert uebernehmen">
+      <incoming>Flow_S_RegVerify__S_RegPersist</incoming>
+      <outgoing>Flow_S_RegPersist__S_ProfileRules</outgoing>
+    </serviceTask>
+    <businessRuleTask id="S_ProfileRules" name="Assurance-/Assessment-Profil vorschlagen">
+      <incoming>Flow_S_RegPersist__S_ProfileRules</incoming>
+      <outgoing>Flow_S_ProfileRules__S_ProfileVerify</outgoing>
+    </businessRuleTask>
+    <userTask id="S_ProfileVerify" name="Profil verifizieren, ggf. QA-Review">
+      <incoming>Flow_S_ProfileRules__S_ProfileVerify</incoming>
+      <outgoing>Flow_S_ProfileVerify__S_ProfilePersist</outgoing>
+    </userTask>
+    <serviceTask id="S_ProfilePersist" name="Profil unveraenderlich versionieren">
+      <incoming>Flow_S_ProfileVerify__S_ProfilePersist</incoming>
+      <outgoing>Flow_S_ProfilePersist__S_Requirements</outgoing>
+    </serviceTask>
+    <businessRuleTask id="S_Requirements" name="Anforderungen aus Scope &amp; Regeln vorschlagen">
+      <incoming>Flow_S_ProfilePersist__S_Requirements</incoming>
+      <outgoing>Flow_S_Requirements__S_ReqVerify</outgoing>
+    </businessRuleTask>
+    <userTask id="S_ReqVerify" name="Anwendbare Kriterien verifizieren">
+      <incoming>Flow_S_Requirements__S_ReqVerify</incoming>
+      <outgoing>Flow_S_ReqVerify__S_ReqPersist</outgoing>
+    </userTask>
+    <serviceTask id="S_ReqPersist" name="Verifizierte Kriterien versioniert fixieren">
+      <incoming>Flow_S_ReqVerify__S_ReqPersist</incoming>
+      <outgoing>Flow_S_ReqPersist__S_End</outgoing>
+    </serviceTask>
+    <endEvent id="S_End" name="Assessment-Konfiguration fixiert">
+      <incoming>Flow_S_ReqPersist__S_End</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_S_Start__S_RegRules" sourceRef="S_Start" targetRef="S_RegRules"/>
+    <sequenceFlow id="Flow_S_RegRules__S_RegVerify" sourceRef="S_RegRules" targetRef="S_RegVerify"/>
+    <sequenceFlow id="Flow_S_RegVerify__S_RegPersist" sourceRef="S_RegVerify" targetRef="S_RegPersist"/>
+    <sequenceFlow id="Flow_S_RegPersist__S_ProfileRules" sourceRef="S_RegPersist" targetRef="S_ProfileRules"/>
+    <sequenceFlow id="Flow_S_ProfileRules__S_ProfileVerify" sourceRef="S_ProfileRules" targetRef="S_ProfileVerify"/>
+    <sequenceFlow id="Flow_S_ProfileVerify__S_ProfilePersist" sourceRef="S_ProfileVerify" targetRef="S_ProfilePersist"/>
+    <sequenceFlow id="Flow_S_ProfilePersist__S_Requirements" sourceRef="S_ProfilePersist" targetRef="S_Requirements"/>
+    <sequenceFlow id="Flow_S_Requirements__S_ReqVerify" sourceRef="S_Requirements" targetRef="S_ReqVerify"/>
+    <sequenceFlow id="Flow_S_ReqVerify__S_ReqPersist" sourceRef="S_ReqVerify" targetRef="S_ReqPersist"/>
+    <sequenceFlow id="Flow_S_ReqPersist__S_End" sourceRef="S_ReqPersist" targetRef="S_End"/>
+  </process>
+  <process id="Process_AssessmentExecution" name="Reusable Assessment Execution (parameterized by type)" isExecutable="false">
+    <documentation>Descriptive L0/L1 reference. isExecutable=false. Execution requires message correlation, services, DMN bindings, explicit policies, exception/timeout handling and authorization. See Markdown specifications.</documentation>
+    <laneSet id="LaneSet_Assessment">
+      <lane id="Lane_Assess_Agent" name="Agents / Services">
+        <flowNodeRef>A_Start</flowNodeRef>
+        <flowNodeRef>A_AssessEvidence</flowNodeRef>
+        <flowNodeRef>A_Propose</flowNodeRef>
+        <flowNodeRef>A_Enough</flowNodeRef>
+        <flowNodeRef>A_Persist</flowNodeRef>
+        <flowNodeRef>A_End</flowNodeRef>
+      </lane>
+      <lane id="Lane_Assess_Human" name="Assessor / Senior Consultant">
+        <flowNodeRef>A_Verify</flowNodeRef>
+        <flowNodeRef>A_Clarify</flowNodeRef>
+      </lane>
+    </laneSet>
+    <startEvent id="A_Start" name="Assessment gestartet">
+      <outgoing>Flow_A_Start__A_AssessEvidence</outgoing>
+    </startEvent>
+    <serviceTask id="A_AssessEvidence" name="Kontrollen, Kriterien und Nachweise analysieren">
+      <incoming>Flow_A_Start__A_AssessEvidence</incoming>
+      <incoming>Flow_A_Clarify__A_AssessEvidence</incoming>
+      <outgoing>Flow_A_AssessEvidence__A_Propose</outgoing>
+    </serviceTask>
+    <serviceTask id="A_Propose" name="Findings, Risiken &amp; Massnahmen vorschlagen">
+      <incoming>Flow_A_AssessEvidence__A_Propose</incoming>
+      <outgoing>Flow_A_Propose__A_Verify</outgoing>
+    </serviceTask>
+    <userTask id="A_Verify" name="Findings und Risiken fachlich verifizieren">
+      <incoming>Flow_A_Propose__A_Verify</incoming>
+      <outgoing>Flow_A_Verify__A_Enough</outgoing>
+    </userTask>
+    <exclusiveGateway id="A_Enough" name="Assessorentscheid reif?">
+      <incoming>Flow_A_Verify__A_Enough</incoming>
+      <outgoing>Flow_A_Enough__A_Clarify</outgoing>
+      <outgoing>Flow_A_Enough__A_Persist</outgoing>
+    </exclusiveGateway>
+    <userTask id="A_Clarify" name="Gezielte Nacherhebung / Fachklaerung">
+      <incoming>Flow_A_Enough__A_Clarify</incoming>
+      <outgoing>Flow_A_Clarify__A_AssessEvidence</outgoing>
+    </userTask>
+    <serviceTask id="A_Persist" name="Verifizierte Findings versioniert sichern">
+      <incoming>Flow_A_Enough__A_Persist</incoming>
+      <outgoing>Flow_A_Persist__A_End</outgoing>
+    </serviceTask>
+    <endEvent id="A_End" name="Assessment bearbeitet">
+      <incoming>Flow_A_Persist__A_End</incoming>
+    </endEvent>
+    <sequenceFlow id="Flow_A_Start__A_AssessEvidence" sourceRef="A_Start" targetRef="A_AssessEvidence"/>
+    <sequenceFlow id="Flow_A_AssessEvidence__A_Propose" sourceRef="A_AssessEvidence" targetRef="A_Propose"/>
+    <sequenceFlow id="Flow_A_Propose__A_Verify" sourceRef="A_Propose" targetRef="A_Verify"/>
+    <sequenceFlow id="Flow_A_Verify__A_Enough" sourceRef="A_Verify" targetRef="A_Enough"/>
+    <sequenceFlow id="Flow_A_Enough__A_Clarify" sourceRef="A_Enough" targetRef="A_Clarify" name="Klaerung"/>
+    <sequenceFlow id="Flow_A_Clarify__A_AssessEvidence" sourceRef="A_Clarify" targetRef="A_AssessEvidence"/>
+    <sequenceFlow id="Flow_A_Enough__A_Persist" sourceRef="A_Enough" targetRef="A_Persist" name="verifiziert"/>
+    <sequenceFlow id="Flow_A_Persist__A_End" sourceRef="A_Persist" targetRef="A_End"/>
+  </process>
+  <bpmndi:BPMNDiagram id="Diagram_L0_Collaboration" name="Diagram_L0_Collaboration">
+    <bpmndi:BPMNPlane id="Plane_L0" bpmnElement="Collab_DTAgency_IntelligentAssessment">
+      <bpmndi:BPMNShape id="Shape_Participant_Customer" bpmnElement="Participant_Customer" isHorizontal="true">
+        <dc:Bounds x="100" y="70" width="8750" height="135"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Participant_Discovery" bpmnElement="Participant_Discovery" isHorizontal="true">
+        <dc:Bounds x="100" y="245" width="1050" height="160"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Participant_Case" bpmnElement="Participant_Case" isHorizontal="true">
+        <dc:Bounds x="100" y="460" width="8750" height="720"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Platform" bpmnElement="Lane_Platform" isHorizontal="true">
+        <dc:Bounds x="100" y="460" width="8750" height="280"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Consulting" bpmnElement="Lane_Consulting" isHorizontal="true">
+        <dc:Bounds x="100" y="740" width="8750" height="260"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_QA" bpmnElement="Lane_QA" isHorizontal="true">
+        <dc:Bounds x="100" y="1000" width="8750" height="180"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_ApproveOutreach" bpmnElement="T_ApproveOutreach">
+        <dc:Bounds x="1735" y="805" width="165" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Join" bpmnElement="G_Join">
+        <dc:Bounds x="2700" y="565" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Intake" bpmnElement="T_Intake">
+        <dc:Bounds x="310" y="565" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_NoOutreach" bpmnElement="End_NoOutreach">
+        <dc:Bounds x="1680" y="680" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Call_Assess" bpmnElement="Call_Assess" isExpanded="false">
+        <dc:Bounds x="6670" y="535" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_ContextTimeout" bpmnElement="End_ContextTimeout">
+        <dc:Bounds x="3470" y="690" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_D_Policy" bpmnElement="D_Policy">
+        <dc:Bounds x="275" y="285" width="180" height="70"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_Reaction" bpmnElement="Catch_Reaction">
+        <dc:Bounds x="2300" y="550" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_QA" bpmnElement="T_QA">
+        <dc:Bounds x="7710" y="1050" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_OutreachRules" bpmnElement="T_OutreachRules">
+        <dc:Bounds x="1380" y="535" width="160" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_LeadReview" bpmnElement="T_LeadReview">
+        <dc:Bounds x="7100" y="805" width="175" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Response" bpmnElement="G_Response">
+        <dc:Bounds x="2130" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_Completed" bpmnElement="End_Completed">
+        <dc:Bounds x="8520" y="515" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_OfferExpired" bpmnElement="End_OfferExpired">
+        <dc:Bounds x="4430" y="900" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_ClarifyTimeout" bpmnElement="Catch_ClarifyTimeout">
+        <dc:Bounds x="5870" y="735" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_OfferChange" bpmnElement="Catch_OfferChange">
+        <dc:Bounds x="4300" y="785" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_Inbound" bpmnElement="Start_Inbound">
+        <dc:Bounds x="160" y="630" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_FinalType" bpmnElement="G_FinalType">
+        <dc:Bounds x="8390" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Rework" bpmnElement="G_Rework">
+        <dc:Bounds x="7930" y="705" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_ClarifyWait" bpmnElement="G_ClarifyWait">
+        <dc:Bounds x="5710" y="665" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Discovery" bpmnElement="T_Discovery">
+        <dc:Bounds x="2820" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Rework" bpmnElement="T_Rework">
+        <dc:Bounds x="7720" y="690" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_FrameworkPreview" bpmnElement="T_FrameworkPreview">
+        <dc:Bounds x="3525" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_Stopped" bpmnElement="End_Stopped">
+        <dc:Bounds x="6360" y="925" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_Limited" bpmnElement="End_Limited">
+        <dc:Bounds x="8520" y="665" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Ready" bpmnElement="G_Ready">
+        <dc:Bounds x="5370" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_CreateMandate" bpmnElement="T_CreateMandate">
+        <dc:Bounds x="4510" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_SendOffer" bpmnElement="T_SendOffer">
+        <dc:Bounds x="3930" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Outreach" bpmnElement="G_Outreach">
+        <dc:Bounds x="1580" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_FinalScope" bpmnElement="T_FinalScope">
+        <dc:Bounds x="4720" y="805" width="190" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_DiscoveryContext" bpmnElement="Catch_DiscoveryContext">
+        <dc:Bounds x="3350" y="550" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_PublicContext" bpmnElement="T_PublicContext">
+        <dc:Bounds x="645" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_EvidenceIntake" bpmnElement="T_EvidenceIntake">
+        <dc:Bounds x="4940" y="535" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_QAStop" bpmnElement="End_QAStop">
+        <dc:Bounds x="8130" y="795" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Qualify" bpmnElement="T_Qualify">
+        <dc:Bounds x="1040" y="805" width="165" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_OfferWait" bpmnElement="G_OfferWait">
+        <dc:Bounds x="4140" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_QA" bpmnElement="G_QA">
+        <dc:Bounds x="7960" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_NoReaction" bpmnElement="Catch_NoReaction">
+        <dc:Bounds x="2300" y="685" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_ProvisionalScope" bpmnElement="T_ProvisionalScope">
+        <dc:Bounds x="3720" y="805" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_D_End" bpmnElement="D_End">
+        <dc:Bounds x="915" y="300" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Qualified" bpmnElement="G_Qualified">
+        <dc:Bounds x="1235" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_OfferDecline" bpmnElement="Catch_OfferDecline">
+        <dc:Bounds x="4300" y="675" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Limit" bpmnElement="G_Limit">
+        <dc:Bounds x="6230" y="810" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_DeclinedContact" bpmnElement="End_DeclinedContact">
+        <dc:Bounds x="2620" y="670" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Publish" bpmnElement="T_Publish">
+        <dc:Bounds x="8180" y="535" width="185" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_Clarification" bpmnElement="Catch_Clarification">
+        <dc:Bounds x="5870" y="620" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_NoContactApproval" bpmnElement="End_NoContactApproval">
+        <dc:Bounds x="2030" y="910" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Call_Configure" bpmnElement="Call_Configure" isExpanded="false">
+        <dc:Bounds x="6450" y="535" width="190" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Start_Candidate" bpmnElement="Start_Candidate">
+        <dc:Bounds x="160" y="530" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_SendDiscovery" bpmnElement="T_SendDiscovery">
+        <dc:Bounds x="3010" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_NotQualified" bpmnElement="End_NotQualified">
+        <dc:Bounds x="1335" y="680" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_ContactApproved" bpmnElement="G_ContactApproved">
+        <dc:Bounds x="1915" y="812" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Interested" bpmnElement="G_Interested">
+        <dc:Bounds x="2490" y="565" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_Signed" bpmnElement="Catch_Signed">
+        <dc:Bounds x="4310" y="550" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Readiness" bpmnElement="T_Readiness">
+        <dc:Bounds x="5160" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_MaterialDecision" bpmnElement="T_MaterialDecision">
+        <dc:Bounds x="6020" y="805" width="185" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_OfferTimeout" bpmnElement="Catch_OfferTimeout">
+        <dc:Bounds x="4300" y="900" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Complete" bpmnElement="G_Complete">
+        <dc:Bounds x="7535" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_D_Start" bpmnElement="D_Start">
+        <dc:Bounds x="160" y="300" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_DiscoveryWait" bpmnElement="G_DiscoveryWait">
+        <dc:Bounds x="3215" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_G_Route" bpmnElement="G_Route">
+        <dc:Bounds x="525" y="570" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_OfferDeclined" bpmnElement="End_OfferDeclined">
+        <dc:Bounds x="4430" y="675" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_End_NoReaction" bpmnElement="End_NoReaction">
+        <dc:Bounds x="2470" y="690" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_RequestEvidence" bpmnElement="T_RequestEvidence">
+        <dc:Bounds x="5505" y="660" width="160" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Draft" bpmnElement="T_Draft">
+        <dc:Bounds x="6880" y="535" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_SendContact" bpmnElement="T_SendContact">
+        <dc:Bounds x="1945" y="535" width="160" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_D_Find" bpmnElement="D_Find">
+        <dc:Bounds x="485" y="285" width="180" height="70"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Catch_DiscoveryTimeout" bpmnElement="Catch_DiscoveryTimeout">
+        <dc:Bounds x="3350" y="685" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_PreScreen" bpmnElement="T_PreScreen">
+        <dc:Bounds x="850" y="535" width="170" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_D_Publish" bpmnElement="D_Publish">
+        <dc:Bounds x="695" y="285" width="190" height="70"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_T_Completion" bpmnElement="T_Completion">
+        <dc:Bounds x="7320" y="535" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_D_Start__D_Policy" bpmnElement="Flow_D_Start__D_Policy">
+        <di:waypoint x="202" y="321"/>
+        <di:waypoint x="253" y="321"/>
+        <di:waypoint x="253" y="320"/>
+        <di:waypoint x="275" y="320"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_D_Policy__D_Find" bpmnElement="Flow_D_Policy__D_Find">
+        <di:waypoint x="455" y="320"/>
+        <di:waypoint x="463" y="320"/>
+        <di:waypoint x="463" y="320"/>
+        <di:waypoint x="485" y="320"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_D_Find__D_Publish" bpmnElement="Flow_D_Find__D_Publish">
+        <di:waypoint x="665" y="320"/>
+        <di:waypoint x="673" y="320"/>
+        <di:waypoint x="673" y="320"/>
+        <di:waypoint x="695" y="320"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_D_Publish__D_End" bpmnElement="Flow_D_Publish__D_End">
+        <di:waypoint x="885" y="320"/>
+        <di:waypoint x="893" y="320"/>
+        <di:waypoint x="893" y="321"/>
+        <di:waypoint x="915" y="321"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_Candidate__T_Intake" bpmnElement="Flow_Start_Candidate__T_Intake">
+        <di:waypoint x="202" y="551"/>
+        <di:waypoint x="288" y="551"/>
+        <di:waypoint x="288" y="603"/>
+        <di:waypoint x="310" y="603"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Start_Inbound__T_Intake" bpmnElement="Flow_Start_Inbound__T_Intake">
+        <di:waypoint x="202" y="651"/>
+        <di:waypoint x="288" y="651"/>
+        <di:waypoint x="288" y="603"/>
+        <di:waypoint x="310" y="603"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Intake__G_Route" bpmnElement="Flow_T_Intake__G_Route">
+        <di:waypoint x="480" y="603"/>
+        <di:waypoint x="503" y="603"/>
+        <di:waypoint x="503" y="599"/>
+        <di:waypoint x="525" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Route__T_PublicContext" bpmnElement="Flow_G_Route__T_PublicContext">
+        <di:waypoint x="583" y="599"/>
+        <di:waypoint x="623" y="599"/>
+        <di:waypoint x="623" y="573"/>
+        <di:waypoint x="645" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_PublicContext__T_PreScreen" bpmnElement="Flow_T_PublicContext__T_PreScreen">
+        <di:waypoint x="815" y="573"/>
+        <di:waypoint x="828" y="573"/>
+        <di:waypoint x="828" y="573"/>
+        <di:waypoint x="850" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_PreScreen__T_Qualify" bpmnElement="Flow_T_PreScreen__T_Qualify">
+        <di:waypoint x="1020" y="573"/>
+        <di:waypoint x="1018" y="573"/>
+        <di:waypoint x="1018" y="843"/>
+        <di:waypoint x="1040" y="843"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Qualify__G_Qualified" bpmnElement="Flow_T_Qualify__G_Qualified">
+        <di:waypoint x="1205" y="843"/>
+        <di:waypoint x="1213" y="843"/>
+        <di:waypoint x="1213" y="599"/>
+        <di:waypoint x="1235" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Qualified__End_NotQualified" bpmnElement="Flow_G_Qualified__End_NotQualified">
+        <di:waypoint x="1293" y="599"/>
+        <di:waypoint x="1313" y="599"/>
+        <di:waypoint x="1313" y="701"/>
+        <di:waypoint x="1335" y="701"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Qualified__T_OutreachRules" bpmnElement="Flow_G_Qualified__T_OutreachRules">
+        <di:waypoint x="1293" y="599"/>
+        <di:waypoint x="1358" y="599"/>
+        <di:waypoint x="1358" y="573"/>
+        <di:waypoint x="1380" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_OutreachRules__G_Outreach" bpmnElement="Flow_T_OutreachRules__G_Outreach">
+        <di:waypoint x="1540" y="573"/>
+        <di:waypoint x="1558" y="573"/>
+        <di:waypoint x="1558" y="599"/>
+        <di:waypoint x="1580" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Outreach__End_NoOutreach" bpmnElement="Flow_G_Outreach__End_NoOutreach">
+        <di:waypoint x="1638" y="599"/>
+        <di:waypoint x="1658" y="599"/>
+        <di:waypoint x="1658" y="701"/>
+        <di:waypoint x="1680" y="701"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Outreach__T_ApproveOutreach" bpmnElement="Flow_G_Outreach__T_ApproveOutreach">
+        <di:waypoint x="1638" y="599"/>
+        <di:waypoint x="1713" y="599"/>
+        <di:waypoint x="1713" y="843"/>
+        <di:waypoint x="1735" y="843"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_ApproveOutreach__G_ContactApproved" bpmnElement="Flow_T_ApproveOutreach__G_ContactApproved">
+        <di:waypoint x="1900" y="843"/>
+        <di:waypoint x="1893" y="843"/>
+        <di:waypoint x="1893" y="841"/>
+        <di:waypoint x="1915" y="841"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_ContactApproved__End_NoContactApproval" bpmnElement="Flow_G_ContactApproved__End_NoContactApproval">
+        <di:waypoint x="1973" y="841"/>
+        <di:waypoint x="2008" y="841"/>
+        <di:waypoint x="2008" y="931"/>
+        <di:waypoint x="2030" y="931"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_ContactApproved__T_SendContact" bpmnElement="Flow_G_ContactApproved__T_SendContact">
+        <di:waypoint x="1973" y="841"/>
+        <di:waypoint x="1999" y="841"/>
+        <di:waypoint x="1999" y="905"/>
+        <di:waypoint x="1922" y="905"/>
+        <di:waypoint x="1922" y="573"/>
+        <di:waypoint x="1945" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_SendContact__G_Response" bpmnElement="Flow_T_SendContact__G_Response">
+        <di:waypoint x="2105" y="573"/>
+        <di:waypoint x="2108" y="573"/>
+        <di:waypoint x="2108" y="599"/>
+        <di:waypoint x="2130" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Response__Catch_Reaction" bpmnElement="Flow_G_Response__Catch_Reaction">
+        <di:waypoint x="2188" y="599"/>
+        <di:waypoint x="2278" y="599"/>
+        <di:waypoint x="2278" y="571"/>
+        <di:waypoint x="2300" y="571"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Response__Catch_NoReaction" bpmnElement="Flow_G_Response__Catch_NoReaction">
+        <di:waypoint x="2188" y="599"/>
+        <di:waypoint x="2278" y="599"/>
+        <di:waypoint x="2278" y="706"/>
+        <di:waypoint x="2300" y="706"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_NoReaction__End_NoReaction" bpmnElement="Flow_Catch_NoReaction__End_NoReaction">
+        <di:waypoint x="2342" y="706"/>
+        <di:waypoint x="2448" y="706"/>
+        <di:waypoint x="2448" y="711"/>
+        <di:waypoint x="2470" y="711"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_Reaction__G_Interested" bpmnElement="Flow_Catch_Reaction__G_Interested">
+        <di:waypoint x="2342" y="571"/>
+        <di:waypoint x="2468" y="571"/>
+        <di:waypoint x="2468" y="594"/>
+        <di:waypoint x="2490" y="594"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Interested__End_DeclinedContact" bpmnElement="Flow_G_Interested__End_DeclinedContact">
+        <di:waypoint x="2548" y="594"/>
+        <di:waypoint x="2598" y="594"/>
+        <di:waypoint x="2598" y="691"/>
+        <di:waypoint x="2620" y="691"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Interested__G_Join" bpmnElement="Flow_G_Interested__G_Join">
+        <di:waypoint x="2548" y="594"/>
+        <di:waypoint x="2678" y="594"/>
+        <di:waypoint x="2678" y="594"/>
+        <di:waypoint x="2700" y="594"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Route__G_Join" bpmnElement="Flow_G_Route__G_Join">
+        <di:waypoint x="583" y="599"/>
+        <di:waypoint x="2678" y="599"/>
+        <di:waypoint x="2678" y="594"/>
+        <di:waypoint x="2700" y="594"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Join__T_Discovery" bpmnElement="Flow_G_Join__T_Discovery">
+        <di:waypoint x="2758" y="594"/>
+        <di:waypoint x="2798" y="594"/>
+        <di:waypoint x="2798" y="573"/>
+        <di:waypoint x="2820" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Discovery__T_SendDiscovery" bpmnElement="Flow_T_Discovery__T_SendDiscovery">
+        <di:waypoint x="2990" y="573"/>
+        <di:waypoint x="2988" y="573"/>
+        <di:waypoint x="2988" y="573"/>
+        <di:waypoint x="3010" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_SendDiscovery__G_DiscoveryWait" bpmnElement="Flow_T_SendDiscovery__G_DiscoveryWait">
+        <di:waypoint x="3180" y="573"/>
+        <di:waypoint x="3193" y="573"/>
+        <di:waypoint x="3193" y="599"/>
+        <di:waypoint x="3215" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_DiscoveryWait__Catch_DiscoveryContext" bpmnElement="Flow_G_DiscoveryWait__Catch_DiscoveryContext">
+        <di:waypoint x="3273" y="599"/>
+        <di:waypoint x="3328" y="599"/>
+        <di:waypoint x="3328" y="571"/>
+        <di:waypoint x="3350" y="571"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_DiscoveryWait__Catch_DiscoveryTimeout" bpmnElement="Flow_G_DiscoveryWait__Catch_DiscoveryTimeout">
+        <di:waypoint x="3273" y="599"/>
+        <di:waypoint x="3328" y="599"/>
+        <di:waypoint x="3328" y="706"/>
+        <di:waypoint x="3350" y="706"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_DiscoveryTimeout__End_ContextTimeout" bpmnElement="Flow_Catch_DiscoveryTimeout__End_ContextTimeout">
+        <di:waypoint x="3392" y="706"/>
+        <di:waypoint x="3448" y="706"/>
+        <di:waypoint x="3448" y="711"/>
+        <di:waypoint x="3470" y="711"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_DiscoveryContext__T_FrameworkPreview" bpmnElement="Flow_Catch_DiscoveryContext__T_FrameworkPreview">
+        <di:waypoint x="3392" y="571"/>
+        <di:waypoint x="3503" y="571"/>
+        <di:waypoint x="3503" y="573"/>
+        <di:waypoint x="3525" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_FrameworkPreview__T_ProvisionalScope" bpmnElement="Flow_T_FrameworkPreview__T_ProvisionalScope">
+        <di:waypoint x="3695" y="573"/>
+        <di:waypoint x="3698" y="573"/>
+        <di:waypoint x="3698" y="843"/>
+        <di:waypoint x="3720" y="843"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_ProvisionalScope__T_SendOffer" bpmnElement="Flow_T_ProvisionalScope__T_SendOffer">
+        <di:waypoint x="3900" y="843"/>
+        <di:waypoint x="3908" y="843"/>
+        <di:waypoint x="3908" y="573"/>
+        <di:waypoint x="3930" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_SendOffer__G_OfferWait" bpmnElement="Flow_T_SendOffer__G_OfferWait">
+        <di:waypoint x="4100" y="573"/>
+        <di:waypoint x="4118" y="573"/>
+        <di:waypoint x="4118" y="599"/>
+        <di:waypoint x="4140" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_OfferWait__Catch_Signed" bpmnElement="Flow_G_OfferWait__Catch_Signed">
+        <di:waypoint x="4198" y="599"/>
+        <di:waypoint x="4288" y="599"/>
+        <di:waypoint x="4288" y="571"/>
+        <di:waypoint x="4310" y="571"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_OfferWait__Catch_OfferDecline" bpmnElement="Flow_G_OfferWait__Catch_OfferDecline">
+        <di:waypoint x="4198" y="599"/>
+        <di:waypoint x="4278" y="599"/>
+        <di:waypoint x="4278" y="696"/>
+        <di:waypoint x="4300" y="696"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_OfferWait__Catch_OfferChange" bpmnElement="Flow_G_OfferWait__Catch_OfferChange">
+        <di:waypoint x="4198" y="599"/>
+        <di:waypoint x="4278" y="599"/>
+        <di:waypoint x="4278" y="806"/>
+        <di:waypoint x="4300" y="806"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_OfferWait__Catch_OfferTimeout" bpmnElement="Flow_G_OfferWait__Catch_OfferTimeout">
+        <di:waypoint x="4198" y="599"/>
+        <di:waypoint x="4278" y="599"/>
+        <di:waypoint x="4278" y="921"/>
+        <di:waypoint x="4300" y="921"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_OfferDecline__End_OfferDeclined" bpmnElement="Flow_Catch_OfferDecline__End_OfferDeclined">
+        <di:waypoint x="4342" y="696"/>
+        <di:waypoint x="4408" y="696"/>
+        <di:waypoint x="4408" y="696"/>
+        <di:waypoint x="4430" y="696"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_OfferTimeout__End_OfferExpired" bpmnElement="Flow_Catch_OfferTimeout__End_OfferExpired">
+        <di:waypoint x="4342" y="921"/>
+        <di:waypoint x="4408" y="921"/>
+        <di:waypoint x="4408" y="921"/>
+        <di:waypoint x="4430" y="921"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_OfferChange__T_ProvisionalScope" bpmnElement="Flow_Catch_OfferChange__T_ProvisionalScope">
+        <di:waypoint x="4342" y="806"/>
+        <di:waypoint x="4368" y="806"/>
+        <di:waypoint x="4368" y="916"/>
+        <di:waypoint x="3697" y="916"/>
+        <di:waypoint x="3697" y="843"/>
+        <di:waypoint x="3720" y="843"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_Signed__T_CreateMandate" bpmnElement="Flow_Catch_Signed__T_CreateMandate">
+        <di:waypoint x="4352" y="571"/>
+        <di:waypoint x="4488" y="571"/>
+        <di:waypoint x="4488" y="573"/>
+        <di:waypoint x="4510" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_CreateMandate__T_FinalScope" bpmnElement="Flow_T_CreateMandate__T_FinalScope">
+        <di:waypoint x="4680" y="573"/>
+        <di:waypoint x="4698" y="573"/>
+        <di:waypoint x="4698" y="843"/>
+        <di:waypoint x="4720" y="843"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_FinalScope__T_EvidenceIntake" bpmnElement="Flow_T_FinalScope__T_EvidenceIntake">
+        <di:waypoint x="4910" y="843"/>
+        <di:waypoint x="4918" y="843"/>
+        <di:waypoint x="4918" y="573"/>
+        <di:waypoint x="4940" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_EvidenceIntake__T_Readiness" bpmnElement="Flow_T_EvidenceIntake__T_Readiness">
+        <di:waypoint x="5120" y="573"/>
+        <di:waypoint x="5138" y="573"/>
+        <di:waypoint x="5138" y="573"/>
+        <di:waypoint x="5160" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Readiness__G_Ready" bpmnElement="Flow_T_Readiness__G_Ready">
+        <di:waypoint x="5330" y="573"/>
+        <di:waypoint x="5348" y="573"/>
+        <di:waypoint x="5348" y="599"/>
+        <di:waypoint x="5370" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Ready__T_RequestEvidence" bpmnElement="Flow_G_Ready__T_RequestEvidence">
+        <di:waypoint x="5428" y="599"/>
+        <di:waypoint x="5483" y="599"/>
+        <di:waypoint x="5483" y="698"/>
+        <di:waypoint x="5505" y="698"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_RequestEvidence__G_ClarifyWait" bpmnElement="Flow_T_RequestEvidence__G_ClarifyWait">
+        <di:waypoint x="5665" y="698"/>
+        <di:waypoint x="5688" y="698"/>
+        <di:waypoint x="5688" y="694"/>
+        <di:waypoint x="5710" y="694"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_ClarifyWait__Catch_Clarification" bpmnElement="Flow_G_ClarifyWait__Catch_Clarification">
+        <di:waypoint x="5768" y="694"/>
+        <di:waypoint x="5848" y="694"/>
+        <di:waypoint x="5848" y="641"/>
+        <di:waypoint x="5870" y="641"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_ClarifyWait__Catch_ClarifyTimeout" bpmnElement="Flow_G_ClarifyWait__Catch_ClarifyTimeout">
+        <di:waypoint x="5768" y="694"/>
+        <di:waypoint x="5848" y="694"/>
+        <di:waypoint x="5848" y="756"/>
+        <di:waypoint x="5870" y="756"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_Clarification__T_EvidenceIntake" bpmnElement="Flow_Catch_Clarification__T_EvidenceIntake">
+        <di:waypoint x="5912" y="641"/>
+        <di:waypoint x="5938" y="641"/>
+        <di:waypoint x="5938" y="697"/>
+        <di:waypoint x="4917" y="697"/>
+        <di:waypoint x="4917" y="573"/>
+        <di:waypoint x="4940" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Catch_ClarifyTimeout__T_MaterialDecision" bpmnElement="Flow_Catch_ClarifyTimeout__T_MaterialDecision">
+        <di:waypoint x="5912" y="756"/>
+        <di:waypoint x="5998" y="756"/>
+        <di:waypoint x="5998" y="843"/>
+        <di:waypoint x="6020" y="843"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_MaterialDecision__G_Limit" bpmnElement="Flow_T_MaterialDecision__G_Limit">
+        <di:waypoint x="6205" y="843"/>
+        <di:waypoint x="6208" y="843"/>
+        <di:waypoint x="6208" y="839"/>
+        <di:waypoint x="6230" y="839"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Limit__End_Stopped" bpmnElement="Flow_G_Limit__End_Stopped">
+        <di:waypoint x="6288" y="839"/>
+        <di:waypoint x="6338" y="839"/>
+        <di:waypoint x="6338" y="946"/>
+        <di:waypoint x="6360" y="946"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Limit__Call_Configure" bpmnElement="Flow_G_Limit__Call_Configure">
+        <di:waypoint x="6288" y="839"/>
+        <di:waypoint x="6428" y="839"/>
+        <di:waypoint x="6428" y="573"/>
+        <di:waypoint x="6450" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Ready__Call_Configure" bpmnElement="Flow_G_Ready__Call_Configure">
+        <di:waypoint x="5428" y="599"/>
+        <di:waypoint x="6428" y="599"/>
+        <di:waypoint x="6428" y="573"/>
+        <di:waypoint x="6450" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Call_Configure__Call_Assess" bpmnElement="Flow_Call_Configure__Call_Assess">
+        <di:waypoint x="6640" y="573"/>
+        <di:waypoint x="6648" y="573"/>
+        <di:waypoint x="6648" y="573"/>
+        <di:waypoint x="6670" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_Call_Assess__T_Draft" bpmnElement="Flow_Call_Assess__T_Draft">
+        <di:waypoint x="6850" y="573"/>
+        <di:waypoint x="6858" y="573"/>
+        <di:waypoint x="6858" y="573"/>
+        <di:waypoint x="6880" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Draft__T_LeadReview" bpmnElement="Flow_T_Draft__T_LeadReview">
+        <di:waypoint x="7060" y="573"/>
+        <di:waypoint x="7078" y="573"/>
+        <di:waypoint x="7078" y="843"/>
+        <di:waypoint x="7100" y="843"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_LeadReview__T_Completion" bpmnElement="Flow_T_LeadReview__T_Completion">
+        <di:waypoint x="7275" y="843"/>
+        <di:waypoint x="7298" y="843"/>
+        <di:waypoint x="7298" y="573"/>
+        <di:waypoint x="7320" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Completion__G_Complete" bpmnElement="Flow_T_Completion__G_Complete">
+        <di:waypoint x="7500" y="573"/>
+        <di:waypoint x="7513" y="573"/>
+        <di:waypoint x="7513" y="599"/>
+        <di:waypoint x="7535" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Complete__T_Rework" bpmnElement="Flow_G_Complete__T_Rework">
+        <di:waypoint x="7593" y="599"/>
+        <di:waypoint x="7698" y="599"/>
+        <di:waypoint x="7698" y="728"/>
+        <di:waypoint x="7720" y="728"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Complete__T_QA" bpmnElement="Flow_G_Complete__T_QA">
+        <di:waypoint x="7593" y="599"/>
+        <di:waypoint x="7688" y="599"/>
+        <di:waypoint x="7688" y="1088"/>
+        <di:waypoint x="7710" y="1088"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_QA__G_QA" bpmnElement="Flow_T_QA__G_QA">
+        <di:waypoint x="7910" y="1088"/>
+        <di:waypoint x="7938" y="1088"/>
+        <di:waypoint x="7938" y="599"/>
+        <di:waypoint x="7960" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_QA__T_Rework" bpmnElement="Flow_G_QA__T_Rework">
+        <di:waypoint x="8018" y="599"/>
+        <di:waypoint x="8044" y="599"/>
+        <di:waypoint x="8044" y="801"/>
+        <di:waypoint x="7697" y="801"/>
+        <di:waypoint x="7697" y="728"/>
+        <di:waypoint x="7720" y="728"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_QA__End_QAStop" bpmnElement="Flow_G_QA__End_QAStop">
+        <di:waypoint x="8018" y="599"/>
+        <di:waypoint x="8108" y="599"/>
+        <di:waypoint x="8108" y="816"/>
+        <di:waypoint x="8130" y="816"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_QA__T_Publish" bpmnElement="Flow_G_QA__T_Publish">
+        <di:waypoint x="8018" y="599"/>
+        <di:waypoint x="8158" y="599"/>
+        <di:waypoint x="8158" y="573"/>
+        <di:waypoint x="8180" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Rework__G_Rework" bpmnElement="Flow_T_Rework__G_Rework">
+        <di:waypoint x="7890" y="728"/>
+        <di:waypoint x="7908" y="728"/>
+        <di:waypoint x="7908" y="734"/>
+        <di:waypoint x="7930" y="734"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Rework__T_EvidenceIntake" bpmnElement="Flow_G_Rework__T_EvidenceIntake">
+        <di:waypoint x="7988" y="734"/>
+        <di:waypoint x="8014" y="734"/>
+        <di:waypoint x="8014" y="798"/>
+        <di:waypoint x="4917" y="798"/>
+        <di:waypoint x="4917" y="573"/>
+        <di:waypoint x="4940" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Rework__Call_Configure" bpmnElement="Flow_G_Rework__Call_Configure">
+        <di:waypoint x="7988" y="734"/>
+        <di:waypoint x="8014" y="734"/>
+        <di:waypoint x="8014" y="798"/>
+        <di:waypoint x="6427" y="798"/>
+        <di:waypoint x="6427" y="573"/>
+        <di:waypoint x="6450" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_Rework__Call_Assess" bpmnElement="Flow_G_Rework__Call_Assess">
+        <di:waypoint x="7988" y="734"/>
+        <di:waypoint x="8014" y="734"/>
+        <di:waypoint x="8014" y="798"/>
+        <di:waypoint x="6647" y="798"/>
+        <di:waypoint x="6647" y="573"/>
+        <di:waypoint x="6670" y="573"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_T_Publish__G_FinalType" bpmnElement="Flow_T_Publish__G_FinalType">
+        <di:waypoint x="8365" y="573"/>
+        <di:waypoint x="8368" y="573"/>
+        <di:waypoint x="8368" y="599"/>
+        <di:waypoint x="8390" y="599"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_FinalType__End_Completed" bpmnElement="Flow_G_FinalType__End_Completed">
+        <di:waypoint x="8448" y="599"/>
+        <di:waypoint x="8498" y="599"/>
+        <di:waypoint x="8498" y="536"/>
+        <di:waypoint x="8520" y="536"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_G_FinalType__End_Limited" bpmnElement="Flow_G_FinalType__End_Limited">
+        <di:waypoint x="8448" y="599"/>
+        <di:waypoint x="8498" y="599"/>
+        <di:waypoint x="8498" y="686"/>
+        <di:waypoint x="8520" y="686"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Candidate" bpmnElement="Message_Candidate">
+        <di:waypoint x="790" y="285"/>
+        <di:waypoint x="181" y="530"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Inbound" bpmnElement="Message_Inbound">
+        <di:waypoint x="1100" y="190"/>
+        <di:waypoint x="181" y="630"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_DiscoveryQuestions" bpmnElement="Message_DiscoveryQuestions">
+        <di:waypoint x="3095" y="535"/>
+        <di:waypoint x="3095" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_DiscoveryContext" bpmnElement="Message_DiscoveryContext">
+        <di:waypoint x="1100" y="190"/>
+        <di:waypoint x="3371" y="550"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Outreach" bpmnElement="Message_Outreach">
+        <di:waypoint x="2025" y="535"/>
+        <di:waypoint x="2025" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_CustomerResponse" bpmnElement="Message_CustomerResponse">
+        <di:waypoint x="1100" y="190"/>
+        <di:waypoint x="2321" y="550"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Offer" bpmnElement="Message_Offer">
+        <di:waypoint x="4015" y="535"/>
+        <di:waypoint x="4015" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Signed" bpmnElement="Message_Signed">
+        <di:waypoint x="1100" y="190"/>
+        <di:waypoint x="4331" y="550"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Declined" bpmnElement="Message_Declined">
+        <di:waypoint x="1100" y="190"/>
+        <di:waypoint x="4321" y="675"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Changes" bpmnElement="Message_Changes">
+        <di:waypoint x="1100" y="190"/>
+        <di:waypoint x="4321" y="785"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_ClarificationReq" bpmnElement="Message_ClarificationReq">
+        <di:waypoint x="5585" y="660"/>
+        <di:waypoint x="5585" y="190"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_ClarificationResponse" bpmnElement="Message_ClarificationResponse">
+        <di:waypoint x="1100" y="190"/>
+        <di:waypoint x="5891" y="620"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Message_Report" bpmnElement="Message_Report">
+        <di:waypoint x="8272" y="535"/>
+        <di:waypoint x="8272" y="190"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="Diagram_Process_AssessmentSetup" name="Diagram_Process_AssessmentSetup">
+    <bpmndi:BPMNPlane id="Plane_Process_AssessmentSetup" bpmnElement="Process_AssessmentSetup">
+      <bpmndi:BPMNShape id="Shape_Lane_Setup_Agent" bpmnElement="Lane_Setup_Agent" isHorizontal="true">
+        <dc:Bounds x="100" y="85" width="2350" height="250"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Setup_Human" bpmnElement="Lane_Setup_Human" isHorizontal="true">
+        <dc:Bounds x="100" y="335" width="2350" height="230"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_RegVerify" bpmnElement="S_RegVerify">
+        <dc:Bounds x="550" y="370" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_RegPersist" bpmnElement="S_RegPersist">
+        <dc:Bounds x="770" y="145" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_End" bpmnElement="S_End">
+        <dc:Bounds x="2310" y="160" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_Requirements" bpmnElement="S_Requirements">
+        <dc:Bounds x="1650" y="145" width="190" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_RegRules" bpmnElement="S_RegRules">
+        <dc:Bounds x="330" y="145" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_ProfileVerify" bpmnElement="S_ProfileVerify">
+        <dc:Bounds x="1210" y="370" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_Start" bpmnElement="S_Start">
+        <dc:Bounds x="160" y="160" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_ProfileRules" bpmnElement="S_ProfileRules">
+        <dc:Bounds x="990" y="145" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_ReqVerify" bpmnElement="S_ReqVerify">
+        <dc:Bounds x="1880" y="370" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_ReqPersist" bpmnElement="S_ReqPersist">
+        <dc:Bounds x="2100" y="145" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_S_ProfilePersist" bpmnElement="S_ProfilePersist">
+        <dc:Bounds x="1430" y="145" width="180" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_Start__S_RegRules" bpmnElement="Flow_S_Start__S_RegRules">
+        <di:waypoint x="202" y="181"/>
+        <di:waypoint x="308" y="181"/>
+        <di:waypoint x="308" y="183"/>
+        <di:waypoint x="330" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_RegRules__S_RegVerify" bpmnElement="Flow_S_RegRules__S_RegVerify">
+        <di:waypoint x="510" y="183"/>
+        <di:waypoint x="528" y="183"/>
+        <di:waypoint x="528" y="408"/>
+        <di:waypoint x="550" y="408"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_RegVerify__S_RegPersist" bpmnElement="Flow_S_RegVerify__S_RegPersist">
+        <di:waypoint x="730" y="408"/>
+        <di:waypoint x="748" y="408"/>
+        <di:waypoint x="748" y="183"/>
+        <di:waypoint x="770" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_RegPersist__S_ProfileRules" bpmnElement="Flow_S_RegPersist__S_ProfileRules">
+        <di:waypoint x="950" y="183"/>
+        <di:waypoint x="968" y="183"/>
+        <di:waypoint x="968" y="183"/>
+        <di:waypoint x="990" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_ProfileRules__S_ProfileVerify" bpmnElement="Flow_S_ProfileRules__S_ProfileVerify">
+        <di:waypoint x="1170" y="183"/>
+        <di:waypoint x="1188" y="183"/>
+        <di:waypoint x="1188" y="408"/>
+        <di:waypoint x="1210" y="408"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_ProfileVerify__S_ProfilePersist" bpmnElement="Flow_S_ProfileVerify__S_ProfilePersist">
+        <di:waypoint x="1390" y="408"/>
+        <di:waypoint x="1408" y="408"/>
+        <di:waypoint x="1408" y="183"/>
+        <di:waypoint x="1430" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_ProfilePersist__S_Requirements" bpmnElement="Flow_S_ProfilePersist__S_Requirements">
+        <di:waypoint x="1610" y="183"/>
+        <di:waypoint x="1628" y="183"/>
+        <di:waypoint x="1628" y="183"/>
+        <di:waypoint x="1650" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_Requirements__S_ReqVerify" bpmnElement="Flow_S_Requirements__S_ReqVerify">
+        <di:waypoint x="1840" y="183"/>
+        <di:waypoint x="1858" y="183"/>
+        <di:waypoint x="1858" y="408"/>
+        <di:waypoint x="1880" y="408"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_ReqVerify__S_ReqPersist" bpmnElement="Flow_S_ReqVerify__S_ReqPersist">
+        <di:waypoint x="2060" y="408"/>
+        <di:waypoint x="2078" y="408"/>
+        <di:waypoint x="2078" y="183"/>
+        <di:waypoint x="2100" y="183"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_S_ReqPersist__S_End" bpmnElement="Flow_S_ReqPersist__S_End">
+        <di:waypoint x="2280" y="183"/>
+        <di:waypoint x="2288" y="183"/>
+        <di:waypoint x="2288" y="181"/>
+        <di:waypoint x="2310" y="181"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+  <bpmndi:BPMNDiagram id="Diagram_Process_AssessmentExecution" name="Diagram_Process_AssessmentExecution">
+    <bpmndi:BPMNPlane id="Plane_Process_AssessmentExecution" bpmnElement="Process_AssessmentExecution">
+      <bpmndi:BPMNShape id="Shape_Lane_Assess_Agent" bpmnElement="Lane_Assess_Agent" isHorizontal="true">
+        <dc:Bounds x="100" y="85" width="1570" height="255"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_Lane_Assess_Human" bpmnElement="Lane_Assess_Human" isHorizontal="true">
+        <dc:Bounds x="100" y="340" width="1570" height="230"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_Enough" bpmnElement="A_Enough">
+        <dc:Bounds x="1095" y="150" width="58" height="58"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_Clarify" bpmnElement="A_Clarify">
+        <dc:Bounds x="1250" y="370" width="185" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_Start" bpmnElement="A_Start">
+        <dc:Bounds x="160" y="150" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_End" bpmnElement="A_End">
+        <dc:Bounds x="1490" y="150" width="42" height="42"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_AssessEvidence" bpmnElement="A_AssessEvidence">
+        <dc:Bounds x="340" y="135" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_Persist" bpmnElement="A_Persist">
+        <dc:Bounds x="1250" y="135" width="185" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_Verify" bpmnElement="A_Verify">
+        <dc:Bounds x="840" y="370" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Shape_A_Propose" bpmnElement="A_Propose">
+        <dc:Bounds x="590" y="135" width="200" height="76"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_Start__A_AssessEvidence" bpmnElement="Flow_A_Start__A_AssessEvidence">
+        <di:waypoint x="202" y="171"/>
+        <di:waypoint x="318" y="171"/>
+        <di:waypoint x="318" y="173"/>
+        <di:waypoint x="340" y="173"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_AssessEvidence__A_Propose" bpmnElement="Flow_A_AssessEvidence__A_Propose">
+        <di:waypoint x="540" y="173"/>
+        <di:waypoint x="568" y="173"/>
+        <di:waypoint x="568" y="173"/>
+        <di:waypoint x="590" y="173"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_Propose__A_Verify" bpmnElement="Flow_A_Propose__A_Verify">
+        <di:waypoint x="790" y="173"/>
+        <di:waypoint x="818" y="173"/>
+        <di:waypoint x="818" y="408"/>
+        <di:waypoint x="840" y="408"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_Verify__A_Enough" bpmnElement="Flow_A_Verify__A_Enough">
+        <di:waypoint x="1040" y="408"/>
+        <di:waypoint x="1073" y="408"/>
+        <di:waypoint x="1073" y="179"/>
+        <di:waypoint x="1095" y="179"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_Enough__A_Clarify" bpmnElement="Flow_A_Enough__A_Clarify">
+        <di:waypoint x="1153" y="179"/>
+        <di:waypoint x="1228" y="179"/>
+        <di:waypoint x="1228" y="408"/>
+        <di:waypoint x="1250" y="408"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_Clarify__A_AssessEvidence" bpmnElement="Flow_A_Clarify__A_AssessEvidence">
+        <di:waypoint x="1435" y="408"/>
+        <di:waypoint x="1461" y="408"/>
+        <di:waypoint x="1461" y="481"/>
+        <di:waypoint x="317" y="481"/>
+        <di:waypoint x="317" y="173"/>
+        <di:waypoint x="340" y="173"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_Enough__A_Persist" bpmnElement="Flow_A_Enough__A_Persist">
+        <di:waypoint x="1153" y="179"/>
+        <di:waypoint x="1228" y="179"/>
+        <di:waypoint x="1228" y="173"/>
+        <di:waypoint x="1250" y="173"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Edge_Flow_A_Persist__A_End" bpmnElement="Flow_A_Persist__A_End">
+        <di:waypoint x="1435" y="173"/>
+        <di:waypoint x="1468" y="173"/>
+        <di:waypoint x="1468" y="171"/>
+        <di:waypoint x="1490" y="171"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

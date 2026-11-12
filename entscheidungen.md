@@ -244,7 +244,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** Statusmodell von Bibliothek und Entscheidungen verlangt benannte Menschen
 - **Betrifft:** plan.md §6, CLAUDE.md
 - **Grundlagen:** —
-- **Eingaben:** Chat 2026-11-12: Paul gibt die ISO-Bibliothekseinträge frei
+- **Eingaben:** Chat 2026-11-12: Paul (zertifizierter CISO) gibt die ISO-Bibliothekseinträge frei und hat ENT-018, ENT-019, ENT-027, ENT-028 freigegeben – offen bleibt, wer außer ihm freigeben darf (z. B. Engagement Lead je Mandat, Risk Owner beim Kunden)
 - **Optionen:**
   1. Bibliothek und Methodik: Methodik-Verantwortliche/r; Mandatsentscheidungen: Engagement Lead; Risikoakzeptanz und Scope: Kunde (Executive Sponsor / Risk Owner)
 - **Vorschlag:** —
@@ -265,7 +265,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   1. Ein Mensch mit Zugriff auf die E-Books gleicht die drei Einträge ab (Kennungen, eindeutige Zuordnung der Themenbezeichnungen, Kernaussagen) und gibt sie frei
   2. zusätzlich Amd 1:2024 beschaffen und als eigenen Eintrag erfassen
 - **Vorschlag:** Option 1 durch Paul, Option 2 danach. Lizenz- und Urheberrechtsfrage getrennt in [ENT-026].
-- **Zuständig:** Paul (laut Chat 2026-11-12) – Rolle für den Freigabevermerk noch angeben
+- **Zuständig:** Paul, zertifizierter CISO (laut Chat 2026-11-12)
 - **Vorgeschlagen von:** Agent bibliothek, 2026-11-12
 - **Entscheidung:** —
 - **Freigegeben von:** —
@@ -333,7 +333,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** C mit 018.1 englische Codes / deutsche Bezeichnungen, 018.2 ja, 018.3 ja – Begründung und Beispiele in der Entscheidungsvorlage. Die 8-Werte-Liste mischt Anwendbarkeit, Bearbeitungsstand, Beweislage und Ergebnis und lässt das Assurance Profile in der Bewertung folgenlos.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** Option C, Teilfragen 018.1–018.3 wie vorgeschlagen (Chat 2026-11-12)
-- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** vorschriften.md §A8; src/bewertung/modell.ts; mandanten/_vorlage/isms.md §6/§6a/§6b; src/werkzeuge/ergebnis.ts; db/migrations/0002 (report_status, control_assessment, requirement_assessment)
 
@@ -351,7 +351,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** C. micro/sme/enterprise verwischt die NIS2-Schwelle bei 50 Beschäftigten (sme = klein + mittel); die KMU-Klassen tun das nicht. Größe beeinflusst, wie geprüft wird, nie was und wie tief.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** Option C (Chat 2026-11-12)
-- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** vorschriften.md §A13; src/bewertung/groessenklasse.ts; Werkzeug status/einstufung; isms.md §2
 
@@ -463,7 +463,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** Frage Paul 2026-11-12: „keine ISO-Dokumente, sondern überarbeitete Version – erfüllen wir die gesetzlichen Vorschriften?“
 - **Betrifft:** bibliothek/normen/, docs/vorgaben/, künftige Plattform (P1), Kundenberichte
 - **Grundlagen:** BIB-URHG
-- **Eingaben:** Chat 2026-11-12 (Auftrag Paul: hinreichende, streng auditkonforme Formulierungen ohne rechtliche Konsequenzen); BIB-URHG; BIB-RDG; docs/vorgaben/pruefbericht-2026-11-12.md P-16
+- **Eingaben:** Entscheidungsvorlage docs/vorschlaege/2026-11-12-ENT-026-029-formulierungen-und-begriffe.md (Teilpunkte 026-A bis 026-E); Chat 2026-11-12 (Auftrag Paul: hinreichende, streng auditkonforme Formulierungen ohne rechtliche Konsequenzen); BIB-URHG; BIB-RDG; docs/vorgaben/pruefbericht-2026-11-12.md P-16
 - **Optionen:**
   1. Formulierungsregeln wie erarbeitet freigeben: eigene Themenbezeichnungen statt Normtitel, Normbezüge nur über Kennung/Abschnitt, Satzbausteine für Ergebnisse, Liste unzulässiger Formulierungen mit Werkzeugprüfung (vorschriften.md §A17.2–§A17.4)
   2. wie 1, zusätzlich vor kommerzieller Nutzung Lizenzbedingungen der E-Books prüfen und Leistungsbeschreibung/RDG-Abgrenzung anwaltlich bestätigen lassen
@@ -489,7 +489,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** A
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** Option A mit Auflage: Wording muss zu den fachlichen Inhalten und zu den Normen passen und für Nutzer klar sein (Chat 2026-11-12). Begriffswahl zur Umsetzung der Auflage: [ENT-029]
-- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** vorschriften.md §A9, §A17.1; src/engagement/findings.ts; db/migrations/0002 (finding, customer_response); Vorlagen, Agents, Befehl /freigeben
 
@@ -507,7 +507,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Vorschlag:** A
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** Option A (Chat 2026-11-12)
-- **Freigegeben von:** Paul – Rolle noch zu bestätigen ([ENT-013])
+- **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** vorschriften.md §A6, §A8.4, §A12; Vorlagen notizen, entscheidungen.md, isms.md §7–§10; src/werkzeuge/ergebnis.ts; db/migrations/0002 (evidence, risk, measure)
 
@@ -517,11 +517,97 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** ENT-027 Auflage (Paul, 2026-11-12): Wording muss zu Fachinhalten und Normen passen und klar sein
 - **Betrifft:** vorschriften.md §A9, §A17.1; alle Status- und Feldnamen (`freigegeben`, „Freigegeben von/am“, `/freigeben`)
 - **Grundlagen:** BIB-ISO27001
-- **Eingaben:** Entscheidungsvorlage docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md §4
+- **Eingaben:** docs/vorschlaege/2026-11-12-ENT-026-029-formulierungen-und-begriffe.md Teil 3; neuer Plan docs/vorgaben/eingang-2026-11-12-plan (ADR-006, ADR-008, BPMN) trennt „verifizieren“ und „Freigabe“
 - **Optionen:**
   1. „freigegeben“ für die menschliche Genehmigung; „Verifizierung“/`quellengeprueft` nur für den Abgleich mit Quelle oder Nachweis (umgesetzt)
   2. „verifiziert“ für alles (ursprünglicher Vorschlag in der Entscheidungsvorlage)
-- **Vorschlag:** Option 1. In der Normsprache bezeichnet Verifizierung die Bestätigung anhand objektiver Nachweise – das ist die Tätigkeit des Abgleichs, nicht die Genehmigung einer Entscheidung, einer Risikoakzeptanz oder eines Ergebnisses. „Freigegeben“ passt für alle Objekte gleich, entspricht dem Sprachgebrauch für Genehmigung und Freigabe dokumentierter Information und ist für Kunden verständlich. Rücknahme wäre eine reine Umbenennung.
+  3. zwei Stufen: „verifiziert“ (fachlich gegen Quelle/Nachweise geprüft) und „freigegeben“ (zur Verwendung/Weitergabe genehmigt)
+- **Vorschlag:** Option 3 (geändert nach Eingang des neuen Plans; Begründung und Zuordnung je Objekt in der Entscheidungsvorlage). Bisherige Begründung zu Option 1: In der Normsprache bezeichnet Verifizierung die Bestätigung anhand objektiver Nachweise – das ist die Tätigkeit des Abgleichs, nicht die Genehmigung einer Entscheidung, einer Risikoakzeptanz oder eines Ergebnisses. „Freigegeben“ passt für alle Objekte gleich, entspricht dem Sprachgebrauch für Genehmigung und Freigabe dokumentierter Information und ist für Kunden verständlich. Rücknahme wäre eine reine Umbenennung.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-030 · Begriffskonflikt „Assurance Profile“
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** Gap-Analyse G-11: `07_BEISPIEL_CASES.json` nutzt assuranceProfile für Review-Pflicht und Unabhängigkeitsanspruch; das Repository für die Proportionalitätsstufe 1–4
+- **Betrifft:** vorschriften.md, docs/01, src/proportionality, Schema
+- **Grundlagen:** BIB-MET-PROFIL
+- **Eingaben:** docs/plattform/ARCHITECTURE_GAP_ANALYSIS.md; docs/vorgaben/eingang-2026-11-12-plan/
+- **Optionen:**
+  1. Stufe 1–4 heißt künftig „Prüftiefenprofil“, „Assurance“ bleibt der Aussagequalität (Review, Unabhängigkeit, Methodik) vorbehalten – passt zur Begriffsdisziplin im README §5
+  2. Stufe 1–4 bleibt „Assurance Profile“, das Objekt aus 07 wird umbenannt
+- **Vorschlag:** Option 1 – das README des neuen Plans definiert Assurance als begrenzte Aussagequalität; die Stufe 1–4 beschreibt dagegen die Prüftiefe.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-031 · Statusvokabular der Beispiel-Cases abbilden
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** Gap-Analyse G-10
+- **Betrifft:** Schema, Plattform-API
+- **Grundlagen:** —
+- **Eingaben:** docs/plattform/ARCHITECTURE_GAP_ANALYSIS.md; docs/vorgaben/eingang-2026-11-12-plan/
+- **Optionen:**
+  1. UNVERIFIED/PROVISIONAL/DRAFT → Freigabe offen bzw. vorgeschlagen; POSSIBLY_APPLICABLE/REQUIRES_EXPERT_REVIEW → Anwendbarkeit undecided mit Grund; OPTIONAL_ASSESSMENT_CRITERION/POTENTIAL_VOLUNTARY_STANDARD → eigener Kriterientyp „freiwillig“
+  2. eigene Statuswerte der Cases beibehalten
+- **Vorschlag:** Option 1, Detailtabelle nach Eingang von Dokument 02.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-032 · Technologie, BPMN-Engine und DMN
+- **Status:** vorgeschlagen
+- **Typ:** organisation
+- **Ausgelöst durch:** README §2: Stack ausdrücklich offen; Handoff §2 Nr. 5, §5
+- **Betrifft:** gesamte Plattform
+- **Grundlagen:** —
+- **Eingaben:** docs/plattform/ARCHITECTURE_GAP_ANALYSIS.md; docs/vorgaben/eingang-2026-11-12-plan/
+- **Optionen:**
+  1. Regeln vorerst als versionierter, getesteter Code (heutiger Domänenkern); BPMN L1 deskriptiv weiter; Engine-Auswahl nach L1
+  2. sofort Engine und DMN-Werkzeug festlegen
+- **Vorschlag:** Option 1 – keine voreilige Festlegung, wie vom Handoff verlangt.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-033 · Einstufung mit vollständigem Fragebogen oder progressiv
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** Gap-Analyse G-06; ADR-005 (evidence-first, progressive Fragen)
+- **Betrifft:** src/fragebogen, src/werkzeuge/status.ts, Agent erhebung
+- **Grundlagen:** BIB-MET-PROFIL
+- **Eingaben:** docs/plattform/ARCHITECTURE_GAP_ANALYSIS.md; docs/vorgaben/eingang-2026-11-12-plan/
+- **Optionen:**
+  1. Einstufung schon mit Teilfakten; fehlende materielle Fakten werden als Unsicherheit und Grenzfall ausgewiesen, nicht-materielle mit konservativem Standard
+  2. vollständigen Fragebogen beibehalten
+- **Vorschlag:** Option 1, Materialität je Frage nach Dokument 02.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-034 · Rechtsgrundlage für proaktive Kontaktaufnahme (DiscoveryRun)
+- **Status:** vorgeschlagen
+- **Typ:** wissen
+- **Ausgelöst durch:** BPMN Process_DiscoveryRun, T_OutreachRules; Handoff §6 (keine Cold-E-Mail als Default)
+- **Betrifft:** Plattform-Funktion Outreach
+- **Grundlagen:** —
+- **Eingaben:** docs/plattform/ARCHITECTURE_GAP_ANALYSIS.md; docs/vorgaben/eingang-2026-11-12-plan/
+- **Optionen:**
+  1. Rechtsquellen (u. a. Wettbewerbsrecht zu Werbung per E-Mail/Telefon, DSGVO) als Snapshots erfassen, Regel ableiten; bis dahin Outreach technisch gesperrt
+  2. Discovery/Outreach aus dem Plattformumfang streichen
+- **Vorschlag:** Option 1 mit Sperre; im MVP nicht enthalten.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Freigegeben von:** —
