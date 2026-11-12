@@ -391,7 +391,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 3 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** mandanten/_vorlage/isms.md §1 (Bewertungsobjekte); src/werkzeuge/ergebnis.ts (Objekt-Spalte, Gesamturteil je Objekt); vorschriften.md §A3, §A5, §A14; Agent isms-pruefung; Dashboard; test/werkzeuge.test.ts 4h. Datenbank (Objekt-Bezug je Bewertung): MVP-Plan WP-04
+- **Abgelegt in:** mandanten/_vorlage/isms.md §1 (Bewertungsobjekte); src/werkzeuge/ergebnis.ts (Objekt-Spalte, Gesamturteil je Objekt); vorschriften.md §A3, §A5, §A14; Agent isms-pruefung; Dashboard; test/werkzeuge.test.ts 4h. Datenbank: db/migrations/0007 (assessment_object, object_id je Bewertung, Scope-Objekte), db/tests/0007_smoke.sql
 
 ## ENT-022 · Risikomethode für Mandate
 - **Status:** abgelegt

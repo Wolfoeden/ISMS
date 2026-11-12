@@ -30,10 +30,10 @@ Vorhanden und getestet: Domänenkern (`src/`), PostgreSQL-Schema mit RLS-Muster,
 | WP | Inhalt | Bestand | Nächster Schritt | Tests |
 |---|---|---|---|---|
 | WP-00 | Inventur, Zielarchitektur | ✔ Gap-Analyse, dieses Dokument | – | – |
-| WP-01 | Domain Schema, Tenants, Cases, Audit Events | ◐ Mandat, Rollen, RLS-Muster, append-only Log | Migration 0003: `tenant`, `intake_case`, `assessment_case`, `assessment_object`, `assessment_goal`, `scope_version`, `audit_event`; RLS auf **alle** Tabellen | TC-18, Cross-Tenant für jede Tabelle |
+| WP-01 | Domain Schema, Tenants, Cases, Audit Events | ✔ `tenant`, `assessment_case` (0005), `assessment_object`, `scope_version`, `audit_event` (0007), RLS auf allen Tabellen (0008) | Intake-Felder (WP-02); Anmeldung (Auth) an `app.person_id` anbinden | ✔ TC-18 (`db/tests/0008_smoke.sql`) |
 | WP-02 | Variante-C-Intake | ○ | Intake-Zustandsmaschine im Kern; `entryRoute`, Wechsel A↔B | TC-01, TC-02, US-A1 |
 | WP-03 | Produkt-/Organisationsobjekt, adaptive Kernfragen | ◐ Triage-Katalog (65 Fragen) | Fragenpool mit Materialität, Kernfragen 3–7, Objektzweig „Softwareprodukt“; Einstufung mit Teilfakten (ENT-033) | US-A3 Ask once, TC-09 |
-| WP-04 | Scope, Criteria, Modus, Assurance getrennt | ◐ Prüftiefenprofil, Kriterien, Bewertungsachsen | `handling_mode`, `assurance_statement`, mehrere Objekte/Frameworks je Case, ScopeVersion gesperrt | TC-03, US-B1, US-B3 |
+| WP-04 | Scope, Criteria, Modus, Assurance getrennt | ✔ `scope_version` mit Modus, Assurance-Aussage, Prüftiefenprofil; gesperrt nach Freigabe; Objekte je Scope; Bewertung je Objekt (0007) | Kriterien strukturiert statt Freitext (Framework/Version je Scope) | US-B1 ✔ (Schema), TC-03, US-B3 |
 | WP-05 | Mandat mit Scope-Fixierung | ◐ Mandat, Profilentscheidung | ✔ Mandatsstatus und Prüfvorgang (ENT-036, Migration 0005); Upload erst bei `active`; **idempotente** Mandatsanlage | TC-07, TC-08, TC-19, TC-20 |
 | WP-06 | Evidence Store, Provenienz, Deduplikation | ◐ Tabelle `evidence`, Prüfstufe, R1/R2 im Schema | Upload in verschlüsselten Speicher, Hash, Dedup über Hash; EvidenceLink mit Bewertungsumfang | TC-10, US-C1 |
 | WP-07 | Question/Task Engine + Client Portal | ○ | Task-Service (nicht BPMN, 02 §9); Portal S05/S06 | „nur eigene Aufgaben“ |
@@ -66,7 +66,7 @@ Jede Regel: `decision_id`, `version`, Ein-/Ausgabeschema, Testfälle inkl. Grenz
 | TC-14 Kundenwiderspruch | ✔ Kundenreaktion `bestritten` → erneute Prüfung | API-Test |
 | TC-16 Report limited | ◐ Freigabe-DoD, Pflicht „Einschränkungen“ | Endstatus `closed_with_limitations` |
 | TC-17 Normenversion | ◐ Policy-Version an Einstufung | Version-Pin + Impact-Entscheidung |
-| TC-18 Tenant Isolation | ✔ RLS-Test (Mandat, Finding) | für alle Tabellen + AI-Zugriffspfad |
+| TC-18 Tenant Isolation | ✔ alle Tabellen (Struktur- und Verhaltenstest, 0008) | AI-Zugriffspfad mit WP-08 |
 | TC-22 3PA-Bezeichnung | ◐ Sperrliste („zertifiziert“, „konform“) | Angebotsdialog |
 | TC-01–TC-11, TC-15, TC-19–TC-21 | ○ | mit WP-02 bis WP-10 |
 
@@ -75,9 +75,9 @@ Testdaten: nur fiktiv/anonymisiert (`07_BEISPIEL_CASES.json`, Fixtures). DB-Test
 ## 6. Reihenfolge
 
 1. Gate 0: Entscheidungen ENT-029, ENT-030, ENT-032, ENT-035, ENT-036 (+ ENT-026 für Berichtstexte).
-2. Migration 0003 (WP-01) + RLS für alle Tabellen + Audit Events.
+2. ✔ WP-01: Migrationen 0005, 0007, 0008 – Prüfvorgang, Objekte, Scope-Versionen, Audit-Protokoll, RLS für alle Tabellen.
 3. Intake + Objekt + Kernfragen (WP-02/03) als API ohne UI, getestet mit TC-01/02/09.
-4. Mandat + Scope-Lock (WP-04/05), Idempotenz TC-20.
+4. ◐ Mandat + Scope-Lock (WP-04/05): Status und Scope-Sperre ✔; offen: Angebotsversionen, Idempotenz TC-20.
 5. Evidence + Proposals + Lock (WP-06/08), TC-10/11/12.
 6. Register + Review + ReportVersion (WP-09/10), TC-13–16.
 7. Portal-Screens S01–S07 und Workspace S08–S13 als dünnes UI.

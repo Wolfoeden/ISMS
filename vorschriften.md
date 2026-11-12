@@ -40,7 +40,7 @@
 | 4 | **Keine Scheinkonformität:** Nicht Geprüftes oder nicht Belegtes nie als erfüllt ausgeben. | ✔ `pruefen` für `isms.md` |
 | 5 | **Mensch entscheidet:** Risikoakzeptanzen, Auditfeststellungen, Freigaben und finale Berichte bestätigen berechtigte Menschen. | ✔ Status `freigegeben` nur durch Menschen |
 | 6 | **Kontinuität:** Wiederholungsprüfungen, Versionsstände und Verbesserungen abbilden. | ◐ Git-Historie, Verlauf; Neubewertung [ENT-010] |
-| 7 | **Mandantentrennung:** Daten, Bewertungen, Belege und Rechte verschiedener Kunden konsequent trennen. | ✔ privates Repository je Kunde (`ISMS_MANDANTEN`, [ENT-012]), RLS im Schema |
+| 7 | **Mandantentrennung:** Daten, Bewertungen, Belege und Rechte verschiedener Kunden konsequent trennen. | ✔ privates Repository je Kunde (`ISMS_MANDANTEN`, [ENT-012]); Plattform: RLS auf allen Tabellen (Migration 0008) |
 
 ## A3. Leistungsarten
 
@@ -89,7 +89,7 @@ Ein Assessment **DARF** erst abgeschlossen werden, wenn alle Pflichtschritte erl
 |---|---|---|
 | Organization / OrganizationProfile | Mandant, Branche, Größe, Geschäftsmodell | ✔ `organization`, `complexity_assessment` |
 | Engagement / Assessment | Auftrag, Typ, Scope, Kriterien, Stand | ✔ `mandate` |
-| Scope / AssessmentObject | Grenzen, Einheiten, Produkte, Prozesse, Ausnahmen; ein Mandat, mehrere Bewertungsobjekte | ◐ `isms.md` §1 Bewertungsobjekte, werkzeuggeprüft ([ENT-021]); Datenbank mit WP-04 |
+| Scope / AssessmentObject | Grenzen, Einheiten, Produkte, Prozesse, Ausnahmen; ein Mandat, mehrere Bewertungsobjekte | ✔ `isms.md` §1 Bewertungsobjekte, werkzeuggeprüft; Datenbank `assessment_object`, `scope_version` gesperrt, Bewertung je Objekt (Migration 0007) ([ENT-021]) |
 | Framework / Version / Requirement | Quelle, Version, Anforderung, Anwendbarkeit | ✔ Bibliothek, `requirement_assessment` |
 | Stakeholder / Role / User | Interessen, Zuständigkeit, Rechte | ✔ `person`, `mandate_role` |
 | Asset / BusinessProcess / InformationSystem | Werte, Eigentümer, Schutzbedarf | ○ |
@@ -308,7 +308,7 @@ Neue Funktionen sind abnahmefähig, wenn Tests diese Fälle abdecken:
 | Unbefugte können keine Berichte freigeben | ✔ Regeln G5, Quality Gate |
 | Historische Berichte referenzieren damalige Bewertungsstände | ◐ Policy-Version, Git |
 | Dokumentinhalte überschreiben keine Regeln (Prompt Injection) | ○ Regel in `CLAUDE.md`, kein Test |
-| Organisatorisches 3PA und Produktbewertung bleiben unterscheidbar | ✔ Arbeitssystem: Spalte `Objekt`, Gesamturteil je Objekt ([ENT-021]); Datenbank mit WP-04 |
+| Organisatorisches 3PA und Produktbewertung bleiben unterscheidbar | ✔ Arbeitssystem: Spalte `Objekt`, Gesamturteil je Objekt; Datenbank: `object_id` je Bewertung (0007) ([ENT-021]) |
 | Unzulässige Formulierungen in Endergebnissen werden abgelehnt | ✔ §A17.4 |
 | Freigabe von `isms.md` nur mit vollständigem Prüfergebnis | ✔ |
 
