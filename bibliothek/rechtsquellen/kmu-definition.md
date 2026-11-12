@@ -28,11 +28,15 @@ naechste_pruefung: 2027-11-12
 3. **Kleines Unternehmen: weniger als 50 Beschäftigte und Umsatz bzw. Bilanz ≤ 10 Mio. EUR.**
    > [eu-kmu-anhang-art02.txt · Art. 2 Abs. 2] Innerhalb der Kategorie der KMU wird ein kleines Unternehmen als ein Unternehmen definiert, das weniger als 50 Personen beschäftigt und dessen Jahresumsatz bzw. Jahresbilanz 10 Mio. EUR nicht übersteigt.
 
+4. **Kleinstunternehmen: weniger als 10 Beschäftigte und Umsatz bzw. Bilanz ≤ 2 Mio. EUR.**
+   > [eu-kmu-anhang-art02.txt · Art. 2 Abs. 3] Innerhalb der Kategorie der KMU wird ein Kleinstunternehmen als ein Unternehmen definiert, das weniger als 10 Personen beschäftigt und dessen Jahresumsatz bzw. Jahresbilanz 2 Mio. EUR nicht überschreitet.
+
 ## Bedeutung für die ISMS-Parameter
 
 *Auslegung – verbindlich erst nach Verifikation.*
 
 - Die Schwellen in § 28 BSIG (50 / 10 / 10 und 250 / 50 / 43) entsprechen diesen Größenklassen; Fragebogen `ORG-01`, `STA-06`, `STA-07`, `STA-08`.
+- Größenklassen kleinst / klein / mittel / groß als abgeleitete Eingangsgröße: Vorschlag in [ENT-019].
 
 ## Grenzen und offene Punkte
 

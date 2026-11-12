@@ -1,0 +1,10 @@
+Quelle:    Urheberrechtsgesetz (UrhG)
+Teil:      § 44b Text und Data Mining
+URL:       https://www.gesetze-im-internet.de/urhg/__44b.html
+Fassung:   UrhG vom 9.9.1965 (BGBl. I S. 1273), zuletzt geändert durch Art. 2 G v. 26.5.2026 (BGBl. 2026 I Nr. 157)
+Abgerufen: 2026-11-12
+Hinweis:   Automatisch extrahierter Wortlaut (amtliches Werk). Maßgeblich ist die amtliche Veröffentlichung.
+------------------------------------------------------------------------------
+(1) Text und Data Mining ist die automatisierte Analyse von einzelnen oder mehreren digitalen oder digitalisierten Werken, um daraus Informationen insbesondere über Muster, Trends und Korrelationen zu gewinnen.
+(2) Zulässig sind Vervielfältigungen von rechtmäßig zugänglichen Werken für das Text und Data Mining. Die Vervielfältigungen sind zu löschen, wenn sie für das Text und Data Mining nicht mehr erforderlich sind.
+(3) Nutzungen nach Absatz 2 Satz 1 sind nur zulässig, wenn der Rechtsinhaber sich diese nicht vorbehalten hat. Ein Nutzungsvorbehalt bei online zugänglichen Werken ist nur dann wirksam, wenn er in maschinenlesbarer Form erfolgt.

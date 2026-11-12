@@ -27,7 +27,7 @@
 5. Ausgabe und Anwendbarkeit eines Regelwerks **MÜSSEN** vor produktiver Nutzung geprüft sein; Versionsangaben sind keine Aktualitätsgarantie. ✔ `naechste_pruefung`
 6. Bei Versionswechseln **DÜRFEN** bestehende Bewertungen **NICHT** stillschweigend umgestellt werden; der Wechsel wird gemappt und als Entscheidung dokumentiert. ◐ Policy-Version bei Einstufungen; Mapping offen
 7. Jede normative Aussage **MUSS** Quelle, Fundstelle, Version und Anwendbarkeitsbezug haben. ✔ Zitatprüfung für Rechtsquellen; ◐ Normen nur mit Fundstelle
-8. Urheberrechtlich geschützte Normtexte **DÜRFEN NICHT** ohne Nutzungsrecht übernommen werden – auch nicht in Kundenausgaben, Prompts oder mandantenübergreifende Suchindizes. Zulässig: Kennungen, Kurztitel, eigene gekennzeichnete Zusammenfassungen. Lizenzumfang: [ENT-014].
+8. Urheberrechtlich geschützte Normtexte **DÜRFEN NICHT** ohne Nutzungsrecht übernommen werden – auch nicht in Kundenausgaben, Prompts oder mandantenübergreifende Suchindizes. Zulässig: Kennungen, eigene gekennzeichnete Zusammenfassungen mit hinreichendem Abstand zum Normtext. Eine „überarbeitete Fassung“ ist nicht automatisch frei; zusätzlich gelten die Lizenzbedingungen ([BIB-URHG], [ENT-026]).
 
 ## A2. Fachprinzipien
 
@@ -141,7 +141,7 @@ Methode und Skalen für Mandate: [ENT-022].
 
 Fragebogen-Antworten sind `claim`s: Sie genügen für die Einstufung, **nie** für die Bewertung `met` eines Controls oder einer Anforderung.
 
-**Harmonisiertes Statusmodell** (ersetzt die drei abweichenden Listen der Eingangsdokumente, [ENT-018]):
+**Statusmodell – vorläufig.** Die folgende Liste vereinheitlicht die drei Listen der Eingangsdokumente. Sie mischt jedoch Anwendbarkeit, Bearbeitungsstand, Beweislage und Ergebnis; ein Achsenmodell mit berechnetem Berichtsstatus liegt zur Entscheidung vor ([ENT-018], [ENT-027], [ENT-028], Vorlage `docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md`). Bis dahin gilt:
 
 *Anforderungen* (ISO/IEC 27001 Abschnitte 4–10, gesetzliche Pflichten, Kundenanforderungen) – ein Status:
 
@@ -222,7 +222,7 @@ Berichte **DÜRFEN** den geprüften Scope nicht überschreiten und **DÜRFEN NIC
 
 ## A13. Proportionalität
 
-Die Assessment-Tiefe steuert das **Assurance Profile** 1 Lean · 2 Standard · 3 Enhanced · 4 Critical/Regulated ([BIB-MET-PROFIL], `plan.md` §5). Die Größenklassen `micro` · `sme` · `enterprise` aus dem Eingangsdokument sind **keine** Steuerungsprofile; die Unternehmensgröße (Kleinst-, kleine, mittlere, große Unternehmen nach [BIB-KMU]) ist nur eine Eingangsgröße der Dimension Organization ([ENT-019]).
+Die Assessment-Tiefe steuert das **Assurance Profile** 1 Lean · 2 Standard · 3 Enhanced · 4 Critical/Regulated ([BIB-MET-PROFIL], `plan.md` §5). Die Größenklassen `micro` · `sme` · `enterprise` aus dem Eingangsdokument sind **keine** Steuerungsprofile für Prüfumfang oder -tiefe. Vorschlag zur Entscheidung ([ENT-019]): Größenklasse kleinst / klein / mittel / groß nach [BIB-KMU] als berechnete Eingangsgröße, die nur die Organisationsform des Assessments steuert (Gesprächspartner, Rollenbündelung, Freigabewege).
 
 Vor jeder Konfiguration **MUSS** geprüft sein: Geschäftsmodell und Leistungen · Art und Kritikalität der Informationen · Kunden- und Vertragspflichten · regulatorische Pflichten · Dienstleister, Cloud und Lieferkette · IT-/OT-Systeme · relevante Risiken. ✔ Fragebogen-Abschnitte
 

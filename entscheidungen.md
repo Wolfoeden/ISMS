@@ -242,6 +242,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** Statusmodell von Bibliothek und Entscheidungen verlangt benannte Menschen
 - **Betrifft:** plan.md §6, CLAUDE.md
 - **Grundlagen:** —
+- **Eingaben:** Chat 2026-11-12: Paul verifiziert die ISO-Bibliothekseinträge
 - **Optionen:**
   1. Bibliothek und Methodik: Methodik-Verantwortliche/r; Mandatsentscheidungen: Engagement Lead; Risikoakzeptanz und Scope: Kunde (Executive Sponsor / Risk Owner)
 - **Vorschlag:** —
@@ -257,11 +258,12 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** BIB-ISO27001 ohne Normexemplar nicht verifizierbar; am 2026-11-12 Projektaufbereitungen aus DIN EN ISO/IEC 27001:2024-01, DIN EN ISO/IEC 27002:2024-01 (TÜV-Süd-Akademie-E-Book) und ISO/IEC 27000:2018 geliefert
 - **Betrifft:** bibliothek/normen/, vorschriften.md §B4, §B5
 - **Grundlagen:** BIB-ISO27000, BIB-ISO27001, BIB-ISO27002
-- **Eingaben:** docs/vorgaben/eingang-2026-11-12/, docs/vorgaben/pruefbericht-2026-11-12.md
+- **Eingaben:** docs/vorgaben/eingang-2026-11-12/, docs/vorgaben/pruefbericht-2026-11-12.md; Chat 2026-11-12: Paul übernimmt den Abgleich
 - **Optionen:**
   1. Ein Mensch mit Zugriff auf die E-Books gleicht die drei Einträge ab (Kurztitel, Abschnittsnummern, Kernaussagen) und verifiziert sie
   2. zusätzlich Amd 1:2024 beschaffen und als eigenen Eintrag erfassen
-- **Vorschlag:** Option 1 und 2. Vorher Lizenzumfang klären: E-Books sind oft personen- oder arbeitsplatzgebunden – Nutzung als Grundlage einer Wissensbasis für mehrere Berater und Agents muss die Lizenz abdecken (Vorschriften §A1 Nr. 8).
+- **Vorschlag:** Option 1 durch Paul, Option 2 danach. Lizenz- und Urheberrechtsfrage getrennt in [ENT-026].
+- **Zuständig:** Paul (laut Chat 2026-11-12) – Rolle für den Verifikationsvermerk noch angeben
 - **Vorgeschlagen von:** Agent bibliothek, 2026-11-12
 - **Entscheidung:** —
 - **Verifiziert von:** —
@@ -317,31 +319,34 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 ## ENT-018 · Einheitliches Bewertungsstatusmodell
 - **Status:** vorgeschlagen
 - **Typ:** methodik
-- **Ausgelöst durch:** Prüfbericht P-01: drei abweichende Statuslisten in den Eingangsdokumenten (Vorschriften §9, ISO-27001 §2 Nr. 11, ISO-27002 §2 Nr. 5)
+- **Ausgelöst durch:** Prüfbericht P-01; Auftrag Paul 2026-11-12: Statusmodell muss in die gesamte Logik passen
 - **Betrifft:** vorschriften.md §A8, isms.md §6, db/migrations (künftige Tabellen)
 - **Grundlagen:** BIB-ISO27001, BIB-ISO27002
-- **Eingaben:** docs/vorgaben/pruefbericht-2026-11-12.md
+- **Eingaben:** docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md
 - **Optionen:**
-  1. Anforderungen: ein Status aus 8 Werten (not_assessed, evidence_missing, insufficient_evidence, partially_met, met, not_met, not_applicable, needs_review); Controls: drei Felder Anwendbarkeit / Umsetzung / Wirksamkeit
-  2. eine gemeinsame Liste für alles
-- **Vorschlag:** Option 1 wie in vorschriften.md §A8 beschrieben; Zuordnung der alten Werte (conforming → met, nonconforming → not_met, not_evidenced → evidence_missing).
+  A. eine Liste mit 8 Werten (Stand vorschriften.md §A8)
+  B. Achsenmodell: Anwendbarkeit, Erfüllung bzw. Umsetzung/Wirksamkeit, Evidenzlage, Freigabe getrennt
+  C. wie B, der 8-Werte-Status wird für Berichte berechnet (Regeln R1–R6, Ableitungstabelle)
+  Teilfragen: 018.1 Sprache der Werte · 018.2 Lücke schon auf Aussage hin berichten · 018.3 Wirksamkeitspflicht ab Tiefe 3
+- **Vorschlag:** C mit 018.1 englische Codes / deutsche Bezeichnungen, 018.2 ja, 018.3 ja – Begründung und Beispiele in der Entscheidungsvorlage. Die 8-Werte-Liste mischt Anwendbarkeit, Bearbeitungsstand, Beweislage und Ergebnis und lässt das Assurance Profile in der Bewertung folgenlos.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Verifiziert von:** —
 - **Verifiziert am:** —
 - **Abgelegt in:** —
 
-## ENT-019 · Größenklassen micro / sme / enterprise als Steuerungsprofile streichen
+## ENT-019 · Größenklassen: Rolle von micro / sme / enterprise
 - **Status:** vorgeschlagen
 - **Typ:** methodik
 - **Ausgelöst durch:** Prüfbericht P-02: Eingangsdokument Vorschriften §14 steuert die Tiefe über Größenklassen – Widerspruch zu „Profile sind keine Größenklassen“
 - **Betrifft:** vorschriften.md §A13
 - **Grundlagen:** BIB-BSIG-30, BIB-KMU, BIB-MET-PROFIL
-- **Eingaben:** docs/vorgaben/pruefbericht-2026-11-12.md
+- **Eingaben:** docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md
 - **Optionen:**
-  1. Assurance Profile 1–4 steuert die Tiefe; Größe nur als Eingangsgröße (KMU-Klassen)
-  2. beide Profilsysteme parallel
-- **Vorschlag:** Option 1. § 30 Abs. 1 Satz 2 BSIG nennt die Größe als einen von mehreren Faktoren der Verhältnismäßigkeit, nicht als alleinigen.
+  A. Größenklassen streichen, nur Assurance Profile
+  B. Größenklasse kleinst / klein / mittel / gross nach KMU-Empfehlung als berechnete Eingangsgröße (NIS2-Vorprüfung, Dimension Organization, Aufwand)
+  C. wie B; zusätzlich steuert die Größenklasse die Organisationsform (Gesprächspartner, Rollenbündelung, Freigabewege) – nie Prüfumfang oder Prüftiefe
+- **Vorschlag:** C. micro/sme/enterprise verwischt die NIS2-Schwelle bei 50 Beschäftigten (sme = klein + mittel); die KMU-Klassen tun das nicht. Größe beeinflusst, wie geprüft wird, nie was und wie tief.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Verifiziert von:** —
@@ -371,7 +376,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** Prüfbericht P-04: Pilotfall Einzelunternehmer mit Softwareprodukt; Mandat hat heute genau einen Freitext-Scope
 - **Betrifft:** mandanten/_vorlage (isms.md §1, E-001), Fragebogen, Datenmodell
 - **Grundlagen:** —
-- **Eingaben:** docs/vorgaben/pruefbericht-2026-11-12.md
+- **Eingaben:** Chat 2026-11-12: Paul legt einen überarbeiteten plan.md vor – Entscheidung danach
 - **Optionen:**
   1. mehrere Scopes je Mandat (Organisation, Produkt), jeder mit eigener Bewertung, gemeinsamer Fragebogen
   2. je Scope ein eigenes Mandat, verknüpft über die Organisation
@@ -444,6 +449,60 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   1. Zuordnung wie in vorschriften.md §B5.3
   2. offizielle Zuordnungstabellen (z. B. von BSI oder ENISA) recherchieren und übernehmen
 - **Vorschlag:** Erst Option 2 prüfen (Agent bibliothek); bis dahin Option 1 als Arbeitsgrundlage, gekennzeichnet als Auslegung.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Verifiziert von:** —
+- **Verifiziert am:** —
+- **Abgelegt in:** —
+
+## ENT-026 · Urheberrecht und Lizenz: Umgang mit Norminhalten
+- **Status:** vorgeschlagen
+- **Typ:** organisation
+- **Ausgelöst durch:** Frage Paul 2026-11-12: „keine ISO-Dokumente, sondern überarbeitete Version – erfüllen wir die gesetzlichen Vorschriften?“
+- **Betrifft:** bibliothek/normen/, docs/vorgaben/, künftige Plattform (P1), Kundenberichte
+- **Grundlagen:** BIB-URHG
+- **Eingaben:** Chat 2026-11-12; docs/vorgaben/pruefbericht-2026-11-12.md P-16
+- **Optionen:**
+  1. Interne Nutzung wie heute; Paul prüft die Lizenzbedingungen der E-Books (Nutzerkreis, abgeleitete Werke, KI-Verarbeitung)
+  2. DIN-Kurztitel und PDF-Seitenzahlen sofort durch eigene Kurzbezeichnungen ersetzen – nur Nummern und eigene Texte
+  3. Vor kommerzieller Nutzung (Katalog in der Plattform, Weitergabe an Kunden) Lizenz beim Rechteinhaber anfragen bzw. anwaltlich prüfen lassen
+- **Vorschlag:** 1 sofort, 3 vor P1; 2 nur, falls die Lizenz Auszüge nicht erlaubt. Kundenberichte enthalten bis dahin nur Abschnittsnummern und eigene Texte. Begründung: Gesetze sind frei (§ 5 Abs. 1 UrhG), Normen bleiben geschützt (§ 5 Abs. 3); eine Überarbeitung ist nur frei, wenn sie hinreichenden Abstand hält (§ 23 Abs. 1) – Lizenzbedingungen gelten zusätzlich.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Verifiziert von:** —
+- **Verifiziert am:** —
+- **Abgelegt in:** —
+
+## ENT-027 · Ein Freigabebegriff und ein Finding-Ablauf
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** Entscheidungsvorlage Statusmodell: „verifiziert“ hat drei Bedeutungen; Findings laufen doppelt (Entscheidungsseite und Plattform-Code)
+- **Betrifft:** vorschriften.md §A9, src/engagement/findings.ts, db/migrations, Vorlage entscheidungen.md
+- **Grundlagen:** —
+- **Eingaben:** docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md
+- **Optionen:**
+  A. „verifiziert“ überall = benannter, berechtigter Mensch hat geprüft/entschieden; Findings über die Entscheidungsseite, Feld „Kundenreaktion“; Plattform-Code übernimmt die Stufen
+  B. eigene Begriffe je Objekt (verifiziert, freigegeben, bestätigt)
+  C. nur Zuordnungstabelle
+- **Vorschlag:** A
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Verifiziert von:** —
+- **Verifiziert am:** —
+- **Abgelegt in:** —
+
+## ENT-028 · Lebenszyklen für Nachweis, Risiko, Maßnahme, Mandat und isms.md
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** vorschriften.md §A6, §A8 verlangen Status, die im Repository fehlen
+- **Betrifft:** Vorlagen notizen/, entscheidungen.md (Typ risiko, massnahme), isms.md, Werkzeug pruefen
+- **Grundlagen:** —
+- **Eingaben:** docs/vorschlaege/2026-11-12-statusmodell-und-groessenklassen.md
+- **Optionen:**
+  A. alle Stufen jetzt in Vorlagen, Werkzeugprüfung schrittweise
+  B. Nachweis und Maßnahme jetzt, Risiko nach ENT-022
+  C. später
+- **Vorschlag:** A
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Verifiziert von:** —

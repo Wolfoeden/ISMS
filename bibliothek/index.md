@@ -19,6 +19,7 @@
 | BIB-ISO27002 | ISO/IEC 27002:2022 – Control-Katalog (93 Maßnahmen), Attribute, Nachweiskategorien | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27002-2022-controls.md](normen/iso-iec-27002-2022-controls.md) |
 | BIB-KMU | KMU-Definition (Empfehlung 2003/361/EG) – Schwellenwerte für NIS2/BSIG | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/kmu-definition.md](rechtsquellen/kmu-definition.md) |
 | BIB-MET-PROFIL | Methodik – Ableitung des Assurance Profile (Policy 2026-11.1) | methodik | entwurf | — | 2027-05-12 | [methodik/assurance-profile.md](methodik/assurance-profile.md) |
+| BIB-URHG | Urheberrecht – Schutz von Normen, Bearbeitungen, Text und Data Mining, Zitate | rechtsquelle | quellengeprueft | — | 2027-05-12 | [rechtsquellen/urhg-normen-und-ableitungen.md](rechtsquellen/urhg-normen-und-ableitungen.md) |
 
 ## Quellen-Snapshots
 
@@ -31,6 +32,10 @@
 - [quellen/de-bsig-p33.txt](quellen/de-bsig-p33.txt) – BIB-BSIG-33
 - [quellen/de-bsig-p38.txt](quellen/de-bsig-p38.txt) – BIB-BSIG-38
 - [quellen/de-bsig-p39.txt](quellen/de-bsig-p39.txt) – BIB-BSIG-39
+- [quellen/de-urhg-p23.txt](quellen/de-urhg-p23.txt) – BIB-URHG
+- [quellen/de-urhg-p44b.txt](quellen/de-urhg-p44b.txt) – BIB-URHG
+- [quellen/de-urhg-p5.txt](quellen/de-urhg-p5.txt) – BIB-URHG
+- [quellen/de-urhg-p51.txt](quellen/de-urhg-p51.txt) – BIB-URHG
 - [quellen/eu-dsgvo-art09.txt](quellen/eu-dsgvo-art09.txt) – BIB-DSGVO-09
 - [quellen/eu-dsgvo-art32.txt](quellen/eu-dsgvo-art32.txt) – BIB-DSGVO-32
 - [quellen/eu-dsgvo-art33.txt](quellen/eu-dsgvo-art33.txt) – BIB-DSGVO-32
