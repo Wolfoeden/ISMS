@@ -373,17 +373,18 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-021 · Getrennte, verknüpfte Scopes für Organisation und Produkt (Pilotfall)
-- **Status:** offen
+- **Status:** vorgeschlagen
 - **Typ:** scope
 - **Ausgelöst durch:** Prüfbericht P-04: Pilotfall Einzelunternehmer mit Softwareprodukt; Mandat hat heute genau einen Freitext-Scope
 - **Betrifft:** mandanten/_vorlage (isms.md §1, E-001), Fragebogen, Datenmodell
 - **Grundlagen:** —
-- **Eingaben:** Chat 2026-11-12: Paul legt einen überarbeiteten plan.md vor – Entscheidung danach
+- **Eingaben:** Chat 2026-11-12: Paul legt einen überarbeiteten plan.md vor – Entscheidung danach; neuer Plan 02 §3 (`AssessmentObject`, `Organization 1:n AssessmentObject`), 02 §2 P2 (ein Mandat, mehrere Objekte), 07 (`assessmentObject` je Case)
 - **Optionen:**
   1. mehrere Scopes je Mandat (Organisation, Produkt), jeder mit eigener Bewertung, gemeinsamer Fragebogen
   2. je Scope ein eigenes Mandat, verknüpft über die Organisation
-- **Vorschlag:** —
-- **Vorgeschlagen von:** —
+  3. ein Mandat mit mehreren Bewertungsobjekten (Organisation, Produkt …) nach 02; je Objekt eigene Grenzen, Kriterien und Bewertung, gemeinsame Fakten (Ask once), ein Bericht mit getrennten Aussagen je Objekt
+- **Vorschlag:** Option 3 – entspricht dem Datenmodell des neuen Plans und dem Pilotfall ADR-009; Option 1 ist darin enthalten, Option 2 würde gemeinsame Fakten doppelt erheben.
+- **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Freigegeben von:** —
 - **Freigegeben am:** —
@@ -517,7 +518,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Ausgelöst durch:** ENT-027 Auflage (Paul, 2026-11-12): Wording muss zu Fachinhalten und Normen passen und klar sein
 - **Betrifft:** vorschriften.md §A9, §A17.1; alle Status- und Feldnamen (`freigegeben`, „Freigegeben von/am“, `/freigeben`)
 - **Grundlagen:** BIB-ISO27001
-- **Eingaben:** docs/vorschlaege/2026-11-12-ENT-026-029-formulierungen-und-begriffe.md Teil 3; neuer Plan docs/vorgaben/eingang-2026-11-12-plan (ADR-006, ADR-008, BPMN) trennt „verifizieren“ und „Freigabe“
+- **Eingaben:** docs/vorschlaege/2026-11-12-ENT-026-029-formulierungen-und-begriffe.md Teil 3; neuer Plan docs/vorgaben/eingang-2026-11-12-plan (ADR-006, ADR-008, BPMN) trennt „verifizieren“ und „Freigabe“; 02 §7.1 Governance-Matrix mit getrennten Spalten V (fachlich verifiziert) und F (freigegeben); 02 §4.4 Artefaktstatus `ai_proposed → in_review → verified → persisted_locked`
 - **Optionen:**
   1. „freigegeben“ für die menschliche Genehmigung; „Verifizierung“/`quellengeprueft` nur für den Abgleich mit Quelle oder Nachweis (umgesetzt)
   2. „verifiziert“ für alles (ursprünglicher Vorschlag in der Entscheidungsvorlage)
@@ -556,7 +557,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Optionen:**
   1. UNVERIFIED/PROVISIONAL/DRAFT → Freigabe offen bzw. vorgeschlagen; POSSIBLY_APPLICABLE/REQUIRES_EXPERT_REVIEW → Anwendbarkeit undecided mit Grund; OPTIONAL_ASSESSMENT_CRITERION/POTENTIAL_VOLUNTARY_STANDARD → eigener Kriterientyp „freiwillig“
   2. eigene Statuswerte der Cases beibehalten
-- **Vorschlag:** Option 1, Detailtabelle nach Eingang von Dokument 02.
+- **Vorschlag:** Option 1. Detailtabelle nach 02: Artefaktstatus `ai_proposed`/`in_review` → Freigabe vorgeschlagen; `verified` → verifiziert (ENT-029); `persisted_locked` → freigegeben und gesperrt; `superseded` → ersetzt; `rejected_with_reason` → abgelehnt; `deferred_with_owner_impact_trigger` → offen mit Verantwortlichem; D-05 `applicable`/`not_applicable` → Anwendbarkeit applicable/not_applicable, `uncertain`/`review_required` → undecided mit Grund; D-09 `sufficient/insufficient/expired/unsupported` → Evidenzlage sufficient/insufficient, Nachweis abgelaufen bzw. ungeeignet; Fakt `unknown` → Umsetzung unknown.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Freigegeben von:** —
@@ -608,6 +609,41 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
   1. Rechtsquellen (u. a. Wettbewerbsrecht zu Werbung per E-Mail/Telefon, DSGVO) als Snapshots erfassen, Regel ableiten; bis dahin Outreach technisch gesperrt
   2. Discovery/Outreach aus dem Plattformumfang streichen
 - **Vorschlag:** Option 1 mit Sperre; im MVP nicht enthalten.
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-035 · Prüftiefe: drei Stufen (Basis/Standard/Enhanced) oder vier Profile
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** neuer Plan 06 DEC-11 (Basis / Standard / Enhanced als interne Methodik), 02 D-07 (Ausgabe Sampling, Tiefe, Review-Level); Repository: Profil 1–4 mit Untergrenzen F1–F8
+- **Betrifft:** vorschriften.md Teil A, src/proportionality, Schema, D-07
+- **Grundlagen:** BIB-MET-PROFIL
+- **Eingaben:** docs/vorgaben/eingang-2026-11-12-plan/06_FACHLICHE_ENTSCHEIDUNGEN.md; 02_FACHKONZEPT_UND_DATENMODELL.md §5
+- **Optionen:**
+  1. vier Profile bleiben intern; nach außen drei Tiefen (Profil 1 → Basis, 2 → Standard, 3 und 4 → Enhanced); Untergrenzen F1–F8 unverändert
+  2. auf drei Stufen umstellen; Untergrenzen neu zuordnen
+  3. vier Stufen auch nach außen
+- **Vorschlag:** Option 1 – die getesteten Untergrenzen bleiben, die Angebotssprache folgt DEC-11; die Tiefe bleibt getrennt von Modus und Assurance-Aussage (ENT-030).
+- **Vorgeschlagen von:** Agent, 2026-11-12
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-036 · Mandats- und Case-Status an den neuen Plan angleichen
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** 02 §4.2 Mandat `draft → offered → signed → active → closed` (+ `rejected`, `expired`, `terminated`) und §4.3 AssessmentCase; Schema 0001: `planned/active/closed/cancelled`
+- **Betrifft:** db/migrations, src/engagement/model.ts, mandanten/_vorlage
+- **Grundlagen:** —
+- **Eingaben:** docs/vorgaben/eingang-2026-11-12-plan/02_FACHKONZEPT_UND_DATENMODELL.md §4
+- **Optionen:**
+  1. Mandatsstatus nach 02 übernehmen (`planned` → `draft`/`offered`/`signed`, `cancelled` → `rejected`/`expired`/`terminated`); Case-Status als eigene Entität; vertrauliche Uploads erst ab `active`
+  2. heutige vier Status behalten, 02 nur abbilden
+- **Vorschlag:** Option 1 mit Migration 0003; bestehende Regel „aktiv nur mit Profilentscheidung“ bleibt.
 - **Vorgeschlagen von:** Agent, 2026-11-12
 - **Entscheidung:** —
 - **Freigegeben von:** —

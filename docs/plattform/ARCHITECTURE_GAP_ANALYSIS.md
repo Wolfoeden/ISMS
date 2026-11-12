@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| Stand | 2026-11-12 · Erstausgabe nach `05_CLAUDE_HANDOFF.md` §8 Nr. 1 |
-| Eingänge | `docs/vorgaben/eingang-2026-11-12-plan/` (README, 03 BPMN, 05 Handoff, 07 Beispiel-Cases, validate_bpmn.py) |
-| **Fehlende Eingänge** | **01** Journey, **02** Fachkonzept/Datenmodell/DMN-Katalog, **04** MVP-Backlog/Testfälle, **06** fachliche Entscheidungen, **08** BPMN-Traceability. Alles, was davon abhängt, ist unten als **blockiert** markiert – nichts davon wurde ergänzt oder angenommen. |
+| Stand | 2026-11-12 · Rev. 2 nach Eingang von 01, 02, 04, 06, 08 |
+| Eingänge | `docs/vorgaben/eingang-2026-11-12-plan/` (README, 01–08, BPMN, 07 Beispiel-Cases, validate_bpmn.py); weiterhin fehlen `build_bpmn.py` und 09 (nicht blockierend) |
+| Folgedokumente | [`SERVICE_BLUEPRINT_IMPLEMENTATION.md`](SERVICE_BLUEPRINT_IMPLEMENTATION.md), [`MVP_TECHNICAL_PLAN.md`](MVP_TECHNICAL_PLAN.md) |
 | Entscheidungen | [`DECISION_LOG.md`](DECISION_LOG.md) |
 
 ## 1. Repository-Inventur
@@ -39,9 +39,9 @@
 | G-02 | Frameworks nicht exklusiv; Gegenstand, Ziel, Rechtsnorm, Standard, Methode, Modus, Tiefe, Assurance getrennt (ADR-002, ADR-007) | Regelwerke je Eintrag (`vorschriften.md` Teil B); Assurance Profile; Tiefe | Assessment-**Objekt**, **Handling Mode**, Framework-Kandidaten je Case mit Status | H | Objekt- und Kandidatenmodell (Slice 1) | Case mit 2 Kandidaten unterschiedlichen Status |
 | G-03 | DiscoveryRun 1:n Candidate, je Candidate eigene Case-Instanz (ADR-003, R3) | – | vollständig | M | nach MVP; erst Rechtsgrundlage Kontaktaufnahme ([ENT-034]) | getrennte Case-Daten je Candidate |
 | G-04 | Kontaktaufnahme nur rechtlich zulässig; keine Cold-E-Mail als Default (Handoff §6) | – | Rechtsgrundlage in der Bibliothek, Regel `T_OutreachRules` | **H (rechtlich)** | Wissen erfassen ([ENT-034]); Funktion standardmäßig gesperrt | Outreach ohne Freigabe technisch blockiert |
-| G-05 | Kundenoberfläche und Consultant Workspace getrennt, gleiche Daten/Regeln (ADR-004); Screens S01–S13 | – | vollständig | H | **blockiert** – Screens und Felder stehen in 01/02 | – |
+| G-05 | Kundenoberfläche und Consultant Workspace getrennt, gleiche Daten/Regeln (ADR-004); Screens S01–S13 | – | vollständig | H | Spezifikation S01–S13 im Service Blueprint | je Screen Rechte- und Fehlerzustandstest |
 | G-06 | Evidence-first, progressive Fragen statt starrer Fragebögen (ADR-005) | 65-Fragen-Katalog; Einstufung verlangt alle 57 Faktfragen | adaptive Fragenauswahl, Materialität je Frage | M | Fragen als Pool mit Materialität; Einstufung mit Teilfakten + Unsicherheit ([ENT-033]) | Einstufung mit fehlenden nicht-materiellen Fakten |
-| G-07 | AI schlägt vor, Regeln berechnen, Berechtigte verifizieren (ADR-006, R4) | deterministische Regeln mit Policy-Version; Agent darf nie freigeben (Werkzeug, Schema) | DMN-Verträge D-03…D-13; Plattform-AI-Dienst | M | Regelverträge versioniert; **DMN-Inhalte blockiert** (02) | Regel-Ein-/Ausgaben versioniert, reproduzierbar |
+| G-07 | AI schlägt vor, Regeln berechnen, Berechtigte verifizieren (ADR-006, R4) | deterministische Regeln mit Policy-Version; Agent darf nie freigeben (Werkzeug, Schema) | DMN-Verträge D-03…D-13; Plattform-AI-Dienst | M | Regelverträge D-01…D-13 nach 02 §5 (Zuordnung im MVP-Plan §4) | Regel-Ein-/Ausgaben versioniert, reproduzierbar |
 | G-08 | Verifizierte Artefakte versioniert, unveränderlich (ADR-008, R6) | Git-Historie; append-only Transition-Log; Policy-Version | Versionstabellen für Scope, Profil, Kriterien, Bericht | H | Versionierung je Fachobjekt (Slice 2) | Update eines freigegebenen Objekts erzeugt neue Version |
 | G-09 | MVP 3PA Einzelunternehmer + Softwareprodukt (ADR-009) | Templates „Solo Developer“, „Third-Party Assessment“; Profil-Beispiele | getrennte Objekte Organisation/Produkt ([ENT-021]) | M | Objektmodell löst ENT-021 | Beispiel-Case INT-DEMO-0001 durchspielen |
 | G-10 | Statusvokabular der Cases (`07`) | Achsenmodell (ENT-018), Freigabe (ENT-027/029) | Zuordnung `UNVERIFIED/PROVISIONAL/DRAFT/POSSIBLY_APPLICABLE/REQUIRES_EXPERT_REVIEW/OPTIONAL_…` | M | Abbildungstabelle ([ENT-031]) | Roundtrip Beispiel-Cases |
@@ -54,7 +54,10 @@
 | G-17 | Nachweis der Umsetzung ohne Scheinvollständigkeit (Handoff §7) | Prüfwerkzeug, Tests | korrekter QA-Report des BPMN-Skripts | N | Bericht an tatsächliche Prüfungen koppeln | Bericht nennt nur geprüfte Punkte |
 | G-18 | Begriff „verifizieren“ vs. „freigeben“ (ADR-006/008, BPMN) | nur „freigegeben“ (ENT-027) | zweistufige Prüfung | M | [ENT-029] Option 3 | Verifizierer ≠ Freigebender bei Berichten ab Profil 3 |
 | G-19 | Regulatorik: Part-IS, CRA, AI Act, ISO 42001 als Kandidaten (`07`) | NIS2/BSIG, DSGVO, BDSG, UrhG, RDG quellengeprüft | Einträge für Part-IS, CRA, AI Act, ISO 42001 | M | nur bei Bedarf des Pilots ([ENT-017]) | – |
-| G-20 | P0-Tests aus Dokument 04 als Release-Gate | – | Testfälle | H | **blockiert** (04 fehlt) | – |
+| G-20 | P0-Tests aus Dokument 04 als Release-Gate | TC-13, TC-14, TC-18 im Domänenkern/Schema; TC-12, TC-16, TC-17, TC-22 teilweise | übrige TC | H | Stand je Test im MVP-Plan §5 | TC-01…TC-22 |
+| G-21 | Mandats- und Case-Status nach 02 §4.2/§4.3 | Mandat `planned/active/closed/cancelled` | `draft/offered/signed`, Case-Status, `closed_with_limitations` | H | Migration 0003 ([ENT-036]) | Upload vor `active` abgewiesen |
+| G-22 | Prüftiefe Basis/Standard/Enhanced (DEC-11) | Profil 1–4 mit Untergrenzen | Abbildung | M | [ENT-035] | Abbildung 4 → 3 eindeutig |
+| G-23 | Artefaktstatus 02 §4.4, AI überschreibt nie `persisted_locked` | Regel „Agent gibt nie frei“ | Statusspalte, Sperre | H | WP-08 | TC-12 |
 
 ## 4. Abweichungen zwischen Repository und Zielbild
 
@@ -63,12 +66,12 @@
 | A-1 | Repository ist ein dateibasiertes Arbeitssystem für Berater; das Zielbild ist eine Plattform mit Kundenportal | H | beides behalten: das Arbeitssystem liefert die geprüften Regeln, die Plattform nutzt sie (gemeinsamer Domänenkern `src/`) |
 | A-2 | „Assurance Profile“ doppelt belegt | H | [ENT-030] |
 | A-3 | Fragebogen verlangt Vollständigkeit vor der Einstufung | M | [ENT-033] |
-| A-4 | kein Objekt-/Handling-Mode-Konzept | H | Teil des Datenmodells, Inhalte aus 02 nötig |
+| A-4 | kein Objekt-/Handling-Mode-Konzept | H | `AssessmentObject` und Modus nach 02 §3/§5.2 ([ENT-021]) |
 | A-5 | Regeln als Code statt DMN | M | [ENT-032] – Code ist testbar und versioniert; DMN nur, wenn Fachbereich Tabellen selbst pflegen soll |
 
 ## 5. Blocker
 
-1. **Dateien 01, 02, 04, 06, 08 fehlen** – ohne sie keine Screens, kein DMN-Katalog, keine P0-Tests, keine Traceability BPMN → UX.
+1. Gate 0: menschliche Entscheidungen ENT-029, ENT-030, ENT-032, ENT-035, ENT-036 ([`DECISION_LOG.md`](DECISION_LOG.md)).
 2. Lizenzlage der Normen ([ENT-026]) – Gate für jeden ISO-Inhalt in der Plattform.
 3. Rechtsgrundlage für Kontaktaufnahme ([ENT-034]) – Gate für DiscoveryRun/Outreach.
 4. Technologie-Stack und Hosting sind laut README ausdrücklich offen ([ENT-032]).
