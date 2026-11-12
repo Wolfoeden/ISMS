@@ -72,7 +72,7 @@ Jedes Assessment **MUSS** diese Schritte unterstützen. Zuordnung zu den Phasen 
 | 3 | Scope festlegen inkl. begründeter Ausnahmen | E-001, `isms.md` §1 | ◐ ein Scope je Mandat |
 | 4 | Kriterien bestimmen: Regelwerke, Versionen, Anwendbarkeit | Agent `vorschriften`, `isms.md` §3 | ✔ |
 | 5 | Kontext und Assets aufnehmen | – | ○ Asset-Register fehlt |
-| 6 | Risiken analysieren | `isms.md` §7 | ◐ Methode fehlt ([ENT-022]) |
+| 6 | Risiken analysieren | `isms.md` §7 | ✔ Kundenmethode oder RM-2026-11.1 ([ENT-022]) |
 | 7 | Adaptiv interviewen, nichts doppelt fragen | Agent `erhebung`, Klärungen | ✔ |
 | 8 | Belege sammeln mit Herkunft und Gültigkeit | `notizen/` mit Kopf und Prüfstufe | ✔ |
 | 9 | Controls bewerten: Soll, Beschreibung, Umsetzung, Wirksamkeit getrennt | `isms.md` §6 | ✔ Spalten getrennt |
@@ -94,7 +94,7 @@ Ein Assessment **DARF** erst abgeschlossen werden, wenn alle Pflichtschritte erl
 | Stakeholder / Role / User | Interessen, Zuständigkeit, Rechte | ✔ `person`, `mandate_role` |
 | Asset / BusinessProcess / InformationSystem | Werte, Eigentümer, Schutzbedarf | ○ |
 | Threat / Vulnerability | Bedrohung, Schwachstelle, Kontext | ○ |
-| Risk / RiskAssessment / RiskTreatment | Szenario, Bewertung, Akzeptanz, Restrisiko | ◐ `risk` mit Phasen und Risk-Owner-Prüfung; Skala [ENT-022] |
+| Risk / RiskAssessment / RiskTreatment | Szenario, Bewertung, Akzeptanz, Restrisiko | ✔ `risk` mit Phasen und Risk-Owner-Prüfung; Skala nach [ENT-022] |
 | Control / ControlImplementation | Ziel, Anwendbarkeit, Umsetzung, Wirksamkeit | ✔ `control`, `control_assessment` mit Achsen und berechnetem Berichtsstatus |
 | AssessmentQuestion / Response | Frage, Antwort, Zeitpunkt, Kontext | ✔ Fragebogen-Katalog |
 | Evidence / EvidenceReview | Herkunft, Version, Gültigkeit, Integrität, Prüfergebnis | ✔ `evidence`, `assessment_evidence`; Notiz-Kopf |
@@ -117,7 +117,14 @@ Jede fachliche Entität **MUSS** stabile ID, Mandantenzuordnung, Zeitstempel und
 
 8. Phasen eines Risikos (ENT-028): `identifiziert` → `bewertet` → `behandlung_entschieden` → `restrisiko_akzeptiert` → `in_ueberwachung` → `geschlossen`. Ab `restrisiko_akzeptiert` muss „Freigegeben von“ den Risk Owner nennen – das Werkzeug prüft das.
 
-Methode und Skalen für Mandate: [ENT-022].
+Methode und Skalen für Mandate ([ENT-022], Option 2): **Hat der Kunde eine eigene Risikomethode, wird sie übernommen** und in `isms.md` §7 dokumentiert. Sonst gilt die **Standardmethode von DT Agency `RM-2026-11.1`** (eigene Methodik, keine Normvorgabe):
+
+| | 1 | 2 | 3 | 4 |
+|---|---|---|---|---|
+| Wahrscheinlichkeit (W) | selten | möglich | wahrscheinlich | nahezu sicher |
+| Auswirkung (A) | gering | spürbar | erheblich | existenzbedrohend |
+
+Risikowert = W × A (1–16); Stufen: 1–3 gering · 4–6 mittel · 8–9 hoch · 12–16 kritisch. Die Akzeptanzschwelle legt der Kunde fest; akzeptieren darf nur der Risk Owner. Notation in `isms.md` §7: `W3×A4=12 (kritisch)` – das Werkzeug rechnet nach (`src/bewertung/risiko.ts`).
 
 ## A7. Controls und SoA
 
@@ -209,7 +216,7 @@ Werte aus den Eingangsdokumenten: `conforming` → `met`, `nonconforming` → `n
 
 Eine Person **KANN** mehrere Rollen halten (Einzelunternehmer). Funktionstrennung und Unabhängigkeit **MÜSSEN** bei Audits gesondert geprüft werden (Regeln G3, G6, T5, I1 in `docs/01` §6; Karenzzeit 24 Monate).
 
-**Wer freigibt (ENT-013):** Bibliothek und Methodik – Methodikverantwortliche/r; Mandatsentscheidungen – Engagement Lead; Risikoakzeptanz und Scope – Kunde (Executive Sponsor bzw. Risk Owner). **Kundenrollen (ENT-004):** ISMS Manager/CISO (fachlich verantwortlich) und ISMS Coordinator (operativ) werden getrennt geführt und dürfen dieselbe Person sein. **Kritische Feststellungen (ENT-005)** verifizieren nur Engagement Lead, Independent Reviewer oder SME der Domäne; Kunden sehen Feststellungen erst nach Ablage und Besprechung (ENT-007).
+**Wer freigibt (ENT-013):** Bibliothek und Methodik – Methodikverantwortliche/r; Mandatsentscheidungen – Engagement Lead; Risikoakzeptanz und Scope – Kunde (Executive Sponsor bzw. Risk Owner). **Kundenrollen (ENT-004):** ISMS Manager/CISO (fachlich verantwortlich) und ISMS Coordinator (operativ) werden getrennt geführt und dürfen dieselbe Person sein. **Kritische Feststellungen (ENT-005)** verifizieren nur Engagement Lead, Independent Reviewer oder SME der Domäne; Kunden sehen Feststellungen erst nach Ablage und Besprechung (ENT-007). **Lean-Mandate mit nur einem Senior (ENT-006):** Kritische Feststellungen verifiziert ein zweiter Senior aus dem Pool von DT Agency, der dafür als Independent Reviewer ins Mandatsteam aufgenommen wird (Aufwand ca. 30–60 min je Mandat); Selbstprüfung ist ausgeschlossen.
 
 **Zwei Stufen (ENT-029, Option 3; ergänzt ENT-027):** „verifiziert“ heißt, dass ein namentlich benannter, berechtigter Mensch den Inhalt fachlich gegen Quelle, Nachweise und Kriterien geprüft hat. „Freigegeben“ heißt, dass die zuständige Rolle ihn zur Verwendung oder Weitergabe genehmigt hat. „Freigegeben von“ bzw. „Verifiziert von“ nennen **Name und Rolle**, dazu das Datum. Ein Agent verifiziert nie und gibt nie frei. „Quellengeprüft“ bleibt der werkzeuggestützte Abgleich eines Zitats mit dem amtlichen Snapshot.
 

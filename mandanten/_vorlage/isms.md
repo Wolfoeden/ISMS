@@ -92,6 +92,12 @@ Referenz: ISO/IEC 27001 Anhang A (`A.5.1` … `A.8.34`). Nichtanwendbarkeit nur 
 
 Phasen: `identifiziert` · `bewertet` · `behandlung_entschieden` · `restrisiko_akzeptiert` · `in_ueberwachung` · `geschlossen`. Restrisiken akzeptiert nur der Risk Owner.
 
+Methode ([ENT-022]): Methode des Kunden, falls vorhanden (Kriterien, Skalen, Schwellen hier dokumentieren); sonst DT-Standard `RM-2026-11.1` – Bewertung als `W3×A4=12 (kritisch)`, wird vom Werkzeug nachgerechnet.
+
+| Methode | Akzeptanzschwelle (Kunde) | Grundlage |
+|---|---|---|
+| | | |
+
 | ID | Risiko | Bewertung | Behandlung | Phase | Risk Owner | Grundlage |
 |---|---|---|---|---|---|---|
 

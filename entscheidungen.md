@@ -126,7 +126,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A9; src/engagement/governance.ts (canConfirmCritical); src/engagement/findings.ts (verify)
 
 ## ENT-006 · Zweitprüfung kritischer Findings in Lean-Mandaten mit nur einem Senior
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** organisation
 - **Ausgelöst durch:** docs/01 §11 O6 / E9
 - **Betrifft:** Solo Developer Security Assessment, Regel G3
@@ -139,7 +139,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Pool-Review durch einen anderen Senior) (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A9; durchgesetzt über Vier-Augen-Pflicht für kritische Findings in allen Profilen (src/proportionality/parameters.ts, src/engagement/findings.ts); test/engagement.test.ts
 
 ## ENT-007 · Ab wann sieht der Kunde Findings?
 - **Status:** abgelegt
@@ -394,7 +394,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-022 · Risikomethode für Mandate
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Prüfbericht P-05: Vorschriften §7 verlangen konfigurierbare, reproduzierbare Risikokriterien; im Repository fehlt eine Methode
 - **Betrifft:** isms.md §7, Risk Engine
@@ -408,7 +408,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 2 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A6 (Standardmethode RM-2026-11.1); src/bewertung/risiko.ts; src/werkzeuge/ergebnis.ts (Nachrechnung isms.md §7); mandanten/_vorlage/isms.md §7; test/bewertung.test.ts
 
 ## ENT-023 · SoA referenziert ISO/IEC 27001 Anhang A, nicht ISO/IEC 27002
 - **Status:** abgelegt

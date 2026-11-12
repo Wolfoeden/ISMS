@@ -18,6 +18,7 @@ import {
   WIRKSAMKEIT,
   type Bewertung,
 } from '../bewertung/modell.js';
+import { pruefeRisikoZelle } from '../bewertung/risiko.js';
 import { fmString, gesetzt, leseFrontmatter, ohneAbschnitt, type Entscheidung, type Frontmatter } from './markdown.js';
 import type { Befund } from './pruefen.js';
 import type { Mandat } from './repo.js';
@@ -112,6 +113,11 @@ function pruefeTabellen(m: Mandat, md: string, heute: string): Befund[] {
       if (!hatInhalt(z)) continue;
       const f = (text: string, schwere: Befund['schwere'] = 'fehler') => b.push({ schwere, datei, zeile, text: `${z[0] || 'Zeile'}: ${text}` });
       if (iGrund >= 0 && !REF.test(z[iGrund] ?? '')) f('Ergebniszeile ohne Grundlage ([E-…], [ENT-…], [BIB-…] oder Frage-ID)');
+      // ENT-022: Risikowerte nach Standardmethode werden nachgerechnet
+      if (/^7\./.test(t.abschnitt) && spalte(t, 'Bewertung') >= 0) {
+        const r = pruefeRisikoZelle(z[spalte(t, 'Bewertung')] ?? '');
+        if (r) f(r);
+      }
       if (iStatus < 0) continue;
 
       const wert = (name: string) => {

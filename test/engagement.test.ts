@@ -141,6 +141,15 @@ describe('Quality Gate für Feststellungen (§22, ENT-027, ENT-029)', () => {
     expect(transitionFinding(m, { ...entwurf, status: 'verified', authorId: 'paul' }, 'approve', mensch('paul')).ok).toBe(false);
   });
 
+  it('ENT-006: im Lean-Mandat prüft ein zweiter Senior aus dem Pool kritische Findings', () => {
+    const lean = iso27001Mandate(1);
+    lean.team = lean.team.filter((t) => t.personId !== 'thomas');
+    const kritisch = { ...entwurf, status: 'proposed' as const, authorId: 'paul', severity: 'critical' as const };
+    expect(transitionFinding(lean, kritisch, 'verify', mensch('paul')).ok).toBe(false);
+    lean.team.push({ personId: 'pool', party: 'agency', roles: ['independent_reviewer'] });
+    expect(transitionFinding(lean, kritisch, 'verify', mensch('pool'))).toEqual({ ok: true, state: { status: 'verified', customerResponse: 'pending' } });
+  });
+
   it('Kundenreaktion erst nach Ablage; bestritten → erneute Prüfung', () => {
     const abgelegt = { ...entwurf, status: 'filed' as const };
     expect(transitionFinding(m, { ...entwurf, status: 'approved' }, 'discuss', mensch('paul')).ok).toBe(false);

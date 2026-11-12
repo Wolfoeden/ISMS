@@ -79,3 +79,16 @@ describe('Größenklasse (ENT-019 C)', () => {
     expect(Object.keys(PROFILE_PARAMETERS[4])).toContain('evidence');
   });
 });
+
+describe('Risikomethode (ENT-022)', () => {
+  it('Standardmethode 4×4 mit festen Stufen', async () => {
+    const { standardRisiko, pruefeRisikoZelle } = await import('../src/bewertung/risiko.js');
+    expect(standardRisiko(3, 4)).toMatchObject({ wert: 12, stufe: 'kritisch' });
+    expect(standardRisiko(2, 4).stufe).toBe('hoch');
+    expect(standardRisiko(2, 2).stufe).toBe('mittel');
+    expect(standardRisiko(1, 3).stufe).toBe('gering');
+    expect(pruefeRisikoZelle('W3×A4=12 (kritisch)')).toBe('');
+    expect(pruefeRisikoZelle('W3×A4=12 (mittel)')).toMatch(/berechnet: W3×A4=12 \(kritisch\)/);
+    expect(pruefeRisikoZelle('Methode des Kunden: hoch')).toBeUndefined();
+  });
+});
