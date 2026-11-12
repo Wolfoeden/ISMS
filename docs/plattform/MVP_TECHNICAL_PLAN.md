@@ -62,7 +62,7 @@ Jede Regel: `decision_id`, `version`, Ein-/Ausgabeschema, Testfälle inkl. Grenz
 | Test | heute | Plan |
 |---|---|---|
 | TC-10, TC-11, TC-12, TC-21 | ✔ Kern (`test/evidence.test.ts`) und Schema (`db/tests/0010_smoke.sql`) | API-Test mit echtem KI-Dienst |
-| TC-17 Normenversion | ◐ Policy-Version an Einstufung | Version-Pin + Impact-Entscheidung |
+| TC-17 Normenversion | ✔ Version-Pin je Scope, Folgeprüfung bei neuer Version, Entscheidung durch Lead vor QA (0013) | API-Test |
 | TC-18 Tenant Isolation | ✔ alle Tabellen (Struktur- und Verhaltenstest, 0008) | ✔ KI-Zugriffspfad (0010) |
 | TC-01, TC-02, TC-09 | ✔ Kern (`test/intake.test.ts`) und Schema (`db/tests/0009_smoke.sql`) | API-Test |
 | TC-07, TC-08, TC-19, TC-20, TC-22 | ✔ Kern (`test/offer.test.ts`) und Schema (`db/tests/0011_smoke.sql`) | API-Test |
@@ -80,8 +80,9 @@ Testdaten: nur fiktiv/anonymisiert (`07_BEISPIEL_CASES.json`, Fixtures). DB-Test
 4. ✔ Mandat + Scope-Lock (WP-04/05): Status, Scope-Sperre, Angebotsversionen, idempotente Mandatsanlage, Storno.
 5. ✔ Evidence + Proposals + Lock (WP-06/08), TC-10/11/12/21 – Kern und Schema; Dateispeicher und KI-Dienst folgen mit Hosting.
 6. ✔ Register + Review + ReportVersion (WP-09/10), TC-13–16 – Kern und Schema.
-7. Portal-Screens S01–S07 und Workspace S08–S13 als dünnes UI.
-8. E2E mit einem fiktiven, dann einem realen Testmandat (Gate 2).
+7. ✔ Etappe 1: Anwendungsschicht (`src/api`, [API_PROTOTYP.md](API_PROTOTYP.md)), Pilotfall über die Schnittstelle getestet; TC-17 Normversion (0013).
+8. Etappe 2: Ende-zu-Ende-Test mit allen Negativpfaden (WP-11). Etappe 3: Portal-Screens S01–S07 und Workspace S08–S13 als dünnes UI.
+9. E2E mit einem fiktiven, dann einem realen Testmandat (Gate 2).
 
 Jeder Schritt endet mit: Requirement-/Story-Bezug, Migration, API-/State-/Rechteänderung, Testnachweis, nicht Umgesetztem (Handoff §7).
 

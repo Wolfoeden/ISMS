@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check": "npm run typecheck && npm run test",
-    "isms": "tsx src/werkzeuge/cli.ts"
+    "isms": "tsx src/werkzeuge/cli.ts",
+    "test:api": "bash scripts/with-db.sh npx vitest run test/api",
+    "api": "tsx src/api/server.ts"
   },
   "devDependencies": {
     "@types/node": "22.20.5",

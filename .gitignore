@@ -10,3 +10,5 @@ coverage/
 mandanten/*
 !mandanten/_vorlage/
 !mandanten/test-*/
+
+.data/
