@@ -15,9 +15,9 @@ Index nach `05_CLAUDE_HANDOFF.md` §8 Nr. 4. **Maßgeblich ist die Entscheidungs
 | ENT-033 | Vollständiger Fragebogen vs. progressive Fragen | offen | Einstufung mit Teilfakten, ungeklärte materielle Fakten als Unsicherheit | Änderung Einstufungswerkzeug |
 | ENT-034 | Rechtsgrundlage für Kontaktaufnahme (DiscoveryRun) | vorgeschlagen | erst Wissen erfassen; Outreach im MVP aus | Gate für G-03/G-04 |
 | ENT-035 | Prüftiefe 3 Stufen (DEC-11) vs. Profil 1–4 | **abgelegt** (freigegeben Paul, 2026-11-12) | intern 4 Profile, nach außen Basis/Standard/Enhanced | Angebotssprache, D-07 |
-| ENT-036 | Mandats-/Case-Status nach 02 §4 | vorgeschlagen | übernehmen, Migration 0003 | Schema, Upload erst ab `active` |
+| ENT-036 | Mandats-/Case-Status nach 02 §4 | **abgelegt** (Migration 0005) | übernehmen, Migration 0003 | Schema, Upload erst ab `active` |
 
-**Gate 0 (04 §5) vor dem ersten Plattform-Code:** ENT-029 ✔, ENT-030 ✔, ENT-035 ✔ (abgelegt); offen: ENT-032, ENT-036; für Berichtstexte zusätzlich ENT-026.
+**Gate 0 (04 §5) vor dem ersten Plattform-Code:** ENT-029 ✔, ENT-030 ✔, ENT-035 ✔ (abgelegt); ENT-036 ✔ (abgelegt); ENT-032 Option 1 – Engine später; für Berichtstexte zusätzlich ENT-026.
 
 ## Fachliche Entscheidungen des Plans (06) → Repository
 

@@ -637,7 +637,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A13; src/proportionality/profile.ts (offeredDepth, OFFERED_DEPTH); db/migrations/0003 (isms.offered_depth, mandate.offered_depth); test/profile.test.ts, db/tests/0003_smoke.sql
 
 ## ENT-036 · Mandats- und Case-Status an den neuen Plan angleichen
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** 02 §4.2 Mandat `draft → offered → signed → active → closed` (+ `rejected`, `expired`, `terminated`) und §4.3 AssessmentCase; Schema 0001: `planned/active/closed/cancelled`
 - **Betrifft:** db/migrations, src/engagement/model.ts, mandanten/_vorlage
@@ -651,7 +651,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** db/migrations/0005 (Mandatsstatus, Übergänge, Nachweise erst bei aktivem Mandat, assessment_case, tenant); src/engagement/lifecycle.ts; db/tests/0005_smoke.sql; test/lifecycle.test.ts
 
 ## ENT-037 · Fortschrittsübersicht je Mandat für Kunde und Berater
 - **Status:** abgelegt

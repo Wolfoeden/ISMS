@@ -34,8 +34,15 @@ insert into person (id, party, organization_id, display_name) values
   ('00000000-0000-0000-0000-00000000a001', 'agency', null, 'Erika Beispiel'),
   ('00000000-0000-0000-0000-00000000c001', 'customer', '00000000-0000-0000-0000-0000000000c1', 'Max Muster'),
   ('00000000-0000-0000-0000-00000000c002', 'customer', '00000000-0000-0000-0000-0000000000c1', 'Risikoeigentümerin');
-insert into mandate (id, customer_id, scope, engagement_type, depth_profile, status, start_date)
-values ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000c1', 'ISMS', 'security_assessment', 2, 'planned', '2026-11-01');
+insert into complexity_assessment (id, organization_id, facts, policy_version, derivation, recommended_profile, min_profile, assessed_by)
+values ('00000000-0000-0000-0000-0000000000a5', '00000000-0000-0000-0000-0000000000c1', '{}', '2026-11.1', '{}', 2, 1,
+        '00000000-0000-0000-0000-00000000a001');
+insert into profile_decision (id, complexity_assessment_id, profile, deviation, decided_by)
+values ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-0000000000a5', 2, 'none', '00000000-0000-0000-0000-00000000a001');
+-- Nachweise erst bei aktivem Mandat (0005)
+insert into mandate (id, customer_id, scope, engagement_type, profile_decision_id, depth_profile, status, start_date)
+values ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000c1', 'ISMS', 'security_assessment',
+        '00000000-0000-0000-0000-0000000000d1', 2, 'active', '2026-11-01');
 insert into mandate_participant (mandate_id, person_id) select '00000000-0000-0000-0000-0000000000e1', id from person;
 insert into mandate_role values
   ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-00000000a001', 'engagement_lead'),

@@ -7,3 +7,4 @@ export * from './engagement/model.js';
 export * from './engagement/governance.js';
 export * from './engagement/findings.js';
 export * from './engagement/templates.js';
+export * from './engagement/lifecycle.js';
