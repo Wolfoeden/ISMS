@@ -1,7 +1,7 @@
 /**
- * Assurance Profile – Ableitung (Fachkonzept §1, §3–§7).
+ * Prüftiefenprofil – Ableitung (Fachkonzept §1, §3–§7).
  *
- *   Risk + Complexity + Regulation + Criticality → Required Assurance Level
+ *   Risk + Complexity + Regulation + Criticality → erforderliche Prüftiefe
  *
  * Verfahren (Policy-versioniert, deterministisch, erklärbar):
  *  1. Exposure: Spitzenwert der Kern-Risikodimensionen, geglättet mit dem
@@ -12,18 +12,42 @@
  *  4. Grenzfälle werden markiert – die Entscheidung trifft der Engagement Lead.
  *
  * Der Reifegrad (existingMaturity) fließt bewusst nicht ein: Er verändert
- * nicht, wie viel Assurance nötig ist, sondern wie weit der Weg dorthin ist.
+ * nicht, wie viel Prüftiefe nötig ist, sondern wie weit der Weg dorthin ist.
  */
 import { rateAll, type ComplexityFacts, type Dimension, type DimensionRating, type Level } from './dimensions.js';
 
-export type AssuranceProfile = 1 | 2 | 3 | 4;
+export type DepthProfile = 1 | 2 | 3 | 4;
 
-export const PROFILE_NAMES: Record<AssuranceProfile, string> = {
+export const PROFILE_NAMES: Record<DepthProfile, string> = {
   1: 'Lean',
   2: 'Standard',
   3: 'Enhanced',
   4: 'Critical / Regulated',
 };
+
+/**
+ * Angebotene Prüftiefe nach außen (ENT-035, Option 1, freigegeben 2026-11-12; Plan DEC-11).
+ * Intern bleiben vier Profile mit den Untergrenzen F1–F8; Profil 3 und 4 erscheinen
+ * beide als „Enhanced“. Unabhängig von Modus und Assurance-Aussage (ENT-030).
+ */
+export type OfferedDepth = 'basis' | 'standard' | 'enhanced';
+
+export const OFFERED_DEPTH: Record<DepthProfile, OfferedDepth> = {
+  1: 'basis',
+  2: 'standard',
+  3: 'enhanced',
+  4: 'enhanced',
+};
+
+export const OFFERED_DEPTH_DE: Record<OfferedDepth, string> = {
+  basis: 'Basis',
+  standard: 'Standard',
+  enhanced: 'Enhanced',
+};
+
+export function offeredDepth(profile: DepthProfile): OfferedDepth {
+  return OFFERED_DEPTH[profile];
+}
 
 export const DERIVATION_POLICY = {
   version: '2026-11.1',
@@ -39,12 +63,12 @@ export const DERIVATION_POLICY = {
   /** Komplexitäts-Score, ab dem um eine Stufe angehoben wird */
   complexityLiftThreshold: 3,
   /** Höchstes Profil, das durch Komplexität erreicht werden kann */
-  complexityLiftCap: 3 as AssuranceProfile,
+  complexityLiftCap: 3 as DepthProfile,
 } as const;
 
 export interface ProfileFloor {
   id: string;
-  profile: AssuranceProfile;
+  profile: DepthProfile;
   reason: string;
 }
 
@@ -52,22 +76,22 @@ export interface ProfileDerivation {
   policyVersion: string;
   ratings: Record<Dimension, DimensionRating>;
   exposureScore: number;
-  exposureBand: AssuranceProfile;
+  exposureBand: DepthProfile;
   complexityScore: number;
   complexityLift: 0 | 1;
   floors: ProfileFloor[];
-  recommended: AssuranceProfile;
+  recommended: DepthProfile;
   /** Gesetzt, wenn das Ergebnis nahe einer Bandgrenze liegt und nicht durch einen Floor fixiert ist. */
-  borderline?: { alternative: AssuranceProfile; distance: number };
+  borderline?: { alternative: DepthProfile; distance: number };
   /** Hinweise, die vor einer Entscheidung geklärt werden müssen. */
   openQuestions: string[];
   rationale: string[];
 }
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
-const maxProfile = (a: AssuranceProfile, b: AssuranceProfile): AssuranceProfile => (a > b ? a : b);
+const maxProfile = (a: DepthProfile, b: DepthProfile): DepthProfile => (a > b ? a : b);
 
-function band(score: number): AssuranceProfile {
+function band(score: number): DepthProfile {
   const t = DERIVATION_POLICY.bandThresholds;
   if (score >= t[4]) return 4;
   if (score >= t[3]) return 3;
@@ -100,7 +124,7 @@ export function evaluateFloors(facts: ComplexityFacts, ratings: Record<Dimension
   return candidates.filter((f): f is ProfileFloor => f !== false);
 }
 
-export function deriveAssuranceProfile(facts: ComplexityFacts): ProfileDerivation {
+export function deriveDepthProfile(facts: ComplexityFacts): ProfileDerivation {
   const p = DERIVATION_POLICY;
   const ratings = rateAll(facts);
   const levelOf = (d: Dimension): Level => ratings[d].level;
@@ -115,14 +139,14 @@ export function deriveAssuranceProfile(facts: ComplexityFacts): ProfileDerivatio
   const complexityScore = round2(
     p.complexityDimensions.map(levelOf).reduce<number>((s, l) => s + l, 0) / p.complexityDimensions.length,
   );
-  const liftFor = (b: AssuranceProfile): 0 | 1 =>
+  const liftFor = (b: DepthProfile): 0 | 1 =>
     complexityScore >= p.complexityLiftThreshold && b < p.complexityLiftCap ? 1 : 0;
   const complexityLift = liftFor(exposureBand);
-  const lifted = (exposureBand + complexityLift) as AssuranceProfile;
+  const lifted = (exposureBand + complexityLift) as DepthProfile;
 
   const floors = evaluateFloors(facts, ratings);
-  const floorProfile = floors.reduce<AssuranceProfile>((m, f) => maxProfile(m, f.profile), 1);
-  const finalFor = (b: AssuranceProfile): AssuranceProfile => maxProfile((b + liftFor(b)) as AssuranceProfile, floorProfile);
+  const floorProfile = floors.reduce<DepthProfile>((m, f) => maxProfile(m, f.profile), 1);
+  const finalFor = (b: DepthProfile): DepthProfile => maxProfile((b + liftFor(b)) as DepthProfile, floorProfile);
   const recommended = finalFor(exposureBand);
 
   const rationale: string[] = [
@@ -146,13 +170,13 @@ export function deriveAssuranceProfile(facts: ComplexityFacts): ProfileDerivatio
   let borderline: ProfileDerivation['borderline'];
   {
     const t = p.bandThresholds;
-    const candidates: Array<{ band: AssuranceProfile; distance: number }> = [];
+    const candidates: Array<{ band: DepthProfile; distance: number }> = [];
     if (exposureBand > 1) {
-      candidates.push({ band: (exposureBand - 1) as AssuranceProfile, distance: exposureScore - t[exposureBand as 2 | 3 | 4] });
+      candidates.push({ band: (exposureBand - 1) as DepthProfile, distance: exposureScore - t[exposureBand as 2 | 3 | 4] });
     }
     if (exposureBand < 4) {
       const upper = t[(exposureBand + 1) as 2 | 3 | 4];
-      if (peak >= upper) candidates.push({ band: (exposureBand + 1) as AssuranceProfile, distance: upper - exposureScore });
+      if (peak >= upper) candidates.push({ band: (exposureBand + 1) as DepthProfile, distance: upper - exposureScore });
     }
     const nearest = candidates
       .filter((c) => c.distance < p.borderlineMargin && finalFor(c.band) !== recommended)
@@ -193,7 +217,7 @@ export interface DecisionActor {
 }
 
 export interface ProfileDecisionInput {
-  profile: AssuranceProfile;
+  profile: DepthProfile;
   justification?: string;
   decidedBy: DecisionActor;
   /** Pflicht bei Herabstufung unter die Empfehlung (außerhalb eines Grenzfalls). */
@@ -201,8 +225,8 @@ export interface ProfileDecisionInput {
 }
 
 export interface ProfileDecision {
-  profile: AssuranceProfile;
-  recommended: AssuranceProfile;
+  profile: DepthProfile;
+  recommended: DepthProfile;
   policyVersion: string;
   deviation: 'none' | 'borderline' | 'upgrade' | 'downgrade';
   justification?: string;
@@ -220,7 +244,7 @@ export function decideProfile(derivation: ProfileDerivation, input: ProfileDecis
   const recommended = derivation.recommended;
 
   if (decidedBy.role !== 'engagement_lead') {
-    errors.push('Das Assurance Profile wird durch den Engagement Lead festgelegt.');
+    errors.push('Das Prüftiefenprofil wird durch den Engagement Lead festgelegt.');
   }
   const violatedFloors = derivation.floors.filter((f) => profile < f.profile);
   for (const f of violatedFloors) {

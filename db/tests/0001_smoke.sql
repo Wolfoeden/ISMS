@@ -45,17 +45,17 @@ values ('nis2-readiness', 'NIS2 Readiness', 'nis2_readiness', '{3,4}', 'pre_asse
        ('sme-iso27001-readiness', 'SME ISO 27001 Readiness', 'iso27001_readiness', '{2}', 'pre_assessment', '[]', '[]');
 
 select pg_temp.expect_fail($$
-  insert into mandate (customer_id, scope, engagement_type, template_id, profile_decision_id, assurance_profile, status, start_date)
+  insert into mandate (customer_id, scope, engagement_type, template_id, profile_decision_id, depth_profile, status, start_date)
   values ('00000000-0000-0000-0000-0000000000c1', 'ISMS', 'iso27001_readiness', 'sme-iso27001-readiness',
           '00000000-0000-0000-0000-0000000000d1', 4, 'active', '2026-11-01') $$,
   'Template passt nicht zum Profil');
 
 select pg_temp.expect_fail($$
-  insert into mandate (customer_id, scope, engagement_type, assurance_profile, status, start_date)
+  insert into mandate (customer_id, scope, engagement_type, depth_profile, status, start_date)
   values ('00000000-0000-0000-0000-0000000000c1', 'ISMS', 'nis2_readiness', 4, 'active', '2026-11-01') $$,
   'aktives Mandat ohne Profilentscheidung');
 
-insert into mandate (id, customer_id, scope, engagement_type, template_id, profile_decision_id, assurance_profile, status, start_date)
+insert into mandate (id, customer_id, scope, engagement_type, template_id, profile_decision_id, depth_profile, status, start_date)
 values ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000c1', 'ISMS Produktion',
         'nis2_readiness', 'nis2-readiness', '00000000-0000-0000-0000-0000000000d1', 4, 'active', '2026-11-01');
 

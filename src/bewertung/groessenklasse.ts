@@ -64,7 +64,7 @@ export interface Organisationsform {
   freigabewege: string;
 }
 
-/** Wie geprüft wird – unabhängig davon, was und wie tief (Assurance Profile). */
+/** Wie geprüft wird – unabhängig davon, was und wie tief (Prüftiefenprofil). */
 export const ORGANISATIONSFORM: Record<Groessenklasse, Organisationsform> = {
   kleinst: {
     gespraechspartner: '1–2 Personen (Inhaber/Geschäftsführung, ggf. technische Ansprechperson); Gespräche gebündelt',

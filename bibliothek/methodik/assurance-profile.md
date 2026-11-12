@@ -1,6 +1,6 @@
 ---
 id: BIB-MET-PROFIL
-titel: Methodik – Ableitung des Assurance Profile (Policy 2026-11.1)
+titel: Methodik – Ableitung des Prüftiefenprofils (Policy 2026-11.1)
 art: methodik
 verbindlichkeit: interner_standard
 rechtsraum: intern
@@ -15,7 +15,7 @@ freigegeben_von:
 freigegeben_am:
 naechste_pruefung: 2027-05-12
 ---
-# Methodik – Ableitung des Assurance Profile
+# Methodik – Ableitung des Prüftiefenprofils
 
 Eigene Methodik von DT Agency. Verbindlich, sobald [ENT-001] freigegeben ist. Details: `docs/01-engagement-proportionality-model.md`, Umsetzung: `src/proportionality/`.
 

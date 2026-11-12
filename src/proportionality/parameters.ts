@@ -5,7 +5,7 @@
  * abgeschlossenen Mandaten zu kalibrieren.
  */
 import type { Dimension } from './dimensions.js';
-import type { AssuranceProfile, ProfileDerivation } from './profile.js';
+import type { DepthProfile, ProfileDerivation } from './profile.js';
 
 export type CustomerRole =
   | 'executive_sponsor'
@@ -40,7 +40,7 @@ export interface ProfileParameters {
   expertInvolvement: 'none' | 'on_demand' | 'for_high_rated_dimensions' | 'mandatory_for_high_rated_dimensions';
 }
 
-export const PROFILE_PARAMETERS: Record<AssuranceProfile, ProfileParameters> = {
+export const PROFILE_PARAMETERS: Record<DepthProfile, ProfileParameters> = {
   1: {
     questionSet: 'core',
     mandatoryAssessmentAreas: ['Scope & Kontext', 'Zugänge & Identitäten', 'Endgeräte', 'Backup', 'Lieferanten (Cloud)', 'Incident-Grundprozess'],
@@ -132,7 +132,7 @@ export interface ExpertNeed {
 }
 
 /** Leitet aus Dimensionen ≥ 3 ab, welche SMEs einzubinden sind (Fachkonzept §13). */
-export function requiredExperts(derivation: ProfileDerivation, profile: AssuranceProfile): ExpertNeed[] {
+export function requiredExperts(derivation: ProfileDerivation, profile: DepthProfile): ExpertNeed[] {
   const mode = PROFILE_PARAMETERS[profile].expertInvolvement;
   if (mode === 'none') return [];
   const r = derivation.ratings;

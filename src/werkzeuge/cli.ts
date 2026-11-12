@@ -3,7 +3,7 @@
  *
  *   neu <kuerzel> "<Name>"   Mandat aus mandanten/_vorlage anlegen
  *   status <kuerzel>         Fortschritt und nächste Schritte
- *   einstufung <kuerzel>     NIS2-Vorprüfung + Assurance Profile als Vorschlagstext
+ *   einstufung <kuerzel>     NIS2-Vorprüfung + Prüftiefenprofil als Vorschlagstext
  *   pruefen [kuerzel]        Konsistenzprüfung (Exit-Code 1 bei Fehlern)
  *   index                    bibliothek/index.md neu erzeugen
  *   vorlage                  mandanten/_vorlage/fragebogen.md aus dem Katalog erzeugen

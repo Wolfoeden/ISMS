@@ -45,7 +45,7 @@ naechste_pruefung: 2027-05-12
 
 *Auslegung – verbindlich erst nach Freigabe.*
 
-- Für betroffene Einrichtungen ist ein **Melde-Workflow mit den Fristen 24 h / 72 h / 1 Monat** Pflichtbestandteil des Incident-Managements – unabhängig vom Assurance Profile (Vorschlag [ENT-009]).
+- Für betroffene Einrichtungen ist ein **Melde-Workflow mit den Fristen 24 h / 72 h / 1 Monat** Pflichtbestandteil des Incident-Managements – unabhängig vom Prüftiefenprofil (Vorschlag [ENT-009]).
 - Prüfpunkte: Erkennung und Bewertung „erheblich“, Rufbereitschaft auch am Wochenende, Zugang zur Meldestelle, Vorlagen, Zusammenspiel mit der Datenschutz-Meldung nach Art. 33 DSGVO ([BIB-DSGVO-32]).
 
 ## Grenzen und offene Punkte

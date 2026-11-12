@@ -25,12 +25,12 @@ Nicht: *kleines Unternehmen = kleines ISMS*. Die Mitarbeiterzahl beeinflusst das
 | Begriff | Bedeutung |
 |---|---|
 | **Organization Complexity Profile** | Strukturierte Fakten zu 10 Dimensionen (§3.2), je Organisation versioniert gespeichert, optional je Mandat/Scope. |
-| **Assurance Profile** | 1 Lean · 2 Standard · 3 Enhanced · 4 Critical / Regulated. Steuert den Prozessumfang (§4). |
+| **Prüftiefenprofil** | 1 Lean · 2 Standard · 3 Enhanced · 4 Critical / Regulated. Steuert den Prozessumfang (§4). |
 | **Implementation Depth** | 1 Basic · 2 Defined · 3 Managed · 4 Assured. Tiefe, mit der ein einzelnes Control umgesetzt und nachgewiesen wird (§5). |
 | **Floor (Untergrenze)** | Regulatorische oder kritikalitätsbedingte Mindeststufe, die nicht unterschritten werden kann. |
 | **Engagement / Mandate** | Zentrale Einheit der Beratungsleistung: Kunde, Scope, Typ, Profil, Laufzeit, Team, Verantwortlichkeiten, Deliverables. |
 
-## 3. Ableitung des Assurance Profile
+## 3. Ableitung des Prüftiefenprofils
 
 ### 3.1 Ablauf
 
@@ -149,7 +149,7 @@ Requirement → Control → Applicability Evaluation → Risk / Scope / Complexi
 ```
 
 1. **Anwendbarkeit** folgt ausschließlich dem Scope: Gibt es den Gegenstand des Controls? (keine OT → OT-Segmentierung nicht anwendbar). Größe ist nie ein Grund für Nichtanwendbarkeit. Nicht anwendbar heißt immer: mit Begründung (Statement of Applicability).
-2. **Basistiefe** = Assurance Profile.
+2. **Basistiefe** = Prüftiefenprofil.
 3. **Tiefentreiber** je Control heben die Tiefe über das Profil hinaus an. Beispiel: Einzelentwickler B mit Profil 2 → Access Review auf Tiefe 3 wegen privilegierten Zugriffs auf Kundensysteme. So wird nicht die ganze Organisation hochgestuft, sondern gezielt das betroffene Control.
 4. **Tailoring** unter die erforderliche Tiefe ist möglich, erfordert aber Begründung und dokumentierte Risikoakzeptanz.
 
@@ -168,7 +168,7 @@ Beispielkatalog: `src/proportionality/catalog.example.ts` (Access Review, Secure
 
 ### 6.1 Mandat
 
-Kunde · Scope · Engagement Type · Assurance Profile (mit Verweis auf die Profilentscheidung) · Start/Ende · Team · Verantwortlichkeiten · Deliverables · Workflows · Reviews. Ein Mandat wird erst **aktiv**, wenn die Profilentscheidung vorliegt.
+Kunde · Scope · Engagement Type · Prüftiefenprofil (mit Verweis auf die Profilentscheidung) · Start/Ende · Team · Verantwortlichkeiten · Deliverables · Workflows · Reviews. Ein Mandat wird erst **aktiv**, wenn die Profilentscheidung vorliegt.
 
 ### 6.2 Rollen
 
@@ -255,7 +255,7 @@ Profilabhängige Anforderungen (Independent Reviewer, SMEs, Kundenrollen) kommen
 
 ## 9. Effort Scaling
 
-Ziel (später): `Scope + Assurance Profile + Standorte + Systeme + Interviews + Third Parties + Regulierung (+ Reifegrad) → geschätzter Beratungsaufwand`.
+Ziel (später): `Scope + Prüftiefenprofil + Standorte + Systeme + Interviews + Third Parties + Regulierung (+ Reifegrad) → geschätzter Beratungsaufwand`.
 
 Voraussetzung ist eine Datenbasis. Deshalb werden **ab dem ersten Mandat** Ist-Aufwände je Tätigkeitsart erfasst (`effort_entry`: Planung, Interview, Dokumenten-/Evidence-Review, Assessment, Finding-Entwurf, Review/QA, Reporting, Kundentermin, Koordination). Nach etwa 10–20 abgeschlossenen Mandaten je Template lässt sich ein parametrisches Modell kalibrieren, das Paketpreise, Kapazitäts- und Deckungsbeitragsplanung trägt. Der Reifegrad ist hier – anders als beim Profil – ein zentraler Faktor.
 
@@ -300,7 +300,7 @@ Die offenen Punkte werden auf der Entscheidungsseite geführt: [`entscheidungen.
 | Konzept | Code | Tests |
 |---|---|---|
 | §2 Complexity Profile | `src/proportionality/dimensions.ts` | `test/profile.test.ts` |
-| §3–§7 Assurance Profile, Floors, Entscheidung | `src/proportionality/profile.ts` | `test/profile.test.ts` |
+| §3–§7 Prüftiefenprofil, Floors, Entscheidung | `src/proportionality/profile.ts` | `test/profile.test.ts` |
 | §8 Profilparameter, SMEs | `src/proportionality/parameters.ts` | `test/engagement.test.ts` |
 | §9 Control Applicability | `src/proportionality/controls.ts`, `catalog.example.ts` | `test/controls.test.ts` |
 | §10–§21 Mandat, Rollen, Responsibility Model | `src/engagement/model.ts`, `governance.ts` | `test/engagement.test.ts` |

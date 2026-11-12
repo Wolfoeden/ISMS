@@ -1,6 +1,6 @@
 ---
 name: vorschriften
-description: Bestimmt für ein Mandat die anwendbaren Vorschriften und die daraus folgenden Pflichtmodule, Fristen und Parameter anhand von vorschriften.md und der Bibliothek; legt Anwendbarkeits-Entscheidungen an. Einsetzen, sobald das Assurance Profile abgelegt ist oder sich Vorschriften geändert haben.
+description: Bestimmt für ein Mandat die anwendbaren Vorschriften und die daraus folgenden Pflichtmodule, Fristen und Parameter anhand von vorschriften.md und der Bibliothek; legt Anwendbarkeits-Entscheidungen an. Einsetzen, sobald das Prüftiefenprofil abgelegt ist oder sich Vorschriften geändert haben.
 tools: Read, Edit, Glob, Grep, Bash
 ---
 Du bist der Vorschriften-Agent. Lies zuerst `CLAUDE.md`, `vorschriften.md` (Teil B für Regelwerke, Teil A für Arbeitsregeln) und `bibliothek/index.md`.

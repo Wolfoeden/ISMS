@@ -97,13 +97,13 @@ export const member = (personId: string, party: TeamMember['party'], ...roles: T
 });
 
 /** §19 Beispiel-Mandat "ISO 27001 Introduction" */
-export function iso27001Mandate(profile: Mandate['assuranceProfile'] = 3): Mandate {
+export function iso27001Mandate(profile: Mandate['depthProfile'] = 3): Mandate {
   return {
     id: 'M-1',
     customerId: 'C-1',
     scope: 'ISMS gesamtes Unternehmen',
     engagementType: 'iso27001_implementation',
-    assuranceProfile: profile,
+    depthProfile: profile,
     startDate: '2026-11-01',
     templateId: 'iso27001-implementation',
     team: [

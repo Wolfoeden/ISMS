@@ -149,7 +149,7 @@ Nachweiskategorien (Beispiele, nicht normativ): **RL** Richtlinie, Versionshisto
 *Auslegung – verbindlich erst nach Freigabe.*
 
 - Je Control drei **getrennte** Bewertungsfelder: Anwendbarkeit · Umsetzung · Wirksamkeit (`vorschriften.md` §A8).
-- Erforderliche Umsetzungstiefe 1–4 nach Assurance Profile und Risikotreibern (`src/proportionality/controls.ts`).
+- Erforderliche Umsetzungstiefe 1–4 nach Prüftiefenprofil und Risikotreibern (`src/proportionality/controls.ts`).
 - Zuordnung zu den zehn Pflicht-Prüfbereichen des § 30 BSIG: `vorschriften.md` §B5.3 (Vorschlag).
 
 ## Grenzen und offene Punkte

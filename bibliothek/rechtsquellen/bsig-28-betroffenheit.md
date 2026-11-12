@@ -58,7 +58,7 @@ Deutsche Umsetzung der NIS-2-Richtlinie im BSI-Gesetz vom 2.12.2025 (BGBl. 2025 
 
 - Fragebogen: `STA-04` (Einrichtungsart), `STA-05` (entgeltlich), `ORG-01`, `STA-06`, `STA-07` (Größe), `STA-08` (verbundene Unternehmen), `REG-03` (KRITIS) → Ergebnis in `REG-02`.
 - Werkzeug: `npm run isms -- einstufung <kürzel>` führt die Vorprüfung nach Abs. 1 und 2 durch (`src/regelwerk/nis2.ts`). Das Ergebnis ist ein Vorschlag für die Betroffenheits-Entscheidung.
-- Untergrenzen des Assurance Profile: besonders wichtig → Profil 4 (F1/F2), wichtig → Profil 3 (F3), siehe [ENT-002].
+- Untergrenzen des Prüftiefenprofils: besonders wichtig → Profil 4 (F1/F2), wichtig → Profil 3 (F3), siehe [ENT-002].
 - Betroffenheit löst profilunabhängige Pflichten aus: Registrierung [BIB-BSIG-33], Meldewege [BIB-BSIG-32], Geschäftsleitungspflichten [BIB-BSIG-38], Risikomanagement [BIB-BSIG-30].
 
 ## Grenzen und offene Punkte

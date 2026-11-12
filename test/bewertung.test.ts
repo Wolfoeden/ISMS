@@ -70,7 +70,7 @@ describe('Größenklasse (ENT-019 C)', () => {
     expect(groessenklasse({ mitarbeiter: 5, umsatzMio: 1, bilanzMio: 1 }).vorlaeufig).toBe(true);
   });
 
-  it('die Größenklasse verändert keine Prüfparameter des Assurance Profile', () => {
+  it('die Größenklasse verändert keine Prüfparameter des Prüftiefenprofils', () => {
     // Organisationsform enthält keine Felder für Tiefe, Evidenz oder Prüfumfang
     for (const f of Object.values(ORGANISATIONSFORM)) {
       expect(Object.keys(f).sort()).toEqual(['freigabewege', 'gespraechspartner', 'rollenbuendelung', 'vierAugen']);

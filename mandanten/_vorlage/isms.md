@@ -26,7 +26,7 @@ stand: {{datum}}
 | Punkt | Ergebnis | Grundlage |
 |---|---|---|
 | NIS2 / BSIG | | |
-| Assurance Profile | | |
+| Prüftiefenprofil | | |
 | Untergrenzen, Grenzfall, Abweichung | | |
 | Größenklasse und Organisationsform | | |
 | Policy-Version | | |
@@ -59,7 +59,7 @@ stand: {{datum}}
 
 ## 6. Prüfbereiche und Controls
 
-Gliederung nach § 30 Abs. 2 BSIG (`vorschriften.md` §B2.3). Tiefe 1–4 aus Assurance Profile und Risikotreibern. Codes: Anwendbarkeit `applicable` · `not_applicable` · `undecided` · Umsetzung `unknown` · `absent` · `partial` · `present` · Wirksamkeit `not_verified` · `effective` · `ineffective` · Evidenzlage `none` · `claim_only` · `insufficient` · `sufficient` · `conflicting`. Nachweise als `notizen/<datei>.md`; „ausreichend“ verlangt einen Nachweis mit `art: evidence` und `pruefung: geeignet`.
+Gliederung nach § 30 Abs. 2 BSIG (`vorschriften.md` §B2.3). Tiefe 1–4 aus Prüftiefenprofil und Risikotreibern. Codes: Anwendbarkeit `applicable` · `not_applicable` · `undecided` · Umsetzung `unknown` · `absent` · `partial` · `present` · Wirksamkeit `not_verified` · `effective` · `ineffective` · Evidenzlage `none` · `claim_only` · `insufficient` · `sufficient` · `conflicting`. Nachweise als `notizen/<datei>.md`; „ausreichend“ verlangt einen Nachweis mit `art: evidence` und `pruefung: geeignet`.
 
 | Prüfbereich / Control | Anwendbarkeit | Tiefe | Umsetzung | Wirksamkeit | Evidenzlage | Berichtsstatus | Nachweise | Grundlage |
 |---|---|---|---|---|---|---|---|---|
@@ -128,5 +128,5 @@ Verweise auf noch offene Entscheidungen (hier dürfen nicht freigegebene Punkte 
 
 - [E-001] Scope der Prüfung
 - [E-002] NIS2-/BSIG-Betroffenheit
-- [E-003] Assurance Profile
+- [E-003] Prüftiefenprofil
 - [E-004] Mandatstemplate und Team

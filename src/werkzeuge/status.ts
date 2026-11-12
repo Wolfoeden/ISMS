@@ -3,7 +3,7 @@
  */
 import { zuFakten } from '../fragebogen/fragebogen.js';
 import { KATALOG } from '../fragebogen/katalog.js';
-import { deriveAssuranceProfile, PROFILE_NAMES } from '../proportionality/profile.js';
+import { deriveDepthProfile, PROFILE_NAMES } from '../proportionality/profile.js';
 import { groessenklasse, type GroessenErgebnis } from '../bewertung/groessenklasse.js';
 import { nis2Vorpruefung, type Nis2Vorpruefung } from '../regelwerk/nis2.js';
 import type { Arbeitsbereich, Mandat } from './repo.js';
@@ -67,7 +67,7 @@ export function mandatStatus(ws: Arbeitsbereich, m: Mandat): MandatStatus {
   const fakten = m.fragebogen ? zuFakten(m.fragebogen) : { fehlend: ['Fragebogen fehlt'], stammdaten: {} };
   const einstufung: MandatStatus['einstufung'] = { moeglich: !!fakten.fakten, fehlend: fakten.fehlend };
   if (fakten.fakten) {
-    const d = deriveAssuranceProfile(fakten.fakten);
+    const d = deriveDepthProfile(fakten.fakten);
     einstufung.empfehlung = `Profil ${d.recommended} (${PROFILE_NAMES[d.recommended]})${d.borderline ? `, Grenzfall ${d.borderline.alternative}` : ''}`;
   }
   const nis2 = m.fragebogen ? nis2Vorpruefung(nis2Eingaben(m)) : undefined;

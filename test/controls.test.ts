@@ -2,10 +2,10 @@ import { describe, expect, it } from 'vitest';
 import { ACCESS_REVIEW, OT_SEGMENTATION, SECURE_DEVELOPMENT } from '../src/proportionality/catalog.example.js';
 import { applyTailoring, resolveControl, type ControlContext } from '../src/proportionality/controls.js';
 import { rateAll } from '../src/proportionality/dimensions.js';
-import type { AssuranceProfile } from '../src/proportionality/profile.js';
+import type { DepthProfile } from '../src/proportionality/profile.js';
 import { MANUFACTURER, SOLO_DEV_A, SOLO_DEV_B } from './fixtures.js';
 
-const ctx = (facts: ControlContext['facts'], profile: AssuranceProfile): ControlContext => ({
+const ctx = (facts: ControlContext['facts'], profile: DepthProfile): ControlContext => ({
   facts, profile, ratings: rateAll(facts),
 });
 

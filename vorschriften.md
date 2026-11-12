@@ -35,7 +35,7 @@
 |---|---|---|
 | 0 | **Auditsichere Endergebnisse:** Jedes Ergebnis ist (a) auf seine Grundlage zurückführbar, (b) deterministisch hergeleitet, (c) von einem benannten Menschen freigegeben, (d) durch geprüfte Nachweise belegt, (e) auf den geprüften Umfang begrenzt formuliert, (f) unveränderlich historisiert und (g) vor der Freigabe maschinell geprüft. | ✔ (a) Verweis je Ergebniszeile · (b) Berichtsstatus berechnet, Policy-Version · (c) „Freigegeben von“ · (d) Nachweis-Prüfstufe, Gültigkeit · (e) §A17 · (f) Git · (g) `pruefen` |
 | 1 | **Risikoorientierung:** Scope, Schutzbedarf, Bedrohungen, Schwachstellen, Auswirkungen und Anforderungen berücksichtigen; ein Ja/Nein-Fragebogen allein reicht nicht. | ◐ Triage-Fragebogen ✔; Asset- und Risikoaufnahme ○ |
-| 2 | **Verhältnismäßigkeit:** Tiefe nach Risiko, Kritikalität, Regulatorik, Kundenpflichten und Auslagerungen; die Mitarbeiterzahl ist nur ein Faktor. | ✔ Assurance Profile (§A13) |
+| 2 | **Verhältnismäßigkeit:** Tiefe nach Risiko, Kritikalität, Regulatorik, Kundenpflichten und Auslagerungen; die Mitarbeiterzahl ist nur ein Faktor. | ✔ Prüftiefenprofil (§A13) |
 | 3 | **Nachvollziehbarkeit:** Aussagen, Belege, Schlussfolgerungen, Unsicherheiten und Entscheidungen getrennt speichern. | ✔ §A8 |
 | 4 | **Keine Scheinkonformität:** Nicht Geprüftes oder nicht Belegtes nie als erfüllt ausgeben. | ✔ `pruefen` für `isms.md` |
 | 5 | **Mensch entscheidet:** Risikoakzeptanzen, Auditfeststellungen, Freigaben und finale Berichte bestätigen berechtigte Menschen. | ✔ Status `freigegeben` nur durch Menschen |
@@ -128,7 +128,7 @@ Methode und Skalen für Mandate: [ENT-022].
 5. Ein Control kann mehrere Anforderungen aus verschiedenen Regelwerken stützen; Abdeckung **DARF NICHT** allein aus der Control-Kennung gefolgert werden.
 6. Für ISO-27001-Mandate **MUSS** ein versionierbares SoA entstehen. Es referenziert **ISO/IEC 27001 Anhang A** (z. B. `A.8.4`); ISO/IEC 27002 liefert nur die Erläuterung ([ENT-023]).
 7. Ein 3PA erzeugt **nicht** automatisch ein SoA; das hängt vom vereinbarten Scope ab.
-8. Umsetzungstiefe 1–4 je Control nach Assurance Profile und Risikotreibern (`docs/01` §5).
+8. Umsetzungstiefe 1–4 je Control nach Prüftiefenprofil und Risikotreibern (`docs/01` §5).
 
 ## A8. Evidenz und Bewertungsstatus
 
@@ -257,7 +257,7 @@ Berichte **DÜRFEN** den geprüften Scope nicht überschreiten und **DÜRFEN NIC
 
 ## A13. Proportionalität
 
-Die Assessment-Tiefe steuert das **Assurance Profile** 1 Lean · 2 Standard · 3 Enhanced · 4 Critical/Regulated ([BIB-MET-PROFIL], `plan.md` §5). **Größenklasse (ENT-019, Option C):** `kleinst` · `klein` · `mittel` · `gross` nach der KMU-Empfehlung ([BIB-KMU]), berechnet aus `ORG-01`, `STA-06`, `STA-07` (vorläufig, solange `STA-08` ungeklärt ist). Sie steuert **nur die Organisationsform** – wie geprüft wird –, **nie** Prüfumfang, Anwendbarkeit, Prüftiefe oder Evidenzanforderungen. Die Klassen `micro` · `sme` · `enterprise` des Eingangsdokuments entfallen, weil `sme` die NIS2-Schwelle bei 50 Beschäftigten verwischt. Umsetzung: `src/bewertung/groessenklasse.ts`.
+Die Assessment-Tiefe steuert das **Prüftiefenprofil** 1 Lean · 2 Standard · 3 Enhanced · 4 Critical/Regulated ([BIB-MET-PROFIL], `plan.md` §5). **Begriffe (ENT-030):** „Prüftiefenprofil“ bezeichnet nur diese Stufe 1–4; „Assurance“ bzw. „Assurance-Aussage“ bleibt der Aussagequalität vorbehalten (indikativ · fachlich reviewed · unabhängig geprüft). **Angebotene Tiefe (ENT-035):** nach außen Basis (Profil 1) · Standard (2) · Enhanced (3 und 4); intern gelten die vier Profile mit den Untergrenzen unverändert (`offeredDepth`, `isms.offered_depth`). Ein Preispaket senkt nie die erforderliche Tiefe. **Größenklasse (ENT-019, Option C):** `kleinst` · `klein` · `mittel` · `gross` nach der KMU-Empfehlung ([BIB-KMU]), berechnet aus `ORG-01`, `STA-06`, `STA-07` (vorläufig, solange `STA-08` ungeklärt ist). Sie steuert **nur die Organisationsform** – wie geprüft wird –, **nie** Prüfumfang, Anwendbarkeit, Prüftiefe oder Evidenzanforderungen. Die Klassen `micro` · `sme` · `enterprise` des Eingangsdokuments entfallen, weil `sme` die NIS2-Schwelle bei 50 Beschäftigten verwischt. Umsetzung: `src/bewertung/groessenklasse.ts`.
 
 | Größenklasse | Gesprächspartner | Rollenbündelung | Vier-Augen | Freigabewege |
 |---|---|---|---|---|
@@ -326,7 +326,7 @@ Ergebnisse müssen fachlich eindeutig, in der Terminologie normnah und für Kund
 | Risk Owner (Risikoeigentümer) | – | entscheidet beim Kunden über Behandlung und Restrisiko | Control Owner |
 | Restrisikoakzeptanz | Phase `restrisiko_akzeptiert` | Entscheidung des Risk Owners, kein Urteil von DT Agency | Freigabe durch DT Agency |
 | Berichtsstatus | §A8.3 | berechnetes Ergebnis | Achsen |
-| Größenklasse | §A13 | steuert die Organisationsform des Assessments | Assurance Profile |
+| Größenklasse | §A13 | steuert die Organisationsform des Assessments | Prüftiefenprofil |
 
 **Bezeichnungen der Berichtsstatus:**
 
@@ -452,7 +452,7 @@ Immer zu prüfen: vernachlässigbare Nebentätigkeiten (Abs. 3), Partner-/verbun
 
 ### B2.3 Die zehn Pflicht-Prüfbereiche
 
-Gliederung von `isms.md` §6. Tiefe je Bereich nach Assurance Profile. Zuordnung zu ISO/IEC 27001 Anhang A: §B5.3.
+Gliederung von `isms.md` §6. Tiefe je Bereich nach Prüftiefenprofil. Zuordnung zu ISO/IEC 27001 Anhang A: §B5.3.
 
 | § 30 Abs. 2 BSIG | Art. 21 Abs. 2 NIS2 | Prüfbereich |
 |---|---|---|
@@ -529,7 +529,7 @@ Freigabe dieser Zuordnung: [ENT-025]. Für Software-3PA stehen erfahrungsgemäß
 
 ## B6. Parametermatrix
 
-Zusätzlich zu den Parametern des Assurance Profile:
+Zusätzlich zu den Parametern des Prüftiefenprofils:
 
 | Parameter | nicht betroffen | wichtige Einrichtung | besonders wichtige Einrichtung | Betreiber kritischer Anlagen | ISO-27001-Ziel |
 |---|---|---|---|---|---|

@@ -531,7 +531,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-030 · Begriffskonflikt „Assurance Profile“
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** Gap-Analyse G-11: `07_BEISPIEL_CASES.json` nutzt assuranceProfile für Review-Pflicht und Unabhängigkeitsanspruch; das Repository für die Proportionalitätsstufe 1–4
 - **Betrifft:** vorschriften.md, docs/01, src/proportionality, Schema
@@ -545,7 +545,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1: Stufe 1–4 heißt „Prüftiefenprofil“; „Assurance“ bleibt der Aussagequalität vorbehalten (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A13; src/proportionality (DepthProfile, deriveDepthProfile); db/migrations/0003 (mandate.depth_profile); Vorlagen, Agents, Bibliothek (Prosa); BIB-MET-PROFIL Titel
 
 ## ENT-031 · Statusvokabular der Beispiel-Cases abbilden
 - **Status:** vorgeschlagen
@@ -616,7 +616,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** —
 
 ## ENT-035 · Prüftiefe: drei Stufen (Basis/Standard/Enhanced) oder vier Profile
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** neuer Plan 06 DEC-11 (Basis / Standard / Enhanced als interne Methodik), 02 D-07 (Ausgabe Sampling, Tiefe, Review-Level); Repository: Profil 1–4 mit Untergrenzen F1–F8
 - **Betrifft:** vorschriften.md Teil A, src/proportionality, Schema, D-07
@@ -631,7 +631,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1: intern vier Profile mit Untergrenzen F1–F8; nach außen Basis (1), Standard (2), Enhanced (3 und 4) (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** vorschriften.md §A13; src/proportionality/profile.ts (offeredDepth, OFFERED_DEPTH); db/migrations/0003 (isms.offered_depth, mandate.offered_depth); test/profile.test.ts, db/tests/0003_smoke.sql
 
 ## ENT-036 · Mandats- und Case-Status an den neuen Plan angleichen
 - **Status:** vorgeschlagen

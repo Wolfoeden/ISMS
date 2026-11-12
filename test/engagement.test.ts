@@ -3,7 +3,7 @@ import { transitionFinding, visibleToCustomer, type Finding } from '../src/engag
 import { checkAuditIndependence, validateAssignments } from '../src/engagement/governance.js';
 import type { Mandate, SegregationException } from '../src/engagement/model.js';
 import { ENGAGEMENT_TEMPLATES, validateMandateTeam } from '../src/engagement/templates.js';
-import { deriveAssuranceProfile } from '../src/proportionality/profile.js';
+import { deriveDepthProfile } from '../src/proportionality/profile.js';
 import { MANUFACTURER, iso27001Mandate, member } from './fixtures.js';
 
 const template = (id: string) => ENGAGEMENT_TEMPLATES.find((t) => t.id === id)!;
@@ -70,7 +70,7 @@ describe('Work Assignment & Responsibility Model (§20, §21)', () => {
 describe('Multi-Role Support & Segregation not feasible (§18)', () => {
   const solo: Mandate = {
     id: 'M-SOLO', customerId: 'C-9', scope: 'SaaS-Produkt', engagementType: 'security_assessment',
-    assuranceProfile: 2, startDate: '2026-11-01',
+    depthProfile: 2, startDate: '2026-11-01',
     team: [
       member('paul', 'agency', 'engagement_lead'),
       member('owner', 'customer', 'executive_sponsor', 'isms_coordinator', 'risk_owner', 'control_owner', 'approver'),
@@ -171,14 +171,14 @@ describe('Engagement Templates & Mandate Team (§19, §23)', () => {
       ...iso27001Mandate(4), id: 'M-NIS2', engagementType: 'nis2_readiness',
     };
     m.team = m.team.map((t) => (t.personId === 'hr' ? { ...t, roles: ['control_owner', 'approver'] } : t));
-    const v = validateMandateTeam(m, template('nis2-readiness'), { derivation: deriveAssuranceProfile(MANUFACTURER) });
+    const v = validateMandateTeam(m, template('nis2-readiness'), { derivation: deriveDepthProfile(MANUFACTURER) });
     expect(rules(v)).toEqual(expect.arrayContaining(['T7', 'T8']));
   });
 
   it('erforderliche SMEs werden aus dem Complexity Profile abgeleitet', () => {
     const m: Mandate = { ...iso27001Mandate(4), id: 'M-NIS2', engagementType: 'nis2_readiness' };
     m.team.push({ personId: 'ot', party: 'agency', roles: ['subject_matter_expert'], smeDomains: ['ot_security', 'nis2', 'bcm'] });
-    const v = validateMandateTeam(m, template('nis2-readiness'), { derivation: deriveAssuranceProfile(MANUFACTURER) });
+    const v = validateMandateTeam(m, template('nis2-readiness'), { derivation: deriveDepthProfile(MANUFACTURER) });
     expect(v.filter((x) => x.rule === 'T8')).toEqual([]);
   });
 });
@@ -186,7 +186,7 @@ describe('Engagement Templates & Mandate Team (§19, §23)', () => {
 describe('Auditunabhängigkeit (§14)', () => {
   const implementation: Mandate = { ...iso27001Mandate(3), endDate: '2026-06-30' };
   const audit: Mandate = {
-    id: 'M-AUD', customerId: 'C-1', scope: 'ISMS', engagementType: 'internal_audit', assuranceProfile: 3,
+    id: 'M-AUD', customerId: 'C-1', scope: 'ISMS', engagementType: 'internal_audit', depthProfile: 3,
     startDate: '2027-03-01',
     team: [member('paul', 'agency', 'engagement_lead'), member('nina', 'agency', 'consultant')],
   };

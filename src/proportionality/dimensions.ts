@@ -287,7 +287,7 @@ export function rateCryptography(f: CryptographyFacts): DimensionRating {
 
 /**
  * Reifegrad: 4 = hoch, 0 = kein ISMS. Fließt bewusst NICHT in das
- * Assurance Profile ein (siehe Fachkonzept, Entscheidung E2), sondern in
+ * Prüftiefenprofil ein (siehe Fachkonzept, Entscheidung E2), sondern in
  * Aufwandsschätzung und Roadmap.
  */
 export function rateExistingMaturity(f: MaturityFacts): DimensionRating {

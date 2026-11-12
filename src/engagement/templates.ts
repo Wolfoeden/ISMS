@@ -3,7 +3,7 @@
  */
 import { PROFILE_PARAMETERS, requiredExperts } from '../proportionality/parameters.js';
 import { isValidSegregationException } from './governance.js';
-import type { AssuranceProfile, ProfileDerivation } from '../proportionality/profile.js';
+import type { DepthProfile, ProfileDerivation } from '../proportionality/profile.js';
 import {
   AGENCY_DELIVERY_ROLES,
   holdersOf,
@@ -24,7 +24,7 @@ export interface EngagementTemplate {
   id: string;
   name: string;
   engagementType: EngagementType;
-  allowedProfiles: AssuranceProfile[];
+  allowedProfiles: DepthProfile[];
   profileSource: 'pre_assessment' | 'third_party_pre_assessment';
   team: TemplateTeamSlot[];
   deliverables: string[];
@@ -106,7 +106,7 @@ export function validateMandateTeam(
   options: { derivation?: ProfileDerivation; exceptions?: SegregationException[] } = {},
 ): Violation[] {
   const v: Violation[] = [];
-  const profile = mandate.assuranceProfile;
+  const profile = mandate.depthProfile;
   const params = PROFILE_PARAMETERS[profile];
 
   if (!template.allowedProfiles.includes(profile)) {

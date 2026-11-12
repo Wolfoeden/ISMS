@@ -12,7 +12,7 @@
 | Bereich | Stand | Beleg |
 |---|---|---|
 | Stack | TypeScript (Node 22, strict), Vitest; PostgreSQL-Schema (ab 15), getestet gegen PostgreSQL 16; **keine Anwendung, kein UI, kein Server, kein Deployment** | `package.json`, `src/`, `db/` |
-| Domänenlogik | Assurance Profile (Ableitung, Untergrenzen, Entscheidung), Control-Tiefe, Mandat/Rollen/SoD, Quality Gate Feststellungen, Bewertungsmodell mit berechnetem Berichtsstatus, Größenklasse, NIS2-Vorprüfung § 28 BSIG | `src/proportionality`, `src/engagement`, `src/bewertung`, `src/regelwerk` |
+| Domänenlogik | Prüftiefenprofil (Ableitung, Untergrenzen, Entscheidung), Control-Tiefe, Mandat/Rollen/SoD, Quality Gate Feststellungen, Bewertungsmodell mit berechnetem Berichtsstatus, Größenklasse, NIS2-Vorprüfung § 28 BSIG | `src/proportionality`, `src/engagement`, `src/bewertung`, `src/regelwerk` |
 | Datenmodell | Organisation, Person, Complexity Assessment, Profilentscheidung, Mandat, Teilnehmer/Rollen, SoD-Ausnahmen, Work Assignment, Control-/Requirement-Assessment, Evidence, Risk, Measure, Finding mit Kundenreaktion, Transition-Log (append-only), Effort | `db/migrations/0001`, `0002` |
 | AuthN/AuthZ | **keine Authentifizierung**; Mandantentrennung als RLS-Muster (`app.person_id`), getestet | `db/tests/0001_smoke.sql` |
 | AI-Anbindung | keine Plattform-AI; Claude-Code-Agents mit Arbeitsregeln (Vorschlag ≠ Freigabe, Prompt-Injection-Regel) im dateibasierten Arbeitssystem | `.claude/agents`, `CLAUDE.md` |
@@ -36,7 +36,7 @@
 | # | Anforderung (Quelle) | Vorhanden | Fehlt | Risiko | Umsetzungsschritt | Test |
 |---|---|---|---|---|---|---|
 | G-01 | Variante C: Direktzugang oder geführte Bedarfsermittlung, gemeinsame Case-Domain (ADR-001, Handoff R1) | Triage-Fragebogen, NIS2-Vorprüfung | Intake-Case mit `entryRoute`, gemeinsame Case-ID | H | Case-Entität + Intake-Zustandsmaschine (Slice 2–3) | Intake KNOWN_NEED und GUIDED_DISCOVERY erzeugen dieselbe Case-Struktur |
-| G-02 | Frameworks nicht exklusiv; Gegenstand, Ziel, Rechtsnorm, Standard, Methode, Modus, Tiefe, Assurance getrennt (ADR-002, ADR-007) | Regelwerke je Eintrag (`vorschriften.md` Teil B); Assurance Profile; Tiefe | Assessment-**Objekt**, **Handling Mode**, Framework-Kandidaten je Case mit Status | H | Objekt- und Kandidatenmodell (Slice 1) | Case mit 2 Kandidaten unterschiedlichen Status |
+| G-02 | Frameworks nicht exklusiv; Gegenstand, Ziel, Rechtsnorm, Standard, Methode, Modus, Tiefe, Assurance getrennt (ADR-002, ADR-007) | Regelwerke je Eintrag (`vorschriften.md` Teil B); Prüftiefenprofil; Tiefe | Assessment-**Objekt**, **Handling Mode**, Framework-Kandidaten je Case mit Status | H | Objekt- und Kandidatenmodell (Slice 1) | Case mit 2 Kandidaten unterschiedlichen Status |
 | G-03 | DiscoveryRun 1:n Candidate, je Candidate eigene Case-Instanz (ADR-003, R3) | – | vollständig | M | nach MVP; erst Rechtsgrundlage Kontaktaufnahme ([ENT-034]) | getrennte Case-Daten je Candidate |
 | G-04 | Kontaktaufnahme nur rechtlich zulässig; keine Cold-E-Mail als Default (Handoff §6) | – | Rechtsgrundlage in der Bibliothek, Regel `T_OutreachRules` | **H (rechtlich)** | Wissen erfassen ([ENT-034]); Funktion standardmäßig gesperrt | Outreach ohne Freigabe technisch blockiert |
 | G-05 | Kundenoberfläche und Consultant Workspace getrennt, gleiche Daten/Regeln (ADR-004); Screens S01–S13 | – | vollständig | H | Spezifikation S01–S13 im Service Blueprint | je Screen Rechte- und Fehlerzustandstest |
@@ -45,7 +45,7 @@
 | G-08 | Verifizierte Artefakte versioniert, unveränderlich (ADR-008, R6) | Git-Historie; append-only Transition-Log; Policy-Version | Versionstabellen für Scope, Profil, Kriterien, Bericht | H | Versionierung je Fachobjekt (Slice 2) | Update eines freigegebenen Objekts erzeugt neue Version |
 | G-09 | MVP 3PA Einzelunternehmer + Softwareprodukt (ADR-009) | Templates „Solo Developer“, „Third-Party Assessment“; Profil-Beispiele | getrennte Objekte Organisation/Produkt ([ENT-021]) | M | Objektmodell löst ENT-021 | Beispiel-Case INT-DEMO-0001 durchspielen |
 | G-10 | Statusvokabular der Cases (`07`) | Achsenmodell (ENT-018), Freigabe (ENT-027/029) | Zuordnung `UNVERIFIED/PROVISIONAL/DRAFT/POSSIBLY_APPLICABLE/REQUIRES_EXPERT_REVIEW/OPTIONAL_…` | M | Abbildungstabelle ([ENT-031]) | Roundtrip Beispiel-Cases |
-| G-11 | „Assurance Profile“ in `07` = {reviewRequired, independenceClaim} | „Assurance Profile“ = Profil 1–4 (Proportionalität) | **Begriffskonflikt** | H | Begriffe trennen ([ENT-030]) | – |
+| G-11 | „Assurance Profile“ in `07` = {reviewRequired, independenceClaim} | „Assurance Profile“ = Profil 1–4 (Proportionalität) | **Begriffskonflikt** | H | ✔ erledigt: Profil 1–4 heißt „Prüftiefenprofil“ (`DepthProfile`, `depth_profile`), „Assurance“ nur Aussagequalität ([ENT-030]) | – |
 | G-12 | BPMN steuert Geschäftsvorfälle, Case-/Task-Service für dynamische Fragen (ADR-010) | – | Engine/Service | M | erst L1-Modelle; Engine-Wahl offen ([ENT-032]) | – |
 | G-13 | Mandantentrennung, Least Privilege (R8) | RLS-Muster, getestet | Authentifizierung, Rollenmodell Plattform | H | AuthN + RLS je Tabelle (Slice 1) | Cross-Tenant-Zugriff abgewiesen |
 | G-14 | Evidenzspeicher mit Hash, Quelle, Scope, Version, Zeitpunkt, Zugriff (Slice 5) | Tabelle `evidence`, Notiz-Kopf, Prüfstufe, Gültigkeit | Datei-Upload, Verschlüsselung, Scope-Bezug, Reuse-Prüfung | H | Upload-Dienst + Scope-Feld | Reuse ohne Scope-Prüfung abgewiesen |
@@ -64,7 +64,7 @@
 | # | Abweichung | Risiko | Empfehlung |
 |---|---|---|---|
 | A-1 | Repository ist ein dateibasiertes Arbeitssystem für Berater; das Zielbild ist eine Plattform mit Kundenportal | H | beides behalten: das Arbeitssystem liefert die geprüften Regeln, die Plattform nutzt sie (gemeinsamer Domänenkern `src/`) |
-| A-2 | „Assurance Profile“ doppelt belegt | H | [ENT-030] |
+| A-2 | „Assurance Profile“ doppelt belegt | – | ✔ erledigt ([ENT-030]) |
 | A-3 | Fragebogen verlangt Vollständigkeit vor der Einstufung | M | [ENT-033] |
 | A-4 | kein Objekt-/Handling-Mode-Konzept | H | `AssessmentObject` und Modus nach 02 §3/§5.2 ([ENT-021]) |
 | A-5 | Regeln als Code statt DMN | M | [ENT-032] – Code ist testbar und versioniert; DMN nur, wenn Fachbereich Tabellen selbst pflegen soll |

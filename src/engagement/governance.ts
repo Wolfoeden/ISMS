@@ -3,7 +3,7 @@
  * Unabhängigkeit (Fachkonzept §14, §18, §20–§22).
  */
 import { PROFILE_PARAMETERS } from '../proportionality/parameters.js';
-import type { AssuranceProfile } from '../proportionality/profile.js';
+import type { DepthProfile } from '../proportionality/profile.js';
 import {
   CONSULTING_ENGAGEMENT_TYPES,
   AGENCY_DELIVERY_ROLES,
@@ -16,7 +16,7 @@ import {
   type WorkObjectRef,
 } from './model.js';
 
-export function fourEyesRequired(profile: AssuranceProfile, object: WorkObjectRef): boolean {
+export function fourEyesRequired(profile: DepthProfile, object: WorkObjectRef): boolean {
   const scopes = PROFILE_PARAMETERS[profile].fourEyesRequiredFor;
   switch (object.type) {
     case 'finding':
@@ -87,7 +87,7 @@ export function validateAssignments(
   }
 
   // G3 – Vier-Augen-Prinzip (mit SoD-Ausnahme nach §18)
-  if (fourEyesRequired(mandate.assuranceProfile, object)) {
+  if (fourEyesRequired(mandate.depthProfile, object)) {
     const doers = new Set(assignees.length ? assignees : owners);
     const checkers = [...reviewers, ...approvers];
     const independentChecker = checkers.some((c) => !doers.has(c));
@@ -113,9 +113,9 @@ export function validateAssignments(
     if (!approvers.some((a) => hasRole(mandate, a, 'engagement_lead'))) {
       v.push({ rule: 'G5', severity: 'error', message: `Finale Deliverables werden durch den Engagement Lead freigegeben.` });
     }
-    if (PROFILE_PARAMETERS[mandate.assuranceProfile].independentReviewRequired &&
+    if (PROFILE_PARAMETERS[mandate.depthProfile].independentReviewRequired &&
         !reviewers.some((r) => hasRole(mandate, r, 'independent_reviewer'))) {
-      v.push({ rule: 'G5', severity: 'error', message: `Profil ${mandate.assuranceProfile} erfordert Review des Berichts durch Independent Reviewer / QA.` });
+      v.push({ rule: 'G5', severity: 'error', message: `Profil ${mandate.depthProfile} erfordert Review des Berichts durch Independent Reviewer / QA.` });
     }
   }
 

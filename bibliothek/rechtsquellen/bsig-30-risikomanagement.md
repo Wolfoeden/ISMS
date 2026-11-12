@@ -51,7 +51,7 @@ naechste_pruefung: 2027-05-12
 
 *Auslegung – verbindlich erst nach Freigabe.*
 
-- Die zehn Bereiche sind für betroffene Einrichtungen **Pflicht-Prüfbereiche** – unabhängig vom Assurance Profile. Das Profil steuert nur die Umsetzungstiefe, nicht ob ein Bereich geprüft wird.
+- Die zehn Bereiche sind für betroffene Einrichtungen **Pflicht-Prüfbereiche** – unabhängig vom Prüftiefenprofil. Das Profil steuert nur die Umsetzungstiefe, nicht ob ein Bereich geprüft wird.
 - Die Verhältnismäßigkeitskriterien begründen das Proportionalitätsmodell ([BIB-MET-PROFIL]): Risikoexposition → Exposure-Score, Größe → Komplexität, Schwere/Auswirkungen → Business Criticality.
 - Dokumentationspflicht → `isms.md` muss je Bereich Umsetzung und Nachweis führen.
 

@@ -4,7 +4,7 @@ import { join } from 'node:path';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { erzeugeFragebogen, leseFragebogen, parseZahl, zuFakten } from '../src/fragebogen/fragebogen.js';
 import { ALLE_FRAGEN } from '../src/fragebogen/katalog.js';
-import { deriveAssuranceProfile } from '../src/proportionality/profile.js';
+import { deriveDepthProfile } from '../src/proportionality/profile.js';
 import { nis2Vorpruefung } from '../src/regelwerk/nis2.js';
 import { einstufung, neu } from '../src/werkzeuge/befehle.js';
 import { pruefeFormulierungen } from '../src/werkzeuge/ergebnis.js';
@@ -59,7 +59,7 @@ describe('Fragebogen', () => {
     const f = zuFakten(leseFragebogen(md));
     expect(f.fehlend).toEqual([]);
     expect(f.fakten).toEqual(MANUFACTURER);
-    expect(deriveAssuranceProfile(f.fakten!).recommended).toBe(4);
+    expect(deriveDepthProfile(f.fakten!).recommended).toBe(4);
   });
 
   it('Formfehler werden erkannt: ohne Quelle, ungültige Option, unbekannt + Antwort', () => {
@@ -223,7 +223,7 @@ describe('Iterationszyklus an einem fiktiven Mandat', () => {
     const isms = lies('isms.md');
     schreibe('isms.md', isms.replace('| NIS2 / BSIG | | |', '| NIS2 / BSIG | wichtige Einrichtung | [E-002] |'));
     expect(pruefung()).toEqual([]);
-    schreibe('isms.md', isms.replace('| Assurance Profile | | |', '| Assurance Profile | Profil 4 | [E-003], [BIB-BSIG-28], [STA-08] |'));
+    schreibe('isms.md', isms.replace('| Prüftiefenprofil | | |', '| Prüftiefenprofil | Profil 4 | [E-003], [BIB-BSIG-28], [STA-08] |'));
     expect(pruefung()).toEqual([
       '[E-003] Entscheidung nicht freigegeben (offen)',
       '[BIB-BSIG-28] Bibliothekseintrag nicht freigegeben (quellengeprueft)',

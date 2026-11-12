@@ -5,7 +5,7 @@ import { cpSync, existsSync, readdirSync, readFileSync, writeFileSync } from 'no
 import { join } from 'node:path';
 import { erzeugeFragebogen, zuFakten } from '../fragebogen/fragebogen.js';
 import { groessenklasse, ORGANISATIONSFORM } from '../bewertung/groessenklasse.js';
-import { deriveAssuranceProfile, PROFILE_NAMES } from '../proportionality/profile.js';
+import { deriveDepthProfile, PROFILE_NAMES } from '../proportionality/profile.js';
 import { NIS2_FAKT, nis2Vorpruefung } from '../regelwerk/nis2.js';
 import { fmListe, fmString } from './markdown.js';
 import { ladeArbeitsbereich, ladeMandat } from './repo.js';
@@ -68,11 +68,11 @@ export function einstufung(root: string, kuerzel: string): string {
   out.push(...g.hinweise.map((h) => `- Hinweis: ${h}`), '- Grundlagen: BIB-KMU', '');
   const f = zuFakten(m.fragebogen);
   if (!f.fakten) {
-    out.push(`### Assurance Profile`, `- Noch nicht ableitbar. Fehlende Antworten (${f.fehlend.length}): ${f.fehlend.join(', ')}`);
+    out.push(`### Prüftiefenprofil`, `- Noch nicht ableitbar. Fehlende Antworten (${f.fehlend.length}): ${f.fehlend.join(', ')}`);
   } else {
-    const d = deriveAssuranceProfile(f.fakten);
+    const d = deriveDepthProfile(f.fakten);
     out.push(
-      `### Assurance Profile – Vorschlag (Policy ${d.policyVersion})`,
+      `### Prüftiefenprofil – Vorschlag (Policy ${d.policyVersion})`,
       `- Empfehlung: **Profil ${d.recommended} – ${PROFILE_NAMES[d.recommended]}**`,
       ...(d.borderline ? [`- Grenzfall: Profil ${d.borderline.alternative} vertretbar (Abstand ${d.borderline.distance}) – Entscheidung Engagement Lead`] : []),
       `- Exposure ${d.exposureScore} → Band ${d.exposureBand} · Komplexität ${d.complexityScore}${d.complexityLift ? ' → +1' : ''}`,

@@ -109,7 +109,7 @@ export function transitionFinding(
         return { ok: false, error: 'Junior Consultants bereiten Bewertungen vor, geben sie aber nicht frei.' };
       }
       if (action === 'approve') {
-        if (fourEyesRequired(mandate.assuranceProfile, ref) && p === finding.authorId) {
+        if (fourEyesRequired(mandate.depthProfile, ref) && p === finding.authorId) {
           return { ok: false, error: 'Vier-Augen-Prinzip: Wer die Feststellung verfasst hat, gibt sie nicht frei.' };
         }
         if (ref.critical && !canConfirmCritical(mandate, p, ref)) {

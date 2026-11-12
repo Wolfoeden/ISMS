@@ -7,14 +7,14 @@
  * Grundregeln:
  *  - Anwendbarkeit wird ausschließlich über den Scope bestimmt
  *    (gibt es den Gegenstand des Controls?), nie über die Unternehmensgröße.
- *  - Das Assurance Profile setzt die Basistiefe.
+ *  - Das Prüftiefenprofil setzt die Basistiefe.
  *  - Control-spezifische Risikotreiber können die Tiefe über das Profil
  *    hinaus anheben (z. B. Profil 2, aber Access Review auf Tiefe 3).
  *  - Unterschreiten der erforderlichen Tiefe ist Tailoring und benötigt
  *    Begründung plus Risikoakzeptanz.
  */
 import type { ComplexityFacts, Dimension, DimensionRating } from './dimensions.js';
-import type { AssuranceProfile } from './profile.js';
+import type { DepthProfile } from './profile.js';
 
 /** 1 Basic · 2 Defined · 3 Managed · 4 Assured */
 export type ImplementationDepth = 1 | 2 | 3 | 4;
@@ -35,7 +35,7 @@ export interface DepthSpec {
 }
 
 export interface ControlContext {
-  profile: AssuranceProfile;
+  profile: DepthProfile;
   facts: ComplexityFacts;
   ratings: Record<Dimension, DimensionRating>;
 }

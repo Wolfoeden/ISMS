@@ -11,7 +11,7 @@ bibliothek/
   quellen/        Wortlaut-Snapshots amtlicher Texte (Gesetze, EU-Rechtsakte) mit URL und Abrufdatum
   rechtsquellen/  ein Eintrag je Regelungskomplex (z. B. BSIG § 28 Betroffenheit)
   normen/         Normen (ISO/IEC …) – nur Fundstellen und eigene Zusammenfassungen, kein Normtext
-  methodik/       eigene Methodik (z. B. Ableitung des Assurance Profile)
+  methodik/       eigene Methodik (z. B. Ableitung des Prüftiefenprofils)
   _vorlage.md     Vorlage für neue Einträge
 ```
 

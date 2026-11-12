@@ -55,7 +55,7 @@ Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `ve
 3. offene Fragebogen-Fragen aus `notizen/` beantworten
 4. für `unbekannt` beantwortete Fragen Klärungs-Entscheidungen anlegen
 5. NIS2-Vorprüfung in die Betroffenheits-Entscheidung übernehmen
-6. Assurance Profile vorschlagen, sobald der Fragebogen vollständig ist
+6. Prüftiefenprofil vorschlagen, sobald der Fragebogen vollständig ist
 7. anwendbare Vorschriften vorschlagen, sobald das Profil abgelegt ist
 8. fehlendes Wissen recherchieren (Entscheidungen vom Typ `wissen`)
 9. Controls bewerten, Findings und Maßnahmen vorschlagen
@@ -69,7 +69,7 @@ Eine Iteration ist klein: ein Agent, eine Lücke, ein Commit, ein Eintrag in `ve
 |---|---|---|---|---|
 | 0 Anlage | Auftrag | – | `npm run isms -- neu <kürzel> "<Name>"` | Engagement Lead benannt |
 | 1 Erhebung | Interviews, Dokumente in `notizen/` | `erhebung` | Fragebogen mit Quellen; Klärungsfragen | Kunde bestätigt Klärungen |
-| 2 Einstufung | vollständiger Fragebogen | `einstufung` | Vorschläge E-002 NIS2-Betroffenheit, E-003 Assurance Profile | Engagement Lead (Herabstufung zusätzlich QA) |
+| 2 Einstufung | vollständiger Fragebogen | `einstufung` | Vorschläge E-002 NIS2-Betroffenheit, E-003 Prüftiefenprofil | Engagement Lead (Herabstufung zusätzlich QA) |
 | 3 Vorschriften | Profil abgelegt | `vorschriften` | Anwendbarkeits-Entscheidungen, Pflichtmodule | Engagement Lead |
 | 4 Prüfung | Profil + Vorschriften | `isms-pruefung` | Controls mit Tiefe, Evidenz, Findings, Risiken als Vorschläge | Senior/Reviewer gemäß Quality Gate |
 | 5 Ergebnis | freigegebene Findings | `isms-pruefung` | Maßnahmen, Prüfergebnis in `isms.md` §10 | Engagement Lead, Kunde (Risikoakzeptanz) |
@@ -83,7 +83,7 @@ Detailspezifikation: `docs/01-engagement-proportionality-model.md` · Methodik-E
 
 **Schritt 1 – NIS2/BSIG-Vorprüfung** nach § 28 BSIG ([BIB-BSIG-28]): Einrichtungsart nach Anlage 1/2 (`STA-04`), entgeltliches Angebot (`STA-05`), Größe (`ORG-01`, `STA-06`, `STA-07`), KRITIS (`REG-03`). Das Werkzeug liefert *besonders wichtig*, *wichtig*, *nicht betroffen* oder *prüfen* – als Vorschlag für Entscheidung E-002.
 
-**Schritt 2 – Assurance Profile** aus zehn Dimensionen (Stufen 0–4):
+**Schritt 2 – Prüftiefenprofil** aus zehn Dimensionen (Stufen 0–4):
 
 | Rolle in der Ableitung | Dimensionen |
 |---|---|

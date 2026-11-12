@@ -2,7 +2,7 @@
  * Engagement / Mandate – Kernmodell (Fachkonzept §10–§21).
  */
 import type { CustomerRole, SmeDomain } from '../proportionality/parameters.js';
-import type { AssuranceProfile } from '../proportionality/profile.js';
+import type { DepthProfile } from '../proportionality/profile.js';
 
 export type { CustomerRole, SmeDomain };
 
@@ -56,7 +56,7 @@ export interface Mandate {
   customerId: string;
   scope: string;
   engagementType: EngagementType;
-  assuranceProfile: AssuranceProfile;
+  depthProfile: DepthProfile;
   /** ISO-Datum YYYY-MM-DD */
   startDate: string;
   endDate?: string;

@@ -18,7 +18,7 @@
 | BIB-ISO27001 | ISO/IEC 27001:2022 – Anforderungen an das ISMS (Abschnitte 4–10), Anhang A und SoA | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27001-2022.md](normen/iso-iec-27001-2022.md) |
 | BIB-ISO27002 | ISO/IEC 27002:2022 – Control-Index (93 Kennungen), Attribute, Nachweiskategorien | norm | entwurf | — | 2027-05-12 | [normen/iso-iec-27002-2022-controls.md](normen/iso-iec-27002-2022-controls.md) |
 | BIB-KMU | KMU-Definition (Empfehlung 2003/361/EG) – Schwellenwerte für NIS2/BSIG | rechtsquelle | quellengeprueft | — | 2027-11-12 | [rechtsquellen/kmu-definition.md](rechtsquellen/kmu-definition.md) |
-| BIB-MET-PROFIL | Methodik – Ableitung des Assurance Profile (Policy 2026-11.1) | methodik | entwurf | — | 2027-05-12 | [methodik/assurance-profile.md](methodik/assurance-profile.md) |
+| BIB-MET-PROFIL | Methodik – Ableitung des Prüftiefenprofils (Policy 2026-11.1) | methodik | entwurf | — | 2027-05-12 | [methodik/assurance-profile.md](methodik/assurance-profile.md) |
 | BIB-RDG | Rechtsdienstleistungsgesetz – Grenze zwischen fachlicher Einschätzung und Rechtsberatung | rechtsquelle | quellengeprueft | — | 2027-05-12 | [rechtsquellen/rdg-rechtsdienstleistung.md](rechtsquellen/rdg-rechtsdienstleistung.md) |
 | BIB-URHG | Urheberrecht – Schutz von Normen, Bearbeitungen, Text und Data Mining, Zitate | rechtsquelle | quellengeprueft | — | 2027-05-12 | [rechtsquellen/urhg-normen-und-ableitungen.md](rechtsquellen/urhg-normen-und-ableitungen.md) |
 

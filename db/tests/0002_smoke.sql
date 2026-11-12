@@ -34,7 +34,7 @@ insert into person (id, party, organization_id, display_name) values
   ('00000000-0000-0000-0000-00000000a001', 'agency', null, 'Erika Beispiel'),
   ('00000000-0000-0000-0000-00000000c001', 'customer', '00000000-0000-0000-0000-0000000000c1', 'Max Muster'),
   ('00000000-0000-0000-0000-00000000c002', 'customer', '00000000-0000-0000-0000-0000000000c1', 'Risikoeigentümerin');
-insert into mandate (id, customer_id, scope, engagement_type, assurance_profile, status, start_date)
+insert into mandate (id, customer_id, scope, engagement_type, depth_profile, status, start_date)
 values ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000c1', 'ISMS', 'security_assessment', 2, 'planned', '2026-11-01');
 insert into mandate_participant (mandate_id, person_id) select '00000000-0000-0000-0000-0000000000e1', id from person;
 insert into mandate_role values
