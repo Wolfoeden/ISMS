@@ -95,6 +95,43 @@ export const ENGAGEMENT_TEMPLATES: EngagementTemplate[] = [
     ],
     deliverables: ['Lieferantenbewertung', 'Findings mit Auflagen'],
   },
+  // ENT-020: Templates je neuem Mandatstyp
+  {
+    id: 'initial-assessment',
+    name: 'Initial Assessment',
+    engagementType: 'initial_assessment',
+    allowedProfiles: [1, 2, 3, 4],
+    profileSource: 'pre_assessment',
+    team: [
+      { role: 'engagement_lead', requirement: 'required' },
+      { role: 'junior_consultant', requirement: 'optional' },
+    ],
+    deliverables: ['Initial Assessment Report', 'priorisierte nächste Schritte'],
+  },
+  {
+    id: 'gap-assessment',
+    name: 'Gap Assessment',
+    engagementType: 'gap_assessment',
+    allowedProfiles: [1, 2, 3, 4],
+    profileSource: 'pre_assessment',
+    team: [
+      { role: 'engagement_lead', requirement: 'required' },
+      { role: 'consultant', requirement: 'optional' },
+    ],
+    deliverables: ['Gap Analysis Report gegen die vereinbarten Kriterien', 'Maßnahmenplan'],
+  },
+  {
+    id: 'product-security-assessment',
+    name: 'Product Security Assessment',
+    engagementType: 'product_security_assessment',
+    allowedProfiles: [1, 2, 3, 4],
+    profileSource: 'third_party_pre_assessment',
+    team: [
+      { role: 'engagement_lead', requirement: 'required' },
+      { role: 'subject_matter_expert', requirement: 'optional' },
+    ],
+    deliverables: ['Software Product Security Assessment Report (abgegrenztes Produkt, Version)', 'Findings und Empfehlungen'],
+  },
 ];
 
 /** Rollenkombinationen auf Kundenseite, die je nach Profil Rollentrennung erfordern. */

@@ -218,3 +218,12 @@ describe('Auditunabhängigkeit (§14)', () => {
     expect(checkAuditIndependence({ ...audit, startDate: '2028-07-01' }, [implementation])).toEqual([]);
   });
 });
+
+describe('Mandatstypen je Leistungsart (ENT-020)', () => {
+  it('jede neue Leistungsart hat ein Template', () => {
+    for (const typ of ['initial_assessment', 'gap_assessment', 'product_security_assessment'] as const) {
+      expect(ENGAGEMENT_TEMPLATES.some((t) => t.engagementType === typ)).toBe(true);
+    }
+    expect(template('product-security-assessment').allowedProfiles).toEqual([1, 2, 3, 4]);
+  });
+});

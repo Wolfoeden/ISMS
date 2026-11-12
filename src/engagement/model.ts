@@ -26,7 +26,11 @@ export const AGENCY_DELIVERY_ROLES: readonly AgencyRole[] = [
   'engagement_coordinator',
 ];
 
+/** ENT-020 (Option 1, freigegeben 2026-11-12): Leistungsarten nach vorschriften.md §A3 als Mandatstypen. */
 export type EngagementType =
+  | 'initial_assessment'
+  | 'gap_assessment'
+  | 'product_security_assessment'
   | 'security_assessment'
   | 'iso27001_readiness'
   | 'iso27001_implementation'
