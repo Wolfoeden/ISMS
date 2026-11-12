@@ -142,7 +142,7 @@ Wer freigeben darf ([ENT-013]): Bibliothek und Methodik die bzw. der Methodikver
 3. Vertiefte Assessment-Kataloge je Pflicht-Prüfbereich (§ 30 Abs. 2 Nr. 1–10), Tiefe je Profil
 4. ISO-Kataloge in der Testphase freigeben ([ENT-014]) und Prüfimpulse je Control ausarbeiten ([ENT-024]); SoA nach [ENT-023]
 5. Pilotfall Einzelunternehmer mit Softwareprodukt: getrennte Scopes ([ENT-021]), Product Security Assessment ([ENT-020]), Evidenzregister, Risikomethode ([ENT-022]), Berichtsvorlage
-6. Third-Party Pre-Assessment ([ENT-008])
+6. Third-Party Pre-Assessment ([ENT-008], umgesetzt): Kurzfragebogen (`npm run isms -- neu <kürzel> "<Name>" --drittpartei`, 34 von 65 Fragen); die Einstufung mit Teilfakten nennt danach die wenigen wesentlichen Fragen für eine gezielte zweite Runde
 7. Aufwandsschätzung aus Ist-Aufwänden
 
 ## 9. Vertraulichkeit

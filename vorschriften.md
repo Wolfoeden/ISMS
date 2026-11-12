@@ -52,7 +52,7 @@ Assessment-Typen **MÜSSEN** getrennt modelliert werden; Umfang, Kriterien, Meth
 | Gap Assessment | Gap Analysis Report | Abgleich mit definierten Anforderungen | `gap_assessment`; mit Vorbereitungsanteil `iso27001_readiness` / `nis2_readiness` |
 | Readiness Assessment | Readiness Assessment Report | Vorbereitung, **keine** Zertifizierung | `iso27001_readiness` |
 | Implementierung | ISMS-Dokumentation, SoA | Aufbau, kein Prüfurteil | `iso27001_implementation` |
-| Third-Party Security Assessment (3PA) | Third-Party Information Security Assessment Report | Bewertung eines Dienstleisters | `third_party_assessment` |
+| Third-Party Security Assessment (3PA) | Third-Party Information Security Assessment Report | Bewertung eines Dienstleisters; Pre-Assessment mit Kurzfragebogen und gezielter Nachfrage ([ENT-008]) | `third_party_assessment` |
 | Product Security Assessment | Software Product Security Assessment Report | abgegrenztes Produkt | `product_security_assessment` |
 | Internal ISMS Audit | Internal Audit Report | Objektivität und Unabhängigkeit erforderlich (Regel I1) | `internal_audit` |
 | Continuous Assessment | Continuous Assurance Report | wiederkehrende Bewertung definierter Kontrollen | `continuous_operation` |

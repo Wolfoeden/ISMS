@@ -9,7 +9,7 @@
  *   Quelle: Interview GF 2026-11-20
  */
 import type { ComplexityFacts } from '../proportionality/dimensions.js';
-import { ALLE_FRAGEN, KATALOG, KATALOG_VERSION, type Frage } from './katalog.js';
+import { ALLE_FRAGEN, KATALOG, KATALOG_VERSION, KURZFORM_DRITTPARTEI, type Frage, type FragebogenVariante } from './katalog.js';
 
 export const UNBEKANNT = 'unbekannt';
 
@@ -21,12 +21,14 @@ const TYP_LABEL: Record<Frage['typ'], string> = {
   mehrfach: 'Mehrfachauswahl',
 };
 
-export function erzeugeFragebogen(meta: { kuerzel: string; name: string }): string {
+export function erzeugeFragebogen(meta: { kuerzel: string; name: string; variante?: FragebogenVariante }): string {
+  const kurz = meta.variante === 'drittpartei';
   const out: string[] = [
     '---',
     `mandant: ${meta.kuerzel}`,
     'dokument: fragebogen',
     `katalog_version: ${KATALOG_VERSION}`,
+    ...(kurz ? ['variante: drittpartei'] : []),
     '---',
     `# Fragebogen – ${meta.name}`,
     '',
@@ -35,9 +37,12 @@ export function erzeugeFragebogen(meta: { kuerzel: string; name: string }): stri
     '> Nicht geklärt → `unbekannt` ankreuzen bzw. `Antwort: unbekannt`. **Niemals raten.**',
     '> Unbekannte Antworten werden über Klärungs-Entscheidungen in `entscheidungen.md` aufgelöst.',
   ];
+  if (kurz) out.push('> **Verkürzter Fragebogen – Third-Party Pre-Assessment (ENT-008).** Nicht gestellte Fragen gelten als offen;', '> die Einstufung zeigt, ob sie für das Ergebnis wesentlich sind (ENT-033), und dann werden sie gezielt nachgefragt.');
   for (const abschnitt of KATALOG) {
+    const fragen = kurz ? abschnitt.fragen.filter((f) => KURZFORM_DRITTPARTEI.includes(f.id)) : abschnitt.fragen;
+    if (!fragen.length) continue;
     out.push('', `## ${abschnitt.titel}`);
-    for (const f of abschnitt.fragen) {
+    for (const f of fragen) {
       out.push('', `### ${f.id} · ${f.frage}`, `\`${f.feld}\` · ${TYP_LABEL[f.typ]}`);
       if (f.hinweis) out.push(`> ${f.hinweis}`);
       if (f.optionen) {
@@ -137,7 +142,13 @@ export function leseFragebogen(markdown: string): Fragebogen {
     if (antworten.has(id)) fehler.push(`${id}: doppelt vorhanden`);
     antworten.set(id, a);
   }
-  for (const f of ALLE_FRAGEN) if (!antworten.has(f.id)) fehler.push(`${f.id}: fehlt im Fragebogen`);
+  const kurz = meta['variante'] === 'drittpartei';
+  for (const f of ALLE_FRAGEN) {
+    if (antworten.has(f.id)) continue;
+    // Kurzform (ENT-008): nicht gestellte Fragen sind offen, kein Formfehler
+    if (kurz && !KURZFORM_DRITTPARTEI.includes(f.id)) antworten.set(f.id, { id: f.id, frage: f, status: 'offen', fehler: [] });
+    else fehler.push(`${f.id}: fehlt im Fragebogen`);
+  }
   return { meta, antworten, fehler };
 }
 

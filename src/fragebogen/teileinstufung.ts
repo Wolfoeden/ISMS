@@ -11,8 +11,8 @@
  *    Einstufung blockiert, bis die wesentlichen Fragen geklärt sind.
  *
  * Die Suche ist deterministisch (koordinatenweise Maximierung/Minimierung über alle
- * Antwortmöglichkeiten). Sie findet die Spanne, die durch einzelne Angaben erreichbar ist;
- * das Ergebnis bleibt ein Vorschlag für die menschliche Entscheidung.
+ * Antwortmöglichkeiten, von mehreren Startpunkten). Das Ergebnis bleibt ein Vorschlag für die
+ * menschliche Entscheidung; Tests prüfen, dass die Spanne das tatsächliche Profil enthält.
  */
 import type { ComplexityFacts } from '../proportionality/dimensions.js';
 import { deriveDepthProfile, type DepthProfile, type ProfileDerivation } from '../proportionality/profile.js';
@@ -33,7 +33,8 @@ function kandidaten(f: Frage): Wert[] {
       return (f.optionen ?? []).map((o) => o.wert);
     case 'mehrfach': {
       const w = (f.optionen ?? []).map((o) => o.wert).filter((x) => x !== 'keine');
-      return [['keine'], ...w.map((x) => [x]), w];
+      // „keine“ wird beim Einlesen zur leeren Liste (fragebogen.ts) – genauso durchspielen
+      return [[], ...w.map((x) => [x]), w];
     }
     default:
       return [];
@@ -79,9 +80,12 @@ export function teilEinstufung(fb: Fragebogen): TeilEinstufung {
     return { d, score: d.recommended * 1000 + d.exposureScore * 10 + d.complexityScore };
   };
 
-  const suche = (richtung: 1 | -1) => {
-    const bel = new Map<string, Wert>(offen.map((f) => [f.id, kandidaten(f)[0]!]));
-    for (let runde = 0; runde < 3; runde++) {
+  // Koordinatenweise Suche von mehreren Startpunkten. Ein einzelner Startpunkt kann auf einem
+  // Plateau hängen bleiben (eine Dimension sinkt erst, wenn mehrere Angaben zugleich niedrig sind);
+  // deshalb starten wir auch von „jede Angabe für sich am günstigsten/ungünstigsten“.
+  const verbessere = (start: Map<string, Wert>, richtung: 1 | -1) => {
+    const bel = new Map(start);
+    for (let runde = 0; runde < 4; runde++) {
       let geaendert = false;
       for (const f of offen) {
         let best = bel.get(f.id)!;
@@ -101,6 +105,35 @@ export function teilEinstufung(fb: Fragebogen): TeilEinstufung {
     }
     return bel;
   };
+  const einzelExtrem = (basisBel: Map<string, Wert>, richtung: 1 | -1) => {
+    const out = new Map<string, Wert>();
+    for (const f of offen) {
+      const probe = new Map(basisBel);
+      let best = kandidaten(f)[0]!;
+      let bestScore = -Infinity;
+      for (const k of kandidaten(f)) {
+        probe.set(f.id, k);
+        const s = richtung * bewerte(probe).score;
+        if (s > bestScore) {
+          bestScore = s;
+          best = k;
+        }
+      }
+      out.set(f.id, best);
+    }
+    return out;
+  };
+  const suche = (richtung: 1 | -1) => {
+    const erste = new Map<string, Wert>(offen.map((f) => [f.id, kandidaten(f)[0]!]));
+    const letzte = new Map<string, Wert>(offen.map((f) => [f.id, kandidaten(f).at(-1)!]));
+    const starts = [erste, letzte, einzelExtrem(erste, richtung), einzelExtrem(letzte, richtung)];
+    let best = verbessere(starts[0]!, richtung);
+    for (const st of starts.slice(1)) {
+      const kand = verbessere(st, richtung);
+      if (richtung * bewerte(kand).score > richtung * bewerte(best).score) best = kand;
+    }
+    return best;
+  };
 
   if (offen.length === 0) {
     const d = deriveDepthProfile(mitBelegung(new Map()));
@@ -112,8 +145,9 @@ export function teilEinstufung(fb: Fragebogen): TeilEinstufung {
   const dHoch = bewerte(hoch).d;
   const dTief = bewerte(tief).d;
 
-  // Wesentlich: eine Angabe, die – bei sonst konservativer oder günstiger Belegung – das Profil verschiebt.
-  const wesentlich = offen.filter((f) =>
+  // Wesentlich (a): eine Angabe, die allein – bei sonst konservativer oder günstiger Belegung –
+  // das Profil verschiebt.
+  const einzeln = new Set(offen.filter((f) =>
     [hoch, tief].some((bel) => {
       const ref = bewerte(bel).d.recommended;
       const kopie = new Map(bel);
@@ -122,7 +156,19 @@ export function teilEinstufung(fb: Fragebogen): TeilEinstufung {
         return bewerte(kopie).d.recommended !== ref;
       });
     }),
-  ).map((f) => f.id);
+  ).map((f) => f.id));
+  // Wesentlich (b): weicht das Profil zwischen günstigster und ungünstigster Belegung ab, auch die
+  // Angaben, die nur gemeinsam wirken – sie unterscheiden sich zwischen beiden Belegungen und
+  // verändern den Rechenwert (Exposure/Komplexität).
+  if (bewerte(hoch).d.recommended !== bewerte(tief).d.recommended) {
+    for (const f of offen) {
+      if (einzeln.has(f.id) || JSON.stringify(hoch.get(f.id)) === JSON.stringify(tief.get(f.id))) continue;
+      const kopie = new Map(tief);
+      kopie.set(f.id, hoch.get(f.id)!);
+      if (bewerte(kopie).score !== bewerte(tief).score) einzeln.add(f.id);
+    }
+  }
+  const wesentlich = offen.map((f) => f.id).filter((id) => einzeln.has(id));
   const unwesentlich = offen.map((f) => f.id).filter((id) => !wesentlich.includes(id));
 
   const min = Math.min(dTief.recommended, dHoch.recommended) as DepthProfile;

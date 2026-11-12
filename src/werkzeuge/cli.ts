@@ -1,7 +1,7 @@
 /**
  * npm run isms -- <befehl> [argumente]
  *
- *   neu <kuerzel> "<Name>"   Mandat aus mandanten/_vorlage anlegen
+ *   neu <kuerzel> "<Name>" [--drittpartei]   Mandat anlegen; Kurzfragebogen für Third-Party Pre-Assessment (ENT-008)
  *   status <kuerzel>         Fortschritt und nächste Schritte
  *   einstufung <kuerzel>     NIS2-Vorprüfung + Prüftiefenprofil als Vorschlagstext
  *   pruefen [kuerzel]        Konsistenzprüfung (Exit-Code 1 bei Fehlern)
@@ -28,7 +28,7 @@ function main(): number {
   };
   switch (befehl) {
     case 'neu':
-      console.log(neu(root, args[0], args[1]));
+      console.log(neu(root, args[0], args[1], args.includes('--drittpartei') ? 'drittpartei' : 'voll'));
       return 0;
     case 'status': {
       const ws = ladeArbeitsbereich(root, brauchtKuerzel());

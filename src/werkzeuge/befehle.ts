@@ -5,6 +5,7 @@ import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync
 import { dirname, join } from 'node:path';
 import { erzeugeFragebogen, zuFakten } from '../fragebogen/fragebogen.js';
 import { teilEinstufung } from '../fragebogen/teileinstufung.js';
+import type { FragebogenVariante } from '../fragebogen/katalog.js';
 import { groessenklasse, ORGANISATIONSFORM } from '../bewertung/groessenklasse.js';
 import { deriveDepthProfile, PROFILE_NAMES } from '../proportionality/profile.js';
 import { NIS2_FAKT, nis2Vorpruefung } from '../regelwerk/nis2.js';
@@ -19,7 +20,7 @@ function fail(msg: string): never {
   throw new Abbruch(msg);
 }
 
-export function neu(root: string, kuerzel?: string, name?: string): string {
+export function neu(root: string, kuerzel?: string, name?: string, variante: FragebogenVariante = 'voll'): string {
   if (!kuerzel || !/^[a-z0-9][a-z0-9-]{1,40}$/.test(kuerzel)) fail('Kürzel: Kleinbuchstaben, Ziffern, Bindestrich (z. B. "mueller-gmbh").');
   const ziel = join(mandantenOrdner(root), kuerzel);
   if (existsSync(ziel)) fail(`mandanten/${kuerzel} existiert bereits.`);
@@ -36,8 +37,8 @@ export function neu(root: string, kuerzel?: string, name?: string): string {
     }
   };
   ersetze(ziel);
-  writeFileSync(join(ziel, 'fragebogen.md'), erzeugeFragebogen({ kuerzel, name: name ?? kuerzel }));
-  return `Angelegt: mandanten/${kuerzel}/ (fragebogen, entscheidungen, isms, verlauf, notizen)`;
+  writeFileSync(join(ziel, 'fragebogen.md'), erzeugeFragebogen({ kuerzel, name: name ?? kuerzel, variante }));
+  return `Angelegt: mandanten/${kuerzel}/ (fragebogen${variante === 'drittpartei' ? ' – Kurzform Third-Party Pre-Assessment' : ''}, entscheidungen, isms, verlauf, notizen)`;
 }
 
 export function einstufung(root: string, kuerzel: string): string {

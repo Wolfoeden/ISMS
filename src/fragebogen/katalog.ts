@@ -354,4 +354,24 @@ export const KATALOG: Abschnitt[] = [
 ];
 
 export const ALLE_FRAGEN: Frage[] = KATALOG.flatMap((a) => a.fragen);
+
+/**
+ * Kurzform für das Third-Party Pre-Assessment (ENT-008, Option 1, freigegeben 2026-11-12):
+ * verkürzte Teilmenge dieses Katalogs. Enthalten sind die Angaben für die NIS2-Vorprüfung
+ * (Stammdaten), für die Untergrenzen F1–F8 und für die vier Kerndimensionen der Exposure
+ * (Information, Geschäftskritikalität, Bedrohung, Regulierung) sowie Lieferkette und KI.
+ * Nicht gestellte Fragen gelten als offen; ob sie für das Profil wesentlich sind, zeigt die
+ * Einstufung mit Teilfakten (ENT-033) – dann werden sie gezielt nachgefragt.
+ */
+export const KURZFORM_DRITTPARTEI: readonly string[] = [
+  'STA-01', 'STA-02', 'STA-03', 'STA-04', 'STA-05', 'STA-06', 'STA-07', 'STA-08',
+  'ORG-01', 'TEC-05', 'TEC-06',
+  'INF-01', 'INF-02', 'INF-03', 'INF-06',
+  'KRI-01', 'KRI-02', 'KRI-03', 'KRI-04', 'KRI-05',
+  'REG-01', 'REG-02', 'REG-03', 'REG-05', 'REG-06',
+  'BED-01', 'BED-02', 'BED-03', 'BED-04', 'BED-05',
+  'DRI-03', 'KI-01',
+];
+
+export type FragebogenVariante = 'voll' | 'drittpartei';
 export const frageById = (id: string): Frage | undefined => ALLE_FRAGEN.find((f) => f.id === id);

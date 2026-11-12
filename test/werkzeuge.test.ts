@@ -397,3 +397,41 @@ describe('Einstufung mit Teilfakten (ENT-033)', () => {
     }
   });
 });
+
+describe('Third-Party Pre-Assessment mit Kurzfragebogen (ENT-008)', () => {
+  it('Kurzform fragt weniger, nicht gestellte Fragen sind offen und werden über ENT-033 bewertet', async () => {
+    const { KURZFORM_DRITTPARTEI } = await import('../src/fragebogen/katalog.js');
+    const md = erzeugeFragebogen({ kuerzel: 'x', name: 'X', variante: 'drittpartei' });
+    expect(md).toMatch(/variante: drittpartei/);
+    expect((md.match(/^### /gm) ?? []).length).toBe(KURZFORM_DRITTPARTEI.length);
+    const alle = antwortenAus(SOLO_DEV_A);
+    const nurKern = Object.fromEntries(Object.entries(alle).filter(([id]) => KURZFORM_DRITTPARTEI.includes(id)));
+    const fb = leseFragebogen(beantworte(md, { ...nurKern, 'STA-04': ['keine'], 'STA-05': 'ja', 'STA-06': 0.1, 'STA-07': 0.1, 'STA-08': 'nein' }));
+    expect(fb.fehler).toEqual([]);
+    expect(fb.antworten.get('KRY-02')?.status).toBe('offen');
+    const t = teilEinstufung(fb);
+    expect(t.vollstaendig).toBe(false);
+    expect(t.min).toBeLessThanOrEqual(deriveDepthProfile(SOLO_DEV_A).recommended);
+    expect(t.max).toBeGreaterThanOrEqual(deriveDepthProfile(SOLO_DEV_A).recommended);
+    expect([...t.wesentlich, ...t.unwesentlich].every((id) => !KURZFORM_DRITTPARTEI.includes(id))).toBe(true);
+  });
+
+  it('für alle Beispielprofile: Spanne enthält das tatsächliche Profil, offene Spanne nennt wesentliche Fragen', async () => {
+    const F = await import('./fixtures.js');
+    const { KURZFORM_DRITTPARTEI } = await import('../src/fragebogen/katalog.js');
+    for (const fx of [F.SOLO_DEV_A, F.SOLO_DEV_B, F.SOLO_DEV_B_HIGH, F.MANUFACTURER, F.LARGE_LOW_RISK]) {
+      const alle = antwortenAus(fx);
+      const nurKern = Object.fromEntries(Object.entries(alle).filter(([id]) => KURZFORM_DRITTPARTEI.includes(id)));
+      const t = teilEinstufung(leseFragebogen(beantworte(erzeugeFragebogen({ kuerzel: 'x', name: 'X', variante: 'drittpartei' }), nurKern)));
+      const ist = deriveDepthProfile(fx).recommended;
+      expect(t.min).toBeLessThanOrEqual(ist);
+      expect(t.max).toBeGreaterThanOrEqual(ist);
+      if (t.min !== t.max) expect(t.wesentlich.length).toBeGreaterThan(0);
+    }
+  });
+
+  it('voller Fragebogen meldet fehlende Blöcke weiterhin als Fehler', () => {
+    const md = erzeugeFragebogen({ kuerzel: 'x', name: 'X' }).replace(/^### KRY-02 · [\s\S]*?(?=^### )/m, '');
+    expect(leseFragebogen(md).fehler).toContain('KRY-02: fehlt im Fragebogen');
+  });
+});

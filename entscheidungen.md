@@ -158,7 +158,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Abgelegt in:** vorschriften.md §A9; src/engagement/findings.ts (visibleToCustomer); db/migrations/0002 (Policy finding_customer); src/werkzeuge/dashboard.ts
 
 ## ENT-008 · Third-Party Pre-Assessment
-- **Status:** freigegeben
+- **Status:** abgelegt
 - **Typ:** methodik
 - **Ausgelöst durch:** docs/01 §11 O8 – Template „Third-Party Assessment“ ohne eigenen Fragebogen
 - **Betrifft:** src/fragebogen/katalog.ts
@@ -171,7 +171,7 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Entscheidung:** Option 1 (ausdrücklich gewünscht) (Chat 2026-11-12)
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
-- **Abgelegt in:** —
+- **Abgelegt in:** src/fragebogen/katalog.ts (KURZFORM_DRITTPARTEI, 34 Fragen); src/fragebogen/fragebogen.ts (Variante drittpartei); src/werkzeuge/befehle.ts, cli.ts (neu --drittpartei); Einstufung mit Teilfakten nennt wesentliche Nachfragen (ENT-033); plan.md §8; vorschriften.md §A3; test/werkzeuge.test.ts
 
 ## ENT-009 · Gesetzliche Pflichten als profilunabhängige Pflichtmodule
 - **Status:** abgelegt
