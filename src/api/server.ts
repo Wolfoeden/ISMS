@@ -7,7 +7,9 @@
  * Systemnachrichten (z. B. Unterschrift): Kopfzeile `x-system-token` = ISMS_SYSTEM_TOKEN.
  */
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http';
-import { pathToFileURL } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ApiError } from './errors.js';
 import { SYSTEM, withSession, type Identity } from './db.js';
 import * as s from './service.js';
@@ -17,6 +19,8 @@ type Handler = (p: string[], body: Body, id: Identity & { personId: string }) =>
 interface Route { method: string; path: RegExp; handler: Handler; system?: boolean }
 
 const ID = '([0-9a-f-]{36})';
+/** fiktive Agenturperson aus db/seed/pilot.sql – nur für die Rollenauswahl im Prototyp */
+const DEV_LEAD = '00000000-0000-4000-8000-000000000a01';
 const r = (method: string, path: string, handler: Handler, system = false): Route =>
   ({ method, path: new RegExp(`^${path.replaceAll(':id', ID)}$`), handler, system });
 
@@ -62,6 +66,15 @@ export const ROUTES: Route[] = [
   r('POST', '/framework-versions', (_p, b, i) => withSession(i, (db) => s.createFrameworkVersion(db, b))),
   r('POST', '/system/expire-offers', (_p, b) => withSession(SYSTEM, (db) => s.expireOffers(db, b)), true),
   r('GET', '/reports/:id/trace', ([id], _b, i) => withSession(i, (db) => s.traceReport(db, id!))),
+  r('GET', '/intakes', (_p, _b, i) => withSession(i, (db) => s.listIntakes(db))),
+  r('GET', '/cases', (_p, _b, i) => withSession(i, (db) => s.listCases(db))),
+  r('GET', '/cases/:id/workspace', ([id], _b, i) => withSession(i, (db) => s.caseWorkspace(db, id!))),
+  r('GET', '/cases/:id/dashboard', ([id], _b, i) => withSession(i, (db) => s.caseDashboard(db, id!))),
+  r('GET', '/reports/:id', ([id], _b, i) => withSession(i, (db) => s.readReport(db, id!))),
+  // ---- nur Prototyp (ISMS_DEV_AUTH=1): Rollenauswahl, Unterschrift und KI-Vorschlag simulieren ----
+  r('GET', '/dev/persons', () => withSession({ personId: DEV_LEAD }, (db) => s.devPersons(db)), true),
+  r('POST', '/dev/offers/:id/sign', ([id]) => withSession(SYSTEM, (db) => s.signOffer(db, id!, { eventId: `DEV-${id}` })), true),
+  r('POST', '/dev/mandates/:id/simulate-proposal', ([id], b, i) => withSession({ personId: i.personId, ai: { mandateId: id! } }, (db) => s.devSimulateProposal(db, id!, b))),
   r('POST', '/cases/:id/reports', ([id], b, i) => withSession(i, (db) => s.createReport(db, id!, b, i.personId))),
   r('POST', '/reports/:id/submit', ([id], _b, i) => withSession(i, (db) => s.submitReport(db, id!))),
   r('POST', '/reports/:id/qa', ([id], b, i) => withSession(i, (db) => s.qaDecision(db, id!, b, i.personId))),
@@ -99,6 +112,26 @@ function identity(req: IncomingMessage): Identity & { personId: string } {
   return { personId };
 }
 
+// Oberfläche (Etappe 3): drei statische Dateien, strenge Inhaltsrichtlinie – keine fremden Quellen,
+// kein eingebettetes Skript. Nutzt ausschließlich die Schnittstelle oben.
+const UI_DIR = join(dirname(fileURLToPath(import.meta.url)), 'ui');
+const STATIC: Record<string, [string, string]> = {
+  '/': ['index.html', 'text/html; charset=utf-8'],
+  '/app.js': ['app.js', 'text/javascript; charset=utf-8'],
+  '/app.css': ['app.css', 'text/css; charset=utf-8'],
+};
+function sendStatic(res: ServerResponse, path: string) {
+  const [file, type] = STATIC[path]!;
+  res.writeHead(200, {
+    'content-type': type,
+    'cache-control': 'no-store',
+    'content-security-policy': "default-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'",
+    'x-content-type-options': 'nosniff',
+    'referrer-policy': 'no-referrer',
+  });
+  res.end(readFileSync(join(UI_DIR, file)));
+}
+
 function send(res: ServerResponse, status: number, payload: unknown) {
   res.writeHead(status, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
   res.end(JSON.stringify(payload));
@@ -108,11 +141,14 @@ export async function handle(req: IncomingMessage, res: ServerResponse): Promise
   try {
     const url = new URL(req.url ?? '/', 'http://localhost');
     if (req.method === 'GET' && url.pathname === '/health') return send(res, 200, { ok: true });
+    if (req.method === 'GET' && STATIC[url.pathname]) return sendStatic(res, url.pathname);
     const route = ROUTES.find((x) => x.method === req.method && x.path.test(url.pathname));
     if (!route) throw new ApiError(404, 'unbekannt', 'Unbekannter Pfad');
     const params = url.pathname.match(route.path)!.slice(1);
     const body = req.method === 'GET' ? {} : await readBody(req);
-    if (route.system) {
+    const dev = url.pathname.startsWith('/dev/');
+    if (dev && process.env['ISMS_DEV_AUTH'] !== '1') throw new ApiError(404, 'unbekannt', 'Unbekannter Pfad');
+    if (route.system && !dev) {
       const token = process.env['ISMS_SYSTEM_TOKEN'];
       if (!token || req.headers['x-system-token'] !== token) throw new ApiError(401, 'nicht_angemeldet', 'Systemaufruf ohne gültiges Token');
     }

@@ -33,7 +33,8 @@ describe.skipIf(!process.env['DATABASE_URL'])('WP-11 · Negativpfade', () => {
     const v = await api.ok(ki.post(`/mandates/${a.mandat}/proposals`, { targetTable: 'control_assessment', targetId: a.bewertung, payload: { implementation: 'present' }, sources: [{ evidence_id: a.nachweis, locator: 'Zeile 1' }], model: 'm', promptVersion: 'p', scopeVersionId: a.scope, uncertainty: 'hoch' }));
     expect((await ki.post(`/proposals/${v.id}/review`, { action: 'start_review' })).status).toBe(403);
     expect((await ki.post(`/evidence/${a.nachweis}/review`, { state: 'unsuitable' })).status).toBe(403);
-    expect((await lead().get(`/cases/${a.fall}`)).data.case.status).toBe('scope_draft');
+    // Zustand unverändert: Scope-Freigabe hat den Prüfvorgang auf scope_approved gesetzt, die KI-Versuche nichts
+    expect((await lead().get(`/cases/${a.fall}`)).data.case.status).toBe('scope_approved');
   });
 
   it('N-03 · Upload vor aktivem Mandat (DEC-08, TC-07)', async () => {
@@ -65,6 +66,9 @@ describe.skipIf(!process.env['DATABASE_URL'])('WP-11 · Negativpfade', () => {
     const ids = new Set<string>();
     for (const ev of ['EV-N06-a', 'EV-N06-a', 'EV-N06-b']) ids.add((await api.ok(api.system(`/offers/${f.angebot}/signed`, { eventId: ev }))).mandateId);
     expect(ids.size).toBe(1);
+    // Startteam: Ersteller des Angebots ist Engagement Lead, anfragender Kunde ist beteiligt – beide sehen den Fall sofort
+    expect((await lead().get(`/cases/${f.fall}/workspace`)).status).toBe(200);
+    expect((await api.als(f.kunde).get(`/cases/${f.fall}/dashboard`)).status).toBe(200);
     expect((await api.call('POST', `/offers/${f.angebot}/signed`, { eventId: 'EV-N06-c' })).status).toBe(401);
   });
 
@@ -104,6 +108,8 @@ describe.skipIf(!process.env['DATABASE_URL'])('WP-11 · Negativpfade', () => {
 
   it('N-09 · QA: Autor, Consultant und Kunde geben nicht frei; keine Veröffentlichung ohne QA (TC-13, TC-15)', async () => {
     const f = await aufbauen(api, 'qa', 'N09');
+    // Funktionstrennung: Lead kann nicht zusätzlich Independent Reviewer werden
+    expect((await lead().post(`/mandates/${f.mandat}/team`, { personId: LEAD, roles: ['independent_reviewer'] })).error?.message).toMatch(/Funktionstrennung/);
     const r = await api.ok(lead().post(`/cases/${f.fall}/reports`, { scopeVersionId: f.scope, content: { findings: ['F-1'] }, reportText: `Bericht. ${PFLICHT_BERICHT}` }));
     expect((await lead().post(`/reports/${r.id}/publish`)).status).toBeGreaterThanOrEqual(403);
     await api.ok(lead().post(`/reports/${r.id}/submit`));

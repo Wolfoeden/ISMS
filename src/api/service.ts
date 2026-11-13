@@ -141,6 +141,8 @@ export async function approveScope(db: Db, scopeId: string, personId: string) {
   // Änderung = neue Version: die bisher freigegebene wird ersetzt
   await db.query(`update isms.scope_version set status = 'superseded' where case_id = $1 and status = 'approved' and id <> $2`, [s.case_id, scopeId]);
   await change(db, `update isms.scope_version set status = 'approved', approved_by = $2, approved_at = now() where id = $1`, [scopeId, personId]);
+  // Prüfvorgang folgt der Freigabe (sonst bliebe er im Scope-Entwurf stehen)
+  await db.query(`update isms.assessment_case set status = 'scope_approved' where id = $1 and status = 'scope_draft'`, [s.case_id]);
   return { ok: true };
 }
 
@@ -450,4 +452,136 @@ export async function traceReport(db: Db, reportId: string) {
   if (!events.length) gaps.push('kein Protokoll');
 
   return { report, case: fall, scope: { ...scope, objects }, offer, mandate, intake: intake ? { ...intake, facts } : undefined, assessments, evidence: links, proposals, versionImpacts: impacts, events, gaps };
+}
+
+// ---------------------------------------------------------------------------
+// Etappe 3: Leseaufrufe für die Oberfläche
+// ---------------------------------------------------------------------------
+
+/** Intakes, die die angemeldete Person sehen darf (eigene bzw. alle für DT Agency) */
+export async function listIntakes(db: Db) {
+  const r = await db.query(
+    `select i.id, i.entry_route, i.goal_code, i.phase, i.created_at, p.display_name as created_by_name,
+            (select c.id from isms.assessment_case c where c.intake_id = i.id limit 1) as case_id
+       from isms.intake_case i left join isms.person p on p.id = i.created_by order by i.created_at desc`);
+  return r.rows;
+}
+
+export async function listCases(db: Db) {
+  const r = await db.query(
+    `select c.id, c.status, c.mandate_id, c.intake_id, i.goal_code, c.created_at
+       from isms.assessment_case c left join isms.intake_case i on i.id = c.intake_id order by c.created_at desc`);
+  return r.rows;
+}
+
+/** Organisation des Falls: die des Kunden, der die Anfrage gestellt hat */
+async function caseOrganization(db: Db, caseId: string): Promise<string | null> {
+  const r = await db.query(
+    `select p.organization_id from isms.assessment_case c join isms.intake_case i on i.id = c.intake_id
+       join isms.person p on p.id = i.created_by where c.id = $1`, [caseId]);
+  return (r.rows[0]?.organization_id as string | undefined) ?? null;
+}
+
+/** Arbeitsansicht für DT Agency – alles, was die Person im Fall sehen darf */
+export async function caseWorkspace(db: Db, caseId: string) {
+  const base = await caseOverview(db, caseId);
+  const org = await caseOrganization(db, caseId);
+  const m = base.case['mandate_id'] as string | null;
+  const q = async (sql: string, p: unknown[]) => (await db.query(sql, p)).rows;
+  return {
+    ...base,
+    organizationId: org,
+    objects: org ? await q('select id, object_type, name, version, boundaries from isms.assessment_object where organization_id = $1 order by created_at', [org]) : [],
+    scopeDetails: await q(`select s.id, s.version, s.status, s.goal, s.criteria, s.handling_mode, s.assurance_statement, s.depth_profile, s.criteria_versions,
+                                  coalesce((select array_agg(object_id) from isms.scope_object where scope_version_id = s.id), '{}') as object_ids
+                             from isms.scope_version s where s.case_id = $1 order by s.version`, [caseId]),
+    mandate: m ? (await q('select id, status, engagement_type, depth_profile, offered_depth from isms.mandate where id = $1', [m]))[0] ?? null : null,
+    team: m ? await q(`select p.id, p.display_name, p.party, coalesce(array_agg(r.role) filter (where r.role is not null), '{}') as roles
+                         from isms.mandate_participant mp join isms.person p on p.id = mp.person_id
+                         left join isms.mandate_role r on r.mandate_id = mp.mandate_id and r.person_id = mp.person_id
+                        where mp.mandate_id = $1 group by p.id, p.display_name, p.party order by p.party, p.display_name`, [m]) : [],
+    evidence: m ? await q('select id, source, captured_at, review_state, sha256, kind from isms.evidence where mandate_id = $1 order by captured_at, id', [m]) : [],
+    assessments: m ? await q(`select ca.id, ca.control_id, c.title, ca.object_id, ca.implementation, ca.effectiveness, ca.evidence_state, ca.approval, ca.report_status
+                                from isms.control_assessment ca join isms.control c on c.id = ca.control_id where ca.mandate_id = $1 order by ca.control_id`, [m]) : [],
+    links: m ? await q(`select ae.evidence_id, ae.control_assessment_id, ae.link_state, ae.open_checks from isms.assessment_evidence ae
+                          join isms.control_assessment ca on ca.id = ae.control_assessment_id where ca.mandate_id = $1`, [m]) : [],
+    proposals: m ? await q('select id, target_id, status, payload, original_payload, sources, model, prompt_version, uncertainty, reason from isms.ai_proposal where mandate_id = $1 order by created_at', [m]) : [],
+    questions: await q('select id, question_code, text, materiality, state, limitation_ref from isms.open_question where case_id = $1 order by created_at', [caseId]),
+    controls: await q('select id, title from isms.control order by id', []),
+  };
+}
+
+export async function readReport(db: Db, reportId: string) {
+  return one(db, `select id, version, status, report_text, limitations, material_unknowns, qa_decision, published_at, content_sha256, change_log
+                    from isms.report_version where id = $1`, [reportId]);
+}
+
+/**
+ * Fortschritt je Mandat (ENT-037): dieselbe Ansicht für Kunde und Berater. Gezählt wird nur, was
+ * beide sehen dürfen (Freigegebenes) – sonst wichen die Zahlen je nach Rolle ab. Kein Prozentwert.
+ */
+export async function caseDashboard(db: Db, caseId: string) {
+  const c = await one<{ status: string; mandate_id: string | null; intake_id: string | null; limitations: string | null }>(db,
+    'select status, mandate_id, intake_id, limitations from isms.assessment_case where id = $1', [caseId]);
+  const m = c.mandate_id;
+  const zahl = async (sql: string, p: unknown[]) => Number((await db.query(sql, p)).rows[0]?.n ?? 0);
+  const scopeFrei = await zahl(`select count(*) as n from isms.scope_version where case_id = $1 and status = 'approved'`, [caseId]);
+  const angebot = (await db.query(`select status, valid_until from isms.offer where case_id = $1 and status <> 'draft' order by version desc limit 1`, [caseId])).rows[0];
+  const mandat = m ? (await db.query('select status from isms.mandate where id = $1', [m])).rows[0] : undefined;
+  const nachweise = m ? await zahl('select count(*) as n from isms.evidence where mandate_id = $1', [m]) : 0;
+  const geeignet = m ? await zahl(`select count(*) as n from isms.evidence where mandate_id = $1 and review_state = 'suitable'`, [m]) : 0;
+  const bewertet = m ? await zahl(`select count(*) as n from isms.control_assessment where mandate_id = $1 and approval in ('approved', 'filed')`, [m]) : 0;
+  const fragen = await zahl(`select count(*) as n from isms.open_question where case_id = $1 and materiality = 'material' and state in ('open', 'unknown', 'deferred') and limitation_ref is null`, [caseId]);
+  const bericht = (await db.query(`select id, version, published_at from isms.report_version where case_id = $1 and status = 'published'`, [caseId])).rows[0];
+
+  const reihe = ['scope_draft', 'scope_approved', 'collecting_evidence', 'ready_for_assessment', 'assessing', 'internal_review', 'qa', 'approved', 'published', 'closed', 'closed_with_limitations'];
+  const pos = reihe.indexOf(c.status);
+  const stand = (fertig: boolean, laeuft: boolean) => (fertig ? 'erledigt' : laeuft ? 'in_arbeit' : 'offen');
+  const phasen = [
+    { name: 'Scope', stand: stand(scopeFrei > 0, true), detail: scopeFrei ? 'Scope freigegeben' : 'Scope in Abstimmung' },
+    { name: 'Angebot und Auftrag', stand: stand(!!mandat && ['active', 'closed'].includes(String(mandat.status)), !!angebot),
+      detail: mandat ? `Mandat ${mandat.status === 'active' ? 'aktiv' : mandat.status}` : angebot ? `Angebot ${angebot.status === 'sent' ? `offen bis ${String(angebot.valid_until).slice(0, 10)}` : angebot.status}` : 'noch kein Angebot' },
+    { name: 'Nachweise', stand: stand(pos >= reihe.indexOf('ready_for_assessment'), pos >= reihe.indexOf('collecting_evidence')), detail: `${geeignet} von ${nachweise} Nachweisen geprüft und geeignet` },
+    { name: 'Bewertung', stand: stand(pos >= reihe.indexOf('internal_review'), pos >= reihe.indexOf('assessing')), detail: `${bewertet} Prüfpunkte freigegeben${fragen ? ` · ${fragen} entscheidungsrelevante Fragen offen` : ''}` },
+    { name: 'Qualitätssicherung', stand: stand(pos >= reihe.indexOf('approved'), c.status === 'qa' || c.status === 'rework'), detail: c.status === 'rework' ? 'Nacharbeit' : pos >= reihe.indexOf('approved') ? 'abgeschlossen' : 'noch nicht begonnen' },
+    { name: 'Bericht', stand: stand(!!bericht, false), detail: bericht ? `Version ${bericht.version} veröffentlicht` : 'noch nicht veröffentlicht' },
+  ];
+  const aufgaben: Array<{ wer: string; text: string }> = [];
+  if (c.status === 'collecting_evidence') aufgaben.push({ wer: 'Kunde', text: 'Nachweise hochladen' });
+  if (fragen) aufgaben.push({ wer: 'Kunde', text: `${fragen} entscheidungsrelevante Fragen klären` });
+  if (bericht) aufgaben.push({ wer: 'Kunde', text: `Bericht Version ${bericht.version} lesen und Rückfragen stellen` });
+  if (angebot?.status === 'sent') aufgaben.push({ wer: 'Kunde', text: 'Angebot prüfen und unterschreiben' });
+  if (!scopeFrei) aufgaben.push({ wer: 'DT Agency', text: 'Scope abstimmen und freigeben' });
+  if (c.status === 'qa') aufgaben.push({ wer: 'DT Agency', text: 'Qualitätssicherung des Berichts' });
+  return {
+    status: c.status, phasen, aufgaben, berichtId: bericht?.id ?? null, einschraenkungen: c.status === 'closed_with_limitations' ? c.limitations : null,
+    hinweis: 'Zeigt den Bearbeitungsstand, keine Bewertung des Sicherheitsniveaus.',
+  };
+}
+
+// ---------------------------------------------------------------------------
+// Nur Prototyp (Routen unter /dev, aktiv nur mit ISMS_DEV_AUTH=1)
+// ---------------------------------------------------------------------------
+
+export async function devPersons(db: Db) {
+  const r = await db.query(`select p.id, p.party, p.display_name, o.name as organization from isms.person p
+                              left join isms.organization o on o.id = p.organization_id order by p.party, p.display_name`);
+  return r.rows;
+}
+
+/**
+ * Simuliert einen KI-Vorschlag – läuft über die echte KI-Sitzung (app.actor_kind = ai) mit allen Grenzen:
+ * nur Vorschläge, nur im eigenen Mandat, Fundstelle Pflicht. Inhalt ist ein fester Platzhalter, kein Modellaufruf.
+ */
+export async function devSimulateProposal(db: Db, mandateId: string, b: Row) {
+  const ziel = await one<{ id: string; implementation: string }>(db, 'select id, implementation from isms.control_assessment where id = $1', [need(b['assessmentId'], 'assessmentId')]);
+  const beleg = await one<{ id: string; source: string }>(db, 'select id, source from isms.evidence where id = $1', [need(b['evidenceId'], 'evidenceId')]);
+  const scope = await one<{ id: string }>(db,
+    `select s.id from isms.scope_version s join isms.assessment_case c on c.id = s.case_id where c.mandate_id = $1 and s.status = 'approved'`, [mandateId]);
+  return createProposal(db, mandateId, {
+    targetTable: 'control_assessment', targetId: ziel.id,
+    payload: { implementation: ziel.implementation === 'present' ? 'partial' : 'present', hinweis: 'simulierter Vorschlag (Prototyp)' },
+    sources: [{ evidence_id: beleg.id, locator: `${beleg.source}, Abschnitt 1` }],
+    model: 'simulation', promptVersion: 'DEV-0', scopeVersionId: scope.id, uncertainty: 'simuliert – keine fachliche Aussage',
+  });
 }

@@ -72,6 +72,21 @@ Anmeldung und System-Token; Intake mit Hinweisbestätigung, Ask once, Orientieru
 
 **Durch WP-11 gefundene und behobene Fehler (Migration 0015):** Der Fristen-Lauf sah als Systemprozess keine Angebote und ließ abgelaufene Angebote offen. Protokolleinträge zu Bericht, Angebot und Folgeprüfung hatten keinen Mandatsbezug – sie fehlten im Mandatsprotokoll und waren für alle Agenturpersonen sichtbar.
 
-## Offen (Etappe 3)
+## Etappe 3 – Oberfläche
 
-Kundenportal und Berater-Arbeitsplatz; Dashboard je Mandat über die Schnittstelle; Aufgaben (WP-07).
+```bash
+npm run prototyp          # Datenbank + Server, http://127.0.0.1:8787/
+npm run ui:durchlauf      # Klick-Durchlauf des Pilotfalls, Screenshots in .data/ui
+```
+
+- Drei statische Dateien (`src/api/ui/`), ohne Bibliotheken; strenge Inhaltsrichtlinie (nur eigene Quellen, kein eingebettetes Skript); alle Inhalte als Text eingesetzt, nie als HTML.
+- **Kunde:** Einstieg nach Variante C, Kernfragen mit „weiß ich nicht“, erste Orientierung, Meine Vorgänge, Fortschritt je Mandat (ENT-037), Upload, Bericht mit Grenzen.
+- **DT Agency:** Kunden anlegen, Vorgänge, Fallansicht (Objekte und Scope, Angebot und Mandat, Rollen, Nachweise und Bewertung je Objekt, offene Fragen, KI-Vorschläge, Bericht/QA/Veröffentlichung), Spurprotokoll.
+- **Nur Prototyp** (gestrichelt markiert, nur mit `ISMS_DEV_AUTH=1`): Rollenauswahl, „Unterschrift simulieren“, „KI-Vorschlag simulieren“ (läuft über die echte KI-Sitzung mit allen Grenzen, fester Platzhalterinhalt).
+- Fortschritt zählt nur Freigegebenes – Kunde und Berater sehen dieselben Zahlen.
+
+**Durch die Oberfläche gefundene und behobene Fehler (Migration 0016, Service):** Nach der Unterschrift sah der Engagement Lead seinen Fall nicht mehr (jetzt Startteam: Angebotsersteller = Engagement Lead, anfragender Kunde = Ansprechpartner); Engagement Lead und Independent Reviewer konnten dieselbe Person sein (jetzt gesperrt); Scope-Freigabe setzte den Prüfvorgang nicht weiter.
+
+## Offen
+
+Aufgaben-Dienst mit Fristen und Erinnerungen (WP-07); echte Anmeldung, Dateispeicher, KI-Dienst (ENT-032).
