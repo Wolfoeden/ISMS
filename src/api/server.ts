@@ -56,6 +56,12 @@ export const ROUTES: Route[] = [
 
   r('POST', '/version-impacts/:id/decide', ([id], b, i) => withSession(i, (db) => s.decideVersionImpact(db, id!, b, i.personId))),
 
+  r('POST', '/mandates/:id/terminate', ([id], b, i) => withSession(i, (db) => s.terminateMandate(db, id!, b, i.personId))),
+  r('POST', '/cases/:id/questions', ([id], b, i) => withSession(i, (db) => s.createQuestion(db, id!, b))),
+  r('PATCH', '/questions/:id', ([id], b, i) => withSession(i, (db) => s.updateQuestion(db, id!, b))),
+  r('POST', '/framework-versions', (_p, b, i) => withSession(i, (db) => s.createFrameworkVersion(db, b))),
+  r('POST', '/system/expire-offers', (_p, b) => withSession(SYSTEM, (db) => s.expireOffers(db, b)), true),
+  r('GET', '/reports/:id/trace', ([id], _b, i) => withSession(i, (db) => s.traceReport(db, id!))),
   r('POST', '/cases/:id/reports', ([id], b, i) => withSession(i, (db) => s.createReport(db, id!, b, i.personId))),
   r('POST', '/reports/:id/submit', ([id], _b, i) => withSession(i, (db) => s.submitReport(db, id!))),
   r('POST', '/reports/:id/qa', ([id], b, i) => withSession(i, (db) => s.qaDecision(db, id!, b, i.personId))),

@@ -41,13 +41,37 @@ bash scripts/with-db.sh env ISMS_DEV_AUTH=1 ISMS_SYSTEM_TOKEN=lokal npm run api
 | Angebot, Mandat | `POST /cases/:id/offers` · `POST /offers/:id/send` · `POST /offers/:id/signed` (System) · `POST /mandates/:id/team` · `POST /mandates/:id/activate` |
 | Nachweise, Bewertung | `POST /mandates/:id/evidence` · `POST /evidence/:id/review` · `POST /mandates/:id/control-assessments` · `PATCH /control-assessments/:id` · `POST /evidence-links` · `POST /evidence-links/confirm` |
 | KI-Vorschläge | `POST /mandates/:id/proposals` · `POST /proposals/:id/review` |
-| Normversion | `POST /version-impacts/:id/decide` |
+| Normversion | `POST /framework-versions` · `POST /version-impacts/:id/decide` |
+| Storno, offene Fragen | `POST /mandates/:id/terminate` · `POST /cases/:id/questions` · `PATCH /questions/:id` |
+| System | `POST /offers/:id/signed` · `POST /system/expire-offers` (Fristen-Lauf) |
+| Nachvollziehbarkeit | `GET /reports/:id/trace` – Kette Anfrage → Bericht mit Lückenliste (nur DT Agency) |
 | Bericht | `POST /cases/:id/reports` · `POST /reports/:id/submit` · `POST /reports/:id/qa` · `POST /reports/:id/publish` |
 
 ## Durch die Tests belegt (`test/api/pilot.test.ts`)
 
 Anmeldung und System-Token; Intake mit Hinweisbestätigung, Ask once, Orientierung; Modus/Assurance-Regel; Scope-Freigabe nur durch DT Agency; Angebot ohne Pflichtbaustein abgelehnt; dreifache Unterschrift → ein Mandat; Upload vor aktivem Mandat abgelehnt; Dedup und Sicherheitsereignis bei versteckter Anweisung; Kunde kann Nachweise nicht prüfen; R1 ohne bestätigte Verknüpfung; KI-Sitzung legt Vorschläge an, kann aber weder prüfen noch Bewertungen ändern; QA durch Autor abgelehnt, Rückgabe mit berechneter Zielphase, keine Veröffentlichung danach; Freigabe nur mit benannten Grenzen; gesperrter Bericht; Abschluss nur „mit Einschränkungen“; Kunde sieht nur die veröffentlichte Version.
 
-## Offen (Etappe 2/3)
+## Etappe 2 – WP-11 (`test/api/negativpfade.test.ts`, `test/api/spur.test.ts`)
 
-Ende-zu-Ende-Negativpfade vollständig; Kundenportal und Berater-Arbeitsplatz; Dashboard je Mandat über die Schnittstelle; Aufgaben (WP-07).
+| Pfad | Prüft | Fachtest |
+|---|---|---|
+| N-01 | fremder Kunde sieht keinen fremden Fall, Intake oder Nachweis | TC-18 |
+| N-02 | KI-Sitzung: kein fremdes Mandat, keine Änderung an Bewertung oder Nachweis, keine Prüfung eigener Vorschläge | TC-11, TC-12 |
+| N-03 | kein Upload vor aktivem Mandat | DEC-08 |
+| N-04 | abgelaufenes Angebot → kein Mandat | TC-07 |
+| N-05 | Änderungswunsch → neue Version, keine Unterschrift auf dem alten Angebot | TC-08 |
+| N-06 | mehrfache Unterschrift → ein Mandat; ohne Token kein Systemaufruf | TC-20 |
+| N-07 | Storno nur mit Entscheidung, danach Prüfvorgang gestoppt, kein Upload | TC-19 |
+| N-08 | Nachweis aus anderem Mandat zählt erst nach Bestätigung durch DT Agency | TC-10 |
+| N-09 | QA nicht durch Autor, Consultant oder Kunde; keine Veröffentlichung ohne QA | TC-13, TC-15 |
+| N-10 | wesentliche Unbekannte blockiert die Bewertung; N/A nur begründet | TC-09, US-B2 |
+| N-11 | neue Normversion → keine QA ohne Entscheidung des Leads | TC-17 |
+| N-12 | veröffentlichter Bericht gesperrt; neue Version nur mit Änderungsprotokoll | US-D2, TC-16 |
+
+**Spurprotokoll:** Für einen veröffentlichten Bericht ist die Kette Intake (mit Angaben und Quellen) → Scope (Normversion, Objekte) → Angebot → Mandat → Bewertungen → Nachweise (Fingerabdruck) → KI-Vorschläge (Modell, Prompt, Fundstelle, Prüfer) → QA → Protokoll lückenlos; Lücken werden benannt statt verdeckt. Nur DT Agency mit Beteiligung am Mandat sieht es.
+
+**Durch WP-11 gefundene und behobene Fehler (Migration 0015):** Der Fristen-Lauf sah als Systemprozess keine Angebote und ließ abgelaufene Angebote offen. Protokolleinträge zu Bericht, Angebot und Folgeprüfung hatten keinen Mandatsbezug – sie fehlten im Mandatsprotokoll und waren für alle Agenturpersonen sichtbar.
+
+## Offen (Etappe 3)
+
+Kundenportal und Berater-Arbeitsplatz; Dashboard je Mandat über die Schnittstelle; Aufgaben (WP-07).

@@ -40,7 +40,7 @@ Vorhanden und getestet: Domänenkern (`src/`), PostgreSQL-Schema mit RLS-Muster,
 | WP-08 | AI Proposals + Human Verification + Lock | ✔ `ai_proposal` mit Fundstelle, Modell-/Promptversion, Scope, Unsicherheit; Status 02 §4.4; annehmen/korrigieren/ablehnen/vertagen nur durch Menschen; gesperrte Stände unveränderlich; KI-Sitzung schreibt nur Vorschläge und liest nur ihr Mandat (`src/evidence/proposals.ts`, Migration 0010) | Anbindung eines KI-Dienstes (DEC-16: Opt-in, AVV) | ✔ TC-11, TC-12, TC-21, US-C2 |
 | WP-09 | Assessment Workflow, Finding/Risk/Action | ✔ Tabellen und Regeln; berechneter Berichtsstatus | an Case/Objekt binden; D-09/D-10 als Regelverträge | US-C2 |
 | WP-10 | Lead Review / QA / Report Release | ✔ D-11 (QA für jeden finalen Bericht, QA ≠ Autor), Review-Paket mit Kriterien-/Nachweisbezug und Versionskonflikten, QA-Ergebnisse nach 01 §4.3, D-12 Nacharbeit in früheste Phase, D-13 Abschluss, gesperrte Berichtsversion mit Hash, Nachweis-Snapshot und Änderungsprotokoll (`src/engagement/report.ts`, Migration 0012) | PDF/HTML-Ausgabe und Signatur (DEC-17) | ✔ TC-13, TC-15, TC-16, US-C3, US-D1, US-D2 |
-| WP-11 | E2E-Traceability, 10 Negativpfade | ◐ Werkzeug-E2E am fiktiven Mandat | API-E2E über den ganzen Slice | alle P0-Tests |
+| WP-11 | E2E-Traceability, 10 Negativpfade | ✔ Pilotfall über die Schnittstelle, 12 Negativpfade N-01–N-12, Spurprotokoll `GET /reports/:id/trace` mit Lückenliste (`test/api/`) | Durchlauf mit realem Testmandat (Gate 2) | ✔ P0-Pfade über API |
 
 ## 4. Regelverträge (Handoff §5: D-03, D-05, D-06, D-07, D-08, D-11, D-12, D-13 zuerst)
 
@@ -81,7 +81,7 @@ Testdaten: nur fiktiv/anonymisiert (`07_BEISPIEL_CASES.json`, Fixtures). DB-Test
 5. ✔ Evidence + Proposals + Lock (WP-06/08), TC-10/11/12/21 – Kern und Schema; Dateispeicher und KI-Dienst folgen mit Hosting.
 6. ✔ Register + Review + ReportVersion (WP-09/10), TC-13–16 – Kern und Schema.
 7. ✔ Etappe 1: Anwendungsschicht (`src/api`, [API_PROTOTYP.md](API_PROTOTYP.md)), Pilotfall über die Schnittstelle getestet; TC-17 Normversion (0013).
-8. Etappe 2: Ende-zu-Ende-Test mit allen Negativpfaden (WP-11). Etappe 3: Portal-Screens S01–S07 und Workspace S08–S13 als dünnes UI.
+8. ✔ Etappe 2: Ende-zu-Ende-Test, 12 Negativpfade, Spurprotokoll (WP-11). Etappe 3: Portal-Screens S01–S07 und Workspace S08–S13 als dünnes UI.
 9. E2E mit einem fiktiven, dann einem realen Testmandat (Gate 2).
 
 Jeder Schritt endet mit: Requirement-/Story-Bezug, Migration, API-/State-/Rechteänderung, Testnachweis, nicht Umgesetztem (Handoff §7).

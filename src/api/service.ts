@@ -349,3 +349,105 @@ export async function caseOverview(db: Db, caseId: string) {
   const impacts = await db.query('select id, framework, old_version, new_version, decision from isms.version_impact where case_id = $1', [caseId]);
   return { case: c, scopeVersions: scope.rows, offers: offers.rows, reports: reports.rows, versionImpacts: impacts.rows };
 }
+
+// ---------------------------------------------------------------------------
+// Etappe 2: Storno, offene Fragen, Normversion, Fristen-Lauf, Spurprotokoll
+// ---------------------------------------------------------------------------
+
+/** TC-19: Storno nur mit dokumentierter Daten- und Vertragsentscheidung */
+export async function terminateMandate(db: Db, mandateId: string, b: Row, personId: string) {
+  await db.query(
+    `insert into isms.mandate_termination (mandate_id, reason, data_decision, retain_until, retention_basis, contract_decision, decided_by)
+     values ($1, $2, $3, $4, $5, $6, $7)`,
+    [mandateId, need(b['reason'], 'reason'), need(b['dataDecision'], 'dataDecision'), b['retainUntil'] ?? null, b['retentionBasis'] ?? null,
+      need(b['contractDecision'], 'contractDecision'), personId]);
+  await change(db, `update isms.mandate set status = 'terminated' where id = $1`, [mandateId]);
+  return one(db, 'select id, status from isms.mandate where id = $1', [mandateId]);
+}
+
+/** Offene Frage im Prüfvorgang (D-06, US-B2) */
+export async function createQuestion(db: Db, caseId: string, b: Row) {
+  return one(db,
+    `insert into isms.open_question (case_id, question_code, text, materiality, state, na_justification, owner, due_at)
+     values ($1, $2, $3, $4, $5, $6, $7, $8) returning id, state`,
+    [caseId, need(b['code'], 'code'), need(b['text'], 'text'), need(b['materiality'], 'materiality'), b['state'] ?? 'open',
+      b['naJustification'] ?? null, b['owner'] ?? null, b['dueAt'] ?? null]);
+}
+
+export async function updateQuestion(db: Db, questionId: string, b: Row) {
+  await change(db,
+    `update isms.open_question set state = coalesce($2, state), na_justification = coalesce($3, na_justification),
+            limitation_ref = coalesce($4, limitation_ref), owner = coalesce($5, owner), due_at = coalesce($6, due_at) where id = $1`,
+    [questionId, b['state'] ?? null, b['naJustification'] ?? null, b['limitationRef'] ?? null, b['owner'] ?? null, b['dueAt'] ?? null]);
+  return one(db, 'select id, state, limitation_ref from isms.open_question where id = $1', [questionId]);
+}
+
+/** Neue Normversion hinterlegen (Methodik) – löst Folgeprüfungen aus (TC-17) */
+export async function createFrameworkVersion(db: Db, b: Row) {
+  await db.query('insert into isms.framework_version (framework, version, effective_from, supersedes, note) values ($1, $2, $3, $4, $5)',
+    [need(b['framework'], 'framework'), need(b['version'], 'version'), need(b['effectiveFrom'], 'effectiveFrom'), b['supersedes'] ?? null, b['note'] ?? null]);
+  const r = await db.query('select id, case_id from isms.version_impact where framework = $1 and new_version = $2', [b['framework'], b['version']]);
+  return { impacts: r.rows };
+}
+
+/** Fristen-Lauf (Timer-Job, DEC-10) – Systemaufruf */
+export async function expireOffers(db: Db, b: Row) {
+  const r = await one<{ n: number }>(db, 'select isms.expire_offers($1::date) as n', [b['today'] ?? new Date().toISOString().slice(0, 10)]);
+  return { expired: r.n };
+}
+
+/**
+ * Spurprotokoll eines Berichts (WP-11): die vollständige Kette von der Anfrage bis zum Bericht.
+ * `gaps` nennt jede Stelle, an der die Kette abreißt – leer heißt: lückenlos nachvollziehbar.
+ */
+export async function traceReport(db: Db, reportId: string) {
+  // enthält interne Daten (Protokoll, KI-Vorschläge, Prüfer) – nur DT Agency
+  const agentur = await one<{ ok: boolean }>(db, 'select isms.is_agency() and not isms.is_ai_session() as ok');
+  if (!agentur.ok) throw new ApiError(403, 'keine_berechtigung', 'Spurprotokoll nur für DT Agency');
+  const report = await one<Row & { case_id: string; scope_version_id: string }>(db,
+    `select id, case_id, version, status, scope_version_id, author_id, reviewer_id, qa_decision, qa_at, published_by, published_at,
+            content_sha256, evidence_snapshot, limitations, material_unknowns, previous_id, change_log from isms.report_version where id = $1`, [reportId]);
+  const fall = await one<Row & { mandate_id: string | null; intake_id: string | null }>(db,
+    'select id, status, mandate_id, intake_id, entry_route, limitations from isms.assessment_case where id = $1', [report.case_id]);
+  const scope = await one(db, 'select id, version, status, goal, criteria, handling_mode, assurance_statement, depth_profile, criteria_versions, approved_by, approved_at from isms.scope_version where id = $1', [report.scope_version_id]);
+  const objects = (await db.query(`select o.id, o.object_type, o.name, o.version, o.boundaries from isms.scope_object so join isms.assessment_object o on o.id = so.object_id
+                                    where so.scope_version_id = $1`, [report.scope_version_id])).rows;
+  const mandate = fall.mandate_id ? (await db.query('select id, status, engagement_type, depth_profile, offer_id, profile_decision_id from isms.mandate where id = $1', [fall.mandate_id])).rows[0] : undefined;
+  const offer = mandate?.offer_id ? (await db.query('select id, version, status, sent_at, valid_until, scope_version_id from isms.offer where id = $1', [mandate.offer_id])).rows[0] : undefined;
+  const intake = fall.intake_id ? (await db.query('select id, entry_route, goal_code, consent_at from isms.intake_case where id = $1', [fall.intake_id])).rows[0] : undefined;
+  const facts = fall.intake_id ? (await db.query(`select fact_key, value, source_type, source_ref, verification_status from isms.context_fact
+                                                  where intake_id = $1 and superseded_at is null order by recorded_at`, [fall.intake_id])).rows : [];
+  const assessments = fall.mandate_id ? (await db.query(`select id, control_id, object_id, report_status, evidence_state, approval from isms.control_assessment
+                                                         where mandate_id = $1 order by control_id`, [fall.mandate_id])).rows : [];
+  const links = fall.mandate_id ? (await db.query(`select ae.control_assessment_id, ae.link_state, e.id as evidence_id, e.sha256, e.source, e.captured_at, e.review_state
+                                                    from isms.assessment_evidence ae join isms.evidence e on e.id = ae.evidence_id
+                                                    join isms.control_assessment ca on ca.id = ae.control_assessment_id
+                                                   where ca.mandate_id = $1`, [fall.mandate_id])).rows : [];
+  const proposals = fall.mandate_id ? (await db.query(`select id, target_id, status, model, prompt_version, sources, reviewed_by, original_payload is not null as corrected
+                                                        from isms.ai_proposal where mandate_id = $1 order by created_at`, [fall.mandate_id])).rows : [];
+  const impacts = (await db.query('select framework, old_version, new_version, decision, decided_by from isms.version_impact where case_id = $1', [report.case_id])).rows;
+  const events = fall.mandate_id ? (await db.query(`select occurred_at, actor_kind, event_type, object_table, details from isms.audit_event
+                                                     where mandate_id = $1 order by id`, [fall.mandate_id])).rows : [];
+
+  const gaps: string[] = [];
+  if (!intake) gaps.push('Prüfvorgang ohne Intake');
+  if (!mandate) gaps.push('Prüfvorgang ohne Mandat');
+  if (mandate && !offer) gaps.push('Mandat ohne Angebot');
+  if (offer && offer.scope_version_id !== report.scope_version_id) gaps.push('Bericht bezieht sich auf eine andere Scope-Version als das Angebot');
+  if (!objects.length) gaps.push('Scope ohne Bewertungsobjekt');
+  if (!Object.keys((scope['criteria_versions'] as object) ?? {}).length) gaps.push('Scope ohne festgelegte Normversion');
+  for (const a of assessments) {
+    const belegt = links.some((l) => l.control_assessment_id === a.id && l.link_state === 'confirmed');
+    if (['met', 'partially_met'].includes(String(a.report_status)) && !belegt) gaps.push(`Bewertung ${a.control_id}: Ergebnis ohne bestätigten Nachweis`);
+  }
+  for (const l of links) if (!/^[0-9a-f]{64}$/.test(String(l.sha256 ?? ''))) gaps.push(`Nachweis ${l.evidence_id} ohne Fingerabdruck`);
+  for (const p of proposals) {
+    if (!Array.isArray(p.sources) || !p.sources.length) gaps.push(`KI-Vorschlag ${p.id} ohne Fundstelle`);
+    if (['verified', 'persisted_locked'].includes(String(p.status)) && !p.reviewed_by) gaps.push(`KI-Vorschlag ${p.id} ohne menschliche Prüfung`);
+  }
+  for (const i of impacts) if (!i.decision) gaps.push(`Folgeprüfung ${i.framework} ${i.new_version} ohne Entscheidung`);
+  if (report.status === 'published' && (!report['reviewer_id'] || !report['content_sha256'])) gaps.push('Veröffentlichung ohne QA oder Fingerabdruck');
+  if (!events.length) gaps.push('kein Protokoll');
+
+  return { report, case: fall, scope: { ...scope, objects }, offer, mandate, intake: intake ? { ...intake, facts } : undefined, assessments, evidence: links, proposals, versionImpacts: impacts, events, gaps };
+}
