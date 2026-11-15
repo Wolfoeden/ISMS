@@ -82,6 +82,10 @@ select pg_temp.expect_fail($$
    where evidence_id = '00000000-0000-0000-0000-00000000a0a7' $$, 'Bestätigung durch den Kunden');
 update assessment_evidence set link_state = 'confirmed', open_checks = '{}', reviewed_by = '00000000-0000-0000-0000-00000000a0a1', reviewed_at = now()
  where evidence_id = '00000000-0000-0000-0000-00000000a0a7';
+-- ENT-040: „ausreichend“ verlangt einen protokollierten Prüfschritt (E3/E4)
+insert into assessment_step (mandate_id, control_assessment_id, method, performed_by, performed_at, object_examined, source_ref, evidence_id, result, limitations)
+values ('00000000-0000-0000-0000-00000000a0e2', '00000000-0000-0000-0000-00000000a0aa', 'examine', '00000000-0000-0000-0000-00000000a0a1', now(),
+        'Sicherungskonzept (wiederverwendet)', 'Abschnitt 2', null, 'Sicherung täglich geregelt', 'nur Dokument geprüft');
 update control_assessment set evidence_state = 'sufficient' where id = '00000000-0000-0000-0000-00000000a0aa';
 select pg_temp.expect_fail($$
   insert into assessment_evidence (evidence_id, control_assessment_id)

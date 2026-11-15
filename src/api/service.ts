@@ -227,20 +227,161 @@ export async function reviewEvidence(db: Db, evidenceId: string, b: Row, personI
 
 export async function createControlAssessment(db: Db, mandateId: string, b: Row) {
   return one(db,
-    `insert into isms.control_assessment (mandate_id, control_id, object_id, applicability, base_depth, required_depth, implementation)
-     values ($1, $2, $3, $4, $5, $6, $7) returning id`,
-    [mandateId, need(b['controlId'], 'controlId'), b['objectId'] ?? null, b['applicability'] ?? 'applicable', b['baseDepth'] ?? 1, b['requiredDepth'] ?? 1, b['implementation'] ?? 'unknown']);
+    `insert into isms.control_assessment (mandate_id, control_id, object_id, applicability, base_depth, required_depth, implementation,
+                                           level, level_basis, binding, scope_relation, scope_note)
+     values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, coalesce($11, 'in_scope'), $12) returning id`,
+    [mandateId, need(b['controlId'], 'controlId'), b['objectId'] ?? null, b['applicability'] ?? 'applicable', b['baseDepth'] ?? 1, b['requiredDepth'] ?? 1, b['implementation'] ?? 'unknown',
+      b['level'] ?? null, b['levelBasis'] ?? null, b['binding'] ?? null, b['scopeRelation'] ?? null, b['scopeNote'] ?? null]);
 }
 
+/** Achsen und Zusatzangaben einer Bewertung (ENT-040: Prüfbezug, Ebene, Verbindlichkeit). Der Prüfstatus E0–E4 wird nie gesetzt. */
+const BEWERTUNG_FELDER: Record<string, string> = {
+  implementation: 'implementation', effectiveness: 'effectiveness', evidenceState: 'evidence_state', approval: 'approval',
+  scopeRelation: 'scope_relation', scopeNote: 'scope_note', level: 'level', levelBasis: 'level_basis', binding: 'binding',
+};
+
 export async function updateControlAssessment(db: Db, id: string, b: Row) {
-  const felder: Record<string, string> = { implementation: 'implementation', effectiveness: 'effectiveness', evidenceState: 'evidence_state', approval: 'approval' };
+  if ('evidenceGrade' in b) throw new ApiError(422, 'regelverstoss', 'Der Prüfstatus E0–E4 wird aus Prüfschritten und Nachweisen abgeleitet und nie gesetzt');
+  const felder = BEWERTUNG_FELDER;
   const sets: string[] = [];
   const params: unknown[] = [id];
   for (const [k, col] of Object.entries(felder)) if (k in b) { params.push(b[k]); sets.push(`${col} = $${params.length}`); }
   if (!sets.length) throw new ApiError(400, 'pflichtfeld', 'Keine Änderung angegeben');
   await change(db, `update isms.control_assessment set ${sets.join(', ')} where id = $1`, params);
   await db.query('set constraints all immediate'); // R1/R2 sofort prüfen, nicht erst am Ende
-  return one(db, 'select id, report_status from isms.control_assessment where id = $1', [id]);
+  return one(db, 'select id, report_status, isms.evidence_grade(id, null) as evidence_grade from isms.control_assessment where id = $1', [id]);
+}
+
+// ---------------------------------------------------------------------------
+// Prüfschritte (P-A4, AE-01.03): nur Menschen von DT Agency, nur im eigenen Namen, unveränderlich
+// ---------------------------------------------------------------------------
+
+export async function recordAssessmentStep(db: Db, b: Row, personId: string) {
+  const ca = b['controlAssessmentId'] as string | undefined;
+  const ra = b['requirementAssessmentId'] as string | undefined;
+  if (!ca === !ra) throw new ApiError(400, 'pflichtfeld', 'Genau eine Bewertung angeben (controlAssessmentId oder requirementAssessmentId)');
+  const m = await one<{ mandate_id: string }>(db,
+    ca ? 'select mandate_id from isms.control_assessment where id = $1' : 'select mandate_id from isms.requirement_assessment where id = $1', [ca ?? ra]);
+  const s = await one<{ id: string }>(db,
+    `insert into isms.assessment_step (mandate_id, control_assessment_id, requirement_assessment_id, method, performed_by, performed_at,
+                                       object_examined, sample, source_ref, evidence_id, result, limitations, ai_proposal_id)
+     values ($1, $2, $3, $4, $5, coalesce($6::timestamptz, now()), $7, $8, $9, $10, $11, $12, $13) returning id`,
+    [m.mandate_id, ca ?? null, ra ?? null, need(b['method'], 'method'), personId, b['performedAt'] ?? null, need(b['objectExamined'], 'objectExamined'),
+      b['sample'] ?? null, need(b['sourceRef'], 'sourceRef'), b['evidenceId'] ?? null, need(b['result'], 'result'), need(b['limitations'], 'limitations'),
+      b['aiProposalId'] ?? null]);
+  const g = await one<{ g: string }>(db, 'select isms.evidence_grade($1, $2) as g', [ca ?? null, ra ?? null]);
+  return { id: s.id, evidenceGrade: g.g };
+}
+
+// ---------------------------------------------------------------------------
+// Beteiligte und Beziehungen (P-A2, AE-06.01): Unbekanntes bleibt offen
+// ---------------------------------------------------------------------------
+
+export async function createParty(db: Db, caseId: string, b: Row) {
+  return one(db, `insert into isms.case_party (case_id, role, name, organization_id, basis) values ($1, $2, $3, $4, $5) returning id, status`,
+    [caseId, need(b['role'], 'role'), b['name'] ?? null, b['organizationId'] ?? null, b['basis'] ?? null]);
+}
+
+export async function confirmParty(db: Db, partyId: string, b: Row, personId: string) {
+  await change(db, `update isms.case_party set status = 'confirmed', basis = coalesce($2, basis), confirmed_by = $3, confirmed_at = now() where id = $1`,
+    [partyId, b['basis'] ?? null, personId]);
+  return one(db, 'select id, status from isms.case_party where id = $1', [partyId]);
+}
+
+export async function createRelation(db: Db, caseId: string, b: Row) {
+  return one(db, `insert into isms.object_relation (case_id, party_id, object_id, relation, basis) values ($1, $2, $3, $4, $5) returning id, status`,
+    [caseId, need(b['partyId'], 'partyId'), need(b['objectId'], 'objectId'), need(b['relation'], 'relation'), b['basis'] ?? null]);
+}
+
+export async function confirmRelation(db: Db, relationId: string, b: Row, personId: string) {
+  await change(db, `update isms.object_relation set status = 'confirmed', basis = coalesce($2, basis), confirmed_by = $3, confirmed_at = now() where id = $1`,
+    [relationId, b['basis'] ?? null, personId]);
+  return one(db, 'select id, status from isms.object_relation where id = $1', [relationId]);
+}
+
+/** F-012: Der Kunde bestätigt Tatsachen und Abgrenzung der freigegebenen Scope-Version (der Berater mit der Freigabe). */
+export async function confirmScopeFacts(db: Db, scopeId: string, b: Row, personId: string) {
+  await db.query(`insert into isms.scope_confirmation (scope_version_id, kind, person_id, note) values ($1, 'customer_facts', $2, $3)`,
+    [scopeId, personId, b['note'] ?? null]);
+  return { ok: true };
+}
+
+// ---------------------------------------------------------------------------
+// Quellen und Assessmentprofil (P-A3, ENT-045): Import als Entwurf, Freigabe je Kriterium durch Menschen
+// ---------------------------------------------------------------------------
+
+interface ProfilDatei {
+  code: string; version: number; title: string; ratingMethod: string;
+  sources: { code: string; publisher: string; title: string; edition: string; kind: string; licenseStatus: string }[];
+  criteria: {
+    code: string; area: string; levelVorschlag?: string; referenceType: string; question: string; objective?: string; advancedPractice?: string;
+    expectedEvidence?: string[]; allowedMethodsVorschlag?: string[]; applicabilityRule?: string; riskNote?: string; followup?: string;
+    references?: { source: string; element: string }[];
+  }[];
+}
+
+/**
+ * Importiert ein Profil als Entwurf. Vorschläge (Ebene, Prüfmethoden) werden NICHT übernommen,
+ * sondern als Interpretation vermerkt – Ebene, Methoden, Bewertungsregel und Owner legt der Lead
+ * Assessor bei der Freigabe fest (Lastenheft 7.2.3: der Agent verändert die Methode nicht eigenmächtig).
+ */
+export async function importProfile(db: Db, b: Row) {
+  const d = b as unknown as ProfilDatei;
+  if (!d.code || !Array.isArray(d.criteria) || !Array.isArray(d.sources)) throw new ApiError(400, 'ungueltig', 'Profil braucht code, sources und criteria');
+  for (const q of d.sources) {
+    await db.query(`insert into isms.source (code, publisher, title, edition, kind, license_status) values ($1, $2, $3, $4, $5, $6) on conflict (code) do nothing`,
+      [q.code, q.publisher, q.title, q.edition, q.kind, q.licenseStatus]);
+  }
+  const p = await one<{ id: string }>(db, `insert into isms.assessment_profile (code, version, title, rating_method) values ($1, $2, $3, $4) returning id`,
+    [d.code, d.version, d.title, d.ratingMethod]);
+  for (const c of d.criteria) {
+    const vorschlag = [c.levelVorschlag ? `Ebene (Vorschlag): ${c.levelVorschlag}` : '', c.allowedMethodsVorschlag?.length ? `Prüfmethoden (Vorschlag): ${c.allowedMethodsVorschlag.join(', ')}` : '',
+      c.advancedPractice ? `Weitergehende Praxis: ${c.advancedPractice}` : ''].filter(Boolean).join(' · ');
+    const k = await one<{ id: string }>(db,
+      `insert into isms.profile_criterion (profile_id, code, area, reference_type, question, objective, interpretation, applicability_rule, expected_evidence, risk_note, followup)
+       values ($1, $2, $3, $4, $5, $6, $7, coalesce($8, 'all'), $9, $10, $11) returning id`,
+      [p.id, c.code, c.area, c.referenceType, c.question, c.objective ?? null, vorschlag || null, c.applicabilityRule ?? null, c.expectedEvidence ?? [], c.riskNote ?? null, c.followup ?? null]);
+    for (const r of c.references ?? []) {
+      const e = await one<{ id: string }>(db,
+        `with q as (select id from isms.source where code = $1),
+              ins as (insert into isms.source_element (source_id, element_ref, element_type) select id, $2, 'control' from q
+                      on conflict (source_id, element_ref) do nothing returning id)
+         select id from ins union all select e.id from isms.source_element e join q on q.id = e.source_id where e.element_ref = $2 limit 1`,
+        [r.source, r.element]);
+      await db.query('insert into isms.criterion_reference (criterion_id, element_id) values ($1, $2) on conflict do nothing', [k.id, e.id]);
+    }
+  }
+  return { id: p.id, criteria: d.criteria.length, status: 'draft' };
+}
+
+/** Lead Assessor vervollständigt und entscheidet ein Kriterium (freigeben oder verwerfen). */
+export async function decideCriterion(db: Db, criterionId: string, b: Row, personId: string) {
+  const decision = need(b['decision'], 'decision');
+  if (decision !== 'approve' && decision !== 'reject') throw new ApiError(400, 'ungueltig', 'decision: approve oder reject');
+  await change(db,
+    `update isms.profile_criterion set level = coalesce($2, level), allowed_methods = coalesce($3, allowed_methods), expected_evidence = coalesce($4, expected_evidence),
+            rating_rule = coalesce($5, rating_rule), owner_role = coalesce($6, owner_role), status = $7, approved_by = $8, approved_at = now()
+      where id = $1`,
+    [criterionId, b['level'] ?? null, b['allowedMethods'] ?? null, b['expectedEvidence'] ?? null, b['ratingRule'] ?? null, b['ownerRole'] ?? null,
+      decision === 'approve' ? 'approved' : 'rejected', personId]);
+  return one(db, 'select id, code, status from isms.profile_criterion where id = $1', [criterionId]);
+}
+
+export async function approveProfile(db: Db, profileId: string, personId: string) {
+  await change(db, `update isms.assessment_profile set status = 'approved', approved_by = $2, approved_at = now() where id = $1`, [profileId, personId]);
+  const c = await one<{ n: number }>(db, 'select count(*)::int as n from isms.control where profile_criterion_id in (select id from isms.profile_criterion where profile_id = $1)', [profileId]);
+  return { ok: true, catalogEntries: c.n };
+}
+
+export async function readProfile(db: Db, profileId: string) {
+  const p = await one(db, 'select id, code, version, title, rating_method, status, approved_by, approved_at from isms.assessment_profile where id = $1', [profileId]);
+  const criteria = (await db.query(
+    `select c.id, c.code, c.area, c.level, c.reference_type, c.question, c.objective, c.interpretation, c.applicability_rule, c.expected_evidence,
+            c.allowed_methods, c.rating_rule, c.risk_note, c.followup, c.owner_role, c.status,
+            coalesce((select array_agg(s.code || ' ' || e.element_ref order by e.element_ref) from isms.criterion_reference r
+                        join isms.source_element e on e.id = r.element_id join isms.source s on s.id = e.source_id where r.criterion_id = c.id), '{}') as refs
+       from isms.profile_criterion c where c.profile_id = $1 order by c.code`, [profileId])).rows;
+  return { ...p, criteria };
 }
 
 export async function linkEvidence(db: Db, b: Row) {
@@ -501,8 +642,18 @@ export async function caseWorkspace(db: Db, caseId: string) {
                          left join isms.mandate_role r on r.mandate_id = mp.mandate_id and r.person_id = mp.person_id
                         where mp.mandate_id = $1 group by p.id, p.display_name, p.party order by p.party, p.display_name`, [m]) : [],
     evidence: m ? await q('select id, source, captured_at, review_state, sha256, kind from isms.evidence where mandate_id = $1 order by captured_at, id', [m]) : [],
-    assessments: m ? await q(`select ca.id, ca.control_id, c.title, ca.object_id, ca.implementation, ca.effectiveness, ca.evidence_state, ca.approval, ca.report_status
+    assessments: m ? await q(`select ca.id, ca.control_id, c.title, ca.object_id, ca.implementation, ca.effectiveness, ca.evidence_state, ca.approval, ca.report_status,
+                                       ca.scope_relation, ca.scope_note, ca.level, ca.level_basis, ca.binding, isms.evidence_grade(ca.id, null) as evidence_grade,
+                                       c.profile_criterion_id is not null as from_profile
                                 from isms.control_assessment ca join isms.control c on c.id = ca.control_id where ca.mandate_id = $1 order by ca.control_id`, [m]) : [],
+    steps: m ? await q(`select s.id, s.control_assessment_id, s.requirement_assessment_id, s.method, s.performed_at, s.object_examined, s.sample, s.source_ref,
+                               s.evidence_id, s.result, s.limitations, p.display_name as performed_by
+                          from isms.assessment_step s join isms.person p on p.id = s.performed_by where s.mandate_id = $1 order by s.performed_at, s.recorded_at`, [m]) : [],
+    parties: await q('select id, role, name, organization_id, status, basis from isms.case_party where case_id = $1 order by created_at', [caseId]),
+    relations: await q('select id, party_id, object_id, relation, status, basis from isms.object_relation where case_id = $1', [caseId]),
+    scopeConfirmations: await q(`select sc.scope_version_id, sc.kind, p.display_name, sc.confirmed_at, sc.note from isms.scope_confirmation sc
+                                   join isms.person p on p.id = sc.person_id join isms.scope_version s on s.id = sc.scope_version_id
+                                  where s.case_id = $1 order by sc.confirmed_at`, [caseId]),
     links: m ? await q(`select ae.evidence_id, ae.control_assessment_id, ae.link_state, ae.open_checks from isms.assessment_evidence ae
                           join isms.control_assessment ca on ca.id = ae.control_assessment_id where ca.mandate_id = $1`, [m]) : [],
     proposals: m ? await q('select id, target_id, status, payload, original_payload, sources, model, prompt_version, uncertainty, reason from isms.ai_proposal where mandate_id = $1 order by created_at', [m]) : [],

@@ -92,3 +92,33 @@ describe('Risikomethode (ENT-022)', () => {
     expect(pruefeRisikoZelle('Methode des Kunden: hoch')).toBeUndefined();
   });
 });
+
+describe('Bewertungsmatrix 3PA (ENT-040) – identisch mit db/migrations/0017', () => {
+  it.each([
+    ['außerhalb des Prüfauftrags ist keine Nichtanwendbarkeit', control({ pruefbezug: 'out_of_scope', pruefbezugNotiz: 'nicht beauftragt', anwendbarkeit: 'applicable', umsetzung: 'absent' }), 'out_of_scope'],
+    ['Prüfbezug ungeklärt', control({ pruefbezug: 'unclear', umsetzung: 'present', evidenzlage: 'sufficient' }), 'not_assessed'],
+    ['A-30: Dokument geprüft, Umsetzung unbekannt', control({ umsetzung: 'unknown', evidenzlage: 'sufficient', pruefstatus: 'E3' }), 'not_assessed'],
+    ['Wirksamkeit nicht nachgewiesen ≠ Lücke', control({ umsetzung: 'present', wirksamkeit: 'not_demonstrated', evidenzlage: 'sufficient', pruefstatus: 'E3' }), 'insufficient_evidence'],
+    ['wirksam nach Test mit Stichprobe', control({ umsetzung: 'present', wirksamkeit: 'effective', evidenzlage: 'sufficient', pruefstatus: 'E4', stichprobeProtokolliert: true, tiefe: 3 }), 'met'],
+  ])('%s', (_name, b, soll) => {
+    expect(berichtsstatus(b)).toBe(soll);
+  });
+
+  it('R7–R9: ausreichend nur ab E3, wirksam nur mit Stichprobe, Prüfbezug begründet', () => {
+    const regeln = (b: Bewertung) => pruefeBewertung(b).map((v) => v.regel);
+    expect(regeln(control({ umsetzung: 'present', evidenzlage: 'sufficient', pruefstatus: 'E2' }))).toContain('R7');
+    expect(regeln(control({ umsetzung: 'present', evidenzlage: 'sufficient', pruefstatus: 'E3' }))).not.toContain('R7');
+    expect(regeln(control({ umsetzung: 'present', wirksamkeit: 'effective', evidenzlage: 'sufficient', pruefstatus: 'E3', stichprobeProtokolliert: false }))).toContain('R8');
+    expect(regeln(control({ pruefbezug: 'out_of_scope', umsetzung: 'unknown' }))).toContain('R9');
+    expect(regeln(control({ pruefbezug: 'unclear', umsetzung: 'present', freigabe: 'freigegeben' }))).toContain('R9');
+    expect(regeln(control({ umsetzung: 'absent', wirksamkeit: 'not_demonstrated' }))).toContain('R2');
+  });
+
+  it('F-023: Abweichung von einer Empfehlung ist keine Nichterfüllung und keine Nichtkonformität', async () => {
+    const { ergebnisBezeichnung } = await import('../src/bewertung/modell.js');
+    expect(ergebnisBezeichnung('not_met', { verbindlichkeit: 'guidance', auditMandat: true })).toBe('Abweichung von der Empfehlung');
+    expect(ergebnisBezeichnung('not_met', { verbindlichkeit: 'mandatory', auditMandat: true })).toBe('Nichtkonformität');
+    expect(ergebnisBezeichnung('not_met', { verbindlichkeit: 'agreed' })).toBe('nicht erfüllt');
+    expect(ergebnisBezeichnung('out_of_scope')).toBe('außerhalb des Prüfauftrags');
+  });
+});

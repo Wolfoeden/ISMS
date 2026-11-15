@@ -73,7 +73,14 @@ const DE = {
   deferred_with_owner_impact_trigger: 'vertagt', pending_review: 'zu prüfen', confirmed: 'bestätigt',
   met: 'erfüllt', partially_met: 'teilweise erfüllt', not_met: 'nicht erfüllt', evidence_missing: 'Nachweis fehlt',
   insufficient_evidence: 'Nachweis unzureichend', not_assessed: 'nicht bewertet', not_applicable: 'nicht anwendbar', needs_review: 'in Klärung',
+  out_of_scope: 'außerhalb des Prüfauftrags', in_scope: 'im Auftrag', unclear: 'Prüfbezug ungeklärt', open: 'offen',
+  supplier: 'Lieferant', product: 'Produkt', operation: 'Betrieb', cross_cutting: 'übergreifend',
+  examine: 'Dokumentprüfung', interview: 'Interview', test: 'Test', observation: 'Beobachtung',
+  client: 'Auftraggeber', assessee: 'geprüfte Organisation / Lieferant', product_developer: 'Hersteller / Entwickler', operator: 'Betreiber',
+  subcontractor: 'Unterauftragnehmer', report_recipient: 'Berichtsempfänger',
 };
+const LEVEL = [['', 'Ebene wählen'], ['supplier', 'Lieferant'], ['product', 'Produkt'], ['operation', 'Betrieb'], ['cross_cutting', 'übergreifend']];
+const GRADE = { E0: 'E0 kein Nachweis', E1: 'E1 Eigenauskunft', E2: 'E2 Dokument, ungeprüft', E3: 'E3 vom Prüfer geprüft', E4: 'E4 beobachtet/getestet' };
 const de = (code) => DE[code] || code || '–';
 const kindOf = (code) => (['met', 'suitable', 'confirmed', 'active', 'published', 'persisted_locked', 'verified', 'approved', 'scope_approved', 'erledigt', 'accepted', 'closed'].includes(code) ? 'p-ok'
   : ['not_met', 'unsuitable', 'expired', 'cancelled', 'terminated', 'stopped', 'rejected_with_reason', 'returned'].includes(code) ? 'p-err'
@@ -233,6 +240,21 @@ async function viewKundenFall(caseId) {
   const d = await get(`/cases/${caseId}/dashboard`);
   const ov = await get(`/cases/${caseId}`);
   const teile = [h('div', { class: 'row' }, h('button', { class: 's', onclick: () => { state.view = null; render(); } }, '← Meine Vorgänge')), dashboard(d)];
+  if (ov.case.mandate_id) {
+    const w = await get(`/cases/${caseId}/workspace`);
+    const sv = w.scopeDetails.find((s) => s.status === 'approved');
+    const bestaetigt = sv && (w.scopeConfirmations || []).some((c) => c.scope_version_id === sv.id && c.kind === 'customer_facts' && c.display_name === state.person.display_name);
+    if (sv) {
+      teile.push(h('section', {}, h('h2', {}, `Prüfumfang – Version ${sv.version}`),
+        h('p', {}, sv.goal), h('p', { class: 'muted' }, `Kriterien: ${sv.criteria} · Objekte: ${sv.object_ids.map((id) => (w.objects.find((o) => o.id === id) || {}).name || '–').join(', ')}`),
+        (w.parties || []).length ? h('div', { class: 'tw' }, h('table', {}, h('tbody', {}, w.parties.map((pt) => h('tr', {}, h('td', {}, de(pt.role)), h('td', {}, pt.name || 'noch unbekannt'),
+          h('td', {}, pt.status === 'confirmed' ? pill('bestätigt', 'p-ok') : pt.name ? h('button', { class: 's', onclick: () => act(() => post(`/parties/${pt.id}/confirm`, { basis: 'vom Kunden im Portal bestätigt' }), 'Angabe bestätigt') }, 'stimmt') : pill('offen', 'p-warn'))))))) : null,
+        bestaetigt ? h('p', { class: 'notice' }, 'Sie haben die Angaben zu dieser Version bestätigt.')
+          : h('div', { class: 'row' }, h('input', { id: 'scnote', placeholder: 'Anmerkung (optional)' }),
+            h('button', { class: 'b', onclick: () => act(() => post(`/scope-versions/${sv.id}/confirm`, { note: val('scnote') || undefined }), 'Angaben bestätigt') }, 'Angaben zum Prüfumfang bestätigen')),
+        h('p', { class: 'muted' }, 'Sie bestätigen Tatsachen und Abgrenzung. Die fachliche Bewertung des Umfangs liegt bei DT Agency.')));
+    }
+  }
   if (ov.case.mandate_id && ['collecting_evidence', 'ready_for_assessment', 'assessing'].includes(ov.case.status)) {
     teile.push(h('section', {}, h('h2', {}, 'Nachweis hochladen'),
       h('p', { class: 'muted' }, 'Die Datei wird mit Fingerabdruck, Quelle und Datum gespeichert. Inhalte von Dateien werden nie als Anweisung behandelt.'),
@@ -309,10 +331,19 @@ async function viewFall(caseId) {
     h('div', { class: 'tw' }, h('table', {}, h('tbody', {}, w.objects.map((o) => h('tr', {}, h('td', {}, o.name), h('td', {}, de(o.object_type) || o.object_type), h('td', { class: 'muted' }, o.boundaries)))))),
     w.organizationId ? h('div', { class: 'grid2' }, field('Art', sel('otype', OBJECT)), field('Bezeichnung', h('input', { id: 'oname' })), field('Version', h('input', { id: 'over' })), field('Grenzen (Pflicht)', h('input', { id: 'obound' }))) : h('p', { class: 'muted' }, 'Anfrage ohne Organisation – Objekte erst nach Zuordnung.'),
     w.organizationId ? h('div', { class: 'row' }, h('button', { class: 's', onclick: () => act(() => post('/objects', { organizationId: w.organizationId, type: val('otype'), name: val('oname'), version: val('over') || undefined, boundaries: val('obound') }), 'Objekt angelegt') }, 'Objekt anlegen')) : null,
+    h('h3', {}, 'Beteiligte'),
+    h('p', { class: 'muted' }, 'Auftraggeber, geprüfte Organisation, Hersteller und Betreiber getrennt erfassen. Unbekanntes bleibt offen – nicht gleichsetzen.'),
+    h('div', { class: 'tw' }, h('table', {}, h('tbody', {}, (w.parties || []).map((pt) => h('tr', {}, h('td', {}, de(pt.role)), h('td', {}, pt.name || h('span', { class: 'muted' }, 'noch unbekannt')),
+      h('td', {}, pill(pt.status === 'confirmed' ? 'bestätigt' : 'offen', pt.status === 'confirmed' ? 'p-ok' : 'p-warn')), h('td', { class: 'muted' }, pt.basis || ''),
+      h('td', {}, pt.status === 'open' && pt.name ? h('button', { class: 's', onclick: () => act(() => post(`/parties/${pt.id}/confirm`, { basis: prompt('Grundlage der Bestätigung (Quelle)') || '' }), 'Angabe bestätigt') }, 'bestätigen') : null)))))),
+    h('div', { class: 'row' }, sel('prole', [['assessee', 'geprüfte Organisation / Lieferant'], ['client', 'Auftraggeber'], ['product_developer', 'Hersteller / Entwickler'], ['operator', 'Betreiber'], ['subcontractor', 'Unterauftragnehmer'], ['report_recipient', 'Berichtsempfänger']]),
+      h('input', { id: 'ptname', placeholder: 'Name (leer = noch unbekannt)' }), h('input', { id: 'pbasis', placeholder: 'Quelle der Angabe' }),
+      h('button', { class: 's', onclick: () => act(() => post(`/cases/${caseId}/parties`, { role: val('prole'), name: val('ptname') || undefined, basis: val('pbasis') || undefined }), 'Beteiligter erfasst') }, 'Beteiligten erfassen')),
     h('h3', {}, 'Scope-Versionen'),
     h('div', { class: 'tw' }, h('table', {}, h('tbody', {}, w.scopeDetails.map((s) => h('tr', {}, h('td', {}, `V${s.version}`), h('td', {}, pill(s.status === 'approved' ? 'freigegeben' : de(s.status), kindOf(s.status))),
       h('td', {}, s.goal, h('div', { class: 'muted' }, `${s.handling_mode} · ${s.assurance_statement} · Profil ${s.depth_profile || '–'} · ${Object.entries(s.criteria_versions || {}).map(([k, v]) => `${k}:${v}`).join(', ') || 'keine Normversion'} · Objekte: ${s.object_ids.map(objName).join(', ')}`)),
-      h('td', {}, s.status === 'draft' ? h('button', { class: 'b', onclick: () => act(() => post(`/scope-versions/${s.id}/approve`), 'Scope freigegeben') }, 'freigeben') : null)))))),
+      h('td', {}, s.status === 'draft' ? h('button', { class: 'b', onclick: () => act(() => post(`/scope-versions/${s.id}/approve`), 'Scope freigegeben') }, 'freigeben')
+        : s.status === 'approved' ? h('span', { class: 'muted' }, (w.scopeConfirmations || []).some((c) => c.scope_version_id === s.id && c.kind === 'customer_facts') ? 'Kunde hat Tatsachen bestätigt' : 'Bestätigung des Kunden steht aus') : null)))))),
     h('div', { class: 'grid2' }, field('Ziel', h('input', { id: 'sgoal', value: 'Sicherheitsbewertung als Nachweis für einen Geschäftskunden' })), field('Kriterien', h('input', { id: 'scrit', value: 'ISO/IEC 27001 Anhang A (Auswahl)' })),
       field('Modus', sel('smode', [['assisted', 'Assisted'], ['managed', 'Managed'], ['digital', 'Digital']])),
       field('Aussage', sel('sass', [['professionally_reviewed', 'fachlich reviewed'], ['indicative', 'indikativ'], ['independently_assessed', 'unabhängig geprüft']])),
@@ -361,22 +392,57 @@ async function viewFall(caseId) {
           h('button', { class: 's', onclick: () => act(() => post(`/evidence/${e.id}/review`, { state: 'suitable' }), 'geprüft: geeignet') }, 'geeignet'),
           h('button', { class: 's', onclick: () => act(() => post(`/evidence/${e.id}/review`, { state: 'unsuitable' }), 'geprüft: ungeeignet') }, 'ungeeignet')) : null)))))),
     h('h3', {}, 'Bewertungen je Objekt'),
-    h('div', { class: 'tw' }, h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Control'), h('th', {}, 'Objekt'), h('th', {}, 'Umsetzung / Nachweislage / Freigabe'), h('th', {}, 'Berichtsstatus (berechnet)'), h('th', {}, 'Nachweis verknüpfen'))),
+    h('p', { class: 'muted' }, 'Der Prüfstatus E0–E4 wird aus Nachweisen und protokollierten Prüfschritten abgeleitet. „Ausreichend“ verlangt einen Prüfschritt (E3/E4), „wirksam“ einen Prüfschritt mit Stichprobe.'),
+    h('div', { class: 'tw' }, h('table', {}, h('thead', {}, h('tr', {}, h('th', {}, 'Kriterium'), h('th', {}, 'Objekt'), h('th', {}, 'Bewertung'), h('th', {}, 'Prüfstatus / Berichtsstatus (berechnet)'), h('th', {}, 'Nachweis verknüpfen'))),
       h('tbody', {}, w.assessments.map((a) => {
         const links = w.links.filter((l) => l.control_assessment_id === a.id);
         const idp = 'ca-' + a.id.slice(0, 8);
         return h('tr', {}, h('td', {}, a.control_id, h('div', { class: 'muted' }, a.title)), h('td', {}, objName(a.object_id)),
           h('td', {}, h('div', { class: 'row' },
+            sel(idp + '-lv', LEVEL, a.level || ''),
+            sel(idp + '-sr', [['in_scope', 'im Auftrag'], ['out_of_scope', 'außerhalb'], ['unclear', 'ungeklärt']], a.scope_relation),
+            a.from_profile ? sel(idp + '-bd', [['unclear', 'Verbindlichkeit offen'], ['mandatory', 'verbindlich'], ['agreed', 'vereinbart'], ['guidance', 'Empfehlung']], a.binding || 'unclear') : null),
+            h('div', { class: 'row' },
             sel(idp + '-i', [['unknown', 'unbekannt'], ['absent', 'nicht umgesetzt'], ['partial', 'teilweise'], ['present', 'umgesetzt']], a.implementation),
+            sel(idp + '-w', [['not_verified', 'Wirksamkeit nicht untersucht'], ['not_demonstrated', 'nicht nachgewiesen'], ['effective', 'wirksam'], ['ineffective', 'nicht wirksam']], a.effectiveness),
             sel(idp + '-e', [['none', 'kein Nachweis'], ['claim_only', 'nur Aussage'], ['insufficient', 'unzureichend'], ['sufficient', 'ausreichend'], ['conflicting', 'widersprüchlich']], a.evidence_state),
             sel(idp + '-a', [['open', 'offen'], ['proposed', 'vorgeschlagen'], ['verified', 'verifiziert'], ['approved', 'freigegeben']], a.approval),
-            h('button', { class: 's', onclick: () => act(() => patch(`/control-assessments/${a.id}`, { implementation: val(idp + '-i'), evidenceState: val(idp + '-e'), approval: val(idp + '-a') }), 'Bewertung gespeichert') }, 'speichern'))),
-          h('td', {}, pill(de(a.report_status), kindOf(a.report_status))),
+            h('button', { class: 's', onclick: () => act(() => {
+              const b = { implementation: val(idp + '-i'), effectiveness: val(idp + '-w'), evidenceState: val(idp + '-e'), approval: val(idp + '-a'), scopeRelation: val(idp + '-sr') };
+              if (val(idp + '-lv')) b.level = val(idp + '-lv');
+              if (a.from_profile) b.binding = val(idp + '-bd');
+              if (b.scopeRelation === 'out_of_scope' && !a.scope_note) b.scopeNote = prompt('Warum außerhalb des Prüfauftrags?') || '';
+              if (b.level === 'cross_cutting' && !a.level_basis) b.levelBasis = prompt('Warum übergreifend?') || '';
+              return patch(`/control-assessments/${a.id}`, b);
+            }, 'Bewertung gespeichert') }, 'speichern'))),
+          h('td', {}, h('div', {}, pill(GRADE[a.evidence_grade] || a.evidence_grade, ['E3', 'E4'].includes(a.evidence_grade) ? 'p-ok' : 'p-warn')),
+            h('div', {}, pill(de(a.report_status), kindOf(a.report_status))),
+            h('div', { class: 'muted' }, `${(w.steps || []).filter((st) => st.control_assessment_id === a.id).length} Prüfschritt(e)`)),
           h('td', {}, links.map((l) => h('div', {}, pill(de(l.link_state), kindOf(l.link_state)), l.link_state === 'pending_review' ? h('button', { class: 's', onclick: () => act(() => post('/evidence-links/confirm', { evidenceId: l.evidence_id, controlAssessmentId: a.id, note: 'Geltungsbereich, Stand, Zulassung, Aussagekraft geprüft' }), 'Wiederverwendung bestätigt') }, 'bestätigen') : null)),
             h('div', { class: 'row' }, sel(idp + '-l', w.evidence.map((e) => [e.id, e.source])), h('button', { class: 's', onclick: () => act(() => post('/evidence-links', { evidenceId: val(idp + '-l'), controlAssessmentId: a.id, scopeVersionId: freigegeben && freigegeben.id }), 'verknüpft') }, 'verknüpfen'))));
       })))),
     h('div', { class: 'row' }, sel('nctl', w.controls.map((c) => [c.id, `${c.id} – ${c.title}`])), sel('nobj', w.objects.map((o) => [o.id, o.name])),
-      h('button', { class: 's', onclick: () => act(() => post(`/mandates/${m.id}/control-assessments`, { controlId: val('nctl'), objectId: val('nobj'), baseDepth: m.depth_profile, requiredDepth: m.depth_profile, implementation: 'unknown' }), 'Bewertung angelegt') }, 'Bewertung anlegen')));
+      sel('nlv', LEVEL),
+      h('button', { class: 's', onclick: () => act(() => post(`/mandates/${m.id}/control-assessments`, { controlId: val('nctl'), objectId: val('nobj'), baseDepth: m.depth_profile, requiredDepth: m.depth_profile, implementation: 'unknown', level: val('nlv') || undefined }), 'Bewertung angelegt') }, 'Bewertung anlegen')),
+    w.assessments.length ? h('div', {}, h('h3', {}, 'Prüfschritt protokollieren'),
+      h('p', { class: 'muted' }, 'Nur tatsächlich durchgeführte Prüfungen, im eigenen Namen. Ein KI-Vorschlag ist keine Durchführung. Einträge sind unveränderlich – Korrektur als neuer Schritt.'),
+      h('div', { class: 'grid2' },
+        field('Bewertung', sel('stca', w.assessments.map((a) => [a.id, `${a.control_id} · ${objName(a.object_id)}`]))),
+        field('Methode', sel('stm', [['examine', 'Dokumentprüfung'], ['interview', 'Interview'], ['test', 'Test'], ['observation', 'Beobachtung']])),
+        field('Geprüftes Objekt', h('input', { id: 'sto', placeholder: 'z. B. Rechtematrix v3' })),
+        field('Stichprobe (Pflicht bei Test/Beobachtung)', h('input', { id: 'sts', placeholder: 'z. B. 5 von 40 Konten, zufällig' })),
+        field('Fundstelle', h('input', { id: 'stf', placeholder: 'z. B. Abschnitt 4.2, Zeile 1–5' })),
+        field('Nachweis (optional)', sel('ste', [['', '–'], ...w.evidence.map((e) => [e.id, e.source])])),
+        field('Ergebnis', h('input', { id: 'str' })),
+        field('Grenzen', h('input', { id: 'stg', placeholder: 'z. B. nur Testsystem' }))),
+      h('div', { class: 'row' }, h('button', { class: 's', onclick: () => act(() => post('/assessment-steps', {
+        controlAssessmentId: val('stca'), method: val('stm'), objectExamined: val('sto'), sample: val('sts') || undefined, sourceRef: val('stf'),
+        evidenceId: val('ste') || undefined, result: val('str'), limitations: val('stg') }), 'Prüfschritt protokolliert') }, 'Prüfschritt protokollieren')),
+      (w.steps || []).length ? h('div', { class: 'tw' }, h('table', {}, h('tbody', {}, w.steps.map((st) => h('tr', {},
+        h('td', {}, (w.assessments.find((a) => a.id === st.control_assessment_id) || {}).control_id || '–'), h('td', {}, de(st.method)),
+        h('td', {}, st.object_examined, h('div', { class: 'muted' }, [st.sample, st.source_ref].filter(Boolean).join(' · '))),
+        h('td', {}, st.result, h('div', { class: 'muted' }, 'Grenzen: ' + st.limitations)),
+        h('td', { class: 'muted' }, `${st.performed_by} · ${new Date(st.performed_at).toLocaleString('de-DE')}`)))))) : null) : null);
 
   // 4 Fragen
   const s4 = h('section', {}, h('h2', {}, '4 · Offene Fragen'),

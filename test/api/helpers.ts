@@ -55,6 +55,12 @@ export class Api {
   }
 }
 
+/** Dokumentprüfung durch den Lead (ENT-040: „ausreichend“ verlangt einen protokollierten Prüfschritt) */
+export const pruefschritt = (controlAssessmentId: string, evidenceId?: string) => ({
+  controlAssessmentId, method: 'examine', objectExamined: 'IdP-Export (fiktiv)', sourceRef: 'Export, Zeile 1–5',
+  ...(evidenceId ? { evidenceId } : {}), result: 'MFA bei 3 von 5 Admin-Konten aktiv', limitations: 'nur Export geprüft, Stichtag 2026-11-20',
+});
+
 export type Stufe = 'intake' | 'scope' | 'angebot' | 'mandat' | 'aktiv' | 'qa';
 const REIHE: Stufe[] = ['intake', 'scope', 'angebot', 'mandat', 'aktiv', 'qa'];
 
@@ -91,13 +97,16 @@ export async function aufbauen(api: Api, bis: Stufe, name = 'Fall'): Promise<Fal
   await api.ok(lead.post(`/mandates/${f.mandat}/team`, { personId: QA, roles: ['independent_reviewer'] }));
   await api.ok(lead.post(`/mandates/${f.mandat}/team`, { personId: CONSULTANT, roles: ['consultant'] }));
   await api.ok(lead.post(`/mandates/${f.mandat}/team`, { personId: kunde, roles: ['executive_sponsor'] }));
+  // F-012: Kunde bestätigt Tatsachen und Abgrenzung der freigegebenen Scope-Version
+  await api.ok(k.post(`/scope-versions/${f.scope}/confirm`, { note: 'Systemgrenzen und Objekte stimmen' }));
   if (n < 4) return f;
   const pd = (await api.ok(lead.post('/profile-decisions', { organizationId: org, recommendedProfile: 2, minProfile: 1, profile: 2 }))).id;
   await api.ok(lead.post(`/mandates/${f.mandat}/activate`, { profileDecisionId: pd }));
   f.nachweis = (await api.ok(k.post(`/mandates/${f.mandat}/evidence`, { source: 'IdP-Export', capturedAt: '2026-11-20', contentBase64: Buffer.from(`Export ${name}: MFA bei 3 von 5 Admin-Konten`).toString('base64') }))).id;
   await api.ok(lead.post(`/evidence/${f.nachweis}/review`, { state: 'suitable' }));
-  f.bewertung = (await api.ok(lead.post(`/mandates/${f.mandat}/control-assessments`, { controlId: 'A.8.5', objectId: o2, baseDepth: 2, requiredDepth: 2, implementation: 'partial' }))).id;
+  f.bewertung = (await api.ok(lead.post(`/mandates/${f.mandat}/control-assessments`, { controlId: 'A.8.5', objectId: o2, baseDepth: 2, requiredDepth: 2, implementation: 'partial', level: 'product' }))).id;
   await api.ok(lead.post('/evidence-links', { evidenceId: f.nachweis, controlAssessmentId: f.bewertung, scopeVersionId: f.scope }));
+  await api.ok(lead.post('/assessment-steps', pruefschritt(f.bewertung!, f.nachweis)));
   await api.ok(lead.patch(`/control-assessments/${f.bewertung}`, { evidenceState: 'sufficient', approval: 'approved' }));
   if (n < 5) return f;
   for (const st of ['collecting_evidence', 'ready_for_assessment', 'assessing', 'internal_review', 'qa']) await api.ok(lead.post(`/cases/${fall}/status`, { status: st }));

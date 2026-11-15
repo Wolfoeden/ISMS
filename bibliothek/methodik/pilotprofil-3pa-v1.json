@@ -1,0 +1,948 @@
+{
+  "code": "3PA-PILOT",
+  "version": 1,
+  "title": "3PA-Pilotprofil Lieferant und Softwareprodukt",
+  "status": "vorgeschlagen",
+  "ratingMethod": "vorschriften.md §A8.3 mit Prüfbezug und Prüfstatus E0–E4 (ENT-040); Risikohinweis qualitativ (ENT-041)",
+  "herkunft": "Prototyp AAI v1.0, Normmodell AAI-NORMEN-ASSESSMENT-V1 1.1-v09-pilot (Stand 2026-11-15, laut Modell eigene Formulierungen, keine Normvolltexte). Übernommen nach ENT-045; Personen- und Produktnamen neutralisiert; Ebene und Prüfmethoden sind Vorschläge.",
+  "hinweis": "Entwurf. Jedes Kriterium braucht vor der Freigabe durch den Lead Assessor: Ebene, zulässige Prüfmethoden, Mindestnachweis, Bewertungsregel und fachlichen Owner (Lastenheft 7.2). Kontrollreferenzen sind Leitlinien und ohne fallbezogen bestätigte Verbindlichkeit keine Pflicht (F-023).",
+  "sources": [
+    {
+      "code": "ISO/IEC 27002:2022",
+      "publisher": "ISO/IEC",
+      "title": "Information security, cybersecurity and privacy protection — Information security controls",
+      "edition": "2022",
+      "kind": "standard",
+      "licenseStatus": "reference_only"
+    }
+  ],
+  "criteria": [
+    {
+      "code": "ORG-01",
+      "area": "Lieferant & Organisation",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Welche Komponenten, Datenflüsse und Supportleistungen umfasst der tatsächliche oder vorgesehene Liefergegenstand?",
+      "objective": "Produkt, Schnittstellen, Verantwortungsgrenzen und Kundeneinsatz sind nachvollziehbar abgegrenzt.",
+      "advancedPractice": "Versionierte Scope- und Architekturübersicht mit Änderungsverfolgung.",
+      "expectedEvidence": [
+        "Produktbeschreibung",
+        "Leistungs-/Lizenzvereinbarung",
+        "Architekturskizze"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Wer betreibt welche Komponente: Kunde, Hersteller des führenden Systems oder Anbieter?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.19"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.20"
+        }
+      ]
+    },
+    {
+      "code": "ORG-02",
+      "area": "Lieferant & Organisation",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Welche Zuständigkeiten und Vertretungsregelungen bestehen für das Produkt und seine sicherheitsrelevanten Funktionen?",
+      "objective": "Sicherheitsrelevante Tätigkeiten haben auch bei sehr kleinen Anbietern eindeutige Verantwortliche.",
+      "advancedPractice": "Ein einfacher Vertretungs-/Eskalationsplan für Ausfall oder Urlaub.",
+      "expectedEvidence": [
+        "Verantwortungsnotiz",
+        "Supportprozess"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Gibt es Kundenfristen oder Tätigkeiten, die ohne die verantwortliche Person nicht durchgeführt werden können?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.2"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.37"
+        }
+      ]
+    },
+    {
+      "code": "ORG-03",
+      "area": "Lieferant & Organisation",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Werden Unterauftragnehmer oder externe Dienste einbezogen? Falls ja, für welche Aufgaben?",
+      "objective": "Kritische Abhängigkeiten und externe Zugriffe sind bekannt und risikoangemessen bewertet.",
+      "advancedPractice": "Lieferanten- und SBOM-gestützte Pflege bei Releases.",
+      "expectedEvidence": [
+        "Komponenten-/Diensteliste",
+        "Auftragsverarbeitungsvereinbarung falls erforderlich"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Laufen Komponenten bei Dritten oder ausschließlich in der Umgebung des Kunden?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.19"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.21"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.23"
+        }
+      ]
+    },
+    {
+      "code": "ORG-04",
+      "area": "Lieferant & Organisation",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Welche Regelungen zur Informationssicherheit, zum Datenschutz und zum Support bestehen zwischen der geprüften Organisation und ihren Kunden oder Dienstleistern? Was ist dokumentiert und wird angewendet?",
+      "objective": "Relevante Beziehungen, Sicherheitsverantwortlichkeiten, Datenschutzrollen und Supportwege sind im tatsächlichen Liefer-/Nutzungskontext angemessen geklärt; fehlende formale Verträge sind nicht ohne Scope-/Risikoanalyse automatisch eine Normabweichung.",
+      "advancedPractice": "Vorlagen für Security Addendum und Security Incident Notification.",
+      "expectedEvidence": [
+        "Vorliegende Kunden-/Lieferantenvereinbarung (falls vorhanden)",
+        "dokumentiertes Support-/Kommunikationsverfahren",
+        "Zuständigkeitsübersicht",
+        "kontextbezogene Datenschutzrollenklärung"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Welche Beziehungen betreffen diese Regelungen, welche Dokumente oder gelebten Verfahren liegen vor und was ist noch ungeklärt? Der Beratungsvertrag mit dem Prüfer ist nicht automatisch Prüfgegenstand.",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.20"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.31"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.34"
+        }
+      ]
+    },
+    {
+      "code": "ORG-05",
+      "area": "Lieferant & Organisation",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Welche Abhängigkeiten von Dritten bestehen und wie werden sie im Alltag berücksichtigt?",
+      "objective": "Kritische Betriebs- und Übergabeabhängigkeiten sind identifiziert; machbare Notfalloptionen existieren.",
+      "advancedPractice": "Wiederherstellungs-/Übergabetest und dokumentierter Notfallzugang.",
+      "expectedEvidence": [
+        "Wartungs-/Betriebshandbuch",
+        "Backup- oder Übergabekonzept"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Welche Folgen hätte ein Ausfall der verantwortlichen Person für Produktbetrieb oder Fehlerbehebung?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.29"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.30"
+        }
+      ]
+    },
+    {
+      "code": "INF-01",
+      "area": "Informationssicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Welche Informationen verarbeitet oder speichert das Produkt – und wo?",
+      "objective": "Datenarten, Schutzbedarf, Speicherorte und relevante personenbezogene Daten sind bekannt.",
+      "advancedPractice": "Datenflussdiagramm mit Vertraulichkeits-/Integritätsanforderungen.",
+      "expectedEvidence": [
+        "Datenmodell",
+        "Datenflussbild",
+        "Liste gespeicherter Daten"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Speichert die Lösung personenbezogene Daten selbst oder nur Rollen-/User-IDs?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.9"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.12"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.34"
+        }
+      ]
+    },
+    {
+      "code": "INF-02",
+      "area": "Informationssicherheit",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie werden wesentliche Produktsicherheitsrisiken identifiziert und behandelt?",
+      "objective": "Wesentliche Bedrohungen sind dokumentiert und es gibt risikobasierte Entscheidungen.",
+      "advancedPractice": "Schlankes Threat Model und fortlaufendes Risiko-/Maßnahmenregister.",
+      "expectedEvidence": [
+        "Risikoliste",
+        "Threat-Model-Skizze",
+        "Entscheidungsnotiz"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Welche sicherheitskritische Fehlfunktion wäre für einen Kunden besonders schädlich?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.8"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.26"
+        }
+      ]
+    },
+    {
+      "code": "INF-03",
+      "area": "Informationssicherheit",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie werden Repositorys, Entwicklungszugänge und Administrationskonten geschützt?",
+      "objective": "Zugriffe sind minimal berechtigt, individuell zurechenbar und angemessen authentisiert.",
+      "advancedPractice": "Regelmäßige Review privilegierter Konten, MFA und Sicherheitsereignisprotokoll.",
+      "expectedEvidence": [
+        "Repository-Berechtigungen",
+        "Account-Konfiguration",
+        "MFA-Nachweis"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Welche Personen oder automatisierten Konten haben Schreib- oder Adminrechte?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.2"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.4"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.5"
+        }
+      ]
+    },
+    {
+      "code": "INF-04",
+      "area": "Informationssicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Wie werden Passwörter, API-Schlüssel und andere Geheimnisse geschützt?",
+      "objective": "Geheimnisse werden nicht im Quellcode offen abgelegt und bei Kompromittierungsverdacht gewechselt.",
+      "advancedPractice": "Secrets Manager, Secret-Scanning und dokumentierter Rotationstrigger.",
+      "expectedEvidence": [
+        "Secrets-Verwaltung",
+        "Scanergebnis",
+        "Konfigurationsauszug"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "hoch, falls die Exposition bestätigt wird",
+      "followup": "Sind technische Zugangsdaten im Anwendungspaket oder in Kundensystemen hinterlegt?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.17"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.5"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.24"
+        }
+      ]
+    },
+    {
+      "code": "INF-05",
+      "area": "Informationssicherheit",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie werden Sicherheitsvorfälle erkannt, bewertet und kommuniziert?",
+      "objective": "Es gibt einen praktikablen Melde-/Eskalationsweg und Kriterien für sicherheitsrelevante Ereignisse.",
+      "advancedPractice": "Getestete Incident-Checkliste mit Kontaktlisten und Kundeninformation.",
+      "expectedEvidence": [
+        "Incident-Ablauf",
+        "Supportticket",
+        "Kontaktliste"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Wie würde ein Kunde einen Sicherheitsvorfall heute melden?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.24"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.25"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.26"
+        }
+      ]
+    },
+    {
+      "code": "INF-06",
+      "area": "Informationssicherheit",
+      "levelVorschlag": "operation",
+      "referenceType": "control_reference",
+      "question": "Welche Sicherheitsbedingungen gelten für Cloud-Dienste und fremdbetriebene Tools?",
+      "objective": "Dienste, Datenzugriffe und wichtige vertragliche Bedingungen sind bekannt.",
+      "advancedPractice": "Regelmäßige Review externer Dienste und dokumentierte Datenflussfreigabe.",
+      "expectedEvidence": [
+        "Diensteliste",
+        "Anbieterbeschreibung",
+        "AVV soweit relevant"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "nur wenn externe Dienste oder fremdbetriebene Werkzeuge genutzt werden",
+      "riskNote": "kontextabhängig",
+      "followup": "Werden Quellcode, Kundendaten oder Sicherheitslogs an externe Dienste übertragen?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.19"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.23"
+        }
+      ]
+    },
+    {
+      "code": "SDLC-01",
+      "area": "Sichere Entwicklung",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie werden sicherheitsrelevante Änderungen am Code überprüft?",
+      "objective": "Kritische Änderungen werden anhand nachvollziehbarer Prüfschritte kontrolliert.",
+      "advancedPractice": "Peer Review, automatisierte Checks und risikogewichtete Review-Regeln.",
+      "expectedEvidence": [
+        "Commit-/Review-Protokoll",
+        "Änderungscheckliste"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Arbeitet die verantwortliche Person allein oder gibt es einen zweiten Reviewer?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.28"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.29"
+        }
+      ]
+    },
+    {
+      "code": "SDLC-02",
+      "area": "Sichere Entwicklung",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Welche Sicherheitsaktivitäten sind in Entwicklung und Design integriert?",
+      "objective": "Sicherheitsanforderungen werden vor Implementierung erkannt und nach Änderungen überprüft.",
+      "advancedPractice": "Leichtgewichtiges Secure-SDLC mit Threat Modeling und Definition of Done.",
+      "expectedEvidence": [
+        "Entwicklungsleitfaden",
+        "Security-Anforderungen",
+        "Architekturentscheidung"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Wann wird entschieden, ob eine neue Funktion zusätzliche Rechte benötigt?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.25"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.26"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.27"
+        }
+      ]
+    },
+    {
+      "code": "SDLC-03",
+      "area": "Sichere Entwicklung",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie werden Bibliotheken und technische Schwachstellen nachverfolgt?",
+      "objective": "Abhängigkeiten und gemeldete Schwachstellen werden beobachtet und priorisiert.",
+      "advancedPractice": "SBOM, automatisierter Dependencyscan und nachvollziehbare Patch-SLAs.",
+      "expectedEvidence": [
+        "Abhängigkeitsliste",
+        "Scanbericht",
+        "Ticketliste"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "hoch, falls die Exposition bestätigt wird",
+      "followup": "Welche externen Libraries verwendet die Lösung?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.8"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.25"
+        }
+      ]
+    },
+    {
+      "code": "SDLC-04",
+      "area": "Sichere Entwicklung",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Welche automatisierten Sicherheitsprüfungen laufen bei Änderungen?",
+      "objective": "Sicherheitskritische Funktionen werden reproduzierbar getestet.",
+      "advancedPractice": "Automatisierte Test-Pipeline für Autorisierung, Eingaben und Regression.",
+      "expectedEvidence": [
+        "Testfälle",
+        "CI-Laufprotokoll",
+        "Testmatrix"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "hoch, falls die Exposition bestätigt wird",
+      "followup": "Gibt es bereits Tests für Rechtefehler oder unberechtigte API-Aufrufe?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.29"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.28"
+        }
+      ]
+    },
+    {
+      "code": "SDLC-05",
+      "area": "Sichere Entwicklung",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie wird die Freigabe eines Releases dokumentiert?",
+      "objective": "Versionsstand, Änderungen und grundlegende Freigabekriterien sind nachvollziehbar.",
+      "advancedPractice": "Signierte Builds, Release-Checkliste und nachvollziehbare Rollback-Option.",
+      "expectedEvidence": [
+        "Versionshistorie",
+        "Release Notes",
+        "Freigabevermerk"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Wer entscheidet, ob ein Build in die Kundenumgebung darf?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.32"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.29"
+        }
+      ]
+    },
+    {
+      "code": "SDLC-06",
+      "area": "Sichere Entwicklung",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie werden Entwicklungs-, Test- und Produktivumgebungen abgegrenzt?",
+      "objective": "Testaktivitäten gefährden weder Kundenbetrieb noch produktive Daten.",
+      "advancedPractice": "Isolierte Testumgebung und datenschutzgerechte Testdaten.",
+      "expectedEvidence": [
+        "Umgebungsdiagramm",
+        "Testkonfiguration",
+        "Testdatenkonzept"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Gibt es produktive Kundendaten in lokalen Testumgebungen?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.31"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.33"
+        }
+      ]
+    },
+    {
+      "code": "SDLC-07",
+      "area": "Sichere Entwicklung",
+      "levelVorschlag": "supplier",
+      "referenceType": "control_reference",
+      "question": "Wie werden Fehlerkorrekturen und Sicherheitsänderungen rückverfolgbar gemacht?",
+      "objective": "Fehler, Maßnahmen und betroffene Versionen lassen sich nachvollziehen.",
+      "advancedPractice": "Verknüpfung Issue -> Commit -> Test -> Release mit Priorisierung.",
+      "expectedEvidence": [
+        "Bugticket",
+        "Commitreferenz",
+        "Changelog"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Wie erfährt ein Kunde, dass eine Sicherheitslücke behoben wurde?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.8"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.32"
+        }
+      ]
+    },
+    {
+      "code": "PRD-01",
+      "area": "Produktsicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Wo und wie werden Benutzer authentisiert?",
+      "objective": "Vertrauensgrenze und Zuständigkeit für die Authentisierung sind technisch klar.",
+      "advancedPractice": "Dokumentierte SSO-/Token-Verifikation und Session-Schutz passend zur Architektur.",
+      "expectedEvidence": [
+        "Authentisierungsfluss",
+        "Konfiguration",
+        "Technische Demonstration"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test",
+        "observation"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Verwendet die Lösung Sitzungen des führenden Systems, eigene Tokens oder beides?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.16"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.5"
+        }
+      ]
+    },
+    {
+      "code": "PRD-02",
+      "area": "Produktsicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Auf welcher Ebene werden Benutzerrechte technisch durchgesetzt?",
+      "objective": "Autorisierungsentscheidung ist auf allen relevanten Zugriffspfaden wirksam.",
+      "advancedPractice": "Deny-by-default und explizite Rechteprüfung pro geschützter Funktion.",
+      "expectedEvidence": [
+        "Rechtematrix",
+        "Code-/Architekturbeleg",
+        "Testprotokoll"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "hoch, falls die Exposition bestätigt wird",
+      "followup": "Prüft die Anwendung eigene Rechte oder delegiert sie vollständig an das führende System?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.15"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.18"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.3"
+        }
+      ]
+    },
+    {
+      "code": "PRD-03",
+      "area": "Produktsicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Wie wird die Wirksamkeit der Autorisierung überprüft? Welche positiven und negativen Testfälle sind vorhanden und dokumentiert?",
+      "objective": "Unberechtigte Rollen- und Funktionsaufrufe werden mit dokumentiertem Soll-/Ist-Ergebnis abgewiesen.",
+      "advancedPractice": "Regelmäßige Regressionstests für alle kritischen Rollen- und Schnittstellenpfade.",
+      "expectedEvidence": [
+        "Negativtestmatrix",
+        "Testlauf",
+        "Live-Demonstration"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test",
+        "observation"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "hoch, falls die Exposition bestätigt wird",
+      "followup": "Kann ein Benutzer ohne Adminrolle einen privilegierten Funktionspfad direkt aufrufen?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.3"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.29"
+        }
+      ]
+    },
+    {
+      "code": "PRD-04",
+      "area": "Produktsicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Wie werden Rollenwechsel und Rechteausweitungen technisch verhindert?",
+      "objective": "Kritische Rollenoperationen validieren Berechtigungen unabhängig vom UI.",
+      "advancedPractice": "Explizite serverseitige Policy-Kontrollen und Tests gegen Privilegieneskalation.",
+      "expectedEvidence": [
+        "Technische Regelbeschreibung",
+        "Policytest",
+        "Code-/Konfigurationsauszug"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test"
+      ],
+      "applicabilityRule": "nur wenn Rollen über die Anwendung geändert werden können",
+      "riskNote": "hoch, falls die Exposition bestätigt wird",
+      "followup": "Sind Rollenänderungen über direkte API-Aufrufe möglich?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.3"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.27"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.29"
+        }
+      ]
+    },
+    {
+      "code": "PRD-05",
+      "area": "Produktsicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Welche sicherheitsrelevanten Ereignisse werden protokolliert?",
+      "objective": "Für Untersuchungen wichtige Aktionen sind nachvollziehbar, ohne unnötige Geheimnisse zu speichern.",
+      "advancedPractice": "Strukturierte manipulationsgeschützte Logs mit auffälligen Ereignissen.",
+      "expectedEvidence": [
+        "Logbeispiel",
+        "Ereignisdefinition",
+        "Aufbewahrungsregel"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Sind abgewiesene Zugriffe und Änderungen an Rollen erkennbar?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.15"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.16"
+        }
+      ]
+    },
+    {
+      "code": "PRD-06",
+      "area": "Produktsicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Wie sind Schnittstellen zur Umgebung des führenden Systems abgesichert?",
+      "objective": "Schnittstellen, Identitäten, Datenflüsse und Schutzmaßnahmen sind beschrieben.",
+      "advancedPractice": "Transportschutz und Prüfung aller Vertrauensübergänge je nach Schnittstellentyp.",
+      "expectedEvidence": [
+        "Schnittstellenspezifikation",
+        "Zertifikatseinstellung",
+        "Systemdiagramm"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "hoch, falls die Exposition bestätigt wird",
+      "followup": "Nutzen die Schnittstellen eine API, direkte Datenbankzugriffe oder andere Mechanismen?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.20"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.24"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.26"
+        }
+      ]
+    },
+    {
+      "code": "PRD-07",
+      "area": "Produktsicherheit",
+      "levelVorschlag": "product",
+      "referenceType": "control_reference",
+      "question": "Wie werden Eingaben, Fehlermeldungen und unerwartete Zustände sicher behandelt?",
+      "objective": "Eingaben werden im passenden Vertrauenskontext geprüft; Fehler verraten keine Geheimnisse.",
+      "advancedPractice": "Automatisierte Fuzz-/Grenzwerttests und sichere Fehlerbehandlung.",
+      "expectedEvidence": [
+        "Validierungstests",
+        "Fehlerlog",
+        "Codebeleg"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview",
+        "test"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Welche Eingaben kann ein nicht privilegierter Benutzer selbst beeinflussen?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.26"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.28"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.29"
+        }
+      ]
+    },
+    {
+      "code": "OPS-01",
+      "area": "Betrieb & Support",
+      "levelVorschlag": "operation",
+      "referenceType": "control_reference",
+      "question": "Wie werden Updates und sicherheitskritische Änderungen bereitgestellt?",
+      "objective": "Es existiert ein praktikabler Weg für Bewertung, Test und Verteilung kritischer Updates.",
+      "advancedPractice": "Dokumentierte Patch-Priorisierung, sichere Verteilung und Rollback.",
+      "expectedEvidence": [
+        "Releasekommunikation",
+        "Patchticket",
+        "Updateverfahren"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Installiert der Kunde Updates selbst oder erfolgt Fernsupport?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.8"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.32"
+        }
+      ]
+    },
+    {
+      "code": "OPS-02",
+      "area": "Betrieb & Support",
+      "levelVorschlag": "operation",
+      "referenceType": "control_reference",
+      "question": "Wie wird die Wiederherstellung nach Störungen oder Datenverlust gewährleistet?",
+      "objective": "Betriebsverantwortung und benötigte Sicherungen sind abgegrenzt; Wiederanlaufoptionen sind bekannt.",
+      "advancedPractice": "Wiederherstellungstest mit vereinbarten Zielwerten soweit betriebsrelevant.",
+      "expectedEvidence": [
+        "Backup-/Recovery-Konzept",
+        "Testprotokoll",
+        "Verantwortungsmatrix"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Welche Daten speichert die Anwendung unabhängig vom führenden System?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.30"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.13"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.14"
+        }
+      ]
+    },
+    {
+      "code": "OPS-03",
+      "area": "Betrieb & Support",
+      "levelVorschlag": "operation",
+      "referenceType": "control_reference",
+      "question": "Wie können Kunden Sicherheitslücken melden und wie wird deren Behebung verfolgt?",
+      "objective": "Ein kontaktierbarer Meldeweg, Triage und Versions-/Kundenkommunikation sind vorhanden.",
+      "advancedPractice": "Veröffentlichte Vulnerability-Disclosure-Regel und priorisierte Fix-Fristen.",
+      "expectedEvidence": [
+        "Supportkontakt",
+        "Beispielticket",
+        "Security Advisory"
+      ],
+      "allowedMethodsVorschlag": [
+        "examine",
+        "interview"
+      ],
+      "applicabilityRule": "all",
+      "riskNote": "kontextabhängig",
+      "followup": "Wer nimmt Schwachstellenmeldungen entgegen, wenn die verantwortliche Person nicht erreichbar ist?",
+      "references": [
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "8.8"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.24"
+        },
+        {
+          "source": "ISO/IEC 27002:2022",
+          "element": "5.26"
+        }
+      ]
+    }
+  ]
+}

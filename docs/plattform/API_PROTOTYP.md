@@ -40,6 +40,9 @@ bash scripts/with-db.sh env ISMS_DEV_AUTH=1 ISMS_SYSTEM_TOKEN=lokal npm run api
 | Prüfvorgang, Scope | `POST /cases` · `GET /cases/:id` · `POST /cases/:id/status` · `POST /objects` · `POST /cases/:id/scope-versions` · `POST /scope-versions/:id/approve` |
 | Angebot, Mandat | `POST /cases/:id/offers` · `POST /offers/:id/send` · `POST /offers/:id/signed` (System) · `POST /mandates/:id/team` · `POST /mandates/:id/activate` |
 | Nachweise, Bewertung | `POST /mandates/:id/evidence` · `POST /evidence/:id/review` · `POST /mandates/:id/control-assessments` · `PATCH /control-assessments/:id` · `POST /evidence-links` · `POST /evidence-links/confirm` |
+| Prüfschritte (3PA, P-A4) | `POST /assessment-steps` – nur DT Agency mit fachlicher Rolle, im eigenen Namen, unveränderlich; Antwort nennt den abgeleiteten Prüfstatus E0–E4 |
+| Beteiligte, Beziehungen (P-A2) | `POST /cases/:id/parties` · `POST /parties/:id/confirm` · `POST /cases/:id/relations` · `POST /relations/:id/confirm` · `POST /scope-versions/:id/confirm` (Kunde bestätigt Tatsachen) |
+| Assessmentprofil (P-A3) | `POST /profiles/import` · `GET /profiles/:id` · `POST /profile-criteria/:id/decide` · `POST /profiles/:id/approve` |
 | KI-Vorschläge | `POST /mandates/:id/proposals` · `POST /proposals/:id/review` |
 | Normversion | `POST /framework-versions` · `POST /version-impacts/:id/decide` |
 | Storno, offene Fragen | `POST /mandates/:id/terminate` · `POST /cases/:id/questions` · `PATCH /questions/:id` |
@@ -86,6 +89,10 @@ npm run ui:durchlauf      # Klick-Durchlauf des Pilotfalls, Screenshots in .data
 - Fortschritt zählt nur Freigegebenes – Kunde und Berater sehen dieselben Zahlen.
 
 **Durch die Oberfläche gefundene und behobene Fehler (Migration 0016, Service):** Nach der Unterschrift sah der Engagement Lead seinen Fall nicht mehr (jetzt Startteam: Angebotsersteller = Engagement Lead, anfragender Kunde = Ansprechpartner); Engagement Lead und Independent Reviewer konnten dieselbe Person sein (jetzt gesperrt); Scope-Freigabe setzte den Prüfvorgang nicht weiter.
+
+## Umsetzungsplan 3PA-Pilot, Etappe 1 – Fachmodell (`test/api/fachmodell.test.ts`, `db/tests/0017–0019_smoke.sql`)
+
+Migrationen 0017–0019 nach ENT-040, ENT-045: Prüfbezug, abgeleiteter Prüfstatus E0–E4, Prüfschritt-Protokoll; Beteiligte und Beziehungen, Ebene je Ergebnis, Freigabe nach Mandatsrolle, getrennte Scope-Bestätigung; Quellen, Quellelemente, Mapping, versioniertes Assessmentprofil mit Veröffentlichung in den Prüfkatalog, Verbindlichkeit je Fall, zulässige Prüfmethoden. Belegt: Lastenheft A-04, A-13, A-15, A-29 – A-31, A-44 – A-46, F-012, F-023. Die Oberfläche zeigt Prüfstatus, Ebene, Prüfbezug, Verbindlichkeit und Prüfschritte; der Kunde bestätigt den Prüfumfang im Portal.
 
 ## Offen
 

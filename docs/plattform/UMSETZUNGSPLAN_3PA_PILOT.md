@@ -2,7 +2,7 @@
 
 | Feld | Inhalt |
 |---|---|
-| Stand | 2026-11-15 · Entwurf · vorgeschlagen von Agent |
+| Stand | 2026-11-15 · ENT-038 bis ENT-045 freigegeben (Paul, Option 1) · Etappe 1 umgesetzt |
 | Eingänge | Lastenheft „KI-gestützter Third-Party Assessment Agent“ **v0.4.1** (konsolidierter Änderungsentwurf, **nicht freigegeben**; führend bleibt v0.4) · HTML-Prototyp „Adaptive Assessment Intelligence v1.0 (Offline)“ |
 | Bezug | `MVP_TECHNICAL_PLAN.md` (WP-00 – WP-11), `vorschriften.md` §A8/§A9/§A17, `entscheidungen.md` ENT-038 – ENT-045 |
 | Zweck | Festlegen, wie die Anforderungen des Lastenhefts mit der bestehenden Plattform (PostgreSQL mit Zugriffsschutz je Zeile, API, Oberfläche) umgesetzt und mit A-01 – A-46 abgenommen werden |
@@ -78,7 +78,9 @@ Die Reihenfolge folgt Anhang C des Lastenhefts: zuerst Methodik, dann das Sicher
 
 Außerdem offen aus dem Lastenheft Kap. 13, nur durch Menschen zu besetzen: Pilot-Messplan, Berichtsvorlage, Dateiformate und OCR, Browserumfang sowie benannte Abnahmeverantwortliche.
 
-### Etappe 1 – Fachmodell 3PA (P-A)
+### Etappe 1 – Fachmodell 3PA (P-A) – ✔ umgesetzt 2026-11-15
+
+Stand: Migrationen 0017–0019, `src/bewertung/modell.ts`, Schnittstelle und Oberfläche; Tests `db/tests/0017–0019_smoke.sql`, `test/bewertung.test.ts`, `test/api/fachmodell.test.ts`, Klick-Durchlauf. Offen bleibt die fachliche Freigabe der 28 Kriterien des Pilotprofils durch den Lead Assessor (`bibliothek/methodik/pilotprofil-3pa-v1.json`, Import über `POST /profiles/import`).
 
 | Paket | Inhalt | Migration / Code | Abnahme |
 |---|---|---|---|

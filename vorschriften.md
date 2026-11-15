@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Stand | 2026-11-12 · Revision 3 · Entwurf; §A8, §A9, §A13 nach Freigabe von ENT-018, ENT-019, ENT-027, ENT-028 |
+| Stand | 2026-11-15 · Revision 4 · Entwurf; §A8, §A9, §A13 nach Freigabe von ENT-018, ENT-019, ENT-027, ENT-028; §A6, §A8, §A17.1 nach ENT-040, ENT-041 |
 | Gilt für | Menschen und KI-Agents in diesem Repository und in der späteren Plattform (ISMS, GRC, Third-Party Assessments) |
 | Ersetzt | Revision 1 dieser Datei und das Eingangsdokument `docs/vorgaben/eingang-2026-11-12/Vorschriften.md` |
 | Prüfung | [`docs/vorgaben/pruefbericht-2026-11-12.md`](docs/vorgaben/pruefbericht-2026-11-12.md) |
@@ -126,6 +126,8 @@ Methode und Skalen für Mandate ([ENT-022], Option 2): **Hat der Kunde eine eige
 
 Risikowert = W × A (1–16); Stufen: 1–3 gering · 4–6 mittel · 8–9 hoch · 12–16 kritisch. Die Akzeptanzschwelle legt der Kunde fest; akzeptieren darf nur der Risk Owner. Notation in `isms.md` §7: `W3×A4=12 (kritisch)` – das Werkzeug rechnet nach (`src/bewertung/risiko.ts`).
 
+**Third-Party-Assessments ([ENT-041], Option 1):** Im 3PA steht je Risiko ein **qualitativer Risikohinweis** – Auswirkung, Eintrittsannahme, empfohlene Maßnahmen, Unsicherheit. Eine Risikozahl (W×A) nur, wenn das freigegebene Assessmentprofil sie ausdrücklich vorsieht. Restrisiken akzeptiert nur die Risikorolle des Kunden (`risk_owner`), nie DT Agency.
+
 ## A7. Controls und SoA
 
 1. Je Control mindestens: Framework- und Versionsbezug, Ziel, Anwendbarkeit mit Begründung, Eigentümer, Status, verknüpfte Risiken und Anforderungen, Nachweise, Wirksamkeit, Reviewdatum.
@@ -160,8 +162,10 @@ Gespeichert werden getrennte **Achsen**; der **Berichtsstatus wird berechnet** u
 | Anwendbarkeit | `undecided` · `applicable` · `not_applicable` | alle |
 | Erfüllung | `open` · `met` · `partially_met` · `not_met` | Anforderungen (ISO/IEC 27001 4–10, Gesetzespflichten, Vertragspflichten) |
 | Umsetzung | `unknown` · `absent` · `partial` · `present` | Controls, Prüfbereiche |
-| Wirksamkeit | `not_verified` · `effective` · `ineffective` | Controls, Prüfbereiche |
-| Evidenzlage | `none` · `claim_only` · `insufficient` · `sufficient` · `conflicting` | alle |
+| Wirksamkeit | `not_verified` (nicht untersucht) · `not_demonstrated` (nicht nachgewiesen) · `effective` · `ineffective` | Controls, Prüfbereiche |
+| Evidenzlage (Aussagekraft) | `none` · `claim_only` · `insufficient` · `sufficient` · `conflicting` | alle |
+| Prüfbezug ([ENT-040]) | `in_scope` · `out_of_scope` · `unclear` | alle – „außerhalb des Prüfauftrags“ ist keine Nichtanwendbarkeit |
+| Prüfstatus ([ENT-040]) | `E0` · `E1` · `E2` · `E3` · `E4` | alle – **abgeleitet, nie gesetzt**: E4 Prüfschritt Test/Beobachtung · E3 Prüfschritt Dokumentprüfung/Interview · E2 Nachweis verknüpft · E1 nur Aussage · E0 nichts |
 | Freigabe | `offen` · `vorgeschlagen` · `freigegeben` · `abgelegt` | alle – identisch mit der Entscheidungsseite |
 
 ### A8.2 Regeln
@@ -174,6 +178,13 @@ Gespeichert werden getrennte **Achsen**; der **Berichtsstatus wird berechnet** u
 | R4 | `not_applicable` nur mit begründeter, freigegebener Entscheidung; nie für ISO/IEC 27001 Abschnitte 4–10 und nie für Pflichten eines als anwendbar entschiedenen Gesetzes. | ✔ |
 | R5 | Widersprüchliche Nachweise (`conflicting`) erzwingen eine menschliche Klärung; nicht freigebbar. | ✔ |
 | R6 | In `isms.md` (außer §11) nur Abgelegtes; jede Ergebniszeile mit Grundlage. | ✔ |
+| R7 | Evidenzlage `sufficient` verlangt einen protokollierten menschlichen Prüfschritt (Prüfstatus E3/E4). Kein Upload und keine KI hebt den Prüfstatus an ([ENT-040], Lastenheft AE-01.02). | ✔ Plattform |
+| R8 | `effective` nur mit protokolliertem Prüfschritt samt Stichprobe; Test und Beobachtung nennen immer die Stichprobe. | ✔ Plattform |
+| R9 | `out_of_scope` nur mit Begründung; Prüfbezug `unclear` ist nicht verifizier- oder freigebbar. | ✔ |
+
+**Prüfschritt** (Plattform, Lastenheft AE-01.03): Methode (`examine` · `interview` · `test` · `observation`), prüfende Person, Zeitpunkt, geprüftes Objekt, Stichprobe, Fundstelle, Ergebnis, Grenzen. Protokolliert nur ein Mensch von DT Agency mit fachlicher Rolle im Mandat, nur im eigenen Namen; unveränderlich – eine Korrektur ist ein neuer Schritt. Ein KI-Vorschlag ist nie eine Durchführung.
+
+**Ebene und Verbindlichkeit** (Plattform, P-A2/P-A3): In Third-Party- und Produktprüfungen trägt jede Bewertung, Feststellung, jedes Risiko und jede Maßnahme vor der fachlichen Prüfung die betroffene Ebene (Lieferant · Produkt · Betrieb · übergreifend mit Begründung). Ein Produktmangel ist nicht automatisch ein Organisationsbefund und umgekehrt. Kriterien aus einem Assessmentprofil brauchen vor der fachlichen Prüfung die fallbezogen bestätigte Verbindlichkeit (`mandatory` · `agreed` · `guidance`); eine Abweichung von einer Empfehlung (`guidance`) ist keine Nichterfüllung und nie eine Nichtkonformität.
 
 ### A8.3 Berechneter Berichtsstatus
 
@@ -181,12 +192,13 @@ Erste zutreffende Zeile gewinnt.
 
 | # | Bedingung | Berichtsstatus |
 |---|---|---|
+| 0 | Prüfbezug `out_of_scope` | `out_of_scope` |
 | 1 | Anwendbarkeit `not_applicable` | `not_applicable` |
 | 2 | Evidenzlage `conflicting` oder Freigabe `vorgeschlagen` | `needs_review` |
-| 3 | Anwendbarkeit `undecided`, Erfüllung `open` bzw. Umsetzung `unknown` | `not_assessed` |
+| 3 | Prüfbezug `unclear`, Anwendbarkeit `undecided`, Erfüllung `open` bzw. Umsetzung `unknown` | `not_assessed` |
 | 4 | Erfüllung `not_met`, Umsetzung `absent` oder Wirksamkeit `ineffective` | `not_met` |
 | 5 | Evidenzlage `none` | `evidence_missing` |
-| 6 | Evidenzlage `claim_only`/`insufficient`, oder Umsetzung `present` bei Tiefe ≥ 3 ohne `effective` | `insufficient_evidence` |
+| 6 | Evidenzlage `claim_only`/`insufficient`, Wirksamkeit `not_demonstrated`, oder Umsetzung `present` bei Tiefe ≥ 3 ohne `effective` | `insufficient_evidence` |
 | 7 | Erfüllung `partially_met` bzw. Umsetzung `partial` | `partially_met` |
 | 8 | sonst | `met` |
 
@@ -362,6 +374,9 @@ Ergebnisse müssen fachlich eindeutig, in der Terminologie normnah und für Kund
 | `not_assessed` | nicht bewertet | nicht bewertet |
 | `not_applicable` | nicht anwendbar | nicht anwendbar |
 | `needs_review` | in Klärung (auch: verifiziert, Freigabe ausstehend) | in Klärung |
+| `out_of_scope` | außerhalb des Prüfauftrags | außerhalb des Prüfauftrags |
+
+`evidence_missing` und `insufficient_evidence` entsprechen „nicht ausreichend beurteilbar“ im Lastenheft 3PA. Bei Kriterien mit Verbindlichkeit `guidance` heißt `not_met` im Bericht „Abweichung von der Empfehlung“ (`src/bewertung/modell.ts`, `ergebnisBezeichnung`).
 
 ### A17.2 Normbezüge (ENT-026)
 

@@ -34,6 +34,8 @@ insert into scope_version (id, case_id, version, goal, criteria, handling_mode, 
 values ('00000000-0000-0000-0000-00000000c001', '00000000-0000-0000-0000-00000000c0f1', 1, 'Kundennachweis', 'ISO/IEC 27001:2022 Anhang A (Auswahl)', 'assisted', 'professionally_reviewed');
 insert into scope_object values ('00000000-0000-0000-0000-00000000c001', '00000000-0000-0000-0000-00000000c0b1');
 update scope_version set status = 'approved', approved_by = '00000000-0000-0000-0000-00000000c0a1', approved_at = now() where id = '00000000-0000-0000-0000-00000000c001';
+-- 0018: Kunde bestätigt die Tatsachen der Scope-Version (Produktprüfung)
+insert into scope_confirmation (scope_version_id, kind, person_id) values ('00000000-0000-0000-0000-00000000c001', 'customer_facts', '00000000-0000-0000-0000-00000000c0d1');
 update assessment_case set status = 'collecting_evidence' where id = '00000000-0000-0000-0000-00000000c0f1';
 update assessment_case set status = 'ready_for_assessment' where id = '00000000-0000-0000-0000-00000000c0f1';
 update assessment_case set status = 'assessing' where id = '00000000-0000-0000-0000-00000000c0f1';

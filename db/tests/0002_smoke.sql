@@ -78,6 +78,11 @@ values ('00000000-0000-0000-0000-0000000000e1', 'A.8.5', 'applicable', 2, 2, 'pr
 insert into assessment_evidence (evidence_id, control_assessment_id)
 select '00000000-0000-0000-0000-0000000000b1', id from control_assessment
  where mandate_id = '00000000-0000-0000-0000-0000000000e1' and control_id = 'A.8.5';
+-- ENT-040: „ausreichend“ verlangt einen protokollierten Prüfschritt (E3/E4)
+insert into assessment_step (mandate_id, control_assessment_id, method, performed_by, performed_at, object_examined, source_ref, evidence_id, result, limitations)
+select '00000000-0000-0000-0000-0000000000e1', id, 'examine', '00000000-0000-0000-0000-00000000a001', now(), 'IdP-Export', 'Export IdP, Blatt 1',
+       '00000000-0000-0000-0000-0000000000b1', 'MFA für alle Konten aktiv', 'Stichtag 2026-11-20'
+  from control_assessment where control_id = 'A.8.5';
 set constraints all immediate;
 select pg_temp.expect_eq((select report_status from control_assessment where control_id = 'A.8.5'), 'met', 'mit geeignetem Nachweis berechnet');
 set constraints all deferred;

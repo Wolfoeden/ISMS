@@ -3,7 +3,7 @@
  * Jeder Pfad: frischer fiktiver Fall, Ablehnung mit Grund, und kein veränderter Zustand danach.
  */
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { Api, aufbauen, CONSULTANT, LEAD, PFLICHT_ANGEBOT, PFLICHT_BERICHT, QA } from './helpers.js';
+import { Api, aufbauen, CONSULTANT, LEAD, PFLICHT_ANGEBOT, PFLICHT_BERICHT, pruefschritt, QA } from './helpers.js';
 
 describe.skipIf(!process.env['DATABASE_URL'])('WP-11 · Negativpfade', () => {
   const api = new Api();
@@ -96,13 +96,14 @@ describe.skipIf(!process.env['DATABASE_URL'])('WP-11 · Negativpfade', () => {
     await api.ok(l.post(`/mandates/${m2}/team`, { personId: LEAD, roles: ['engagement_lead'] }));
     const pd = (await api.ok(l.post('/profile-decisions', { organizationId: alt.org, recommendedProfile: 2, minProfile: 1, profile: 2 }))).id;
     await api.ok(l.post(`/mandates/${m2}/activate`, { profileDecisionId: pd }));
-    const ca2 = (await api.ok(l.post(`/mandates/${m2}/control-assessments`, { controlId: 'A.8.5', objectId: alt.o2, baseDepth: 2, requiredDepth: 2, implementation: 'partial' }))).id;
+    const ca2 = (await api.ok(l.post(`/mandates/${m2}/control-assessments`, { controlId: 'A.8.5', objectId: alt.o2, baseDepth: 2, requiredDepth: 2, implementation: 'partial', level: 'product' }))).id;
 
     const link = await api.ok(l.post('/evidence-links', { evidenceId: alt.nachweis, controlAssessmentId: ca2 }));
     expect(link).toMatchObject({ link_state: 'pending_review', open_checks: ['scope_fit', 'currency', 'permission', 'applicability'] });
     expect((await l.patch(`/control-assessments/${ca2}`, { evidenceState: 'sufficient' })).status).toBe(422);
     expect((await api.als(alt.kunde).post('/evidence-links/confirm', { evidenceId: alt.nachweis, controlAssessmentId: ca2 })).status).toBeGreaterThanOrEqual(403);
     await api.ok(l.post('/evidence-links/confirm', { evidenceId: alt.nachweis, controlAssessmentId: ca2, note: 'Geltungsbereich, Stand, Zulassung, Aussagekraft geprüft' }));
+    await api.ok(l.post('/assessment-steps', pruefschritt(ca2)));
     expect((await api.ok(l.patch(`/control-assessments/${ca2}`, { evidenceState: 'sufficient', approval: 'approved' }))).report_status).toBe('partially_met');
   });
 

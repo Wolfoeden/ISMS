@@ -7,6 +7,7 @@ import type { Server } from 'node:http';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { closePool } from '../../src/api/db.js';
 import { startServer } from '../../src/api/server.js';
+import { pruefschritt } from './helpers.js';
 
 const LEAD = '00000000-0000-4000-8000-000000000a01';
 const QA = '00000000-0000-4000-8000-000000000a02';
@@ -117,9 +118,12 @@ describe.skipIf(!process.env['DATABASE_URL'])('Anwendungsschicht (Etappe 1)', ()
     await lead.post(`/evidence/${ev.id}/review`, { state: 'suitable' });
 
     // Bewertung je Objekt, Verknüpfung, R1
-    const ca = (await lead.post(`/mandates/${mandat}/control-assessments`, { controlId: 'A.8.5', objectId: o2.id, baseDepth: 2, requiredDepth: 2, implementation: 'partial' })).json.data;
+    const ca = (await lead.post(`/mandates/${mandat}/control-assessments`, { controlId: 'A.8.5', objectId: o2.id, baseDepth: 2, requiredDepth: 2, implementation: 'partial', level: 'product' })).json.data;
     expect((await lead.patch(`/control-assessments/${ca.id}`, { evidenceState: 'sufficient' })).status).toBe(422);
     await lead.post('/evidence-links', { evidenceId: ev.id, controlAssessmentId: ca.id, scopeVersionId: sv.id });
+    // ENT-040: Nachweis verknüpft und geprüft ist E2 – „ausreichend“ erst nach protokolliertem Prüfschritt
+    expect((await lead.patch(`/control-assessments/${ca.id}`, { evidenceState: 'sufficient' })).status).toBe(422);
+    expect((await lead.post('/assessment-steps', pruefschritt(ca.id, ev.id))).json.data.evidenceGrade).toBe('E3');
     const bew = (await lead.patch(`/control-assessments/${ca.id}`, { evidenceState: 'sufficient', approval: 'approved' })).json.data;
     expect(bew.report_status).toBe('partially_met');
 
@@ -154,6 +158,12 @@ describe.skipIf(!process.env['DATABASE_URL'])('Anwendungsschicht (Etappe 1)', ()
     const r2 = (await lead.post(`/cases/${fall.id}/reports`, { scopeVersionId: sv.id, content: { findings: ['F-1'], rev: 2 }, reportText: `Bericht v2. ${PFLICHT_BERICHT}`, materialUnknowns: ['Updateprozess Mobil-App'] })).json.data;
     await lead.post(`/reports/${r2.id}/submit`);
     expect((await qa.post(`/reports/${r2.id}/qa`, { decision: 'approve' })).status).toBe(422);
+    // F-012: ohne Bestätigung der Tatsachen durch den Kunden keine Freigabe (Produktprüfung)
+    const ohneKunde = await qa.post(`/reports/${r2.id}/qa`, { decision: 'approve_with_explicit_limitations', limitations: 'Nicht beurteilt: Updateprozess Mobil-App (keine Nachweise).' });
+    expect(ohneKunde.status).toBe(422);
+    expect(ohneKunde.json.error?.message).toMatch(/Kunde hat die Tatsachen/);
+    expect((await lead.post(`/scope-versions/${sv.id}/confirm`, {})).status).toBe(422); // Agentur bestätigt keine Kundentatsachen
+    expect((await k.post(`/scope-versions/${sv.id}/confirm`, { note: 'Systemgrenzen stimmen' })).status).toBe(200);
     expect((await qa.post(`/reports/${r2.id}/qa`, { decision: 'approve_with_explicit_limitations', limitations: 'Nicht beurteilt: Updateprozess Mobil-App (keine Nachweise).' })).json.data.status).toBe('approved');
     await lead.post(`/cases/${fall.id}/status`, { status: 'approved' });
     const pub = (await lead.post(`/reports/${r2.id}/publish`)).json.data;
