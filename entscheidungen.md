@@ -668,3 +668,143 @@ Neue Entscheidung: Abschnitt mit nächster freier ID nach diesem Muster anlegen 
 - **Freigegeben von:** Paul, zertifizierter CISO
 - **Freigegeben am:** 2026-11-12
 - **Abgelegt in:** src/werkzeuge/dashboard.ts; `npm run isms -- dashboard <kürzel>` (cli.ts) erzeugt dashboard.html im Mandatsordner; test/dashboard.test.ts; plan.md §7; docs/plattform/SERVICE_BLUEPRINT_IMPLEMENTATION.md S05/S08
+
+## ENT-038 · Umsetzungsgrundlage 3PA-Pilot: Lastenheft v0.4 oder v0.4.1
+- **Status:** vorgeschlagen
+- **Typ:** organisation
+- **Ausgelöst durch:** Chat 2026-11-15 (Paul): Lastenheft 3PA v0.4.1 und Prototyp AAI v1.0 umsetzen; v0.4.1 trägt den Vermerk „nicht freigegeben, führend bleibt v0.4“
+- **Betrifft:** docs/plattform/UMSETZUNGSPLAN_3PA_PILOT.md, alle Pakete P-A bis P-H
+- **Grundlagen:** —
+- **Eingaben:** Lastenheft v0.4.1 Anhang F/H (AE-01 bis AE-06, Status Entwurf); CLAUDE.md Regeln 3, 9, 11; vorschriften.md §A8
+- **Optionen:**
+  1. v0.4 ist Abnahmebasis; AE-01 bis AE-06 werden schon umgesetzt, weil sie den bestehenden Regeln entsprechen oder sie verschärfen; Abnahmetests A-29 bis A-46 werden erst nach Freigabe von v0.4.1 verbindlich
+  2. nur v0.4 umsetzen, AE-Pakete erst nach Freigabe
+  3. v0.4.1 vorab als freigegeben behandeln
+- **Vorschlag:** Option 1 – kein Rückbau nötig, falls v0.4.1 freigegeben wird; keine Aussage, v0.4.1 sei genehmigt.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-039 · Kaufmännische Module im 3PA-Pilot
+- **Status:** vorgeschlagen
+- **Typ:** organisation
+- **Ausgelöst durch:** Lastenheft Kap. 12.2 (Angebot, Mandatsprozess, Abrechnung erst Phase 2, nicht simulieren); Plattform hat Angebot und Mandatsanlage (WP-05, ENT-020/021); Prototyp v1.0 hat Angebot und Zeiterfassung
+- **Betrifft:** src/engagement/offer.ts, src/api/ui, Migration 0011
+- **Grundlagen:** —
+- **Eingaben:** docs/plattform/UMSETZUNGSPLAN_3PA_PILOT.md §5
+- **Optionen:**
+  1. Code bleibt; für Mandate vom Typ Drittpartei im Pilot ausgeblendet; der Berater legt das Mandat mit Verweis auf die dokumentierte Beauftragung (Referenz, Datum, Person) direkt an – Mandatsstatus und Scope-Sperre bleiben
+  2. Angebotsstrecke auch im Pilot nutzen
+  3. Angebotsstrecke entfernen
+- **Vorschlag:** Option 1.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-040 · Bewertungsmatrix 3PA und §A8 zusammenführen
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** Lastenheft 7.2.3 und AE-01.01 (Prüfbezug, Anwendbarkeit, Umsetzung, Prüfstatus E0–E4, Aussagekraft, Wirksamkeit, Erfüllung); §A8.1 hat Anwendbarkeit, Erfüllung, Umsetzung, Wirksamkeit, Evidenzlage, Freigabe
+- **Betrifft:** vorschriften.md §A8, src/bewertung/modell.ts, Datenbank
+- **Grundlagen:** —
+- **Eingaben:** docs/plattform/UMSETZUNGSPLAN_3PA_PILOT.md §2
+- **Optionen:**
+  1. §A8 erweitern: neue Achsen Prüfbezug (`in_scope`/`out_of_scope`/`unclear`) und Prüfstatus (`E0`–`E4`, E3/E4 nur mit menschlichem Prüfschritt); Evidenzlage = Aussagekraft; Wirksamkeit um `not_examined`; „nicht ausreichend beurteilbar“ = berechnete Status `evidence_missing`/`insufficient_evidence`; Berichtsstatus bleibt berechnet
+  2. eigenes 3PA-Bewertungsmodell neben §A8
+- **Vorschlag:** Option 1 – ein Modell für ISMS und 3PA, keine Doppelpflege.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-041 · Risikoangabe im 3PA
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** Lastenheft 7.2.3 „keine universelle mathematische Risikozahl ohne validierte Pilotregel“; vorschriften.md §A6 Risikomethode RM-2026-11.1 (W×A)
+- **Betrifft:** src/bewertung/risiko.ts, Bericht
+- **Grundlagen:** —
+- **Eingaben:** Lastenheft Kap. 6.4, 7.2.2
+- **Optionen:**
+  1. im 3PA Risikohinweis qualitativ (Auswirkung, Eintrittsannahme, Maßnahmen, Unsicherheit); W×A nur, wenn das freigegebene Pilotprofil sie ausdrücklich vorsieht; Risikoakzeptanz nur durch die Kundenrolle
+  2. RM-2026-11.1 auch im 3PA verwenden
+- **Vorschlag:** Option 1.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-042 · Vier-Augen-Prinzip, wenn im Pilot nur eine Person prüft
+- **Status:** vorgeschlagen
+- **Typ:** organisation
+- **Ausgelöst durch:** Lastenheft 3.1 (Vier-Augen optional, „gemeinsame Pilotperson“); Plattform: QA ≠ Autor (D-11), ab Profil 3 verschiedene Personen, Lead ≠ unabhängige Prüfung (0016)
+- **Betrifft:** src/engagement/report.ts, Migration 0016, src/werkzeuge/ergebnis.ts
+- **Grundlagen:** —
+- **Eingaben:** vorschriften.md §A9; ENT-029
+- **Optionen:**
+  1. Regeln bleiben; für den Pilot wird eine zweite Person von DT Agency als QA benannt
+  2. Ausnahme für den Pilot: Lead darf QA sein, Bericht trägt den Vermerk „ohne unabhängige Qualitätssicherung“
+- **Vorschlag:** Option 1 – Option 2 schwächt die Auditsicherheit der Endergebnisse.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-043 · KI-Betriebsart im Pilot
+- **Status:** vorgeschlagen
+- **Typ:** organisation
+- **Ausgelöst durch:** Lastenheft 6.3, S-004, S-010, NF-021/022, Kap. 13 „KI-Betriebsart“; DEC-16 (Opt-in, AVV)
+- **Betrifft:** Paket P-D, src/evidence/proposals.ts
+- **Grundlagen:** —
+- **Eingaben:** docs/plattform/UMSETZUNGSPLAN_3PA_PILOT.md Etappe 4
+- **Optionen:**
+  1. KI-Adapter standardmäßig aus; Einschalten je Mandat nach dokumentierter Information des Kunden und AVV mit dem Modellanbieter; Modell- und Promptstand fest je Pilot; Geheimniserkennung vor Übergabe; Grenzen für Schritte, Zeit, Menge
+  2. nur Testdaten an das Modell, echte Mandate ohne KI
+  3. lokales Modell ohne Übermittlung
+- **Vorschlag:** Option 1, bis zur AVV wie Option 2.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-044 · Hosting, Anmeldung und Sicherung des Browser-Piloten
+- **Status:** vorgeschlagen
+- **Typ:** organisation
+- **Ausgelöst durch:** Lastenheft 2.5, F-060, NF-013, S-001 – S-014, Kap. 13 „Pilot-Webbetrieb“, „Identität und Zugang“; MVP_TECHNICAL_PLAN offene Hosting-Entscheidung
+- **Betrifft:** Paket P-F
+- **Grundlagen:** —
+- **Eingaben:** ENT-012 (privates Repository je Kunde); CLAUDE.md Regel 7
+- **Optionen:**
+  1. eigener Server oder verwalteter Dienst in der EU (Node + PostgreSQL 16 + verschlüsselter Dateispeicher), HTTPS, Einladung per Link, Passwort mit zweitem Faktor, tägliche Sicherung mit Wiederherstellungstest
+  2. wie 1, Anmeldung über SSO des Kunden
+  3. Pilot nur mit Testdaten in einer Vorschauumgebung
+- **Vorschlag:** Option 1; Anbieter und Region benennt Paul. Bis zum Schutz-Gate gilt Option 3.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —
+
+## ENT-045 · Pilotprofil aus den 28 Prüfpunkten des Prototyps
+- **Status:** vorgeschlagen
+- **Typ:** methodik
+- **Ausgelöst durch:** Prototyp AAI v1.0 (28 Prüfpunkte in 5 Bereichen mit Mindestziel, Nachweisbeispielen, Anwendbarkeitsregel, Referenzart); Lastenheft 7.2 (Pilotkatalog mit ID, Ebene, Referenzart, Quelle, Frage, Evidenz, Methode, Bewertungsregel, Owner); ENT-024
+- **Betrifft:** Paket P-A3, bibliothek/methodik
+- **Grundlagen:** —
+- **Eingaben:** Prototyp-Normmodell („eigene Formulierungen, keine kopierten Normvolltexte“)
+- **Optionen:**
+  1. als Entwurf importieren, je Eintrag Normtext-Prüfung (CLAUDE.md Regel 6) und Ergänzung der fehlenden Felder (Ebene, Prüfmethode, Mindestnachweis, Owner); Freigabe je Kriterium durch Lead Assessor
+  2. Katalog neu aus der Bibliothek aufbauen
+- **Vorschlag:** Option 1; deckt zugleich ENT-024 für den 3PA-Ausschnitt ab.
+- **Vorgeschlagen von:** Agent, 2026-11-15
+- **Entscheidung:** —
+- **Freigegeben von:** —
+- **Freigegeben am:** —
+- **Abgelegt in:** —

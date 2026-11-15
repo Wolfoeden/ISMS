@@ -6,6 +6,7 @@
 | MVP | 3PA Einzelunternehmer + Softwareprodukt (ADR-009, DEC-03), Inbound only (DEC-09) |
 | Slice | `Inbound → Discovery → Scope → Mandat → Evidence → AI Proposal → Human Verification → Review → Report` |
 | Voraussetzung | Gate 0 (04 §5): ENT-029, ENT-030, ENT-035, ENT-036 freigegeben; ENT-032 Option 1 (Engine später) – siehe [`DECISION_LOG.md`](DECISION_LOG.md) |
+| Fortsetzung | Umsetzung des Lastenhefts 3PA v0.4/v0.4.1 und des Prototyps AAI v1.0: [`UMSETZUNGSPLAN_3PA_PILOT.md`](UMSETZUNGSPLAN_3PA_PILOT.md) (ENT-038 – ENT-045 vorgeschlagen) |
 
 ## 1. Ausgangslage
 
