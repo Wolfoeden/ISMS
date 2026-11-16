@@ -14,7 +14,7 @@
     "isms": "tsx src/werkzeuge/cli.ts",
     "test:api": "bash scripts/with-db.sh npx vitest run test/api",
     "api": "tsx src/api/server.ts",
-    "prototyp": "bash scripts/prototyp.sh",
+    "prototyp": "node scripts/prototyp.mjs",
     "ui:durchlauf": "node scripts/ui-durchlauf.cjs"
   },
   "devDependencies": {
